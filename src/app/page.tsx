@@ -246,7 +246,7 @@ export default function PortfolioPage() {
               >
                 <div className="w-full h-full flex items-center justify-center relative">
                   <Image
-                    src="/sua-logo-ca.png"
+                    src="/portfolio-carlos/sua-logo-ca.png"
                     alt="Logo Oficial"
                     width={600}
                     height={600}
@@ -305,7 +305,7 @@ export default function PortfolioPage() {
                   className="w-full h-full"
                 >
                   <Image
-                    src="/eu.png"
+                    src="/portfolio-carlos/eu.png"
                     alt="Carlos"
                     width={800}
                     height={1000}
@@ -374,7 +374,7 @@ export default function PortfolioPage() {
                 desc: "Plataforma completa para controle de estoque e fluxo de caixa, com relatórios inteligentes e gestão de unidades operacionais.",
                 link: "https://omni-gestao-pro-six.vercel.app",
                 github: "https://github.com/techcarlosandre/omni-gestao-vitrine",
-                img: "/omni-thumb.png"
+                img: "/portfolio-carlos/omni-thumb.png"
               },
               {
                 title: "META DIFF",
@@ -382,7 +382,7 @@ export default function PortfolioPage() {
                 desc: "Plataforma de análise de dados para League of Legends, utilizando a Riot Games API para insights de desempenho e meta-analysis.",
                 link: "https://meta-diff.vercel.app",
                 github: "https://github.com/techcarlosandre/meta-diff",
-                img: "/meta-diff-thumb.png"
+                img: "/portfolio-carlos/meta-diff-thumb.png"
               },
               {
                 title: "Projeto 03",
