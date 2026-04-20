@@ -1,36 +1,96 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<div align="center">
 
-## Getting Started
+<img src="public/sua-logo-ca.png" alt="Logo Carlos André" width="120" />
 
-First, run the development server:
+# Dev Portfolio — Carlos André
+
+**Full-Stack Developer** focado em React, Next.js e Supabase
+
+[![Deploy](https://img.shields.io/badge/Deploy-Vercel-black?style=flat-square&logo=vercel)](https://portfolio-carlos.vercel.app)
+[![Next.js](https://img.shields.io/badge/Next.js-15-black?style=flat-square&logo=next.js)](https://nextjs.org)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=flat-square&logo=typescript)](https://typescriptlang.org)
+[![TailwindCSS](https://img.shields.io/badge/Tailwind-4-06B6D4?style=flat-square&logo=tailwindcss)](https://tailwindcss.com)
+
+</div>
+
+---
+
+## Sobre
+
+Portfólio pessoal desenvolvido com foco em **performance, estética premium e interatividade extrema**. Cada detalhe foi pensado para transmitir a identidade visual e técnica do desenvolvedor — de animações fluidas a micro-interações responsivas.
+
+## Stack
+
+| Camada | Tecnologia |
+|---|---|
+| Framework | Next.js 15 (App Router) |
+| Linguagem | TypeScript 5 |
+| Estilização | Tailwind CSS 4 |
+| Animações | Framer Motion |
+| Fontes | Google Fonts — Montserrat |
+| Ícones | Lucide React |
+| Deploy | Vercel |
+
+## Funcionalidades
+
+- **Scroll Progress Bar** — barra de progresso de leitura no topo
+- **Partículas animadas** — background dinâmico com partículas flutuantes
+- **Navbar adaptativa** — transparente no topo, sólida ao scroll, menu mobile
+- **Seção Hero** — logo 3D com órbitas giratórias e floating cards
+- **Skills** — barras de progresso animadas com `whileInView`
+- **Projetos** — cards com thumbnail, hover effects e links para demo/GitHub
+- **Footer/Contato** — copy de e-mail automático + status de disponibilidade
+- **Design responsivo** — mobile-first, fluido em qualquer tela
+
+## Rodando Localmente
 
 ```bash
+# Clone o repositório
+git clone https://github.com/techcarlosandre/portfolio-carlos.git
+cd portfolio-carlos
+
+# Instale as dependências
+npm install
+
+# Inicie o servidor de desenvolvimento
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Acesse `http://localhost:3000`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Estrutura
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+src/
+└── app/
+    ├── layout.tsx      # Root layout, metadata e fonte global
+    ├── page.tsx        # Página principal (Hero, Sobre, Skills, Projetos, Contato)
+    └── globals.css     # Design tokens, scrollbar, animações globais
 
-## Learn More
+public/
+    ├── eu.png              # Foto de perfil
+    ├── sua-logo-ca.png     # Logo pessoal
+    ├── omni-thumb.png      # Thumbnail Omni Gestão
+    └── meta-diff-thumb.png # Thumbnail Meta Diff
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Projetos em Destaque
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### [Omni Gestão](https://omni-gestao-pro-six.vercel.app)
+Plataforma ERP completa para controle de estoque e fluxo de caixa, com relatórios inteligentes e gestão de unidades operacionais.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### [Meta Diff](https://meta-diff.vercel.app)
+Dashboard de analytics para League of Legends utilizando a Riot Games API para insights de desempenho e tier list em tempo real.
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+<div align="center">
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Carlos André** — Full-Stack Developer
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-devcarlosandre-0077B5?style=flat-square&logo=linkedin)](https://www.linkedin.com/in/devcarlosandre/)
+[![GitHub](https://img.shields.io/badge/GitHub-techcarlosandre-181717?style=flat-square&logo=github)](https://github.com/techcarlosandre)
+[![WhatsApp](https://img.shields.io/badge/WhatsApp-Contato-25D366?style=flat-square&logo=whatsapp)](https://wa.me/21982665121)
+[![E-mail](https://img.shields.io/badge/Email-techcarlosandre@gmail.com-EA4335?style=flat-square&logo=gmail)](mailto:techcarlosandre@gmail.com)
+
+</div>
