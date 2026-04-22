@@ -1,15 +1,10 @@
+# 🚀 Portfolio — Carlos André
+
 <div align="center">
-
-<img src="public/sua-logo-ca.png" alt="Logo Carlos André" width="120" />
-
-# Dev Portfolio — Carlos André
+  <img src="public/sua-logo-ca.png" width="180px" alt="Meta Diff Logo" />
+  <p><h3>Estatísticas precisas, builds otimizadas e o meta do LoL em um único lugar.</h3></p>
 
 **Full-Stack Developer** focado em React, Next.js e Supabase
-
-[![Deploy](https://img.shields.io/badge/Deploy-Vercel-black?style=flat-square&logo=vercel)](https://portfolio-carlos.vercel.app)
-[![Next.js](https://img.shields.io/badge/Next.js-15-black?style=flat-square&logo=next.js)](https://nextjs.org)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=flat-square&logo=typescript)](https://typescriptlang.org)
-[![TailwindCSS](https://img.shields.io/badge/Tailwind-4-06B6D4?style=flat-square&logo=tailwindcss)](https://tailwindcss.com)
 
 </div>
 
@@ -42,38 +37,6 @@ Portfólio pessoal desenvolvido com foco em **performance, estética premium e i
 - **Footer/Contato** — copy de e-mail automático + status de disponibilidade
 - **Design responsivo** — mobile-first, fluido em qualquer tela
 
-## Rodando Localmente
-
-```bash
-# Clone o repositório
-git clone https://github.com/techcarlosandre/portfolio-carlos.git
-cd portfolio-carlos
-
-# Instale as dependências
-npm install
-
-# Inicie o servidor de desenvolvimento
-npm run dev
-```
-
-Acesse `http://localhost:3000`
-
-## Estrutura
-
-```
-src/
-└── app/
-    ├── layout.tsx      # Root layout, metadata e fonte global
-    ├── page.tsx        # Página principal (Hero, Sobre, Skills, Projetos, Contato)
-    └── globals.css     # Design tokens, scrollbar, animações globais
-
-public/
-    ├── eu.png              # Foto de perfil
-    ├── sua-logo-ca.png     # Logo pessoal
-    ├── omni-thumb.png      # Thumbnail Omni Gestão
-    └── meta-diff-thumb.png # Thumbnail Meta Diff
-```
-
 ## Projetos em Destaque
 
 ### [Omni Gestão](https://omni-gestao-pro-six.vercel.app)
@@ -88,9 +51,8 @@ Dashboard de analytics para League of Legends utilizando a Riot Games API para i
 
 **Carlos André** — Full-Stack Developer
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-devcarlosandre-0077B5?style=flat-square&logo=linkedin)](https://www.linkedin.com/in/devcarlosandre/)
-[![GitHub](https://img.shields.io/badge/GitHub-techcarlosandre-181717?style=flat-square&logo=github)](https://github.com/techcarlosandre)
-[![WhatsApp](https://img.shields.io/badge/WhatsApp-Contato-25D366?style=flat-square&logo=whatsapp)](https://wa.me/21982665121)
-[![E-mail](https://img.shields.io/badge/Email-techcarlosandre@gmail.com-EA4335?style=flat-square&logo=gmail)](mailto:techcarlosandre@gmail.com)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/techcarlosandre/)
+[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/techcarlosandre)
+[![WhatsApp](https://img.shields.io/badge/WhatsApp-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](https://wa.me/5521982665121)
 
 </div>
