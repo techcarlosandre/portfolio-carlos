@@ -2,7 +2,6 @@
 
 <div align="center">
   <img src="public/sua-logo-ca.png" width="180px" alt="Meta Diff Logo" />
-  <p><h3>Estatísticas precisas, builds otimizadas e o meta do LoL em um único lugar.</h3></p>
 
 **Full-Stack Developer** focado em React, Next.js e Supabase
 
