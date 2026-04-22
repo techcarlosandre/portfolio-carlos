@@ -11,7 +11,7 @@
 
 ## Sobre
 
-Portfólio pessoal desenvolvido com foco em **performance, estética premium e interatividade extrema**. Cada detalhe foi pensado para transmitir a identidade visual e técnica do desenvolvedor — de animações fluidas a micro-interações responsivas.
+Portfólio pessoal desenvolvido com foco em **performance, estética premium e interatividade extrema**. Cada detalhe foi pensado para transmitir a identidade visual e técnica do desenvolvedor de animações fluidas a micro-interações responsivas.
 
 ## Stack
 
