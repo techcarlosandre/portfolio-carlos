@@ -424,7 +424,7 @@ export default function PortfolioPage() {
                       rel="noopener noreferrer"
                       className="text-xs font-black uppercase tracking-widest text-primary flex items-center gap-1 hover:text-white transition-colors"
                     >
-                      Demo <ExternalLink size={12} />
+                      {index === 0 ? 'Demo' : 'Abrir'} <ExternalLink size={12} />
                     </a>
                     <a
                       href={project.github}
