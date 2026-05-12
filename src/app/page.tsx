@@ -2,8 +2,8 @@
 
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { motion, useScroll, useSpring } from 'framer-motion';
-import { ChevronRight, Code, Layout, Server, Database, Phone, Mail, ExternalLink, Globe, Share2, MessageCircle, Menu, X } from 'lucide-react';
+import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
+import { ChevronRight, Code, Layout, Server, Database, Phone, Mail, ExternalLink, Globe, Share2, MessageCircle, Menu, X, Zap, Cpu } from 'lucide-react';
 
 const Particles = () => {
   const [particles, setParticles] = useState<any[]>([]);
@@ -211,46 +211,69 @@ const SkillBar = ({ name, percent }: { name: string; percent: number }) => {
 
 const ScrollingSkills = () => {
   const skills = [
-    { name: "Next.js / React", percent: 93 },
-    { name: "Typescript", percent: 85 },
-    { name: "Tailwind CSS", percent: 90 },
-    { name: "Node.js / Bun", percent: 87 },
-    { name: "PostgreSQL / Supabase", percent: 89 },
-    { name: "Prisma ORM", percent: 88 },
-    { name: "Python / Flask", percent: 93 },
-    { name: "Google Gemini / IA", percent: 85 },
-    { name: "Vercel / Deploy", percent: 89 },
-    { name: "Git / GitHub", percent: 88 },
-    { name: "REST & GraphQL APIs", percent: 85 },
-    { name: "Docker / Containers", percent: 80 },
-    { name: "UI/UX Design", percent: 90 },
+    { name: "Next.js / React", percent: 93, icon: Layout },
+    { name: "Typescript", percent: 85, icon: Code },
+    { name: "Tailwind CSS", percent: 90, icon: Globe },
+    { name: "Node.js / Bun", percent: 87, icon: Server },
+    { name: "PostgreSQL", percent: 89, icon: Database },
+    { name: "Prisma ORM", percent: 88, icon: Database },
+    { name: "Python / Flask", percent: 93, icon: Code },
+    { name: "Google Gemini / IA", percent: 85, icon: Share2 },
+    { name: "Vercel / Deploy", percent: 89, icon: ExternalLink },
+    { name: "Git / GitHub", percent: 88, icon: Code },
+    { name: "APIs & GraphQL", percent: 85, icon: Server },
+    { name: "Docker", percent: 80, icon: Server },
+    { name: "UI/UX Design", percent: 90, icon: Layout },
+    { name: "Framer", percent: 90, icon: Zap },
+    { name: "MPC", percent: 85, icon: Cpu },
   ];
 
   const duplicatedSkills = [...skills, ...skills];
 
   return (
-    <div className="h-[450px] overflow-hidden relative group">
+    <div className="h-[500px] overflow-hidden relative group rounded-3xl border border-white/5 bg-surface/20 backdrop-blur-md">
       <motion.div
         animate={{
           y: [0, "-50%"],
         }}
         transition={{
-          duration: 35,
+          duration: 40,
           repeat: Infinity,
           ease: "linear",
         }}
-        className="flex flex-col py-4"
-        onHoverStart={(e) => {
-        }}
+        className="flex flex-col p-6"
       >
-        {duplicatedSkills.map((skill, index) => (
-          <SkillBar key={`${skill.name}-${index}`} name={skill.name} percent={skill.percent} />
-        ))}
+        {duplicatedSkills.map((skill, index) => {
+          const Icon = skill.icon;
+          return (
+            <div key={`${skill.name}-${index}`} className="mb-8 last:mb-0 group/skill">
+              <div className="flex items-center gap-4 mb-3">
+                <div className="w-10 h-10 rounded-xl bg-surface/50 border border-white/5 flex items-center justify-center group-hover/skill:border-primary/50 transition-all duration-500 group-hover/skill:scale-110 shadow-xl">
+                  <Icon size={18} className="text-primary" />
+                </div>
+                <div className="flex-1">
+                  <div className="flex justify-between items-end mb-1">
+                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 group-hover/skill:text-white transition-colors">{skill.name}</span>
+                    <span className="text-xs font-black text-primary/60 group-hover/skill:text-primary transition-colors">{skill.percent}%</span>
+                  </div>
+                  <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden relative">
+                    <motion.div
+                      initial={{ width: 0 }}
+                      whileInView={{ width: `${skill.percent}%` }}
+                      transition={{ duration: 1.5, ease: "circOut" }}
+                      className="h-full bg-gradient-to-r from-primary/20 via-primary to-primary relative"
+                    >
+                      <div className="absolute top-0 right-0 h-full w-[2px] bg-white glow-primary" />
+                    </motion.div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          );
+        })}
       </motion.div>
-
-      {/* Decorative gradient masks for premium feel */}
-      <div className="absolute top-0 left-0 w-full h-24 bg-gradient-to-b from-black via-black/80 to-transparent z-10 pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-black via-black/80 to-transparent z-10 pointer-events-none" />
+      <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-black via-black/40 to-transparent z-10 pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-black via-black/40 to-transparent z-10 pointer-events-none" />
     </div>
   );
 };
@@ -281,27 +304,42 @@ export default function PortfolioPage() {
 
       <motion.div className="fixed top-0 left-0 right-0 h-1 bg-primary z-[60] origin-left" style={{ scaleX }} />
 
-      <section id="home" className="min-h-screen flex items-center pt-24 md:pt-20">
-        <div className="container mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+      <section id="home" className="min-h-screen flex items-center pt-24 md:pt-20 relative overflow-hidden">
+        <motion.div 
+          style={{ 
+            y: useSpring(useTransform(scrollYProgress, [0, 0.2], [0, -200]), { stiffness: 100, damping: 30 }),
+            opacity: useTransform(scrollYProgress, [0, 0.15], [0.05, 0])
+          }}
+          className="absolute -bottom-20 -left-20 text-[15vw] md:text-[25vw] font-black leading-none stroke-text pointer-events-none whitespace-nowrap z-0 select-none"
+        >
+          CARLOS ANDRE
+        </motion.div>
+
+        <div className="container mx-auto px-6 grid md:grid-cols-2 gap-12 items-center relative z-10">
 
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1, ease: "circOut" }}
           >
-            <p className="text-primary font-black tracking-[0.3em] text-xs md:text-sm uppercase mb-6 flex items-center gap-3">
-              <span className="w-8 h-[1px] bg-primary"></span>
-              FULL-STACK DEVELOPER & UI DESIGNER
+            <p className="text-primary font-black tracking-[0.4em] text-[10px] md:text-xs uppercase mb-8 flex items-center gap-4">
+              <motion.span 
+                initial={{ width: 0 }}
+                animate={{ width: 40 }}
+                transition={{ duration: 1, delay: 0.5 }}
+                className="h-[1px] bg-primary"
+              ></motion.span>
+              FULL-STACK DEVELOPER & UI ARCHITECT
             </p>
-            <h1 className="text-4xl sm:text-7xl md:text-[110px] font-black uppercase leading-[0.9] tracking-tighter text-white mb-8">
-              CONSTRUINDO <br />
-              <span className="stroke-text">EXPERIÊNCIAS</span> <br />
-              DIGITAIS <br />
-              <span className="text-primary glow-text-primary">MODERNAS</span>
+            <h1 className="text-5xl sm:text-8xl md:text-[130px] font-black uppercase leading-[0.85] tracking-tighter text-white mb-10">
+              CRAFTING <br />
+              <span className="stroke-text">DIGITAL</span> <br />
+              POWER <br />
+              <span className="text-primary glow-text-primary">HOUSES</span>
             </h1>
 
-            <p className="text-gray-400 text-sm md:text-lg max-w-xl mb-12 leading-relaxed">
-              Desenvolvedor Full Stack com foco em tecnologias de alto desempenho. Dedico meus projetos ao ecossistema <span className="text-white font-bold underline decoration-primary decoration-2 underline-offset-4">Next.js, Python e IA</span>, transformando linhas de código em interfaces funcionais e escaláveis com design de excelência.
+            <p className="text-gray-400 text-sm md:text-xl max-w-xl mb-12 leading-relaxed">
+              Desenvolvedor Full Stack com foco em tecnologias de alto desempenho. Dedico meus projetos ao ecossistema <span className="text-white font-bold underline decoration-primary decoration-2 underline-offset-8">Next.js, Python e IA</span>.
             </p>
 
             <div className="flex flex-wrap gap-6 items-center">
@@ -442,35 +480,51 @@ export default function PortfolioPage() {
         </div>
       </section>
 
-      <section id="habilidades" className="py-24 bg-surface/10">
-        <div className="container mx-auto px-6 grid md:grid-cols-2 gap-20 items-center">
-          <div>
-            <p className="text-primary font-black text-sm uppercase tracking-widest mb-2">Especialidades Técnicas</p>
-            <h2 className="text-4xl md:text-6xl font-black uppercase mb-8">Tecnologias de <br /> <span className="text-primary">Foco</span></h2>
-            <p className="text-gray-400 mb-10 leading-relaxed text-lg">
+      <section id="habilidades" className="py-32 md:py-48 bg-black relative overflow-hidden">
+        <motion.div 
+          style={{ 
+            x: useSpring(useTransform(scrollYProgress, [0.3, 0.5], [100, -100]), { stiffness: 100, damping: 30 }),
+          }}
+          className="absolute top-1/2 -translate-y-1/2 right-0 text-[30vw] font-black stroke-text opacity-[0.03] pointer-events-none select-none whitespace-nowrap"
+        >
+          SKILLS EXPERTISE
+        </motion.div>
+
+        <div className="container mx-auto px-6 grid md:grid-cols-2 gap-20 items-start relative z-10">
+          <div className="sticky top-32">
+            <p className="text-primary font-black text-xs md:text-sm uppercase tracking-[0.4em] mb-6 flex items-center gap-4">
+              <span className="w-10 h-[1px] bg-primary"></span>
+              Especialidades Técnicas
+            </p>
+            <h2 className="text-5xl md:text-[100px] font-black uppercase mb-10 leading-[0.9] tracking-tighter">
+              Tecnologias <br /> 
+              <span className="stroke-text">de</span> <br /> 
+              <span className="text-primary">Foco</span>
+            </h2>
+            <p className="text-gray-400 mb-12 leading-relaxed text-lg md:text-xl max-w-md">
               Utilizo as ferramentas mais atuais do mercado para desenvolver aplicações que equilibram performance no backend e uma experiência fluida no frontend.
             </p>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="bg-surface p-4 md:p-6 rounded-2xl border border-white/5">
-                <Layout className="text-primary mb-4" />
-                <h4 className="font-bold uppercase tracking-widest text-[10px] md:text-sm">Frontend</h4>
-              </div>
-              <div className="bg-surface p-4 md:p-6 rounded-2xl border border-white/5">
-                <Server className="text-primary mb-4" />
-                <h4 className="font-bold uppercase tracking-widest text-[10px] md:text-sm">Backend</h4>
-              </div>
-              <div className="bg-surface p-4 md:p-6 rounded-2xl border border-white/5">
-                <Database className="text-primary mb-4" />
-                <h4 className="font-bold uppercase tracking-widest text-[10px] md:text-sm">Database</h4>
-              </div>
-              <div className="bg-surface p-4 md:p-6 rounded-2xl border border-white/5">
-                <Code className="text-primary mb-4" />
-                <h4 className="font-bold uppercase tracking-widest text-[10px] md:text-sm">IA & Automação</h4>
-              </div>
+            <div className="grid grid-cols-2 gap-6">
+              {[
+                { icon: Layout, label: "Frontend" },
+                { icon: Server, label: "Backend" },
+                { icon: Database, label: "Database" },
+                { icon: Code, label: "IA & Automação" }
+              ].map((item, i) => (
+                <motion.div 
+                  key={i}
+                  whileHover={{ scale: 1.05, borderColor: "rgba(128,0,0,0.5)" }}
+                  className="bg-surface/30 backdrop-blur-md p-6 rounded-3xl border border-white/5 transition-all duration-300"
+                >
+                  <item.icon className="text-primary mb-4" size={24} />
+                  <h4 className="font-black uppercase tracking-widest text-xs">{item.label}</h4>
+                </motion.div>
+              ))}
             </div>
           </div>
 
-          <div className="bg-surface/50 p-6 md:p-10 rounded-3xl border border-white/5 backdrop-blur-sm overflow-hidden">
+          <div className="relative mt-20 md:mt-0">
+            <div className="absolute -inset-4 bg-primary/5 blur-3xl rounded-full" />
             <ScrollingSkills />
           </div>
         </div>
