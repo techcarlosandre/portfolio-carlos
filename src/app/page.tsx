@@ -38,6 +38,61 @@ const Particles = () => {
   );
 };
 
+const CustomCursor = () => {
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [isPointer, setIsPointer] = useState(false);
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setPosition({ x: e.clientX, y: e.clientY });
+      const target = e.target as HTMLElement;
+      setIsPointer(window.getComputedStyle(target).cursor === 'pointer');
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
+  return (
+    <div
+      className={`custom-cursor hidden md:block ${isPointer ? 'active' : ''}`}
+      style={{
+        left: `${position.x}px`,
+        top: `${position.y}px`,
+        transform: `translate(-50%, -50%) ${isPointer ? 'scale(3)' : 'scale(1)'}`,
+      }}
+    />
+  );
+};
+
+const Magnetic = ({ children }: { children: React.ReactNode }) => {
+  const ref = React.useRef<HTMLDivElement>(null);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    const { clientX, clientY } = e;
+    const { left, top, width, height } = ref.current?.getBoundingClientRect() || { left: 0, top: 0, width: 0, height: 0 };
+    const centerX = left + width / 2;
+    const centerY = top + height / 2;
+    const x = (clientX - centerX) * 0.4;
+    const y = (clientY - centerY) * 0.4;
+    setPosition({ x, y });
+  };
+
+  const handleMouseLeave = () => setPosition({ x: 0, y: 0 });
+
+  return (
+    <motion.div
+      ref={ref}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      animate={{ x: position.x, y: position.y }}
+      transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.1 }}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -71,19 +126,21 @@ const Navbar = () => {
         </div>
 
         <div className="hidden md:block">
-          <a
-            href="https://wa.me/21982665121?text=Olá Carlos, vi seu portfólio e gostaria de conversar sobre um projeto."
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-primary hover:bg-secondary text-white px-6 py-2 rounded-full text-xs font-black uppercase transition-all glow-primary"
+          <Magnetic>
+            <a
+              href="https://wa.me/21982665121?text=Olá Carlos, vi seu portfólio e gostaria de conversar sobre um projeto."
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              Vamos Conversar
-            </motion.button>
-          </a>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="bg-primary hover:bg-secondary text-white px-6 py-2 rounded-full text-xs font-black uppercase transition-all glow-primary"
+              >
+                Vamos Conversar
+              </motion.button>
+            </a>
+          </Magnetic>
         </div>
 
         <div className="md:hidden flex items-center gap-4">
@@ -129,21 +186,71 @@ const Navbar = () => {
 
 const SkillBar = ({ name, percent }: { name: string; percent: number }) => {
   return (
-    <div className="mb-6">
-      <div className="flex justify-between mb-2">
-        <span className="text-sm font-bold uppercase tracking-wider">{name}</span>
-        <span className="text-sm font-bold text-primary">{percent}%</span>
+    <div className="mb-10">
+      <div className="flex justify-between mb-3">
+        <span className="text-xs md:text-sm font-black uppercase tracking-[0.2em]">{name}</span>
+        <span className="text-xs md:text-sm font-black text-primary">{percent}%</span>
       </div>
-      <div className="h-2 w-full bg-surface rounded-full overflow-hidden">
+      <div className="h-[6px] w-full bg-white/5 rounded-full overflow-hidden backdrop-blur-sm border border-white/5">
         <motion.div
           initial={{ width: 0 }}
           whileInView={{ width: `${percent}%` }}
           transition={{ duration: 1.5, ease: "easeOut" }}
-          className="h-full bg-primary relative"
+          className="h-full bg-gradient-to-r from-primary/50 to-primary relative"
         >
-          <div className="absolute top-0 right-0 h-full w-4 bg-white/20 blur-sm" />
+          <motion.div
+            animate={{ x: ['-100%', '200%'] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+            className="absolute top-0 left-0 h-full w-1/2 bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-12"
+          />
         </motion.div>
       </div>
+    </div>
+  );
+};
+
+const ScrollingSkills = () => {
+  const skills = [
+    { name: "Next.js / React", percent: 93 },
+    { name: "Typescript", percent: 85 },
+    { name: "Tailwind CSS", percent: 90 },
+    { name: "Node.js / Bun", percent: 87 },
+    { name: "PostgreSQL / Supabase", percent: 89 },
+    { name: "Prisma ORM", percent: 88 },
+    { name: "Python / Flask", percent: 93 },
+    { name: "Google Gemini / IA", percent: 85 },
+    { name: "Vercel / Deploy", percent: 89 },
+    { name: "Git / GitHub", percent: 88 },
+    { name: "REST & GraphQL APIs", percent: 85 },
+    { name: "Docker / Containers", percent: 80 },
+    { name: "UI/UX Design", percent: 90 },
+  ];
+
+  const duplicatedSkills = [...skills, ...skills];
+
+  return (
+    <div className="h-[450px] overflow-hidden relative group">
+      <motion.div
+        animate={{
+          y: [0, "-50%"],
+        }}
+        transition={{
+          duration: 35,
+          repeat: Infinity,
+          ease: "linear",
+        }}
+        className="flex flex-col py-4"
+        onHoverStart={(e) => {
+        }}
+      >
+        {duplicatedSkills.map((skill, index) => (
+          <SkillBar key={`${skill.name}-${index}`} name={skill.name} percent={skill.percent} />
+        ))}
+      </motion.div>
+
+      {/* Decorative gradient masks for premium feel */}
+      <div className="absolute top-0 left-0 w-full h-24 bg-gradient-to-b from-black via-black/80 to-transparent z-10 pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-black via-black/80 to-transparent z-10 pointer-events-none" />
     </div>
   );
 };
@@ -167,6 +274,8 @@ export default function PortfolioPage() {
 
   return (
     <main className="relative min-h-screen bg-black text-white selection:bg-primary selection:text-white overflow-x-hidden">
+      <CustomCursor />
+      <div className="grain-overlay" />
       <Particles />
       <Navbar />
 
@@ -180,39 +289,44 @@ export default function PortfolioPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <p className="text-primary font-black tracking-widest text-sm uppercase mb-4">
-              FULL-STACK DEVELOPER
+            <p className="text-primary font-black tracking-[0.3em] text-xs md:text-sm uppercase mb-6 flex items-center gap-3">
+              <span className="w-8 h-[1px] bg-primary"></span>
+              FULL-STACK DEVELOPER & UI DESIGNER
             </p>
-            <h1 className="text-3xl sm:text-7xl md:text-9xl font-black uppercase leading-[1.1] tracking-tighter text-white mb-6">
+            <h1 className="text-4xl sm:text-7xl md:text-[110px] font-black uppercase leading-[0.9] tracking-tighter text-white mb-8">
               CONSTRUINDO <br />
-              <span className="text-primary glow-text-primary">EXPERIÊNCIAS</span> <br />
+              <span className="stroke-text">EXPERIÊNCIAS</span> <br />
               DIGITAIS <br />
               <span className="text-primary glow-text-primary">MODERNAS</span>
             </h1>
 
-            <p className="text-gray-400 text-[11px] sm:text-sm md:text-xl max-w-full mb-10 leading-relaxed overflow-wrap-anywhere">
-              Desenvolvedor Full Stack com foco em tecnologias de alto desempenho. Dedico meus projetos ao ecossistema <span className="text-white font-bold">Next.js, Python e IA</span>, transformando linhas de código em interfaces funcionais e escaláveis.
+            <p className="text-gray-400 text-sm md:text-lg max-w-xl mb-12 leading-relaxed">
+              Desenvolvedor Full Stack com foco em tecnologias de alto desempenho. Dedico meus projetos ao ecossistema <span className="text-white font-bold underline decoration-primary decoration-2 underline-offset-4">Next.js, Python e IA</span>, transformando linhas de código em interfaces funcionais e escaláveis com design de excelência.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-3 w-full max-w-[280px] sm:max-w-none">
-              <a href="#projetos" className="w-full sm:w-auto">
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="bg-primary text-white font-black px-4 py-3 uppercase text-[11px] sm:text-sm tracking-widest glow-primary hover:bg-secondary transition-all flex items-center justify-center gap-2 w-full"
-                >
-                  Ver Projetos <ChevronRight size={14} />
-                </motion.button>
-              </a>
-              <a href="#contato" className="w-full sm:w-auto">
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="bg-surface border border-secondary text-white font-black px-4 py-3 uppercase text-[11px] sm:text-sm tracking-widest transition-all flex items-center justify-center gap-2 w-full"
-                >
-                  Contato
-                </motion.button>
-              </a>
+            <div className="flex flex-wrap gap-6 items-center">
+              <Magnetic>
+                <a href="#projetos">
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="bg-primary text-white font-black px-10 py-5 uppercase text-xs tracking-[0.2em] glow-primary hover:bg-secondary transition-all flex items-center justify-center gap-3"
+                  >
+                    Ver Projetos <ChevronRight size={16} />
+                  </motion.button>
+                </a>
+              </Magnetic>
+              <Magnetic>
+                <a href="#contato">
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="bg-surface/30 backdrop-blur-md border border-white/10 text-white font-black px-10 py-5 uppercase text-xs tracking-[0.2em] hover:bg-white/5 transition-all flex items-center justify-center gap-2"
+                  >
+                    Contato
+                  </motion.button>
+                </a>
+              </Magnetic>
             </div>
           </motion.div>
 
@@ -356,16 +470,8 @@ export default function PortfolioPage() {
             </div>
           </div>
 
-          <div className="bg-surface/50 p-8 md:p-10 rounded-3xl border border-white/5 backdrop-blur-sm">
-            <SkillBar name="Next.js / React" percent={87} />
-            <SkillBar name="Typescript" percent={85} />
-            <SkillBar name="Tailwind CSS" percent={91} />
-            <SkillBar name="Node.js / Bun" percent={87} />
-            <SkillBar name="PostgreSQL / Supabase" percent={91} />
-            <SkillBar name="Prisma ORM" percent={88} />
-            <SkillBar name="Python / Flask" percent={82} />
-            <SkillBar name="Google Gemini / IA" percent={85} />
-            <SkillBar name="Vercel / Deploy" percent={90} />
+          <div className="bg-surface/50 p-6 md:p-10 rounded-3xl border border-white/5 backdrop-blur-sm overflow-hidden">
+            <ScrollingSkills />
           </div>
         </div>
       </section>
@@ -407,43 +513,51 @@ export default function PortfolioPage() {
             ].map((project, index) => (
               <motion.div
                 key={index}
-                whileHover={{ y: -10, borderColor: "rgba(128,0,0,0.3)" }}
-                className="bg-surface rounded-2xl overflow-hidden border border-white/5 group transition-all duration-300"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                whileHover={{ y: -10 }}
+                className="glass-card rounded-3xl overflow-hidden group"
               >
                 <div className="h-64 bg-secondary/20 relative overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent z-10" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent z-10" />
                   {project.img ? (
                     <Image
                       src={project.img}
                       alt={project.title}
                       fill
-                      className="object-cover group-hover:scale-110 transition-transform duration-500"
+                      className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
                     />
                   ) : null}
-                  <div className="absolute bottom-4 left-4 z-20">
-                    <span className="text-[10px] font-black uppercase bg-primary px-3 py-1 rounded-full">{project.tag}</span>
+                  <div className="absolute bottom-6 left-6 z-20">
+                    <span className="text-[10px] font-black uppercase bg-primary/90 backdrop-blur-md px-4 py-2 rounded-full tracking-[0.1em]">{project.tag}</span>
                   </div>
                 </div>
                 <div className="p-8">
-                  <h3 className="text-xl font-bold mb-3 uppercase tracking-wider">{project.title}</h3>
-                  <p className="text-gray-400 text-sm mb-6 leading-relaxed">
+                  <h3 className="text-2xl font-black mb-4 uppercase tracking-tighter">{project.title}</h3>
+                  <p className="text-gray-400 text-sm mb-8 leading-relaxed line-clamp-3">
                     {project.desc}
                   </p>
-                  <div className="flex gap-4">
-                    <a
-                      href={project.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xs font-black uppercase tracking-widest text-primary flex items-center gap-1 hover:text-white transition-colors"
-                    >
-                      {index === 0 ? 'Demo' : 'Abrir'} <ExternalLink size={12} />
-                    </a>
-                    <a
-                      href={project.github}
-                      className="text-xs font-black uppercase tracking-widest text-gray-500 hover:text-white transition-colors"
-                    >
-                      GitHub
-                    </a>
+                  <div className="flex gap-6">
+                    <Magnetic>
+                      <a
+                        href={project.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs font-black uppercase tracking-[0.2em] text-primary flex items-center gap-2 hover:text-white transition-colors"
+                      >
+                        {index === 0 ? 'Demo' : 'Abrir'} <ExternalLink size={14} />
+                      </a>
+                    </Magnetic>
+                    <Magnetic>
+                      <a
+                        href={project.github}
+                        className="text-xs font-black uppercase tracking-[0.2em] text-gray-500 hover:text-white transition-colors"
+                      >
+                        GitHub
+                      </a>
+                    </Magnetic>
                   </div>
                 </div>
               </motion.div>
