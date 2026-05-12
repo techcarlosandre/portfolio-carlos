@@ -295,6 +295,15 @@ export default function PortfolioPage() {
     window.location.href = "mailto:techcarlosandre@gmail.com";
   };
 
+  const [activeCategory, setActiveCategory] = useState<number | null>(null);
+
+  const categories = [
+    { icon: Layout, label: "Frontend", techs: ["Next.js", "React", "Tailwind", "Typescript"] },
+    { icon: Server, label: "Backend", techs: ["Node.js", "Python", "Flask", "Prisma"] },
+    { icon: Database, label: "Database", techs: ["PostgreSQL", "Supabase", "Prisma"] },
+    { icon: Code, label: "IA & Automação", techs: ["Gemini", "Automação", "IA Consulting"] }
+  ];
+
   return (
     <main className="relative min-h-screen bg-black text-white selection:bg-primary selection:text-white overflow-x-hidden">
       <CustomCursor />
@@ -504,16 +513,13 @@ export default function PortfolioPage() {
               Utilizo as ferramentas mais atuais do mercado para desenvolver aplicações que equilibram performance no backend e uma experiência fluida no frontend.
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              {[
-                { icon: Layout, label: "Frontend", techs: ["Next.js", "React", "Tailwind", "Typescript"] },
-                { icon: Server, label: "Backend", techs: ["Node.js", "Python", "Flask", "Prisma"] },
-                { icon: Database, label: "Database", techs: ["PostgreSQL", "Supabase", "Prisma"] },
-                { icon: Code, label: "IA & Automação", techs: ["Gemini", "Automação", "IA Consulting"] }
-              ].map((item, i) => (
+              {categories.map((item, i) => (
                 <motion.div 
                   key={i}
                   initial="initial"
                   whileHover="hover"
+                  animate={activeCategory === i ? "hover" : "initial"}
+                  onClick={() => setActiveCategory(activeCategory === i ? null : i)}
                   className="bg-surface/30 backdrop-blur-md p-8 rounded-3xl border border-white/5 relative overflow-hidden group cursor-pointer h-40 flex flex-col justify-center"
                 >
                   <div className="relative z-10 transition-opacity duration-300 group-hover:opacity-0">
