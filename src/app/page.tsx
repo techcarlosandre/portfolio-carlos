@@ -498,26 +498,46 @@ export default function PortfolioPage() {
             </p>
             <h2 className="text-5xl md:text-[100px] font-black uppercase mb-10 leading-[0.9] tracking-tighter">
               Tecnologias <br /> 
-              <span className="stroke-text">de</span> <br /> 
-              <span className="text-primary">Foco</span>
+              <span className="stroke-text">de</span> <span className="text-primary">Foco</span>
             </h2>
             <p className="text-gray-400 mb-12 leading-relaxed text-lg md:text-xl max-w-md">
               Utilizo as ferramentas mais atuais do mercado para desenvolver aplicações que equilibram performance no backend e uma experiência fluida no frontend.
             </p>
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {[
-                { icon: Layout, label: "Frontend" },
-                { icon: Server, label: "Backend" },
-                { icon: Database, label: "Database" },
-                { icon: Code, label: "IA & Automação" }
+                { icon: Layout, label: "Frontend", techs: ["Next.js", "React", "Tailwind", "Typescript"] },
+                { icon: Server, label: "Backend", techs: ["Node.js", "Python", "Flask", "Prisma"] },
+                { icon: Database, label: "Database", techs: ["PostgreSQL", "Supabase", "Prisma"] },
+                { icon: Code, label: "IA & Automação", techs: ["Gemini", "Automação", "IA Consulting"] }
               ].map((item, i) => (
                 <motion.div 
                   key={i}
-                  whileHover={{ scale: 1.05, borderColor: "rgba(128,0,0,0.5)" }}
-                  className="bg-surface/30 backdrop-blur-md p-6 rounded-3xl border border-white/5 transition-all duration-300"
+                  initial="initial"
+                  whileHover="hover"
+                  className="bg-surface/30 backdrop-blur-md p-8 rounded-3xl border border-white/5 relative overflow-hidden group cursor-pointer h-40 flex flex-col justify-center"
                 >
-                  <item.icon className="text-primary mb-4" size={24} />
-                  <h4 className="font-black uppercase tracking-widest text-xs">{item.label}</h4>
+                  <div className="relative z-10 transition-opacity duration-300 group-hover:opacity-0">
+                    <item.icon className="text-primary mb-4" size={28} />
+                    <h4 className="font-black uppercase tracking-[0.2em] text-xs md:text-sm">{item.label}</h4>
+                  </div>
+
+                  <motion.div
+                    variants={{
+                      initial: { x: "100%" },
+                      hover: { x: 0 }
+                    }}
+                    transition={{ type: "spring", stiffness: 100, damping: 20 }}
+                    className="absolute inset-0 bg-primary/90 backdrop-blur-xl p-6 flex flex-col justify-center z-20"
+                  >
+                    <p className="text-[10px] font-black uppercase tracking-widest text-white/60 mb-3">Tecnologias:</p>
+                    <div className="flex flex-wrap gap-2">
+                      {item.techs.map((tech, idx) => (
+                        <span key={idx} className="text-[10px] md:text-xs font-black uppercase bg-black/30 px-3 py-1 rounded-full border border-white/10">
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  </motion.div>
                 </motion.div>
               ))}
             </div>
