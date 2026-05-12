@@ -21,6 +21,7 @@ body {
   font-family: var(--font-montserrat);
   margin: 0;
   overflow-x: hidden;
+  cursor: none;
 }
 
 ::-webkit-scrollbar {

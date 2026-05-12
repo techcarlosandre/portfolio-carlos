@@ -329,13 +329,13 @@ export default function PortfolioPage() {
                 transition={{ duration: 1, delay: 0.5 }}
                 className="h-[1px] bg-primary"
               ></motion.span>
-              FULL-STACK DEVELOPER & UI ARCHITECT
+              DESENVOLVEDOR FULL-STACK & ARQUITETO UI
             </p>
             <h1 className="text-5xl sm:text-8xl md:text-[130px] font-black uppercase leading-[0.85] tracking-tighter text-white mb-10">
-              CRAFTING <br />
-              <span className="stroke-text">DIGITAL</span> <br />
-              POWER <br />
-              <span className="text-primary glow-text-primary">HOUSES</span>
+              CONSTRUINDO <br />
+              <span className="stroke-text">POTÊNCIAS</span> <br />
+              DIGITAIS <br />
+              <span className="text-primary glow-text-primary">MODERNAS</span>
             </h1>
 
             <p className="text-gray-400 text-sm md:text-xl max-w-xl mb-12 leading-relaxed">
@@ -487,7 +487,7 @@ export default function PortfolioPage() {
           }}
           className="absolute top-1/2 -translate-y-1/2 right-0 text-[30vw] font-black stroke-text opacity-[0.03] pointer-events-none select-none whitespace-nowrap"
         >
-          SKILLS EXPERTISE
+          MINHAS SKILLS
         </motion.div>
 
         <div className="container mx-auto px-6 grid md:grid-cols-2 gap-20 items-start relative z-10">
