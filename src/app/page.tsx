@@ -241,7 +241,7 @@ const AboutSection = () => {
               </div>
               <div className="flex flex-wrap gap-2">
                 {t.about.softSkills.map((s: string, i: number) => (
-                  <span key={i} className={`px-4 py-2 rounded-full border text-[10px] font-bold uppercase tracking-widest transition-colors ${i === 0 ? 'border-primary/50 text-primary bg-primary/10' : 'border-border text-txt-muted hover:border-primary/30'}`}>{s}</span>
+                  <span key={i} className="px-4 py-2 rounded-full border border-border text-txt-muted text-[10px] font-bold uppercase tracking-widest transition-colors hover:border-primary/30">{s}</span>
                 ))}
               </div>
             </SpotlightCard></FadeIn>
