@@ -1,733 +1,670 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef, createContext, useContext } from 'react';
 import Image from 'next/image';
-import { motion, useScroll, useSpring, useTransform } from 'framer-motion';
-import { ChevronRight, Code, Layout, Server, Database, Phone, Mail, ExternalLink, Globe, Share2, MessageCircle, Menu, X, Zap, Cpu } from 'lucide-react';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
+import { ChevronRight, ExternalLink, Globe, MessageCircle, Menu, X, Zap, Sun, Moon, GraduationCap, Briefcase, Mail } from 'lucide-react';
 
+const GithubIcon = ({ size = 20 }: { size?: number }) => (
+  <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
+    <path d="M9 18c-4.51 2-5-2-7-2" />
+  </svg>
+);
+
+const LinkedinIcon = ({ size = 20 }: { size?: number }) => (
+  <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+    <rect width="4" height="12" x="2" y="9" />
+    <circle cx="4" cy="4" r="2" />
+  </svg>
+);
+import { translations, type Lang } from './translations';
+
+// ─── Context ───
+type TranslationType = typeof translations['pt'] | typeof translations['en'];
+const AppContext = createContext<{ lang: Lang; t: TranslationType; theme: string; toggleTheme: () => void; setLang: (l: Lang) => void }>({
+  lang: 'pt', t: translations.pt, theme: 'dark', toggleTheme: () => {}, setLang: () => {},
+});
+
+const useApp = () => useContext(AppContext);
+
+// ─── Particles ───
 const Particles = () => {
-  const [particles, setParticles] = useState<any[]>([]);
-
+  const [particles, setParticles] = useState<{ id: number; size: number; left: number; dur: number; delay: number }[]>([]);
   useEffect(() => {
-    const p = Array.from({ length: 25 }).map((_, i) => ({
-      id: i,
-      size: Math.random() * 4 + 2,
-      left: Math.random() * 100,
-      duration: Math.random() * 10 + 10,
-      delay: Math.random() * 10,
-    }));
-    setParticles(p);
+    setParticles(Array.from({ length: 20 }, (_, i) => ({
+      id: i, size: Math.random() * 3 + 1, left: Math.random() * 100,
+      dur: Math.random() * 15 + 15, delay: Math.random() * 10,
+    })));
   }, []);
-
   return (
     <div className="particles-container">
-      {particles.map((p) => (
-        <div
-          key={p.id}
-          className="particle"
-          style={{
-            width: `${p.size}px`,
-            height: `${p.size}px`,
-            left: `${p.left}%`,
-            animationDuration: `${p.duration}s`,
-            animationDelay: `${p.delay}s`,
-          }}
-        />
+      {particles.map(p => (
+        <div key={p.id} className="particle" style={{ width: p.size, height: p.size, left: `${p.left}%`, animationDuration: `${p.dur}s`, animationDelay: `${p.delay}s` }} />
       ))}
     </div>
   );
 };
 
-const CustomCursor = () => {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [isPointer, setIsPointer] = useState(false);
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setPosition({ x: e.clientX, y: e.clientY });
-      const target = e.target as HTMLElement;
-      setIsPointer(window.getComputedStyle(target).cursor === 'pointer');
-    };
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
-
+// ─── Utility Components ───
+const SpotlightCard = ({ children, className = '' }: { children: React.ReactNode; className?: string }) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const [pos, setPos] = useState({ x: 0, y: 0 });
+  const handleMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!ref.current) return;
+    const r = ref.current.getBoundingClientRect();
+    setPos({ x: e.clientX - r.left, y: e.clientY - r.top });
+  };
   return (
-    <div
-      className={`custom-cursor hidden md:block ${isPointer ? 'active' : ''}`}
-      style={{
-        left: `${position.x}px`,
-        top: `${position.y}px`,
-        transform: `translate(-50%, -50%) ${isPointer ? 'scale(3)' : 'scale(1)'}`,
-      }}
-    />
+    <div ref={ref} onMouseMove={handleMove} className={`glass-card spotlight-card rounded-3xl p-8 ${className}`}
+      style={{ '--mouse-x': `${pos.x}px`, '--mouse-y': `${pos.y}px` } as React.CSSProperties}>
+      <div className="relative z-10">{children}</div>
+    </div>
   );
 };
 
-const Magnetic = ({ children }: { children: React.ReactNode }) => {
-  const ref = React.useRef<HTMLDivElement>(null);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    const { clientX, clientY } = e;
-    const { left, top, width, height } = ref.current?.getBoundingClientRect() || { left: 0, top: 0, width: 0, height: 0 };
-    const centerX = left + width / 2;
-    const centerY = top + height / 2;
-    const x = (clientX - centerX) * 0.4;
-    const y = (clientY - centerY) * 0.4;
-    setPosition({ x, y });
-  };
-
-  const handleMouseLeave = () => setPosition({ x: 0, y: 0 });
-
+const FadeIn = ({ children, delay = 0, direction = 'up' }: { children: React.ReactNode; delay?: number; direction?: 'up' | 'down' | 'left' | 'right' }) => {
+  const dirs: Record<string, { x: number; y: number }> = { up: { y: 40, x: 0 }, down: { y: -40, x: 0 }, left: { x: 40, y: 0 }, right: { x: -40, y: 0 } };
   return (
-    <motion.div
-      ref={ref}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      animate={{ x: position.x, y: position.y }}
-      transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.1 }}
-    >
+    <motion.div initial={{ opacity: 0, ...dirs[direction], filter: 'blur(8px)' }}
+      whileInView={{ opacity: 1, x: 0, y: 0, filter: 'blur(0px)' }}
+      viewport={{ once: true, margin: '-80px' }}
+      transition={{ duration: 0.7, delay, ease: [0.21, 0.47, 0.32, 0.98] }}>
       {children}
     </motion.div>
   );
 };
 
+const Badge = ({ children, pulsing = false }: { children: React.ReactNode; pulsing?: boolean }) => (
+  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-surface/50 border border-border text-[10px] md:text-xs font-bold uppercase tracking-widest text-txt-muted">
+    {pulsing && <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />}
+    {children}
+  </div>
+);
+
+// ─── Navbar ───
 const Navbar = () => {
+  const { t, lang, setLang, theme, toggleTheme } = useApp();
   const [scrolled, setScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const h = () => setScrolled(window.scrollY > 50);
+    window.addEventListener('scroll', h);
+    return () => window.removeEventListener('scroll', h);
   }, []);
 
-  const navLinks = ['Home', 'Sobre', 'Habilidades', 'Projetos', 'Contato'];
+  const links = [
+    { name: t.nav.about, href: '#sobre' },
+    { name: t.nav.experience, href: '#experiencia' },
+    { name: t.nav.projects, href: '#projetos' },
+    { name: t.nav.skills, href: '#skills' },
+    { name: t.nav.contact, href: '#contato' },
+  ];
 
   return (
-    <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled || mobileMenuOpen ? 'bg-black/95 backdrop-blur-md py-4 border-b border-primary/20' : 'bg-transparent py-6'}`}>
-      <div className="container mx-auto px-6 flex justify-between items-center">
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          className="text-2xl font-black tracking-tighter"
-        >
-          PORT<span className="text-primary">FOLIO.</span>
-        </motion.div>
+    <nav className="fixed top-6 w-full z-50 px-4 md:px-6">
+      <div className={`container mx-auto max-w-5xl transition-all duration-500 ${scrolled ? 'bg-bg/80 backdrop-blur-xl border border-border shadow-2xl rounded-full py-3 px-6 md:px-8' : 'py-4 px-2'}`}>
+        <div className="flex justify-between items-center">
+          <motion.a href="#home" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="text-xl font-black tracking-tighter cursor-pointer hover:opacity-80 transition-opacity">
+            CARLOS<span className="text-primary">.</span>
+          </motion.a>
 
-        <div className="hidden md:flex gap-8 items-center text-sm font-bold uppercase tracking-widest leading-none">
-          {navLinks.map((item) => (
-            <a key={item} href={`#${item.toLowerCase()}`} className="hover:text-primary transition-colors relative group">
-              {item}
-              <span className="absolute -bottom-2 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
-            </a>
-          ))}
-        </div>
+          <div className="hidden md:flex gap-6 items-center text-[10px] font-bold uppercase tracking-[0.15em]">
+            {links.map(l => (
+              <a key={l.name} href={l.href} className="hover:text-primary transition-colors">{l.name}</a>
+            ))}
+          </div>
 
-        <div className="hidden md:block">
-          <Magnetic>
-            <a
-              href="https://wa.me/21982665121?text=Olá Carlos, vi seu portfólio e gostaria de conversar sobre um projeto."
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="bg-primary hover:bg-secondary text-white px-6 py-2 rounded-full text-xs font-black uppercase transition-all glow-primary"
-              >
-                Vamos Conversar
+          <div className="flex items-center gap-2">
+            {/* Language Switcher */}
+            <button onClick={() => setLang(lang === 'pt' ? 'en' : 'pt')}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-border text-[10px] font-bold uppercase tracking-widest hover:border-primary/50 transition-all bg-surface/30">
+              <Globe size={12} className="text-primary" />
+              {lang === 'pt' ? 'EN' : 'PT'}
+            </button>
+
+            {/* Theme Switcher */}
+            <button onClick={toggleTheme}
+              className="p-2 rounded-full border border-border hover:border-primary/50 transition-all bg-surface/30">
+              {theme === 'dark' ? <Sun size={14} /> : <Moon size={14} />}
+            </button>
+
+            {/* CTA Desktop */}
+            <a href="https://api.whatsapp.com/send/?phone=21982665121&text=Olá+Carlos%2C+vi+seu+portfólio+e+gostaria+de+conversar+sobre+um+projeto.&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" className="hidden md:block">
+              <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
+                className="bg-primary text-white px-5 py-2 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-accent transition-all">
+                {t.nav.cta}
               </motion.button>
             </a>
-          </Magnetic>
-        </div>
 
-        <div className="md:hidden flex items-center gap-4">
-          <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="text-white">
-            {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
-          </button>
+            {/* Mobile Menu */}
+            <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden p-2">
+              {menuOpen ? <X size={22} /> : <Menu size={22} />}
+            </button>
+          </div>
         </div>
       </div>
 
-      {mobileMenuOpen && (
-        <motion.div
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: 'auto' }}
-          className="md:hidden bg-black/95 border-b border-white/5 py-8"
-        >
-          <div className="flex flex-col items-center gap-6 font-black uppercase tracking-[0.2em] text-sm">
-            {navLinks.map((item) => (
-              <a
-                key={item}
-                href={`#${item.toLowerCase()}`}
-                onClick={() => setMobileMenuOpen(false)}
-                className="hover:text-primary transition-colors py-2"
-              >
-                {item}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
+            className="absolute top-20 left-4 right-4 md:hidden bg-bg/95 backdrop-blur-2xl border border-border rounded-3xl p-8 shadow-2xl">
+            <div className="flex flex-col gap-5 items-center font-black uppercase tracking-widest text-sm">
+              {links.map(l => (
+                <a key={l.name} href={l.href} onClick={() => setMenuOpen(false)} className="hover:text-primary transition-colors">{l.name}</a>
+              ))}
+              <a href="https://api.whatsapp.com/send/?phone=21982665121&text=Olá+Carlos%2C+vi+seu+portfólio+e+gostaria+de+conversar+sobre+um+projeto.&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" onClick={() => setMenuOpen(false)} className="w-full">
+                <button className="w-full bg-primary text-white py-4 rounded-2xl text-xs font-black uppercase tracking-widest">{t.nav.cta}</button>
               </a>
-            ))}
-            <a
-              href="https://wa.me/21982665121?text=Olá Carlos, vi seu portfólio e gostaria de conversar sobre um projeto."
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-4"
-            >
-              <button className="bg-primary text-white px-8 py-3 rounded-full text-xs font-black uppercase glow-primary">
-                Vamos Conversar
-              </button>
-            </a>
-          </div>
-        </motion.div>
-      )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 };
 
-const SkillBar = ({ name, percent }: { name: string; percent: number }) => {
+// ─── Hero Section ───
+const HeroSection = () => {
+  const { t } = useApp();
   return (
-    <div className="mb-10">
-      <div className="flex justify-between mb-3">
-        <span className="text-xs md:text-sm font-black uppercase tracking-[0.2em]">{name}</span>
-        <span className="text-xs md:text-sm font-black text-primary">{percent}%</span>
-      </div>
-      <div className="h-[6px] w-full bg-white/5 rounded-full overflow-hidden backdrop-blur-sm border border-white/5">
-        <motion.div
-          initial={{ width: 0 }}
-          whileInView={{ width: `${percent}%` }}
-          transition={{ duration: 1.5, ease: "easeOut" }}
-          className="h-full bg-gradient-to-r from-primary/50 to-primary relative"
-        >
-          <motion.div
-            animate={{ x: ['-100%', '200%'] }}
-            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-            className="absolute top-0 left-0 h-full w-1/2 bg-gradient-to-r from-transparent via-white/30 to-transparent skew-x-12"
-          />
+    <section id="home" className="min-h-screen flex flex-col justify-center items-center pt-32 pb-20 px-6 relative overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-transparent pointer-events-none" />
+      <FadeIn delay={0.1}><Badge pulsing>{t.hero.badge}</Badge></FadeIn>
+      <FadeIn delay={0.3}>
+        <h1 className="text-5xl md:text-[100px] font-black text-center uppercase leading-[0.9] tracking-tighter mt-10 mb-8">
+          {t.hero.title1} <br />
+          <span className="text-gradient">{t.hero.title2}</span>
+        </h1>
+      </FadeIn>
+      <FadeIn delay={0.5}>
+        <p className="text-txt-muted text-center max-w-2xl text-lg md:text-xl leading-relaxed mb-12">
+          {t.hero.desc}
+        </p>
+      </FadeIn>
+      <FadeIn delay={0.7}>
+        <div className="flex flex-wrap justify-center gap-8">
+          {[{ val: t.hero.stat1v, label: t.hero.stat1 }, { val: t.hero.stat2v, label: t.hero.stat2 }, { val: t.hero.stat3v, label: t.hero.stat3 }].map((s, i) => (
+            <React.Fragment key={i}>
+              {i > 0 && <div className="w-[1px] h-10 bg-border" />}
+              <motion.div whileHover={{ y: -5 }} className="flex flex-col items-center">
+                <span className="text-3xl font-black text-primary">{s.val}</span>
+                <span className="text-[10px] font-bold uppercase tracking-widest text-txt-muted">{s.label}</span>
+              </motion.div>
+            </React.Fragment>
+          ))}
+        </div>
+      </FadeIn>
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2">
+        <motion.div animate={{ y: [0, 10, 0] }} transition={{ duration: 2, repeat: Infinity }}
+          className="w-6 h-10 border-2 border-txt/20 rounded-full flex justify-center p-2">
+          <div className="w-1 h-2 bg-primary rounded-full" />
         </motion.div>
       </div>
-    </div>
+    </section>
   );
 };
 
-const ScrollingSkills = () => {
-  const skills = [
-    { name: "Next.js / React", percent: 93, icon: Layout },
-    { name: "Typescript", percent: 85, icon: Code },
-    { name: "Tailwind CSS", percent: 90, icon: Globe },
-    { name: "Node.js / Bun", percent: 87, icon: Server },
-    { name: "PostgreSQL", percent: 89, icon: Database },
-    { name: "Prisma ORM", percent: 88, icon: Database },
-    { name: "Python / Flask", percent: 93, icon: Code },
-    { name: "Google Gemini / IA", percent: 85, icon: Share2 },
-    { name: "Vercel / Deploy", percent: 89, icon: ExternalLink },
-    { name: "Git / GitHub", percent: 88, icon: Code },
-    { name: "APIs & GraphQL", percent: 85, icon: Server },
-    { name: "Docker", percent: 80, icon: Server },
-    { name: "UI/UX Design", percent: 90, icon: Layout },
-    { name: "Framer", percent: 90, icon: Zap },
-    { name: "MPC", percent: 85, icon: Cpu },
-  ];
-
-  const duplicatedSkills = [...skills, ...skills];
-
+// ─── About Section (Profile + Soft Skills + Languages) ───
+const AboutSection = () => {
+  const { t } = useApp();
   return (
-    <div className="h-[500px] overflow-hidden relative group rounded-3xl border border-white/5 bg-surface/20 backdrop-blur-md">
-      <motion.div
-        animate={{
-          y: [0, "-50%"],
-        }}
-        transition={{
-          duration: 40,
-          repeat: Infinity,
-          ease: "linear",
-        }}
-        className="flex flex-col p-6"
-      >
-        {duplicatedSkills.map((skill, index) => {
-          const Icon = skill.icon;
-          return (
-            <div key={`${skill.name}-${index}`} className="mb-8 last:mb-0 group/skill">
-              <div className="flex items-center gap-4 mb-3">
-                <div className="w-10 h-10 rounded-xl bg-surface/50 border border-white/5 flex items-center justify-center group-hover/skill:border-primary/50 transition-all duration-500 group-hover/skill:scale-110 shadow-xl">
-                  <Icon size={18} className="text-primary" />
-                </div>
-                <div className="flex-1">
-                  <div className="flex justify-between items-end mb-1">
-                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 group-hover/skill:text-white transition-colors">{skill.name}</span>
-                    <span className="text-xs font-black text-primary/60 group-hover/skill:text-primary transition-colors">{skill.percent}%</span>
-                  </div>
-                  <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden relative">
-                    <motion.div
-                      initial={{ width: 0 }}
-                      whileInView={{ width: `${skill.percent}%` }}
-                      transition={{ duration: 1.5, ease: "circOut" }}
-                      className="h-full bg-gradient-to-r from-primary/20 via-primary to-primary relative"
-                    >
-                      <div className="absolute top-0 right-0 h-full w-[2px] bg-white glow-primary" />
-                    </motion.div>
-                  </div>
+    <section id="sobre" className="py-32 px-6">
+      <div className="container mx-auto max-w-6xl">
+        <div className="grid md:grid-cols-2 gap-16 items-start">
+          <div>
+            <FadeIn direction="right">
+              <Badge>{t.about.badge}</Badge>
+              <h2 className="text-4xl md:text-6xl font-black uppercase mt-6 mb-8 leading-tight">
+                {t.about.title1} <span className="text-gradient">{t.about.titleHighlight}</span>
+              </h2>
+              <p className="text-txt-muted text-lg leading-relaxed mb-8">{t.about.bio}</p>
+              <div className="flex gap-3">
+                <a href="https://github.com/techcarlosandre" target="_blank" rel="noopener noreferrer"
+                  className="p-4 rounded-2xl bg-surface/50 border border-border hover:bg-primary hover:text-white transition-all"><GithubIcon size={20} /></a>
+                <a href="https://www.linkedin.com/in/devcarlosandre/" target="_blank" rel="noopener noreferrer"
+                  className="p-4 rounded-2xl bg-surface/50 border border-border hover:bg-primary hover:text-white transition-all"><LinkedinIcon size={20} /></a>
+              </div>
+            </FadeIn>
+          </div>
+          <div className="grid grid-cols-1 gap-4">
+            {/* Soft Skills */}
+            <FadeIn delay={0.1}><SpotlightCard>
+              <div className="flex items-center gap-4 mb-5">
+                <div className="p-3 bg-primary/20 rounded-xl text-primary"><MessageCircle size={22} /></div>
+                <div>
+                  <h4 className="font-black uppercase tracking-widest text-sm">{t.about.softSkillsTitle}</h4>
+                  <p className="text-[10px] text-txt-muted font-bold uppercase tracking-widest">{t.about.softSkillsCount}</p>
                 </div>
               </div>
-            </div>
-          );
-        })}
-      </motion.div>
-      <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-black via-black/40 to-transparent z-10 pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-black via-black/40 to-transparent z-10 pointer-events-none" />
-    </div>
-  );
-};
+              <div className="flex flex-wrap gap-2">
+                {t.about.softSkills.map((s: string, i: number) => (
+                  <span key={i} className={`px-4 py-2 rounded-full border text-[10px] font-bold uppercase tracking-widest transition-colors ${i === 0 ? 'border-primary/50 text-primary bg-primary/10' : 'border-border text-txt-muted hover:border-primary/30'}`}>{s}</span>
+                ))}
+              </div>
+            </SpotlightCard></FadeIn>
 
-export default function PortfolioPage() {
-  const { scrollYProgress } = useScroll();
-  const [copied, setCopied] = useState(false);
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001
-  });
-
-  const handleCopyEmail = (e: React.MouseEvent) => {
-    e.preventDefault();
-    navigator.clipboard.writeText('techcarlosandre@gmail.com');
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-    window.location.href = "mailto:techcarlosandre@gmail.com";
-  };
-
-  const [activeCategory, setActiveCategory] = useState<number | null>(null);
-
-  const categories = [
-    { icon: Layout, label: "Frontend", techs: ["Next.js", "React", "Tailwind", "Typescript"] },
-    { icon: Server, label: "Backend", techs: ["Node.js", "Python", "Flask", "Prisma"] },
-    { icon: Database, label: "Database", techs: ["PostgreSQL", "Supabase", "Prisma"] },
-    { icon: Code, label: "IA & Automação", techs: ["Gemini", "Automação", "IA Consulting"] }
-  ];
-
-  return (
-    <main className="relative min-h-screen bg-black text-white selection:bg-primary selection:text-white overflow-x-hidden">
-      <CustomCursor />
-      <div className="grain-overlay" />
-      <Particles />
-      <Navbar />
-
-      <motion.div className="fixed top-0 left-0 right-0 h-1 bg-primary z-[60] origin-left" style={{ scaleX }} />
-
-      <section id="home" className="min-h-screen flex items-center pt-24 md:pt-20 relative overflow-hidden">
-        <motion.div 
-          style={{ 
-            y: useSpring(useTransform(scrollYProgress, [0, 0.2], [0, -200]), { stiffness: 100, damping: 30 }),
-            opacity: useTransform(scrollYProgress, [0, 0.15], [0.05, 0])
-          }}
-          className="absolute -bottom-20 -left-20 text-[15vw] md:text-[25vw] font-black leading-none stroke-text pointer-events-none whitespace-nowrap z-0 select-none"
-        >
-          CARLOS ANDRE
-        </motion.div>
-
-        <div className="container mx-auto px-6 grid md:grid-cols-2 gap-12 items-center relative z-10">
-
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 1, ease: "circOut" }}
-          >
-            <p className="text-primary font-black tracking-[0.4em] text-[10px] md:text-xs uppercase mb-8 flex items-center gap-4">
-              <motion.span 
-                initial={{ width: 0 }}
-                animate={{ width: 40 }}
-                transition={{ duration: 1, delay: 0.5 }}
-                className="h-[1px] bg-primary"
-              ></motion.span>
-              DESENVOLVEDOR FULL-STACK & ARQUITETO UI
-            </p>
-            <h1 className="text-5xl sm:text-8xl md:text-[130px] font-black uppercase leading-[0.85] tracking-tighter text-white mb-10">
-              CONSTRUINDO <br />
-              <span className="stroke-text">POTÊNCIAS</span> <br />
-              DIGITAIS <br />
-              <span className="text-primary glow-text-primary">MODERNAS</span>
-            </h1>
-
-            <p className="text-gray-400 text-sm md:text-xl max-w-xl mb-12 leading-relaxed">
-              Desenvolvedor Full Stack com foco em tecnologias de alto desempenho. Dedico meus projetos ao ecossistema <span className="text-white font-bold underline decoration-primary decoration-2 underline-offset-8">Next.js, Python e IA</span>.
-            </p>
-
-            <div className="flex flex-wrap gap-6 items-center">
-              <Magnetic>
-                <a href="#projetos">
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="bg-primary text-white font-black px-10 py-5 uppercase text-xs tracking-[0.2em] glow-primary hover:bg-secondary transition-all flex items-center justify-center gap-3"
-                  >
-                    Ver Projetos <ChevronRight size={16} />
-                  </motion.button>
-                </a>
-              </Magnetic>
-              <Magnetic>
-                <a href="#contato">
-                  <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="bg-surface/30 backdrop-blur-md border border-white/10 text-white font-black px-10 py-5 uppercase text-xs tracking-[0.2em] hover:bg-white/5 transition-all flex items-center justify-center gap-2"
-                  >
-                    Contato
-                  </motion.button>
-                </a>
-              </Magnetic>
-            </div>
-          </motion.div>
-
-          <div className="relative flex justify-center items-center py-10 md:py-0">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1, delay: 0.2 }}
-              className="relative w-64 h-64 sm:w-80 sm:h-80 md:w-[450px] md:h-[450px]"
-            >
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                className="absolute inset-0 border-[1px] border-primary/20 rounded-full"
-              />
-              <motion.div
-                animate={{ rotate: -360 }}
-                transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-                className="absolute inset-4 border-[2px] border-secondary/30 rounded-full"
-              />
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-                className="absolute inset-8 border-[1px] border-dashed border-primary/40 rounded-full"
-              />
-
-              <motion.div
-                animate={{ y: [0, -15, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute inset-0 flex items-center justify-center"
-              >
-                <div className="w-full h-full flex items-center justify-center relative">
-                  <Image
-                    src="/portfolio-carlos/sua-logo-ca.png"
-                    alt="Logo Oficial"
-                    width={600}
-                    height={600}
-                    priority
-                    unoptimized
-                    className="logo-3d relative z-10 w-full h-full object-contain scale-150 mix-blend-screen"
-                  />
+            {/* Languages */}
+            <FadeIn delay={0.2}><SpotlightCard>
+              <div className="flex items-center gap-4 mb-5">
+                <div className="p-3 bg-primary/20 rounded-xl text-primary"><Globe size={22} /></div>
+                <div>
+                  <h4 className="font-black uppercase tracking-widest text-sm">{t.about.langTitle}</h4>
+                  <p className="text-[10px] text-txt-muted font-bold uppercase tracking-widest">{t.about.langCount}</p>
                 </div>
-              </motion.div>
-
-              <motion.div animate={{ y: [0, 10, 0] }} transition={{ duration: 3, repeat: Infinity }} className="absolute top-0 right-10 bg-surface p-4 rounded-xl border border-primary/20 shadow-2xl">
-                <Code className="text-primary" size={24} />
-              </motion.div>
-              <motion.div animate={{ y: [0, -10, 0] }} transition={{ duration: 3.5, repeat: Infinity, delay: 0.5 }} className="absolute bottom-10 left-0 bg-surface p-4 rounded-xl border border-primary/20 shadow-2xl">
-                <Database className="text-primary" size={24} />
-              </motion.div>
-            </motion.div>
+              </div>
+              <div className="space-y-3">
+                {(t.about.langs as readonly { name: string; level: string }[]).map((l, i) => (
+                  <div key={i} className="flex justify-between items-center">
+                    <span className="font-bold text-sm">{l.name}</span>
+                    <span className={`text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-full border ${
+                      l.level === 'NATIVO' || l.level === 'NATIVE' ? 'text-primary border-primary/40 bg-primary/10' :
+                      l.level === 'TÉCNICO' || l.level === 'TECHNICAL' ? 'text-blue-400 border-blue-400/40 bg-blue-400/10' :
+                      'text-txt-muted border-border'
+                    }`}>{l.level}</span>
+                  </div>
+                ))}
+              </div>
+            </SpotlightCard></FadeIn>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
+  );
+};
 
-      <section id="sobre" className="py-20 md:py-32 bg-black overflow-hidden">
-        <div className="container mx-auto px-6">
-          <div className="grid md:grid-cols-2 gap-12 md:gap-20 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              className="relative order-2 md:order-1"
-            >
-              <div className="absolute -top-10 -left-10 w-32 h-32 bg-primary/10 blur-3xl rounded-full" />
-              <p className="text-primary font-black text-sm uppercase tracking-widest mb-4">Conheça minha Jornada</p>
-              <h2 className="text-4xl md:text-7xl font-black uppercase mb-8 leading-none">Quem é o <br /> <span className="text-primary glow-text-primary">Carlos?</span></h2>
-              <div className="space-y-6 text-gray-400 leading-relaxed text-lg md:text-xl">
-                <p>
-                  Sou um desenvolvedor apaixonado por tecnologia, focado em criar aplicações modernas e funcionais. Minha missão é entregar código de qualidade e uma experiência de usuário fluida em cada projeto.
-                </p>
-                <p>
-                  Atualmente, focado em arquiteturas robustas unindo o ecossistema Javascript (Next.js/Node) com a versatilidade do Python e Inteligência Artificial, priorizando performance e escalabilidade.
-                </p>
-              </div>
-            </motion.div>
+// ─── Projects Section (Stacked Sticky Cards with Tech Tags + Video) ───
+const ProjectsSection = () => {
+  const { t } = useApp();
+  const projectMeta = [
+    { link: 'https://omni-gestao-pro-six.vercel.app', img: '/portfolio-carlos/projetos/omni-thumb.png', github: 'https://github.com/techcarlosandre/omni-gestao-vitrine' },
+    { link: 'https://omni-financas.vercel.app', img: '/portfolio-carlos/projetos/omni-financas.png', github: 'https://github.com/techcarlosandre/omni-gestao' },
+    { link: 'https://rankehub.vercel.app/', img: '/portfolio-carlos/projetos/rankhub.png', github: 'https://github.com/techcarlosandre/Rank-Hub' },
+    { link: '#', img: '', github: '#', videos: ['/portfolio-carlos/projetos/automacao-wpp.mp4', '/portfolio-carlos/projetos/automacao-ig.mp4'] },
+    { link: '#', img: '', github: '#', wip: true },
+  ];
+  const projects = t.projects.items.map((item, i) => ({ ...item, ...projectMeta[i] }));
 
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8 }}
-              className="relative flex justify-center items-center order-1 md:order-2 mb-12 md:mb-0"
-            >
-              <div className="absolute w-64 h-64 md:w-96 md:h-96 bg-primary/20 rounded-full blur-[80px]" />
+  return (
+    <section id="projetos" className="py-32">
+      <div className="container mx-auto px-6 max-w-5xl">
+        <div className="text-center mb-20">
+          <FadeIn>
+            <Badge>{t.projects.badge}</Badge>
+            <h2 className="text-4xl md:text-6xl font-black uppercase mt-6">{t.projects.title1} <span className="text-primary">{t.projects.titleHighlight}</span></h2>
+          </FadeIn>
+        </div>
+        <div className="space-y-8">
+          {projects.map((p, i) => {
+            const isEven = i % 2 === 0;
+            const hasVideos = 'videos' in p && p.videos && p.videos.length > 0;
+            const isWip = 'wip' in p && p.wip;
 
-              <div className="relative w-full max-w-[320px] md:max-w-[450px] aspect-[4/5] flex items-end justify-center overflow-hidden rounded-3xl bg-gradient-to-b from-transparent to-primary/5 border border-white/5 shadow-2xl">
+            return (
+              <div key={p.title} className="sticky" style={{ top: `${100 + i * 40}px` }}>
                 <motion.div
-                  animate={{ y: [0, -10, 0] }}
-                  transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                  className="w-full h-full"
+                  initial={{ opacity: 0, y: 60 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-50px' }}
+                  transition={{ duration: 0.6, delay: i * 0.05 }}
+                  className="bg-surface rounded-[2rem] overflow-hidden border border-border/40 shadow-[0_-20px_50px_rgba(0,0,0,0.6)]"
+                  style={{ transform: `translateY(${i * 4}px)` }}
                 >
-                  <Image
-                    src="/portfolio-carlos/eu.png"
-                    alt="Carlos"
-                    width={800}
-                    height={1000}
-                    priority
-                    className="w-full h-full object-cover object-top drop-shadow-[0_20px_50px_rgba(128,0,0,0.5)]"
-                  />
+                  <div className={`grid md:grid-cols-2 gap-0 ${!isEven ? 'md:[direction:rtl]' : ''}`}>
+                    {/* Media Side */}
+                    <div className={`h-72 md:h-96 relative group ${!isEven ? 'md:[direction:ltr]' : ''}`}>
+                      {p.img ? (
+                        <Image src={p.img} alt={p.title} fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
+                      ) : hasVideos ? (
+                        <div className="absolute inset-0 grid grid-cols-2 gap-1 p-1">
+                          {(p as any).videos.map((vid: string, vi: number) => (
+                            <video key={vi} src={vid} autoPlay muted loop playsInline
+                              className="w-full h-full object-cover rounded-xl" />
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="absolute inset-0 bg-surface flex flex-col items-center justify-center gap-4">
+                          <div className="w-16 h-16 rounded-full border-2 border-primary/30 flex items-center justify-center animate-pulse">
+                            <Zap size={28} className="text-primary" />
+                          </div>
+                          <p className="text-txt-muted text-xs font-bold uppercase tracking-widest">Em Construção</p>
+                        </div>
+                      )}
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent to-black/10 pointer-events-none" />
+                      {isWip && (
+                        <div className="absolute top-4 left-4 bg-yellow-500/90 text-black px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest z-10">
+                          🚧 Em Construção
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Content Side */}
+                    <div className={`p-8 md:p-12 flex flex-col justify-center ${!isEven ? 'md:[direction:ltr]' : ''}`}>
+                      <span className="text-[10px] font-black uppercase tracking-widest text-primary mb-3">{p.tag}</span>
+                      <h3 className="text-2xl md:text-3xl font-black uppercase tracking-tighter mb-4">{p.title}</h3>
+                      <p className="text-txt-muted text-sm md:text-base leading-relaxed mb-6">{p.desc}</p>
+
+                      {/* Tech Tags */}
+                      {'techs' in p && p.techs && (
+                        <div className="flex flex-wrap gap-2 mb-8">
+                          {(p.techs as readonly string[]).map((tech: string) => (
+                            <span key={tech} className="px-3 py-1 rounded-full border border-primary/30 text-[9px] font-bold uppercase tracking-widest text-primary bg-primary/5">
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+
+                      <div className="flex gap-4">
+                        {!isWip ? (
+                          <>
+                            {p.link !== '#' && (
+                              <a href={p.link} target="_blank" rel="noopener noreferrer"
+                                className="inline-flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-accent transition-all">
+                                {t.projects.details} <ExternalLink size={14} />
+                              </a>
+                            )}
+                            {p.github !== '#' && (
+                              <a href={p.github} target="_blank" rel="noopener noreferrer"
+                                className="inline-flex items-center gap-2 border border-border px-6 py-3 rounded-full text-[10px] font-black uppercase tracking-widest hover:border-primary/50 transition-all">
+                                GitHub
+                              </a>
+                            )}
+                          </>
+                        ) : (
+                          <div className="inline-flex items-center gap-2 border border-yellow-500/30 bg-yellow-500/10 text-yellow-500 px-6 py-3 rounded-full text-[10px] font-black uppercase tracking-widest">
+                            Em Desenvolvimento
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
                 </motion.div>
               </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+};
 
-              <motion.div
-                animate={{ x: [0, 15, 0] }}
-                transition={{ duration: 4, repeat: Infinity }}
-                className="absolute -bottom-4 -right-2 md:-bottom-6 md:-right-6 bg-surface px-4 py-3 md:px-6 md:py-4 rounded-2xl border border-primary/20 shadow-2xl backdrop-blur-md z-20"
-              >
-                <p className="text-white font-black text-lg md:text-xl leading-none">CARLOS</p>
-                <p className="text-primary text-[8px] md:text-[10px] font-bold uppercase tracking-widest mt-1">Full-Stack Dev</p>
-              </motion.div>
+// ─── Experience Section (Reference Style: Sticky Left + Timeline + Detail Cards) ───
+const ExperienceSection = () => {
+  const { t } = useApp();
+  const [activeIdx, setActiveIdx] = useState(0);
+  const words = t.experience.rotatingWords as readonly string[];
+  const [wordIdx, setWordIdx] = useState(0);
+  const rotatingWord = words[wordIdx];
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start 80%", "end 20%"] });
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setWordIdx(prev => (prev + 1) % words.length);
+    }, 2000);
+    return () => clearInterval(interval);
+  }, [words.length]);
+
+  return (
+    <section id="experiencia" className="py-32 px-6">
+      <div className="container mx-auto max-w-6xl">
+        <div className="grid md:grid-cols-[1fr_3px_1.4fr] gap-8 md:gap-12">
+
+          {/* Left – Sticky Column */}
+          <div className="relative">
+            <div className="md:sticky md:top-32 h-fit">
+            <FadeIn direction="right">
+              <Badge>{t.experience.badge}</Badge>
+              <h2 className="text-4xl md:text-5xl font-black uppercase mt-6 mb-6 leading-tight">
+                {t.experience.title1} <span className="text-gradient">{t.experience.titleHighlight}</span>
+              </h2>
+              <p className="text-txt-muted text-base leading-relaxed mb-10">
+                {t.experience.subtitle}
+              </p>
+              <h3 className="text-2xl md:text-3xl font-black">
+                {t.experience.newChapter}{' '}
+                <AnimatePresence mode="wait">
+                  <motion.span
+                    key={rotatingWord}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.4 }}
+                    className="text-gradient inline-block px-1"
+                  >
+                    {rotatingWord}
+                  </motion.span>
+                </AnimatePresence>
+                {' '}{t.experience.newChapterEnd}
+              </h3>
+            </FadeIn>
+          </div>
+        </div>
+
+          {/* Center – Glowing Timeline */}
+          <div className="hidden md:block relative w-[2px] self-stretch mx-auto">
+            {/* Background Faint Line */}
+            <div className="absolute top-0 bottom-0 left-0 w-full bg-border" />
+            
+            {/* Filled Red Line */}
+            <motion.div 
+              className="absolute top-0 left-0 w-full bg-gradient-to-b from-primary to-accent origin-top shadow-[0_0_15px_rgba(128,0,0,0.5)]"
+              style={{ scaleY: scrollYProgress }}
+            />
+            
+            {/* Tracking Glowing Dot */}
+            <motion.div 
+              className="absolute left-1/2 w-6 h-6 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-primary bg-bg flex items-center justify-center z-10 shadow-[0_0_20px_4px_rgba(128,0,0,0.6)]"
+              style={{ top: useTransform(scrollYProgress, [0, 1], ["0%", "100%"]) }}
+            >
+              <div className="w-2 h-2 rounded-full bg-primary" />
             </motion.div>
           </div>
-        </div>
-      </section>
 
-      <section id="habilidades" className="py-32 md:py-48 bg-black relative overflow-hidden">
-        <motion.div 
-          style={{ 
-            x: useSpring(useTransform(scrollYProgress, [0.3, 0.5], [100, -100]), { stiffness: 100, damping: 30 }),
-          }}
-          className="absolute top-1/2 -translate-y-1/2 right-0 text-[30vw] font-black stroke-text opacity-[0.03] pointer-events-none select-none whitespace-nowrap"
-        >
-          MINHAS SKILLS
-        </motion.div>
-
-        <div className="container mx-auto px-6 grid md:grid-cols-2 gap-20 items-start relative z-10">
-          <div className="sticky top-32">
-            <p className="text-primary font-black text-xs md:text-sm uppercase tracking-[0.4em] mb-6 flex items-center gap-4">
-              <span className="w-10 h-[1px] bg-primary"></span>
-              Especialidades Técnicas
-            </p>
-            <h2 className="text-5xl md:text-[100px] font-black uppercase mb-10 leading-[0.9] tracking-tighter">
-              Tecnologias <br /> 
-              <span className="stroke-text">de</span> <span className="text-primary">Foco</span>
-            </h2>
-            <p className="text-gray-400 mb-12 leading-relaxed text-lg md:text-xl max-w-md">
-              Utilizo as ferramentas mais atuais do mercado para desenvolver aplicações que equilibram performance no backend e uma experiência fluida no frontend.
-            </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              {categories.map((item, i) => (
-                <motion.div 
-                  key={i}
-                  initial="initial"
-                  whileHover="hover"
-                  animate={activeCategory === i ? "hover" : "initial"}
-                  onClick={() => setActiveCategory(activeCategory === i ? null : i)}
-                  className="bg-surface/30 backdrop-blur-md p-8 rounded-3xl border border-white/5 relative overflow-hidden group cursor-pointer h-40 flex flex-col justify-center"
+          {/* Right – Detailed Cards */}
+          <div className="space-y-8 relative" ref={containerRef}>
+            {t.experience.items.map((item, i) => (
+              <FadeIn key={i} delay={i * 0.2}>
+                <motion.div
+                  onViewportEnter={() => setActiveIdx(i)}
+                  className={`rounded-3xl glass-card overflow-hidden transition-all duration-500 ${activeIdx === i ? 'border-primary/40 shadow-[0_0_40px_rgba(128,0,0,0.08)]' : ''}`}
                 >
-                  <div className="relative z-10 transition-opacity duration-300 group-hover:opacity-0">
-                    <item.icon className="text-primary mb-4" size={28} />
-                    <h4 className="font-black uppercase tracking-[0.2em] text-xs md:text-sm">{item.label}</h4>
-                  </div>
-
-                  <motion.div
-                    variants={{
-                      initial: { x: "100%" },
-                      hover: { x: 0 }
-                    }}
-                    transition={{ type: "spring", stiffness: 100, damping: 20 }}
-                    className="absolute inset-0 bg-primary/90 backdrop-blur-xl p-6 flex flex-col justify-center z-20"
-                  >
-                    <p className="text-[10px] font-black uppercase tracking-widest text-white/60 mb-3">Tecnologias:</p>
-                    <div className="flex flex-wrap gap-2">
-                      {item.techs.map((tech, idx) => (
-                        <span key={idx} className="text-[10px] md:text-xs font-black uppercase bg-black/30 px-3 py-1 rounded-full border border-white/10">
-                          {tech}
+                  {/* Card Header */}
+                  <div className="p-8 pb-0">
+                    <div className="flex items-start justify-between gap-4 mb-1">
+                      <div>
+                        <h4 className="font-black uppercase text-lg md:text-xl tracking-tight">{item.title}</h4>
+                        <p className="text-primary font-bold uppercase text-xs tracking-widest mt-1">{item.company}</p>
+                      </div>
+                      <div className="flex flex-col items-end gap-2 shrink-0">
+                        <span className="text-[9px] font-black uppercase bg-surface/80 border border-border px-3 py-1 rounded-full tracking-widest">{item.type}</span>
+                        <span className="text-[10px] font-mono text-txt-muted flex items-center gap-1.5">
+                          📅 {item.date}
                         </span>
-                      ))}
+                      </div>
                     </div>
-                  </motion.div>
+                  </div>
+
+                  {/* Bullet Points */}
+                  <div className="p-8 pt-6">
+                    <ul className="space-y-4">
+                      {item.bullets.map((bullet, bi) => (
+                        <motion.li
+                          key={bi}
+                          initial={{ opacity: 0, x: -10 }}
+                          whileInView={{ opacity: 1, x: 0 }}
+                          viewport={{ once: true }}
+                          transition={{ delay: bi * 0.1 + 0.2 }}
+                          className="flex items-start gap-3 text-txt-muted text-sm leading-relaxed"
+                        >
+                          <span className="w-1.5 h-1.5 rounded-full bg-primary mt-2 shrink-0" />
+                          {bullet}
+                        </motion.li>
+                      ))}
+                    </ul>
+                  </div>
                 </motion.div>
-              ))}
-            </div>
-          </div>
-
-          <div className="relative mt-20 md:mt-0">
-            <div className="absolute -inset-4 bg-primary/5 blur-3xl rounded-full" />
-            <ScrollingSkills />
-          </div>
-        </div>
-      </section>
-
-      <section id="projetos" className="py-24 bg-black/50">
-        <div className="container mx-auto px-6">
-          <div className="flex flex-col items-center mb-16">
-            <p className="text-primary font-black text-sm uppercase tracking-widest mb-2">Portfolio</p>
-            <h2 className="text-4xl md:text-6xl font-black uppercase">Trabalhos <span className="text-primary">Recentes</span></h2>
-            <div className="w-20 h-1 bg-primary mt-4" />
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                title: "Omni Gestão",
-                tag: "ERP / Gestão",
-                desc: "Plataforma completa para controle de estoque e fluxo de caixa, com relatórios inteligentes e gestão de unidades operacionais.",
-                link: "https://omni-gestao-pro-six.vercel.app",
-                github: "https://github.com/techcarlosandre/omni-gestao-vitrine",
-                img: "/portfolio-carlos/omni-thumb.png"
-              },
-              {
-                title: "Omni Finanças",
-                tag: "Fintech / ERP / Management",
-                desc: "Plataforma robusta de gestão financeira e controle de estoque, focada em automação de fluxo de caixa e integridade de dados operacionais.",
-                link: "https://omni-financas.vercel.app",
-                github: "https://github.com/techcarlosandre/omni-gestao",
-                img: "/portfolio-carlos/omni-financas.png"
-              },
-              {
-                title: "Rank&Hub",
-                tag: "Gamificação & IA",
-                desc: "Plataforma de analytics e gamificação com IA para gestão de performance e criação de rankings dinâmicos em tempo real.",
-                link: "https://rankehub.vercel.app/",
-                github: "https://github.com/techcarlosandre/Rank-Hub",
-                img: "/portfolio-carlos/rankhub.png"
-              }
-            ].map((project, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                whileHover={{ y: -10 }}
-                className="glass-card rounded-3xl overflow-hidden group"
-              >
-                <div className="h-64 bg-secondary/20 relative overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent z-10" />
-                  {project.img ? (
-                    <Image
-                      src={project.img}
-                      alt={project.title}
-                      fill
-                      className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
-                    />
-                  ) : null}
-                  <div className="absolute bottom-6 left-6 z-20">
-                    <span className="text-[10px] font-black uppercase bg-primary/90 backdrop-blur-md px-4 py-2 rounded-full tracking-[0.1em]">{project.tag}</span>
-                  </div>
-                </div>
-                <div className="p-8">
-                  <h3 className="text-2xl font-black mb-4 uppercase tracking-tighter">{project.title}</h3>
-                  <p className="text-gray-400 text-sm mb-8 leading-relaxed line-clamp-3">
-                    {project.desc}
-                  </p>
-                  <div className="flex gap-6">
-                    <Magnetic>
-                      <a
-                        href={project.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-xs font-black uppercase tracking-[0.2em] text-primary flex items-center gap-2 hover:text-white transition-colors"
-                      >
-                        {index === 0 ? 'Demo' : 'Abrir'} <ExternalLink size={14} />
-                      </a>
-                    </Magnetic>
-                    <Magnetic>
-                      <a
-                        href={project.github}
-                        className="text-xs font-black uppercase tracking-[0.2em] text-gray-500 hover:text-white transition-colors"
-                      >
-                        GitHub
-                      </a>
-                    </Magnetic>
-                  </div>
-                </div>
-              </motion.div>
+              </FadeIn>
             ))}
           </div>
         </div>
-      </section>
+      </div>
+    </section>
+  );
+};
 
-      <footer id="contato" className="py-20 border-t border-white/5 bg-black">
-        <div className="container mx-auto px-6">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-12">
-            <div>
-              <h2 className="text-5xl font-black uppercase mb-4 text-white">VAMOS <br /><span className="text-primary">CONSTRUIR</span>?</h2>
-              <div className="flex gap-6 mt-8">
-                <a
-                  href="https://github.com/techcarlosandre"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-14 h-14 rounded-2xl bg-surface flex items-center justify-center hover:bg-primary hover:-translate-y-2 transition-all duration-300 border border-white/5 group"
-                >
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="w-6 h-6 transition-colors"
-                  >
-                    <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
-                    <path d="M9 18c-4.51 2-5-2-7-2" />
-                  </svg>
-                </a>
-                <a
-                  href="https://www.linkedin.com/in/devcarlosandre/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-14 h-14 rounded-2xl bg-surface flex items-center justify-center hover:bg-[#0077B5] hover:-translate-y-2 transition-all duration-300 border border-white/5"
-                >
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="w-6 h-6"
-                  >
-                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
-                    <rect width="4" height="12" x="2" y="9" />
-                    <circle cx="4" cy="4" r="2" />
-                  </svg>
-                </a>
-                <a
-                  href="https://wa.me/21982665121?text=Olá Carlos, vi seu portfólio e gostaria de conversar sobre um projeto."
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-14 h-14 rounded-2xl bg-surface flex items-center justify-center hover:bg-[#25D366] hover:-translate-y-2 transition-all duration-300 border border-white/5"
-                >
-                  <MessageCircle size={24} />
-                </a>
-              </div>
-            </div>
-
-            <div className="text-center md:text-right relative">
-              <p className="text-gray-500 text-sm uppercase tracking-[0.3em] mb-4">© 2026 Carlos Portfolio</p>
-              <a
-                href="mailto:techcarlosandre@gmail.com"
-                onClick={handleCopyEmail}
-                className="text-2xl md:text-4xl font-black text-primary hover:text-white transition-colors block"
-              >
-                techcarlosandre@gmail.com
-              </a>
-              {copied && (
-                <motion.span
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="absolute -bottom-8 right-0 md:right-0 left-0 md:left-auto text-green-500 font-bold text-xs uppercase tracking-widest"
-                >
-                  E-mail copiado!
-                </motion.span>
-              )}
-              <div className="mt-8 flex items-center justify-center md:justify-end gap-2 text-primary font-bold uppercase text-xs tracking-widest leading-none">
-                <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                Disponível para novos projetos
-              </div>
-            </div>
+// ─── Skills Section ───
+const SkillsSection = () => {
+  const { t } = useApp();
+  const iconMap: Record<string, React.ReactNode> = {
+    server: <Zap size={24} />,
+    code: <ChevronRight size={24} />,
+    brain: <GraduationCap size={24} />,
+    tool: <Briefcase size={24} />,
+  };
+  return (
+    <section id="skills" className="py-32 px-6">
+      <div className="container mx-auto max-w-6xl">
+        <div className="grid md:grid-cols-[1fr_1.5fr] gap-16 items-start">
+          <div className="md:sticky md:top-32">
+            <FadeIn direction="right">
+              <Badge>{t.skills.badge}</Badge>
+              <h2 className="text-4xl md:text-5xl font-black uppercase mt-6 mb-6 leading-tight">
+                {t.skills.title1} <span className="text-gradient">{t.skills.titleHighlight}</span>
+              </h2>
+              <p className="text-txt-muted text-base leading-relaxed">{t.skills.desc}</p>
+            </FadeIn>
+          </div>
+          <div className="space-y-6">
+            {(t.skills.categories as readonly { icon: string; title: string; count: string; desc: string; techs: readonly string[] }[]).map((cat, i) => (
+              <FadeIn key={i} delay={i * 0.1}>
+                <SpotlightCard>
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="p-3 bg-primary/20 rounded-xl text-primary">{iconMap[cat.icon]}</div>
+                    <div>
+                      <h4 className="font-black uppercase tracking-tight text-base">{cat.title}</h4>
+                      <p className="text-[10px] text-txt-muted font-bold uppercase tracking-widest">{cat.count}</p>
+                    </div>
+                  </div>
+                  <p className="text-txt-muted text-sm leading-relaxed mb-5">{cat.desc}</p>
+                  <div className="flex flex-wrap gap-2">
+                    {cat.techs.map((tech: string) => (
+                      <span key={tech} className="px-3 py-1.5 rounded-full border border-border text-[10px] font-bold uppercase tracking-widest text-txt-muted hover:border-primary/40 hover:text-primary transition-colors">{tech}</span>
+                    ))}
+                  </div>
+                </SpotlightCard>
+              </FadeIn>
+            ))}
           </div>
         </div>
-      </footer>
-    </main>
+      </div>
+    </section>
+  );
+};
+
+// ─── Contact / Footer ───
+const FooterSection = () => {
+  const { t } = useApp();
+  return (
+    <footer id="contato" className="pt-32 pb-16 px-6 border-t border-border bg-bg">
+      <div className="container mx-auto max-w-4xl">
+        {/* Title */}
+        <FadeIn>
+          <div className="text-center mb-16">
+            <Badge>{t.contact.badge}</Badge>
+            <h2 className="text-5xl md:text-7xl font-black uppercase leading-none mt-6 mb-6">
+              {t.contact.title1} <span className="text-gradient">{t.contact.titleHighlight}</span>
+            </h2>
+          </div>
+        </FadeIn>
+
+        {/* Contact Card */}
+        <FadeIn delay={0.2}>
+          <SpotlightCard className="max-w-2xl mx-auto">
+            <h3 className="text-2xl font-black uppercase mb-4">{t.contact.subtitle}</h3>
+            <p className="text-txt-muted text-sm leading-relaxed mb-8">{t.contact.desc}</p>
+
+            <div className="space-y-4 mb-8">
+              <a href="https://api.whatsapp.com/send/?phone=21982665121&text=Olá+Carlos%2C+vi+seu+portfólio+e+gostaria+de+conversar+sobre+um+projeto.&type=phone_number&app_absent=0" target="_blank" rel="noopener noreferrer" className="group flex items-center gap-4 p-4 rounded-2xl bg-bg/60 border border-border hover:border-green-500/40 transition-all border-green-500/20">
+                <div className="p-3 rounded-xl bg-green-500/20 text-green-500 group-hover:bg-green-500 group-hover:text-white transition-all"><MessageCircle size={20} /></div>
+                <div>
+                  <p className="text-[9px] font-black uppercase tracking-widest text-txt-muted">WHATSAPP</p>
+                  <p className="font-bold text-sm">+55 (21) 98266-5121</p>
+                </div>
+                <ExternalLink size={14} className="ml-auto text-txt-muted" />
+              </a>
+              <a href="mailto:techcarlosandre@gmail.com" className="group flex items-center gap-4 p-4 rounded-2xl bg-bg/60 border border-border hover:border-primary/40 transition-all">
+                <div className="p-3 rounded-xl bg-primary/20 text-primary group-hover:bg-primary group-hover:text-white transition-all"><Mail size={20} /></div>
+                <div>
+                  <p className="text-[9px] font-black uppercase tracking-widest text-txt-muted">EMAIL</p>
+                  <p className="font-bold text-sm">techcarlosandre@gmail.com</p>
+                </div>
+                <ExternalLink size={14} className="ml-auto text-txt-muted" />
+              </a>
+              <a href="https://www.linkedin.com/in/devcarlosandre/" target="_blank" rel="noopener noreferrer" className="group flex items-center gap-4 p-4 rounded-2xl bg-bg/60 border border-border hover:border-primary/40 transition-all">
+                <div className="p-3 rounded-xl bg-primary/20 text-primary group-hover:bg-primary group-hover:text-white transition-all"><LinkedinIcon size={20} /></div>
+                <div>
+                  <p className="text-[9px] font-black uppercase tracking-widest text-txt-muted">LINKEDIN</p>
+                  <p className="font-bold text-sm">linkedin.com/in/devcarlosandre</p>
+                </div>
+                <ExternalLink size={14} className="ml-auto text-txt-muted" />
+              </a>
+              <a href="https://github.com/techcarlosandre" target="_blank" rel="noopener noreferrer" className="group flex items-center gap-4 p-4 rounded-2xl bg-bg/60 border border-border hover:border-primary/40 transition-all">
+                <div className="p-3 rounded-xl bg-primary/20 text-primary group-hover:bg-primary group-hover:text-white transition-all"><GithubIcon size={20} /></div>
+                <div>
+                  <p className="text-[9px] font-black uppercase tracking-widest text-txt-muted">GITHUB</p>
+                  <p className="font-bold text-sm">github.com/techcarlosandre</p>
+                </div>
+                <ExternalLink size={14} className="ml-auto text-txt-muted" />
+              </a>
+            </div>
+
+            <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-green-500">
+              <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+              {t.contact.available}
+            </div>
+          </SpotlightCard>
+        </FadeIn>
+
+        {/* Copyright */}
+        <div className="mt-24 pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-4 text-txt-muted text-[10px] font-bold uppercase tracking-widest">
+          <p>{t.footer.copy}</p>
+          <p>{t.footer.made}</p>
+        </div>
+      </div>
+    </footer>
+  );
+};
+
+// ─── Main Page ───
+export default function PortfolioPage() {
+  const [theme, setTheme] = useState('dark');
+  const [lang, setLang] = useState<Lang>('pt');
+
+  const toggleTheme = () => {
+    const next = theme === 'dark' ? 'light' : 'dark';
+    setTheme(next);
+    document.documentElement.setAttribute('data-theme', next === 'dark' ? '' : 'light');
+  };
+
+  const t = translations[lang];
+
+  return (
+    <AppContext.Provider value={{ lang, t, theme, toggleTheme, setLang }}>
+      <main className="relative min-h-screen bg-bg text-txt selection:bg-primary selection:text-white overflow-x-clip dot-grid">
+        <div className="grain-overlay" />
+        <Particles />
+        <Navbar />
+        <HeroSection />
+        <AboutSection />
+        <ExperienceSection />
+        <ProjectsSection />
+        <SkillsSection />
+        <FooterSection />
+      </main>
+    </AppContext.Provider>
   );
 }
