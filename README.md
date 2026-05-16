@@ -37,7 +37,7 @@ Este portfólio não é apenas uma vitrine, mas uma demonstração técnica de *
 ### [Omni Gestão](https://omni-gestao-pro-six.vercel.app)
 Plataforma ERP completa para controle de estoque e fluxo de caixa, com relatórios inteligentes e gestão de unidades operacionais.
 
-### [Omni Finanças](https://omni-financas.vercel.app)
+### [Omni Finanças](omni-financas-demo.vercel.app)
 Plataforma Full Stack para controle financeiro e de inventário com foco em performance e escalabilidade.
 
 ### [Rank&Hub](https://rankehub.vercel.app/login)

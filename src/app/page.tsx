@@ -24,7 +24,7 @@ import { translations, type Lang } from './translations';
 // ─── Context ───
 type TranslationType = typeof translations['pt'] | typeof translations['en'];
 const AppContext = createContext<{ lang: Lang; t: TranslationType; theme: string; toggleTheme: () => void; setLang: (l: Lang) => void }>({
-  lang: 'pt', t: translations.pt, theme: 'dark', toggleTheme: () => {}, setLang: () => {},
+  lang: 'pt', t: translations.pt, theme: 'dark', toggleTheme: () => { }, setLang: () => { },
 });
 
 const useApp = () => useContext(AppContext);
@@ -259,11 +259,10 @@ const AboutSection = () => {
                 {(t.about.langs as readonly { name: string; level: string }[]).map((l, i) => (
                   <div key={i} className="flex justify-between items-center">
                     <span className="font-bold text-sm">{l.name}</span>
-                    <span className={`text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-full border ${
-                      l.level === 'NATIVO' || l.level === 'NATIVE' ? 'text-primary border-primary/40 bg-primary/10' :
+                    <span className={`text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-full border ${l.level === 'NATIVO' || l.level === 'NATIVE' ? 'text-primary border-primary/40 bg-primary/10' :
                       l.level === 'TÉCNICO' || l.level === 'TECHNICAL' ? 'text-blue-400 border-blue-400/40 bg-blue-400/10' :
-                      'text-txt-muted border-border'
-                    }`}>{l.level}</span>
+                        'text-txt-muted border-border'
+                      }`}>{l.level}</span>
                   </div>
                 ))}
               </div>
@@ -280,7 +279,7 @@ const ProjectsSection = () => {
   const { t } = useApp();
   const projectMeta = [
     { link: 'https://omni-gestao-pro-six.vercel.app', img: '/portfolio-carlos/projetos/omni-thumb.png', github: 'https://github.com/techcarlosandre/omni-gestao-vitrine' },
-    { link: 'https://omni-financas.vercel.app', img: '/portfolio-carlos/projetos/omni-financas.png', github: 'https://github.com/techcarlosandre/omni-gestao' },
+    { link: 'omni-financas-demo.vercel.app', img: '/portfolio-carlos/projetos/omni-financas.png', github: 'https://github.com/techcarlosandre/omni-financas-vitrine' },
     { link: 'https://rankehub.vercel.app/', img: '/portfolio-carlos/projetos/rankhub.png', github: 'https://github.com/techcarlosandre/Rank-Hub' },
     { link: '#', img: '', github: '#', videos: ['/portfolio-carlos/projetos/automacao-wpp.mp4', '/portfolio-carlos/projetos/automacao-ig.mp4'] },
     { link: '#', img: '', github: '#', wip: true },
@@ -416,47 +415,47 @@ const ExperienceSection = () => {
           {/* Left – Sticky Column */}
           <div className="relative">
             <div className="md:sticky md:top-32 h-fit">
-            <FadeIn direction="right">
-              <Badge>{t.experience.badge}</Badge>
-              <h2 className="text-4xl md:text-5xl font-black uppercase mt-6 mb-6 leading-tight">
-                {t.experience.title1} <span className="text-gradient">{t.experience.titleHighlight}</span>
-              </h2>
-              <p className="text-txt-muted text-base leading-relaxed mb-10">
-                {t.experience.subtitle}
-              </p>
-              <h3 className="text-2xl md:text-3xl font-black">
-                {t.experience.newChapter}{' '}
-                <AnimatePresence mode="wait">
-                  <motion.span
-                    key={rotatingWord}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    transition={{ duration: 0.4 }}
-                    className="text-gradient inline-block px-1"
-                  >
-                    {rotatingWord}
-                  </motion.span>
-                </AnimatePresence>
-                {' '}{t.experience.newChapterEnd}
-              </h3>
-            </FadeIn>
+              <FadeIn direction="right">
+                <Badge>{t.experience.badge}</Badge>
+                <h2 className="text-4xl md:text-5xl font-black uppercase mt-6 mb-6 leading-tight">
+                  {t.experience.title1} <span className="text-gradient">{t.experience.titleHighlight}</span>
+                </h2>
+                <p className="text-txt-muted text-base leading-relaxed mb-10">
+                  {t.experience.subtitle}
+                </p>
+                <h3 className="text-2xl md:text-3xl font-black">
+                  {t.experience.newChapter}{' '}
+                  <AnimatePresence mode="wait">
+                    <motion.span
+                      key={rotatingWord}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -20 }}
+                      transition={{ duration: 0.4 }}
+                      className="text-gradient inline-block px-1"
+                    >
+                      {rotatingWord}
+                    </motion.span>
+                  </AnimatePresence>
+                  {' '}{t.experience.newChapterEnd}
+                </h3>
+              </FadeIn>
+            </div>
           </div>
-        </div>
 
           {/* Center – Glowing Timeline */}
           <div className="hidden md:block relative w-[2px] self-stretch mx-auto">
             {/* Background Faint Line */}
             <div className="absolute top-0 bottom-0 left-0 w-full bg-border" />
-            
+
             {/* Filled Red Line */}
-            <motion.div 
+            <motion.div
               className="absolute top-0 left-0 w-full bg-gradient-to-b from-primary to-accent origin-top shadow-[0_0_15px_rgba(128,0,0,0.5)]"
               style={{ scaleY: scrollYProgress }}
             />
-            
+
             {/* Tracking Glowing Dot */}
-            <motion.div 
+            <motion.div
               className="absolute left-1/2 w-6 h-6 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-primary bg-bg flex items-center justify-center z-10 shadow-[0_0_20px_4px_rgba(128,0,0,0.6)]"
               style={{ top: useTransform(scrollYProgress, [0, 1], ["0%", "100%"]) }}
             >
