@@ -279,7 +279,7 @@ const ProjectsSection = () => {
   const { t } = useApp();
   const projectMeta = [
     { link: 'https://omni-gestao-pro-six.vercel.app', img: '/portfolio-carlos/projetos/omni-thumb.png', github: 'https://github.com/techcarlosandre/omni-gestao-vitrine' },
-    { link: 'omni-financas-demo.vercel.app', img: '/portfolio-carlos/projetos/omni-financas.png', github: 'https://github.com/techcarlosandre/omni-financas-vitrine' },
+    { link: 'https://omni-financas-demo.vercel.app', img: '/portfolio-carlos/projetos/omni-financas.png', github: 'https://github.com/techcarlosandre/omni-financas-vitrine' },
     { link: 'https://rankehub.vercel.app/', img: '/portfolio-carlos/projetos/rankhub.png', github: 'https://github.com/techcarlosandre/Rank-Hub' },
     { link: '#', img: '', github: '#', videos: ['/portfolio-carlos/projetos/automacao-wpp.mp4', '/portfolio-carlos/projetos/automacao-ig.mp4'] },
     { link: '#', img: '', github: '#', wip: true },

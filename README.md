@@ -5,6 +5,7 @@
   <p><h3>Transformando complexidade em simplicidade através de design impecável e código robusto.</h3></p>
 
   [![Vercel](https://img.shields.io/badge/Deploy-Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://portfolio-carlos.vercel.app)
+  [![GitHub Pages](https://img.shields.io/badge/Deploy-GitHub%20Pages-222222?style=for-the-badge&logo=github&logoColor=white)](https://techcarlosandre.github.io/portfolio-carlos/)
   [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/techcarlosandre)
 </div>
 
@@ -37,7 +38,7 @@ Este portfólio não é apenas uma vitrine, mas uma demonstração técnica de *
 ### [Omni Gestão](https://omni-gestao-pro-six.vercel.app)
 Plataforma ERP completa para controle de estoque e fluxo de caixa, com relatórios inteligentes e gestão de unidades operacionais.
 
-### [Omni Finanças](omni-financas-demo.vercel.app)
+### [Omni Finanças](https://omni-financas-demo.vercel.app)
 Plataforma Full Stack para controle financeiro e de inventário com foco em performance e escalabilidade.
 
 ### [Rank&Hub](https://rankehub.vercel.app/login)
