@@ -1,11 +1,11 @@
 export const translations = {
   pt: {
-    nav: { about: 'Sobre', projects: 'Projetos', skills: 'Skills', experience: 'Experiência', contact: 'Contato', cta: 'Contate-me' },
+    nav: { about: 'Sobre', projects: 'Projetos', solutions: 'Soluções', ai: 'IA & Automações', apps: 'Aplicativos', skills: 'Tecnologias', experience: 'Experiência', contact: 'Contato', cta: 'Contate-me' },
     hero: {
       badge: 'Disponível para novos projetos',
-      title1: 'Desenvolvedor', title2: 'Full-Stack',
-      desc: 'Sou um desenvolvedor Full Stack focado em unir o rigor técnico do backend com a fluidez de interfaces premium. Atualmente no 4º período de Sistemas de Informação na Estácio, busco transformar problemas complexos em experiências digitais de alta fidelidade, priorizando a escalabilidade e a otimização de UI/UX.',
-      stat1v: '1+', stat1: 'Ano Exp.', stat2v: '5+', stat2: 'Projetos', stat3v: '100%', stat3: 'Dedicação',
+      title1: 'Desenvolvedor', title2: 'Full-Stack & IA',
+      desc: 'Sou um desenvolvedor Full Stack especializado em unir o rigor técnico do backend com a fluidez de interfaces de altíssima fidelidade. Crio soluções com IA de ponta para automatizar e escalar negócios.',
+      stat1v: '2+', stat1: 'Anos Exp.', stat2v: '8+', stat2: 'Projetos', stat3v: '100%', stat3: 'Dedicação',
     },
     about: {
       badge: 'Perfil',
@@ -13,7 +13,7 @@ export const translations = {
       bio: 'Me chamo Carlos André, sou desenvolvedor Full-Stack e entusiasta de IA. Minha trajetória começou na Miluli, onde desenvolvi automações inteligentes com IA para WhatsApp e Instagram. Hoje, como freelancer, construo plataformas completas, do backend robusto ao frontend premium, priorizando performance, escalabilidade e experiências que encantam.',
       softSkillsTitle: 'Habilidades Comportamentais',
       softSkillsCount: '6 pontos fortes',
-      softSkills: ['Comunicação Assertiva', 'Resolução de Problemas', 'Adaptabilidade', 'Trabalho em Equipe', 'Mentoria e Ensino', 'Atenção aos Detalhes'],
+      softSkills: ['Comunicação Assertiva', 'Resolução de Problemas', 'Adaptabilidade', 'Trabalho em Equipe', 'Foco em Solução de Negócios', 'Atenção aos Detalhes'],
       langTitle: 'Idiomas',
       langCount: '',
       langs: [
@@ -22,9 +22,36 @@ export const translations = {
         { name: 'Espanhol', level: 'BÁSICO' },
       ],
     },
+    solutions: {
+      badge: 'Soluções de Negócios',
+      title1: 'O que eu', titleHighlight: 'Resolvo',
+      items: [
+        { title: 'Plataformas SaaS Completas', desc: 'Arquitetura e desenvolvimento ponta a ponta de softwares por assinatura escaláveis, do banco de dados ao dashboard interativo com UI premium.', icon: 'server' },
+        { title: 'APIs & Integrações Robustas', desc: 'Construção de APIs rápidas, seguras e bem documentadas para conectar sistemas, pagamentos e microsserviços com alta performance.', icon: 'code' },
+        { title: 'Automações Comerciais e Operacionais', desc: 'Otimização e aceleração de fluxos de trabalho usando IA para eliminar tarefas manuais e economizar tempo operacional.', icon: 'zap' }
+      ]
+    },
+    aiAutomations: {
+      badge: 'IA & Automações',
+      title1: 'Inteligência', titleHighlight: 'Artificial na Prática',
+      desc: 'Automações inteligentes construídas para reduzir tempo de resposta e escalar o comercial/suporte.',
+      items: [
+        { title: 'Agentes de Atendimento Inteligentes', desc: 'Modelagem de agentes de IA conversacional (Gemini/GPT) que operam via WhatsApp e Instagram com linguagem natural humana e contexto do negócio.' },
+        { title: 'Fluxos Avançados de Trabalho (N8N)', desc: 'Integração de CRMs, planilhas, gateways de pagamento e webhooks em fluxos automatizados robustos e estáveis.' }
+      ]
+    },
+    apps: {
+      badge: 'Aplicativos & Web Apps',
+      title1: 'Aplicações', titleHighlight: 'Modernas',
+      desc: 'Interfaces responsivas rápidas e intuitivas criadas para oferecer a melhor experiência mobile e web.',
+      items: [
+        { title: 'Omni Gestão Pro', desc: 'ERP mobile-first para controle inteligente de vendas, estoque e equipe na nuvem.' },
+        { title: 'Rank&Hub Analytics', desc: 'Web App interativo em tempo real para visualização de dados de alta complexidade com dashboards analíticos.' }
+      ]
+    },
     skills: {
       badge: 'Especialidade',
-      title1: 'Stack', titleHighlight: 'Técnica',
+      title1: 'Tecnologias', titleHighlight: 'Chave',
       desc: 'As tecnologias que mais uso ao construir aplicações full-stack, automações com IA e soluções de alta performance.',
       categories: [
         {
@@ -97,7 +124,7 @@ export const translations = {
       assistantName: 'Gemini Carlos AI',
       assistantRole: 'Assistente Inteligente',
       welcome: 'Olá! Sou a IA do Carlos, alimentada pelo Gemini. Como posso te ajudar hoje?',
-      placeholder: 'Pergunte-me algo sobre o Carlos...',
+      placeholder: 'Selecione uma opção abaixo ou me pergunte algo sobre o Carlos...',
       btnProjects: '🚀 Ver Projetos',
       btnQuote: '💼 Fazer Orçamento',
       btnSkills: '🛠️ Ver Habilidades',
@@ -109,12 +136,12 @@ export const translations = {
     }
   },
   en: {
-    nav: { about: 'About', projects: 'Projects', skills: 'Skills', experience: 'Experience', contact: 'Contact', cta: 'Contact Me' },
+    nav: { about: 'About', projects: 'Projects', solutions: 'Solutions', ai: 'AI & Automations', apps: 'Apps', skills: 'Technologies', experience: 'Experience', contact: 'Contact', cta: 'Contact Me' },
     hero: {
       badge: 'Available for new projects',
-      title1: 'Developer', title2: 'Full-Stack',
-      desc: 'I am a Full Stack developer focused on combining the technical rigor of backend with the fluidity of premium interfaces. Currently in the 4th semester of Information Systems at Estácio, I aim to transform complex problems into high-fidelity digital experiences, prioritizing scalability and UI/UX optimization.',
-      stat1v: '1+', stat1: 'Year Exp.', stat2v: '5+', stat2: 'Projects', stat3v: '100%', stat3: 'Dedication',
+      title1: 'Developer', title2: 'Full-Stack & AI',
+      desc: 'I am a Full Stack developer specialized in combining backend technical rigor with the fluidity of ultra high-fidelity interfaces. I build bleeding-edge AI solutions to automate and scale businesses.',
+      stat1v: '2+', stat1: 'Years Exp.', stat2v: '8+', stat2: 'Projects', stat3v: '100%', stat3: 'Dedication',
     },
     about: {
       badge: 'Profile',
@@ -122,7 +149,7 @@ export const translations = {
       bio: 'My name is Carlos André, I am a Full-Stack developer and AI enthusiast. My journey started at Miluli, where I developed intelligent automations with AI for WhatsApp and Instagram. Today, as a freelancer, I build complete platforms — from robust backend to premium frontend — prioritizing performance, scalability and experiences that delight.',
       softSkillsTitle: 'Soft Skills',
       softSkillsCount: '6 strengths',
-      softSkills: ['Assertive Communication', 'Problem Solving', 'Adaptability', 'Teamwork', 'Mentoring & Teaching', 'Attention to Detail'],
+      softSkills: ['Assertive Communication', 'Problem Solving', 'Adaptability', 'Teamwork', 'Focus on Business Solutions', 'Attention to Detail'],
       langTitle: 'Languages',
       langCount: '',
       langs: [
@@ -131,9 +158,36 @@ export const translations = {
         { name: 'Spanish', level: 'BASIC' },
       ],
     },
+    solutions: {
+      badge: 'Business Solutions',
+      title1: 'What I', titleHighlight: 'Solve',
+      items: [
+        { title: 'Complete SaaS Platforms', desc: 'End-to-end architecture and development of scalable subscription software, from database design to premium interactive dashboard UI.', icon: 'server' },
+        { title: 'Robust APIs & Integrations', desc: 'Building fast, secure, and well-documented APIs to connect systems, payment gateways, and high-performance microservices.', icon: 'code' },
+        { title: 'Commercial & Operational Automations', desc: 'Optimizing and accelerating workflows using AI to eliminate manual tasks and save operational hours.', icon: 'zap' }
+      ]
+    },
+    aiAutomations: {
+      badge: 'AI & Automations',
+      title1: 'Artificial Intelligence', titleHighlight: 'In Action',
+      desc: 'Intelligent automations built to minimize response times and scale sales/support systems.',
+      items: [
+        { title: 'Smart Conversational Agents', desc: 'Modeling conversational AI agents (Gemini/GPT) operating on WhatsApp and Instagram with natural human tone and complete business context.' },
+        { title: 'Advanced Workflows (N8N)', desc: 'Integrating CRMs, sheets, payment gateways, and webhooks in robust, reliable automated workflows.' }
+      ]
+    },
+    apps: {
+      badge: 'Applications & Web Apps',
+      title1: 'Modern', titleHighlight: 'Applications',
+      desc: 'Fast, intuitive, responsive interfaces created to deliver top-notch mobile and web experiences.',
+      items: [
+        { title: 'Omni Gestão Pro', desc: 'Mobile-first cloud ERP for smart management of sales, stocks, and teams.' },
+        { title: 'Rank&Hub Analytics', desc: 'Interactive real-time web application for visualizing complex datasets with analytical dashboards.' }
+      ]
+    },
     skills: {
       badge: 'Expertise',
-      title1: 'Technical', titleHighlight: 'Stack',
+      title1: 'Technologies', titleHighlight: 'Key',
       desc: 'The technologies I use most when building full-stack applications, AI automations and high-performance solutions.',
       categories: [
         { icon: 'server', title: 'Backend & APIs', count: '8 technologies', desc: 'Languages, frameworks and tools I use to build reliable APIs and backend services.', techs: ['Node.js', 'Python', 'Java', 'Spring Boot', 'Prisma', 'PostgreSQL', 'Supabase', 'Docker'] },
@@ -182,7 +236,7 @@ export const translations = {
       assistantName: 'Gemini Carlos AI',
       assistantRole: 'Smart Assistant',
       welcome: "Hi there! I am Carlos's AI Assistant, powered by Gemini. How can I help you today?",
-      placeholder: 'Ask me anything about Carlos...',
+      placeholder: 'Select an option below or ask me anything about Carlos...',
       btnProjects: '🚀 View Projects',
       btnQuote: '💼 Get a Quote',
       btnSkills: '🛠️ View Skills',
@@ -190,9 +244,10 @@ export const translations = {
       replyProjects: 'Carlos has built several premium projects. The main ones are:\n1. **Omni Finanças**: Advanced financial ERP with goals, credit card control, and cash flow.\n2. **Rank&Hub**: Analytics and performance gamification platform with integrated AI.\n3. **Omni Gestão**: Complete multi-unit ERP for stock management.\n\nYou can see all details in the Projects section above! Would you like to know more about any of them?',
       replyQuote: 'Absolutely! Carlos builds custom-tailored solutions like full SaaS platforms, scalable APIs, and smart AI automations. For a detailed quote, it is best to chat directly with him on WhatsApp at **+55 (21) 98266-5121** or by clicking the "Direct Whatsapp" button. What kind of project do you have in mind?',
       replySkills: "Carlos specializes in Full-Stack development and AI. His main stack is:\n- **Backend**: Node.js, Python, Java, Spring Boot, PostgreSQL, Supabase, and Prisma.\n- **Frontend**: React, Next.js, TypeScript, and Framer Motion.\n- **AI & Automation**: Google Gemini API, N8N, and WhatsApp/Instagram APIs.\n\nHe loves building fluid, high-fidelity interfaces with robust backends. Want to know more about any specific technology?",
-      replyDefault: "Interesting! Carlos is a Full-Stack developer studying Information Systems at Estácio (4th semester). He worked at Miluli building AI automations that cut customer support response times by up to 90%.\n\nIf you want to talk business or hire him, I recommend clicking the **Direct Whatsapp** button or emailing **techcarlosandre@gmail.com**!"
+      replyDefault: "Interesting! Carlos is a Full-Stack developer studying Information Systems at Estácio (4th semester). He worked at Miluli building AI automations that cut customer support response times by up to 90%.\n\nIf you want to talk business or hire him, I recommend clicking the **Direct Whatsapp** button or emailing techcarlosandre@gmail.com!"
     }
-  },
+  }
 } as const;
 
 export type Lang = keyof typeof translations;
+
