@@ -93,6 +93,20 @@ export const translations = {
       copy: 'Inspiração by @mandis-ncs',
       made: 'Feito com Next.js & Framer Motion',
     },
+    chat: {
+      assistantName: 'Gemini Carlos AI',
+      assistantRole: 'Assistente Inteligente',
+      welcome: 'Olá! Sou a IA do Carlos, alimentada pelo Gemini. Como posso te ajudar hoje?',
+      placeholder: 'Pergunte-me algo sobre o Carlos...',
+      btnProjects: '🚀 Ver Projetos',
+      btnQuote: '💼 Fazer Orçamento',
+      btnSkills: '🛠️ Ver Habilidades',
+      btnWhatsApp: '💬 Whatsapp Direto',
+      replyProjects: 'O Carlos desenvolveu vários projetos premium. Os principais são:\n1. **Omni Finanças**: ERP financeiro avançado com controle de metas, cartão e fluxo de caixa.\n2. **Rank&Hub**: Plataforma de analytics e gamificação de performance com IA integrada.\n3. **Omni Gestão**: ERP completo multi-unidade para controle de estoque.\n\nVocê pode ver todos os detalhes na seção de Projetos acima! Deseja saber mais sobre algum deles?',
+      replyQuote: 'Com certeza! O Carlos constrói soluções sob medida, como SaaS completos, APIs escaláveis e automações inteligentes com IA. Para obter um orçamento detalhado, o ideal é conversar diretamente com ele no WhatsApp pelo número **+55 (21) 98266-5121** ou clicar no botão "Whatsapp Direto". Como é o projeto que você tem em mente?',
+      replySkills: 'O Carlos é especialista em desenvolvimento Full-Stack e IA. Sua stack principal é:\n- **Backend**: Node.js, Python, Java, Spring Boot, PostgreSQL, Supabase e Prisma.\n- **Frontend**: React, Next.js, TypeScript e Framer Motion.\n- **IA & Automação**: Google Gemini API, N8N, e APIs do WhatsApp/Instagram.\n\nEle adora criar interfaces fluidas e de alta fidelidade com backend robusto. Quer saber mais sobre alguma tecnologia específica?',
+      replyDefault: 'Interessante! O Carlos é desenvolvedor Full-Stack, estuda Sistemas de Informação na Estácio (4º período) e trabalhou na Miluli criando automações de IA que economizaram 80% do tempo de suporte dos clientes. \n\nSe quiser falar de negócios ou contratá-lo, recomendo clicar no botão **Whatsapp Direto** ou enviar um e-mail para **techcarlosandre@gmail.com**!'
+    }
   },
   en: {
     nav: { about: 'About', projects: 'Projects', skills: 'Skills', experience: 'Experience', contact: 'Contact', cta: 'Contact Me' },
@@ -164,6 +178,20 @@ export const translations = {
       copy: '© 2026 Carlos Andre. All rights reserved.',
       made: 'Built with Next.js & Framer Motion',
     },
+    chat: {
+      assistantName: 'Gemini Carlos AI',
+      assistantRole: 'Smart Assistant',
+      welcome: "Hi there! I am Carlos's AI Assistant, powered by Gemini. How can I help you today?",
+      placeholder: 'Ask me anything about Carlos...',
+      btnProjects: '🚀 View Projects',
+      btnQuote: '💼 Get a Quote',
+      btnSkills: '🛠️ View Skills',
+      btnWhatsApp: '💬 Direct Whatsapp',
+      replyProjects: 'Carlos has built several premium projects. The main ones are:\n1. **Omni Finanças**: Advanced financial ERP with goals, credit card control, and cash flow.\n2. **Rank&Hub**: Analytics and performance gamification platform with integrated AI.\n3. **Omni Gestão**: Complete multi-unit ERP for stock management.\n\nYou can see all details in the Projects section above! Would you like to know more about any of them?',
+      replyQuote: 'Absolutely! Carlos builds custom-tailored solutions like full SaaS platforms, scalable APIs, and smart AI automations. For a detailed quote, it is best to chat directly with him on WhatsApp at **+55 (21) 98266-5121** or by clicking the "Direct Whatsapp" button. What kind of project do you have in mind?',
+      replySkills: "Carlos specializes in Full-Stack development and AI. His main stack is:\n- **Backend**: Node.js, Python, Java, Spring Boot, PostgreSQL, Supabase, and Prisma.\n- **Frontend**: React, Next.js, TypeScript, and Framer Motion.\n- **AI & Automation**: Google Gemini API, N8N, and WhatsApp/Instagram APIs.\n\nHe loves building fluid, high-fidelity interfaces with robust backends. Want to know more about any specific technology?",
+      replyDefault: "Interesting! Carlos is a Full-Stack developer studying Information Systems at Estácio (4th semester). He worked at Miluli building AI automations that cut customer support response times by up to 90%.\n\nIf you want to talk business or hire him, I recommend clicking the **Direct Whatsapp** button or emailing **techcarlosandre@gmail.com**!"
+    }
   },
 } as const;
 

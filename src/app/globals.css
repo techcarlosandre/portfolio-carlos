@@ -70,3 +70,47 @@ body { background-color: var(--color-bg); color: var(--color-txt); font-family: 
 @media(max-width:768px){ .timeline-line{left:20px} }
 
 @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+
+/* Novas Classes Auxiliares */
+.chat-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.chat-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.chat-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(128, 0, 0, 0.3);
+  border-radius: 4px;
+}
+.chat-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(128, 0, 0, 0.6);
+}
+
+.glass-panel {
+  background: rgba(15, 15, 15, 0.4);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+[data-theme='light'] .glass-panel {
+  background: rgba(240, 239, 237, 0.5);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.avatar-glow {
+  box-shadow: 0 0 30px 5px rgba(128, 0, 0, 0.25);
+  animation: glow-pulse 4s infinite alternate;
+}
+
+@keyframes glow-pulse {
+  0% {
+    box-shadow: 0 0 20px 2px rgba(128, 0, 0, 0.15);
+    border-color: rgba(128, 0, 0, 0.2);
+  }
+  100% {
+    box-shadow: 0 0 35px 8px rgba(128, 0, 0, 0.35);
+    border-color: rgba(128, 0, 0, 0.5);
+  }
+}
+
