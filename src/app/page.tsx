@@ -192,244 +192,324 @@ const Badge = ({
   </div>
 );
 
-// ─── Interactive 3D Tag Globe ───
-const TagGlobe = ({ tags }: { tags: readonly string[] }) => {
+// ─── WebGL 3D Particle Globe with Tech Filter ───
+const WebGLTagGlobe = ({
+  tags,
+  selectedTech,
+  onSelectTech,
+}: {
+  tags: readonly string[];
+  selectedTech: string | null;
+  onSelectTech: (tag: string | null) => void;
+}) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [hoveredTag, setHoveredTag] = useState<string | null>(null);
+  const labelRefs = useRef<Record<string, HTMLButtonElement | null>>({});
+  const pointsRef = useRef<{ text: string; x: number; y: number; z: number }[]>(
+    [],
+  );
+  const rotationRef = useRef({
+    ax: 0.28,
+    ay: 0.32,
+    targetAx: 0.28,
+    targetAy: 0.32,
+  });
+
+  const createPointCloud = (tagsList: readonly string[]) =>
+    tagsList.map((text, i) => {
+      const t = Math.PI * 2 * (i / tagsList.length);
+      const c = 1 - 2 * (i / tagsList.length);
+      const s = Math.sqrt(1 - c * c);
+      return {
+        text,
+        x: s * Math.cos(t),
+        y: s * Math.sin(t),
+        z: c,
+      };
+    });
+
+  const rotatePoint = (
+    point: { x: number; y: number; z: number },
+    ax: number,
+    ay: number,
+  ) => {
+    const cosX = Math.cos(ax);
+    const sinX = Math.sin(ax);
+    const cosY = Math.cos(ay);
+    const sinY = Math.sin(ay);
+
+    let y = point.y * cosX - point.z * sinX;
+    let z = point.z * cosX + point.y * sinX;
+    let x = point.x * cosY - z * sinY;
+    z = z * cosY + point.x * sinY;
+
+    return { x, y, z };
+  };
+
+  const projectPoint = (
+    point: { x: number; y: number; z: number },
+    width: number,
+    height: number,
+  ) => {
+    const cameraZ = 3.4;
+    const scale = cameraZ / (cameraZ - point.z);
+    return {
+      x: width / 2 + point.x * width * 0.18 * scale,
+      y: height / 2 + point.y * height * 0.18 * scale,
+      scale,
+      visible: point.z > -1.3,
+    };
+  };
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
 
-    let width = canvas.width;
-    let height = canvas.height;
-    const radius = Math.min(width, height) * 0.35;
-    const count = tags.length;
+    const gl = canvas.getContext("webgl", { alpha: true, antialias: true });
+    if (!gl) return;
 
-    interface TagItem {
-      text: string;
-      x: number;
-      y: number;
-      z: number;
-      x2d: number;
-      y2d: number;
-      scale: number;
-      alpha: number;
-    }
-
-    const items: TagItem[] = tags.map((text, i) => {
-      const phi = Math.acos(-1 + (2 * i) / count);
-      const theta = Math.sqrt(count * Math.PI) * phi;
-      return {
-        text,
-        x: radius * Math.sin(phi) * Math.cos(theta),
-        y: radius * Math.sin(phi) * Math.sin(theta),
-        z: radius * Math.cos(phi),
-        x2d: 0,
-        y2d: 0,
-        scale: 0,
-        alpha: 0,
-      };
-    });
-
-    let angleX = 0.003;
-    let angleY = 0.003;
-    let targetAngleX = 0.003;
-    let targetAngleY = 0.003;
-
-    let isDragging = false;
-    let lastMouseX = 0;
-    let lastMouseY = 0;
-
-    const rotateX = (item: TagItem, angle: number) => {
-      const cos = Math.cos(angle);
-      const sin = Math.sin(angle);
-      const y = item.y * cos - item.z * sin;
-      const z = item.z * cos + item.y * sin;
-      item.y = y;
-      item.z = z;
-    };
-
-    const rotateY = (item: TagItem, angle: number) => {
-      const cos = Math.cos(angle);
-      const sin = Math.sin(angle);
-      const x = item.x * cos - item.z * sin;
-      const z = item.z * cos + item.x * sin;
-      item.x = x;
-      item.z = z;
-    };
-
-    let animationFrameId: number;
-
-    const update = () => {
-      ctx.clearRect(0, 0, width, height);
-
-      angleX += (targetAngleX - angleX) * 0.05;
-      angleY += (targetAngleY - angleY) * 0.05;
-
-      items.forEach((item) => {
-        rotateX(item, angleX);
-        rotateY(item, angleY);
-
-        const depth = 450;
-        const scale = depth / (depth + item.z);
-        item.scale = scale;
-        item.alpha = ((item.z + radius) / (2 * radius)) * 0.7 + 0.3;
-
-        item.x2d = width / 2 + item.x * scale;
-        item.y2d = height / 2 + item.y * scale;
-      });
-
-      // Draw lines between nearby tags
-      for (let i = 0; i < count; i++) {
-        for (let j = i + 1; j < count; j++) {
-          const dx = items[i].x - items[j].x;
-          const dy = items[i].y - items[j].y;
-          const dz = items[i].z - items[j].z;
-          const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
-          if (dist < radius * 1.1) {
-            const alpha =
-              (1 - dist / (radius * 1.1)) *
-              0.08 *
-              Math.min(items[i].alpha, items[j].alpha);
-            ctx.strokeStyle = `rgba(128, 0, 0, ${alpha})`;
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.moveTo(items[i].x2d, items[i].y2d);
-            ctx.lineTo(items[j].x2d, items[j].y2d);
-            ctx.stroke();
-          }
-        }
+    const vertexShaderSource = `
+      attribute vec3 aPosition;
+      uniform mat4 uModel;
+      uniform mat4 uProjection;
+      void main() {
+        gl_Position = uProjection * uModel * vec4(aPosition, 1.0);
+        gl_PointSize = 3.5;
       }
+    `;
+    const fragmentShaderSource = `
+      precision mediump float;
+      void main() {
+        float dist = distance(gl_PointCoord, vec2(0.5));
+        float alpha = 1.0 - smoothstep(0.25, 0.5, dist);
+        gl_FragColor = vec4(1.0, 0.4, 0.4, alpha);
+      }
+    `;
 
-      const sorted = [...items].sort((a, b) => b.z - a.z);
-
-      sorted.forEach((item) => {
-        const isHovered = hoveredTag === item.text;
-        ctx.font = `bold ${Math.max(10, Math.round(13 * item.scale))}px var(--font-outfit)`;
-
-        if (isHovered) {
-          ctx.shadowBlur = 10;
-          ctx.shadowColor = "#B30000";
-          ctx.fillStyle = "#B30000";
-        } else {
-          ctx.shadowBlur = 0;
-          ctx.fillStyle = `rgba(${item.z > 0 ? "255, 255, 255" : "161, 161, 170"}, ${item.alpha})`;
-        }
-
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-        ctx.fillText(item.text, item.x2d, item.y2d);
-      });
-
-      animationFrameId = requestAnimationFrame(update);
+    const createShader = (type: number, source: string) => {
+      const shader = gl.createShader(type);
+      if (!shader) return null;
+      gl.shaderSource(shader, source);
+      gl.compileShader(shader);
+      return shader;
     };
 
-    update();
+    const createProgram = (vs: WebGLShader, fs: WebGLShader) => {
+      const program = gl.createProgram();
+      if (!program) return null;
+      gl.attachShader(program, vs);
+      gl.attachShader(program, fs);
+      gl.linkProgram(program);
+      return program;
+    };
 
-    const handleMouseMove = (e: MouseEvent) => {
+    const vertexShader = createShader(gl.VERTEX_SHADER, vertexShaderSource);
+    const fragmentShader = createShader(
+      gl.FRAGMENT_SHADER,
+      fragmentShaderSource,
+    );
+    if (!vertexShader || !fragmentShader) return;
+
+    const program = createProgram(vertexShader, fragmentShader);
+    if (!program) return;
+
+    const aPosition = gl.getAttribLocation(program, "aPosition");
+    const uModel = gl.getUniformLocation(program, "uModel");
+    const uProjection = gl.getUniformLocation(program, "uProjection");
+    if (aPosition === -1 || !uModel || !uProjection) return;
+
+    const positionBuffer = gl.createBuffer();
+    if (!positionBuffer) return;
+
+    gl.enable(gl.BLEND);
+    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+
+    const resize = () => {
       const rect = canvas.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-
-      let foundHover: string | null = null;
-      for (const item of items) {
-        const dx = x - item.x2d;
-        const dy = y - item.y2d;
-        const widthEst = ctx.measureText(item.text).width + 16;
-        const heightEst = 18;
-        if (Math.abs(dx) < widthEst / 2 && Math.abs(dy) < heightEst / 2) {
-          foundHover = item.text;
-          break;
-        }
+      const width = Math.max(
+        1,
+        Math.floor(rect.width * window.devicePixelRatio),
+      );
+      const height = Math.max(
+        1,
+        Math.floor(rect.height * window.devicePixelRatio),
+      );
+      if (canvas.width !== width || canvas.height !== height) {
+        canvas.width = width;
+        canvas.height = height;
       }
-      setHoveredTag(foundHover);
-
-      if (isDragging) {
-        const dx = e.clientX - lastMouseX;
-        const dy = e.clientY - lastMouseY;
-        targetAngleY = dx * 0.0015;
-        targetAngleX = -dy * 0.0015;
-        lastMouseX = e.clientX;
-        lastMouseY = e.clientY;
-      } else {
-        const rx = (x - width / 2) / (width / 2);
-        const ry = (y - height / 2) / (height / 2);
-        targetAngleY = rx * 0.006;
-        targetAngleX = -ry * 0.006;
-      }
+      gl.viewport(0, 0, canvas.width, canvas.height);
     };
 
-    const handleMouseDown = (e: MouseEvent) => {
-      isDragging = true;
-      lastMouseX = e.clientX;
-      lastMouseY = e.clientY;
+    const buildProjection = () => {
+      const fov = 60 * (Math.PI / 180);
+      const aspect = canvas.width / canvas.height;
+      const near = 0.1;
+      const far = 100.0;
+      const f = 1.0 / Math.tan(fov / 2);
+      return new Float32Array([
+        f / aspect,
+        0,
+        0,
+        0,
+        0,
+        f,
+        0,
+        0,
+        0,
+        0,
+        (far + near) / (near - far),
+        -1,
+        0,
+        0,
+        (2 * far * near) / (near - far),
+        0,
+      ]);
     };
 
-    const handleMouseUp = () => {
-      isDragging = false;
+    const buildModel = (ax: number, ay: number) => {
+      const cosX = Math.cos(ax);
+      const sinX = Math.sin(ax);
+      const cosY = Math.cos(ay);
+      const sinY = Math.sin(ay);
+
+      return new Float32Array([
+        cosY,
+        sinX * sinY,
+        -cosX * sinY,
+        0,
+        0,
+        cosX,
+        sinX,
+        0,
+        sinY,
+        -sinX * cosY,
+        cosX * cosY,
+        0,
+        0,
+        0,
+        0,
+        1,
+      ]);
     };
 
-    const handleTouchStart = (e: TouchEvent) => {
-      if (e.touches.length > 0) {
-        isDragging = true;
-        lastMouseX = e.touches[0].clientX;
-        lastMouseY = e.touches[0].clientY;
-      }
+    const points = createPointCloud(tags);
+    pointsRef.current = points;
+
+    const updateLabelPositions = (
+      rotated: { x: number; y: number; z: number }[],
+    ) => {
+      const width = canvas.width / window.devicePixelRatio;
+      const height = canvas.height / window.devicePixelRatio;
+      rotated.forEach((point, index) => {
+        const label = labelRefs.current[tags[index]];
+        if (!label) return;
+        const projected = projectPoint(point, width, height);
+        label.style.opacity = projected.visible ? "1" : "0";
+        label.style.transform = `translate(${projected.x}px, ${projected.y}px) scale(${0.9 + projected.scale * 0.25})`;
+        label.style.zIndex = projected.visible ? "20" : "10";
+      });
     };
 
-    const handleTouchMove = (e: TouchEvent) => {
-      if (isDragging && e.touches.length > 0) {
-        const dx = e.touches[0].clientX - lastMouseX;
-        const dy = e.touches[0].clientY - lastMouseY;
-        targetAngleY = dx * 0.003;
-        targetAngleX = -dy * 0.003;
-        lastMouseX = e.touches[0].clientX;
-        lastMouseY = e.touches[0].clientY;
-      }
+    let animationFrameId = 0;
+    let lastPointerX = 0;
+    let lastPointerY = 0;
+
+    const render = () => {
+      resize();
+      gl.clearColor(0, 0, 0, 0);
+      gl.clear(gl.COLOR_BUFFER_BIT);
+
+      const time = performance.now() * 0.00035;
+      rotationRef.current.ax +=
+        (rotationRef.current.targetAx - rotationRef.current.ax) * 0.06;
+      rotationRef.current.ay +=
+        (rotationRef.current.targetAy - rotationRef.current.ay) * 0.06;
+      const currentAx = rotationRef.current.ax + Math.sin(time) * 0.12;
+      const currentAy = rotationRef.current.ay + Math.cos(time) * 0.12;
+
+      const rotated = pointsRef.current.map((point) =>
+        rotatePoint(point, currentAx, currentAy),
+      );
+
+      const positionData = new Float32Array(
+        rotated.flatMap((p) => [p.x, p.y, p.z]),
+      );
+      gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+      gl.bufferData(gl.ARRAY_BUFFER, positionData, gl.DYNAMIC_DRAW);
+
+      gl.useProgram(program);
+      gl.uniformMatrix4fv(uProjection, false, buildProjection());
+      gl.uniformMatrix4fv(uModel, false, buildModel(currentAx, currentAy));
+      gl.enableVertexAttribArray(aPosition);
+      gl.vertexAttribPointer(aPosition, 3, gl.FLOAT, false, 0, 0);
+      gl.drawArrays(gl.POINTS, 0, rotated.length);
+
+      updateLabelPositions(rotated);
+      animationFrameId = requestAnimationFrame(render);
     };
 
-    const handleTouchEnd = () => {
-      isDragging = false;
-    };
+    render();
 
-    canvas.addEventListener("mousemove", handleMouseMove);
-    canvas.addEventListener("mousedown", handleMouseDown);
-    window.addEventListener("mouseup", handleMouseUp);
-    canvas.addEventListener("touchstart", handleTouchStart);
-    canvas.addEventListener("touchmove", handleTouchMove);
-    window.addEventListener("touchend", handleTouchEnd);
-
-    const resizeObserver = new ResizeObserver(() => {
-      if (!canvas) return;
+    const handlePointerMove = (event: PointerEvent) => {
       const rect = canvas.getBoundingClientRect();
-      canvas.width = rect.width || 400;
-      canvas.height = rect.height || 400;
-      width = canvas.width;
-      height = canvas.height;
-    });
+      lastPointerX = (event.clientX - rect.left) / rect.width;
+      lastPointerY = (event.clientY - rect.top) / rect.height;
+      rotationRef.current.targetAy = (lastPointerX - 0.5) * 0.8;
+      rotationRef.current.targetAx = (0.5 - lastPointerY) * 0.7;
+    };
+
+    const handlePointerLeave = () => {
+      rotationRef.current.targetAx = 0.28;
+      rotationRef.current.targetAy = 0.32;
+    };
+
+    const handleCanvasClick = (event: MouseEvent) => {
+      if (event.target === canvas) {
+        onSelectTech(null);
+      }
+    };
+
+    canvas.addEventListener("pointermove", handlePointerMove);
+    canvas.addEventListener("pointerleave", handlePointerLeave);
+    canvas.addEventListener("click", handleCanvasClick);
+
+    const resizeObserver = new ResizeObserver(resize);
     resizeObserver.observe(canvas);
 
     return () => {
       cancelAnimationFrame(animationFrameId);
-      canvas.removeEventListener("mousemove", handleMouseMove);
-      canvas.removeEventListener("mousedown", handleMouseDown);
-      window.removeEventListener("mouseup", handleMouseUp);
-      canvas.removeEventListener("touchstart", handleTouchStart);
-      canvas.removeEventListener("touchmove", handleTouchMove);
-      window.removeEventListener("touchend", handleTouchEnd);
+      canvas.removeEventListener("pointermove", handlePointerMove);
+      canvas.removeEventListener("pointerleave", handlePointerLeave);
+      canvas.removeEventListener("click", handleCanvasClick);
       resizeObserver.disconnect();
     };
-  }, [tags, hoveredTag]);
+  }, [tags, onSelectTech]);
 
   return (
-    <div className="relative w-full aspect-square max-w-[400px] mx-auto flex items-center justify-center bg-radial from-primary/5 to-transparent rounded-full border border-border/10">
+    <div className="relative w-full aspect-square max-w-[520px] mx-auto">
       <canvas
         ref={canvasRef}
-        className="w-full h-full cursor-grab active:cursor-grabbing"
+        className="w-full h-full rounded-full bg-transparent"
+        role="img"
+        aria-label="Globo 3D de tecnologias"
       />
+      <div className="absolute inset-0 pointer-events-none">
+        {tags.map((tag) => (
+          <button
+            key={tag}
+            ref={(el) => {
+              labelRefs.current[tag] = el;
+            }}
+            type="button"
+            onClick={() => onSelectTech(selectedTech === tag ? null : tag)}
+            className={`globe-tag pointer-events-auto ${
+              selectedTech === tag ? "globe-tag-selected" : ""
+            }`}
+          >
+            {tag}
+          </button>
+        ))}
+      </div>
     </div>
   );
 };
@@ -672,12 +752,20 @@ const ChatHibrido = () => {
 const Navbar = () => {
   const { t, lang, setLang, theme, toggleTheme } = useApp();
   const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    const h = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", h);
-    return () => window.removeEventListener("scroll", h);
+    let lastScrollY = window.scrollY;
+    const handleScroll = () => {
+      const current = window.scrollY;
+      setScrolled(current > 50);
+      setHidden(current > lastScrollY && current > 120);
+      lastScrollY = current;
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const links = [
@@ -692,9 +780,13 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="fixed top-6 w-full z-50 px-4 md:px-6">
+    <nav
+      className={`sticky top-0 z-50 transition-transform duration-300 ${
+        hidden ? "-translate-y-full" : "translate-y-0"
+      }`}
+    >
       <div
-        className={`container mx-auto max-w-5xl transition-all duration-500 ${scrolled ? "bg-bg/80 backdrop-blur-xl border border-border shadow-2xl rounded-full py-3 px-6 md:px-8" : "py-4 px-2"}`}
+        className={`container mx-auto max-w-5xl transition-all duration-500 ${scrolled ? "bg-bg/90 backdrop-blur-2xl border border-border shadow-2xl rounded-full py-3 px-6 md:px-8" : "py-4 px-2"}`}
       >
         <div className="flex justify-between items-center">
           <motion.a
@@ -1010,7 +1102,13 @@ const AboutSection = () => {
 };
 
 // ─── Projects Section (Stacked Sticky Cards) ───
-const ProjectsSection = () => {
+const ProjectsSection = ({
+  selectedTech,
+  onClearSelection,
+}: {
+  selectedTech: string | null;
+  onClearSelection: () => void;
+}) => {
   const { t } = useApp();
   const [expandedIdx, setExpandedIdx] = useState<number | null>(null);
 
@@ -1046,6 +1144,160 @@ const ProjectsSection = () => {
     ...projectMeta[i],
   }));
 
+  const filteredProjects = selectedTech
+    ? projects.filter((project) =>
+        project.techs?.some((tech) => tech === selectedTech),
+      )
+    : projects;
+
+  const projectCards = filteredProjects.map((p, i) => {
+    const isEven = i % 2 === 0;
+    const hasVideos = "videos" in p && p.videos && p.videos.length > 0;
+    const isWip = "wip" in p && p.wip;
+    const isExpanded = expandedIdx === i;
+
+    return (
+      <div
+        key={p.title}
+        className="sticky"
+        style={{ top: `${100 + i * 40}px` }}
+      >
+        <motion.div
+          initial={{ opacity: 0, y: 60 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.6, delay: i * 0.05 }}
+          layout
+          className="bg-surface rounded-[2rem] overflow-hidden border border-border/40 shadow-[0_-20px_50px_rgba(0,0,0,0.6)] cursor-pointer"
+          style={{ transform: `translateY(${i * 4}px)` }}
+          onClick={() => setExpandedIdx(isExpanded ? null : i)}
+        >
+          <div
+            className={`grid md:grid-cols-2 gap-0 ${!isEven ? "md:[direction:rtl]" : ""}`}
+          >
+            <div
+              className={`h-72 md:h-96 relative group ${!isEven ? "md:[direction:ltr]" : ""}`}
+            >
+              {p.img ? (
+                <Image
+                  src={p.img}
+                  alt={p.title}
+                  fill
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                />
+              ) : hasVideos ? (
+                <div className="absolute inset-0 grid grid-cols-2 gap-1 p-1">
+                  {(p as any).videos.map((vid: string, vi: number) => (
+                    <video
+                      key={vi}
+                      src={vid}
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      className="w-full h-full object-cover rounded-xl"
+                    />
+                  ))}
+                </div>
+              ) : (
+                <div className="absolute inset-0 bg-surface flex flex-col items-center justify-center gap-4">
+                  <div className="w-16 h-16 rounded-full border-2 border-primary/30 flex items-center justify-center animate-pulse">
+                    <Zap size={28} className="text-primary" />
+                  </div>
+                  <p className="text-txt-muted text-xs font-bold uppercase tracking-widest">
+                    Em Construção
+                  </p>
+                </div>
+              )}
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent to-black/10 pointer-events-none" />
+              {isWip && (
+                <div className="absolute top-4 left-4 bg-yellow-500/90 text-black px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest z-10">
+                  🚧 Em Construção
+                </div>
+              )}
+            </div>
+
+            <div
+              className={`p-8 md:p-12 flex flex-col justify-center ${!isEven ? "md:[direction:ltr]" : ""}`}
+            >
+              <span className="text-[10px] font-black uppercase tracking-widest text-primary mb-3">
+                {p.tag}
+              </span>
+              <h3 className="text-2xl md:text-3xl font-black uppercase tracking-tighter mb-4">
+                {p.title}
+              </h3>
+              <p className="text-txt-muted text-sm md:text-base leading-relaxed mb-6">
+                {p.desc}
+              </p>
+
+              <motion.div
+                initial={false}
+                animate={{
+                  height: isExpanded ? "auto" : 0,
+                  opacity: isExpanded ? 1 : 0,
+                }}
+                className="overflow-hidden"
+                transition={{ duration: 0.3 }}
+              >
+                {"techs" in p && p.techs && (
+                  <div className="flex flex-wrap gap-2 mb-6 mt-2">
+                    {(p.techs as readonly string[]).map((tech: string) => (
+                      <span
+                        key={tech}
+                        className="px-3 py-1 rounded-full border border-primary/30 text-[9px] font-bold uppercase tracking-widest text-primary bg-primary/5"
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                )}
+
+                <div className="flex gap-3 mb-6">
+                  {!isWip ? (
+                    <>
+                      {p.link !== "#" && (
+                        <a
+                          href={p.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          className="inline-flex items-center gap-2 bg-primary text-white px-5 py-2.5 rounded-full text-[9px] font-black uppercase tracking-widest hover:bg-accent transition-all"
+                        >
+                          {t.projects.details} <ExternalLink size={12} />
+                        </a>
+                      )}
+                      {p.github !== "#" && (
+                        <a
+                          href={p.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          className="inline-flex items-center gap-2 border border-border px-5 py-2.5 rounded-full text-[9px] font-black uppercase tracking-widest hover:border-primary/50 transition-all"
+                        >
+                          GitHub
+                        </a>
+                      )}
+                    </>
+                  ) : (
+                    <div className="inline-flex items-center gap-2 border border-yellow-500/30 bg-yellow-500/10 text-yellow-500 px-5 py-2.5 rounded-full text-[9px] font-black uppercase tracking-widest">
+                      Em Desenvolvimento
+                    </div>
+                  )}
+                </div>
+              </motion.div>
+
+              <div className="text-[10px] font-black text-primary uppercase tracking-widest mt-2 flex items-center gap-1">
+                {isExpanded
+                  ? "▲ Recolher detalhes"
+                  : "▼ Clique para expandir detalhes"}
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    );
+  });
+
   return (
     <section id="projetos" className="py-24">
       <div className="container mx-auto px-6 max-w-5xl">
@@ -1058,160 +1310,29 @@ const ProjectsSection = () => {
             </h2>
           </FadeIn>
         </div>
+        {selectedTech && (
+          <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="text-sm font-black uppercase tracking-[0.35em] text-primary">
+              Filtrando por: <span className="text-white">{selectedTech}</span>
+            </div>
+            <button
+              onClick={onClearSelection}
+              className="self-start sm:self-auto bg-bg/80 border border-border rounded-full px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-primary/20 transition-all"
+            >
+              Ver todos os projetos
+            </button>
+          </div>
+        )}
         <div className="space-y-8">
-          {projects.map((p, i) => {
-            const isEven = i % 2 === 0;
-            const hasVideos = "videos" in p && p.videos && p.videos.length > 0;
-            const isWip = "wip" in p && p.wip;
-            const isExpanded = expandedIdx === i;
-
-            return (
-              <div
-                key={p.title}
-                className="sticky"
-                style={{ top: `${100 + i * 40}px` }}
-              >
-                <motion.div
-                  initial={{ opacity: 0, y: 60 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-50px" }}
-                  transition={{ duration: 0.6, delay: i * 0.05 }}
-                  layout
-                  className="bg-surface rounded-[2rem] overflow-hidden border border-border/40 shadow-[0_-20px_50px_rgba(0,0,0,0.6)] cursor-pointer"
-                  style={{ transform: `translateY(${i * 4}px)` }}
-                  onClick={() => setExpandedIdx(isExpanded ? null : i)}
-                >
-                  <div
-                    className={`grid md:grid-cols-2 gap-0 ${!isEven ? "md:[direction:rtl]" : ""}`}
-                  >
-                    {/* Media Side */}
-                    <div
-                      className={`h-72 md:h-96 relative group ${!isEven ? "md:[direction:ltr]" : ""}`}
-                    >
-                      {p.img ? (
-                        <Image
-                          src={p.img}
-                          alt={p.title}
-                          fill
-                          className="object-cover transition-transform duration-700 group-hover:scale-105"
-                        />
-                      ) : hasVideos ? (
-                        <div className="absolute inset-0 grid grid-cols-2 gap-1 p-1">
-                          {(p as any).videos.map((vid: string, vi: number) => (
-                            <video
-                              key={vi}
-                              src={vid}
-                              autoPlay
-                              muted
-                              loop
-                              playsInline
-                              className="w-full h-full object-cover rounded-xl"
-                            />
-                          ))}
-                        </div>
-                      ) : (
-                        <div className="absolute inset-0 bg-surface flex flex-col items-center justify-center gap-4">
-                          <div className="w-16 h-16 rounded-full border-2 border-primary/30 flex items-center justify-center animate-pulse">
-                            <Zap size={28} className="text-primary" />
-                          </div>
-                          <p className="text-txt-muted text-xs font-bold uppercase tracking-widest">
-                            Em Construção
-                          </p>
-                        </div>
-                      )}
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent to-black/10 pointer-events-none" />
-                      {isWip && (
-                        <div className="absolute top-4 left-4 bg-yellow-500/90 text-black px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest z-10">
-                          🚧 Em Construção
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Content Side */}
-                    <div
-                      className={`p-8 md:p-12 flex flex-col justify-center ${!isEven ? "md:[direction:ltr]" : ""}`}
-                    >
-                      <span className="text-[10px] font-black uppercase tracking-widest text-primary mb-3">
-                        {p.tag}
-                      </span>
-                      <h3 className="text-2xl md:text-3xl font-black uppercase tracking-tighter mb-4">
-                        {p.title}
-                      </h3>
-                      <p className="text-txt-muted text-sm md:text-base leading-relaxed mb-6">
-                        {p.desc}
-                      </p>
-
-                      <motion.div
-                        initial={false}
-                        animate={{
-                          height: isExpanded ? "auto" : 0,
-                          opacity: isExpanded ? 1 : 0,
-                        }}
-                        className="overflow-hidden"
-                        transition={{ duration: 0.3 }}
-                      >
-                        {/* Tech Tags & Actions */}
-                        {"techs" in p && p.techs && (
-                          <div className="flex flex-wrap gap-2 mb-6 mt-2">
-                            {(p.techs as readonly string[]).map(
-                              (tech: string) => (
-                                <span
-                                  key={tech}
-                                  className="px-3 py-1 rounded-full border border-primary/30 text-[9px] font-bold uppercase tracking-widest text-primary bg-primary/5"
-                                >
-                                  {tech}
-                                </span>
-                              ),
-                            )}
-                          </div>
-                        )}
-
-                        <div className="flex gap-3 mb-6">
-                          {!isWip ? (
-                            <>
-                              {p.link !== "#" && (
-                                <a
-                                  href={p.link}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  onClick={(e) => e.stopPropagation()}
-                                  className="inline-flex items-center gap-2 bg-primary text-white px-5 py-2.5 rounded-full text-[9px] font-black uppercase tracking-widest hover:bg-accent transition-all"
-                                >
-                                  {t.projects.details}{" "}
-                                  <ExternalLink size={12} />
-                                </a>
-                              )}
-                              {p.github !== "#" && (
-                                <a
-                                  href={p.github}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  onClick={(e) => e.stopPropagation()}
-                                  className="inline-flex items-center gap-2 border border-border px-5 py-2.5 rounded-full text-[9px] font-black uppercase tracking-widest hover:border-primary/50 transition-all"
-                                >
-                                  GitHub
-                                </a>
-                              )}
-                            </>
-                          ) : (
-                            <div className="inline-flex items-center gap-2 border border-yellow-500/30 bg-yellow-500/10 text-yellow-500 px-5 py-2.5 rounded-full text-[9px] font-black uppercase tracking-widest">
-                              Em Desenvolvimento
-                            </div>
-                          )}
-                        </div>
-                      </motion.div>
-
-                      <div className="text-[10px] font-black text-primary uppercase tracking-widest mt-2 flex items-center gap-1">
-                        {isExpanded
-                          ? "▲ Recolher detalhes"
-                          : "▼ Clique para expandir detalhes"}
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
-              </div>
-            );
-          })}
+          {projectCards.length > 0 ? (
+            projectCards
+          ) : (
+            <div className="rounded-[2rem] glass-panel border border-border p-12 text-center">
+              <p className="text-txt-muted text-base">
+                Nenhum projeto encontrado para a tecnologia selecionada.
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </section>
@@ -1357,7 +1478,13 @@ const AppsSection = () => {
 };
 
 // ─── Skills Section ───
-const SkillsSection = () => {
+const SkillsSection = ({
+  selectedTech,
+  onSelectTech,
+}: {
+  selectedTech: string | null;
+  onSelectTech: (tech: string | null) => void;
+}) => {
   const { t } = useApp();
   const iconMap: Record<string, React.ReactNode> = {
     server: <Zap size={24} />,
@@ -1385,7 +1512,11 @@ const SkillsSection = () => {
             </FadeIn>
             <FadeIn delay={0.2}>
               <div className="globe-container">
-                <TagGlobe tags={allTechs} />
+                <WebGLTagGlobe
+                  tags={allTechs}
+                  selectedTech={selectedTech}
+                  onSelectTech={onSelectTech}
+                />
               </div>
             </FadeIn>
           </div>
@@ -1614,6 +1745,7 @@ const FooterSection = () => {
 export default function PortfolioPage() {
   const [theme, setTheme] = useState("dark");
   const [lang, setLang] = useState<Lang>("pt");
+  const [selectedTech, setSelectedTech] = useState<string | null>(null);
 
   const toggleTheme = () => {
     const next = theme === "dark" ? "light" : "dark";
@@ -1637,7 +1769,16 @@ export default function PortfolioPage() {
         <SolutionsSection />
         <AIAutomationsSection />
         <AppsSection />
-        <SkillsSection />
+        <SkillsSection
+          selectedTech={selectedTech}
+          onSelectTech={(tech) =>
+            setSelectedTech((current) => (current === tech ? null : tech))
+          }
+        />
+        <ProjectsSection
+          selectedTech={selectedTech}
+          onClearSelection={() => setSelectedTech(null)}
+        />
         <ExperienceSection />
         <FooterSection />
       </main>

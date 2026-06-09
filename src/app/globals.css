@@ -244,6 +244,55 @@ body {
   position: relative;
 }
 
+.globe-container {
+  min-height: 420px;
+}
+
+.globe-tag {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -50%) scale(0.95);
+  padding: 0.55rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(20, 20, 20, 0.6);
+  color: var(--color-txt);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  pointer-events: auto;
+  transition:
+    transform 0.25s ease,
+    opacity 0.25s ease,
+    background 0.25s ease,
+    border 0.25s ease,
+    color 0.25s ease;
+  white-space: nowrap;
+}
+
+[data-theme="light"] .globe-tag {
+  background: rgba(255, 255, 255, 0.75);
+  color: var(--color-txt);
+}
+
+.globe-tag:hover,
+.globe-tag-selected {
+  background: rgba(179, 0, 0, 0.95);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+.globe-tag-selected {
+  box-shadow: 0 0 18px rgba(179, 0, 0, 0.35);
+}
+
+.globe-tag:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.8);
+  outline-offset: 3px;
+}
+
 .avatar-glow::after {
   content: "";
   position: absolute;
