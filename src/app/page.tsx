@@ -237,12 +237,12 @@ const TypewriterTitle = ({ words }: { words: readonly string[] }) => {
 // ─── PARTICLES ───
 const Particles = () => {
   const [particles] = useState(() =>
-    Array.from({ length: 20 }, (_, i) => ({
+    Array.from({ length: 28 }, (_, i) => ({
       id: i,
-      size: Math.random() * 2 + 1,
+      size: Math.random() * 2.5 + 0.8,
       left: Math.random() * 100,
-      dur: Math.random() * 25 + 18,
-      delay: Math.random() * -15,
+      dur: Math.random() * 28 + 16,
+      delay: Math.random() * -20,
     }))
   );
 
@@ -264,6 +264,15 @@ const Particles = () => {
     </div>
   );
 };
+
+// ─── AURORA BACKGROUND ───
+const AuroraBg = () => (
+  <div className="aurora-bg" aria-hidden="true">
+    <div className="aurora-blob aurora-blob-1" />
+    <div className="aurora-blob aurora-blob-2" />
+    <div className="aurora-blob aurora-blob-3" />
+  </div>
+);
 
 // ─── SPOTLIGHT CARD ───
 const SpotlightCard = ({
@@ -651,6 +660,20 @@ const HeroSection = () => {
       <div className="absolute inset-0 bg-gradient-to-b from-primary/4 via-transparent to-transparent pointer-events-none" />
 
       <div className="max-w-4xl w-full flex flex-col items-center relative z-10 text-center">
+        <FadeIn delay={0.05}>
+          {/* Avatar with glow ring */}
+          <div className="relative w-20 h-20 mb-5 mx-auto">
+            <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-primary via-accent to-primary/50 blur-lg opacity-60 animate-pulse" />
+            <div className="absolute inset-0.5 rounded-full overflow-hidden border-2 border-primary/40">
+              <Image src="/eu.webp" alt="Carlos André" fill className="object-cover object-top" unoptimized />
+            </div>
+            <span className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-green-500 border-2 border-bg flex items-center justify-center">
+              <span className="w-2 h-2 rounded-full bg-green-400 animate-ping absolute" />
+              <span className="w-2 h-2 rounded-full bg-green-500 relative" />
+            </span>
+          </div>
+        </FadeIn>
+
         <FadeIn delay={0.1}>
           <Badge pulsing>{t.hero.badge}</Badge>
         </FadeIn>
@@ -694,7 +717,7 @@ const HeroSection = () => {
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <a
                 href="#projetos"
-                className="inline-flex items-center justify-center gap-2 bg-primary hover:bg-accent text-white text-xs font-black uppercase tracking-wider px-6 py-3 rounded-xl transition-all shadow-lg shadow-primary/20 hover:shadow-primary/40 hover:-translate-y-0.5"
+                className="btn-magnetic inline-flex items-center justify-center gap-2 bg-primary hover:bg-accent text-white text-xs font-black uppercase tracking-wider px-6 py-3 rounded-xl transition-all shadow-lg shadow-primary/20 hover:shadow-primary/40 hover:-translate-y-0.5"
               >
                 {t.hero.ctaPrimary} <ArrowRight size={14} />
               </a>
@@ -705,6 +728,21 @@ const HeroSection = () => {
                 {t.hero.ctaSecondary}
               </a>
             </div>
+          </div>
+        </FadeIn>
+
+        <FadeIn delay={0.55}>
+          <div className="flex items-center gap-5 mt-6">
+            <a href="https://github.com/techcarlosandre" target="_blank" rel="noreferrer"
+              className="text-txt-muted hover:text-txt transition-colors hover:scale-110 transform duration-200">
+              <GithubIcon size={18} />
+            </a>
+            <a href="https://www.linkedin.com/in/devcarlosandre/" target="_blank" rel="noreferrer"
+              className="text-txt-muted hover:text-txt transition-colors hover:scale-110 transform duration-200">
+              <LinkedinIcon size={18} />
+            </a>
+            <span className="w-px h-4 bg-border" />
+            <span className="text-[9px] font-bold text-txt-muted uppercase tracking-widest">Rio de Janeiro, BR</span>
           </div>
         </FadeIn>
       </div>
@@ -1290,6 +1328,56 @@ const FooterSection = () => {
             <p className="text-txt-muted text-xs md:text-sm mt-3 max-w-lg mx-auto">{t.contact.desc}</p>
           </FadeIn>
         </div>
+
+        {/* Quick contact links */}
+        <FadeIn delay={0.1}>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-10">
+            <a
+              href="https://api.whatsapp.com/send/?phone=21982665121&text=Olá+Carlos%2C+vi+seu+portfólio+e+gostaria+de+conversar+sobre+um+projeto."
+              target="_blank" rel="noopener noreferrer"
+              className="contact-link-card group"
+            >
+              <span className="text-xl">💬</span>
+              <div>
+                <p className="text-[9px] font-black uppercase tracking-wider text-txt group-hover:text-primary transition-colors">WhatsApp</p>
+                <p className="text-[8px] text-txt-muted">(21) 98266-5121</p>
+              </div>
+            </a>
+            <a
+              href="mailto:techcarlosandre@gmail.com"
+              className="contact-link-card group"
+            >
+              <span className="text-xl">✉️</span>
+              <div>
+                <p className="text-[9px] font-black uppercase tracking-wider text-txt group-hover:text-primary transition-colors">Email</p>
+                <p className="text-[8px] text-txt-muted">techcarlosandre@gmail.com</p>
+              </div>
+            </a>
+            <a
+              href="https://github.com/techcarlosandre"
+              target="_blank" rel="noopener noreferrer"
+              className="contact-link-card group"
+            >
+              <GithubIcon size={18} />
+              <div>
+                <p className="text-[9px] font-black uppercase tracking-wider text-txt group-hover:text-primary transition-colors">GitHub</p>
+                <p className="text-[8px] text-txt-muted">techcarlosandre</p>
+              </div>
+            </a>
+            <a
+              href="https://www.linkedin.com/in/devcarlosandre/"
+              target="_blank" rel="noopener noreferrer"
+              className="contact-link-card group"
+            >
+              <LinkedinIcon size={18} />
+              <div>
+                <p className="text-[9px] font-black uppercase tracking-wider text-txt group-hover:text-primary transition-colors">LinkedIn</p>
+                <p className="text-[8px] text-txt-muted">devcarlosandre</p>
+              </div>
+            </a>
+          </div>
+        </FadeIn>
+
         <ChatHibrido />
         <div className="mt-16 pt-6 border-t border-border flex flex-col md:flex-row justify-between items-center gap-3 text-txt-muted text-[9px] font-bold uppercase tracking-widest">
           <p>{t.footer.copy}</p>
@@ -1327,6 +1415,7 @@ export default function PortfolioPage() {
           <ScrollProgress />
           <main className="relative min-h-screen bg-bg text-txt selection:bg-primary selection:text-white overflow-x-clip dot-grid">
             <div className="grain-overlay" />
+            <AuroraBg />
             <Particles />
             <Navbar />
             <HeroSection />
