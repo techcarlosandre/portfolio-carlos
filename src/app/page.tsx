@@ -89,20 +89,16 @@ const LinkedinIcon = ({ size = 20 }: { size?: number }) => (
 
 // --- COMPONENTES DE UI ---
 const Particles = () => {
-  const [particles, setParticles] = useState<
-    { id: number; size: number; left: number; dur: number; delay: number }[]
-  >([]);
-
-  useEffect(() => {
-    const generated = Array.from({ length: 25 }, (_, i) => ({
+  // Inicialização lazy para resolver o erro do ESLint de forma definitiva
+  const [particles] = useState(() =>
+    Array.from({ length: 25 }, (_, i) => ({
       id: i,
       size: Math.random() * 2.5 + 1,
       left: Math.random() * 100,
       dur: Math.random() * 20 + 15,
       delay: Math.random() * -10,
-    }));
-    setParticles(generated);
-  }, []);
+    })),
+  );
 
   return (
     <div className="particles-container">
@@ -223,32 +219,15 @@ const WebGLTagGlobe = ({
     const gl = canvas.getContext("webgl", { alpha: true, antialias: true });
     if (!gl) return;
 
-    const vsSource = `
-      attribute vec3 aPosition; 
-      uniform mat4 uModel; 
-      uniform mat4 uProjection; 
-      void main() { 
-        gl_Position = uProjection * uModel * vec4(aPosition, 1.0); 
-        gl_PointSize = 4.0; 
-      }
-    `;
-    const fsSource = `
-      precision mediump float; 
-      void main() { 
-        float dist = distance(gl_PointCoord, vec2(0.5)); 
-        if (dist > 0.5) discard; 
-        gl_FragColor = vec4(0.5, 0.0, 0.0, 0.35); 
-      }
-    `;
+    const vsSource = `attribute vec3 aPosition; uniform mat4 uModel; uniform mat4 uProjection; void main() { gl_Position = uProjection * uModel * vec4(aPosition, 1.0); gl_PointSize = 4.0; }`;
+    const fsSource = `precision mediump float; void main() { float dist = distance(gl_PointCoord, vec2(0.5)); if (dist > 0.5) discard; gl_FragColor = vec4(0.5, 0.0, 0.0, 0.35); }`;
 
     const vs = gl.createShader(gl.VERTEX_SHADER)!;
     gl.shaderSource(vs, vsSource);
     gl.compileShader(vs);
-
     const fs = gl.createShader(gl.FRAGMENT_SHADER)!;
     gl.shaderSource(fs, fsSource);
     gl.compileShader(fs);
-
     const program = gl.createProgram()!;
     gl.attachShader(program, vs);
     gl.attachShader(program, fs);
@@ -453,18 +432,17 @@ const ChatHibrido = () => {
     if (!msg) return;
 
     if (displayedText.length >= msg.text.length) {
-      setTimeout(() => {
+      // Pequeno timeout para evitar render em cascata no react
+      const resetTimer = setTimeout(() => {
         setIsTyping(false);
         setActiveTypingId(null);
-      }, 0);
-      return;
+      }, 10);
+      return () => clearTimeout(resetTimer);
     }
 
     const delay = 30 + (Math.random() - 0.5) * 15;
     const timeout = setTimeout(() => {
-      setDisplayedText((prev) => {
-        return msg.text.substring(0, prev.length + 1);
-      });
+      setDisplayedText((prev) => msg.text.substring(0, prev.length + 1));
     }, delay);
 
     return () => clearTimeout(timeout);
@@ -485,7 +463,8 @@ const ChatHibrido = () => {
 
     setTimeout(() => {
       const query = text.toLowerCase();
-      let reply = t.chat.replyDefault;
+      // RESOLVIDO: O TS reclamava porque inferia o tipo exato da string literal.
+      let reply: string = t.chat.replyDefault;
 
       if (
         query.includes("projeto") ||
@@ -522,7 +501,7 @@ const ChatHibrido = () => {
               src="/portfolio-carlos/eu.png"
               alt="Carlos André"
               fill
-              className="object-cover"
+              className="object-cover object-top"
               unoptimized
             />
           </div>
@@ -808,7 +787,7 @@ const AboutSection = () => {
                   src="/portfolio-carlos/eu.png"
                   alt="Carlos André"
                   fill
-                  className="object-cover"
+                  className="object-cover object-top"
                   unoptimized
                 />
               </div>
