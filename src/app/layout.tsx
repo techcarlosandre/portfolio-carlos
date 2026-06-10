@@ -15,8 +15,9 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-  title: "Carlos André | Full-Stack Developer & AI Architect",
-  description: "Portfólio de Carlos André — Desenvolvedor Full-Stack especialista em Next.js, Python e Inteligência Artificial. Criando soluções digitais de alto desempenho.",
+  title: "Carlos André | Full-Stack Developer",
+  description:
+    "Portfólio de Carlos André — Desenvolvedor Full-Stack especialista em Next.js, Python e Inteligência Artificial. Criando soluções digitais de alto desempenho.",
 };
 
 export default function RootLayout({
@@ -26,9 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR" className={`${outfit.variable} ${montserrat.variable}`}>
-      <body className="antialiased overflow-x-hidden">
-        {children}
-      </body>
+      <body className="antialiased overflow-x-hidden">{children}</body>
     </html>
   );
 }
