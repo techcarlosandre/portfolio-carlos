@@ -18,16 +18,42 @@ import {
   ChevronRight,
   ExternalLink,
   Globe,
-  MessageCircle,
   Menu,
-  X,
   Zap,
   Sun,
   Moon,
-  GraduationCap,
-  Briefcase,
 } from "lucide-react";
+import { translations, type Lang } from "./translations";
 
+interface ProjectMetaItem {
+  link: string;
+  img: string;
+  github: string;
+  wip?: boolean;
+  videos?: string[];
+}
+
+type TranslationType =
+  | (typeof translations)["pt"]
+  | (typeof translations)["en"];
+
+const AppContext = createContext<{
+  lang: Lang;
+  t: TranslationType;
+  theme: string;
+  toggleTheme: () => void;
+  setLang: (l: Lang) => void;
+}>({
+  lang: "pt",
+  t: translations.pt,
+  theme: "dark",
+  toggleTheme: () => {},
+  setLang: () => {},
+});
+
+const useApp = () => useContext(AppContext);
+
+// --- ÍCONES ---
 const GithubIcon = ({ size = 20 }: { size?: number }) => (
   <svg
     viewBox="0 0 24 24"
@@ -61,43 +87,23 @@ const LinkedinIcon = ({ size = 20 }: { size?: number }) => (
   </svg>
 );
 
-import { translations, type Lang } from "./translations";
-
-type TranslationType =
-  | (typeof translations)["pt"]
-  | (typeof translations)["en"];
-
-const AppContext = createContext<{
-  lang: Lang;
-  t: TranslationType;
-  theme: string;
-  toggleTheme: () => void;
-  setLang: (l: Lang) => void;
-}>({
-  lang: "pt",
-  t: translations.pt,
-  theme: "dark",
-  toggleTheme: () => {},
-  setLang: () => {},
-});
-
-const useApp = () => useContext(AppContext);
-
+// --- COMPONENTES DE UI ---
 const Particles = () => {
   const [particles, setParticles] = useState<
     { id: number; size: number; left: number; dur: number; delay: number }[]
   >([]);
+
   useEffect(() => {
-    setParticles(
-      Array.from({ length: 25 }, (_, i) => ({
-        id: i,
-        size: Math.random() * 2.5 + 1,
-        left: Math.random() * 100,
-        dur: Math.random() * 20 + 15,
-        delay: Math.random() * -10,
-      })),
-    );
+    const generated = Array.from({ length: 25 }, (_, i) => ({
+      id: i,
+      size: Math.random() * 2.5 + 1,
+      left: Math.random() * 100,
+      dur: Math.random() * 20 + 15,
+      delay: Math.random() * -10,
+    }));
+    setParticles(generated);
   }, []);
+
   return (
     <div className="particles-container">
       {particles.map((p) => (
@@ -126,11 +132,13 @@ const SpotlightCard = ({
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [pos, setPos] = useState({ x: 0, y: 0 });
+
   const handleMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!ref.current) return;
     const r = ref.current.getBoundingClientRect();
     setPos({ x: e.clientX - r.left, y: e.clientY - r.top });
   };
+
   return (
     <div
       ref={ref}
@@ -190,6 +198,7 @@ const Badge = ({
   </div>
 );
 
+// --- GLOBO WEBGL ---
 const WebGLTagGlobe = ({
   tags,
   selectedTech,
@@ -201,43 +210,12 @@ const WebGLTagGlobe = ({
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const labelRefs = useRef<Record<string, HTMLButtonElement | null>>({});
-  const pointsRef = useRef<{ text: string; x: number; y: number; z: number }[]>(
-    [],
-  );
   const rotationRef = useRef({
     ax: 0.3,
     ay: 0.3,
     targetAx: 0.3,
     targetAy: 0.3,
   });
-
-  const createPointCloud = (tagsList: readonly string[]) =>
-    tagsList.map((text, i) => {
-      const phi = Math.acos(-1 + (2 * i) / tagsList.length);
-      const theta = Math.sqrt(tagsList.length * Math.PI) * phi;
-      return {
-        text,
-        x: Math.sin(phi) * Math.cos(theta),
-        y: Math.sin(phi) * Math.sin(theta),
-        z: Math.cos(phi),
-      };
-    });
-
-  const rotatePoint = (
-    point: { x: number; y: number; z: number },
-    ax: number,
-    ay: number,
-  ) => {
-    const cosX = Math.cos(ax),
-      sinX = Math.sin(ax);
-    const cosY = Math.cos(ay),
-      sinY = Math.sin(ay);
-    const y = point.y * cosX - point.z * sinX;
-    let z = point.z * cosX + point.y * sinX;
-    const x = point.x * cosY - z * sinY;
-    z = z * cosY + point.x * sinY;
-    return { x, y, z };
-  };
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -246,29 +224,31 @@ const WebGLTagGlobe = ({
     if (!gl) return;
 
     const vsSource = `
-      attribute vec3 aPosition;
-      uniform mat4 uModel;
-      uniform mat4 uProjection;
-      void main() {
-        gl_Position = uProjection * uModel * vec4(aPosition, 1.0);
-        gl_PointSize = 4.0;
+      attribute vec3 aPosition; 
+      uniform mat4 uModel; 
+      uniform mat4 uProjection; 
+      void main() { 
+        gl_Position = uProjection * uModel * vec4(aPosition, 1.0); 
+        gl_PointSize = 4.0; 
       }
     `;
     const fsSource = `
-      precision mediump float;
-      void main() {
-        float dist = distance(gl_PointCoord, vec2(0.5));
-        if (dist > 0.5) discard;
-        gl_FragColor = vec4(0.5, 0.0, 0.0, 0.35);
+      precision mediump float; 
+      void main() { 
+        float dist = distance(gl_PointCoord, vec2(0.5)); 
+        if (dist > 0.5) discard; 
+        gl_FragColor = vec4(0.5, 0.0, 0.0, 0.35); 
       }
     `;
 
     const vs = gl.createShader(gl.VERTEX_SHADER)!;
     gl.shaderSource(vs, vsSource);
     gl.compileShader(vs);
+
     const fs = gl.createShader(gl.FRAGMENT_SHADER)!;
     gl.shaderSource(fs, fsSource);
     gl.compileShader(fs);
+
     const program = gl.createProgram()!;
     gl.attachShader(program, vs);
     gl.attachShader(program, fs);
@@ -282,7 +262,19 @@ const WebGLTagGlobe = ({
     gl.enable(gl.BLEND);
     gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
-    const resize = () => {
+    const points = tags.map((text, i) => {
+      const phi = Math.acos(-1 + (2 * i) / tags.length);
+      const theta = Math.sqrt(tags.length * Math.PI) * phi;
+      return {
+        text,
+        x: Math.sin(phi) * Math.cos(theta),
+        y: Math.sin(phi) * Math.sin(theta),
+        z: Math.cos(phi),
+      };
+    });
+
+    let animId = 0;
+    const render = () => {
       const rect = canvas.getBoundingClientRect();
       const w = Math.floor(rect.width * window.devicePixelRatio);
       const h = Math.floor(rect.height * window.devicePixelRatio);
@@ -290,14 +282,8 @@ const WebGLTagGlobe = ({
         canvas.width = w;
         canvas.height = h;
       }
+
       gl.viewport(0, 0, canvas.width, canvas.height);
-    };
-
-    pointsRef.current = createPointCloud(tags);
-
-    let animId = 0;
-    const render = () => {
-      resize();
       gl.clearColor(0, 0, 0, 0);
       gl.clear(gl.COLOR_BUFFER_BIT);
 
@@ -306,9 +292,19 @@ const WebGLTagGlobe = ({
       rotationRef.current.ay +=
         (rotationRef.current.targetAy - rotationRef.current.ay) * 0.05;
 
-      const rotated = pointsRef.current.map((p) =>
-        rotatePoint(p, rotationRef.current.ax, rotationRef.current.ay),
-      );
+      const rotated = points.map((p) => {
+        const cosX = Math.cos(rotationRef.current.ax);
+        const sinX = Math.sin(rotationRef.current.ax);
+        const cosY = Math.cos(rotationRef.current.ay);
+        const sinY = Math.sin(rotationRef.current.ay);
+
+        const y = p.y * cosX - p.z * sinX;
+        let z = p.z * cosX + p.y * sinX;
+        const x = p.x * cosY - z * sinY;
+        z = z * cosY + p.x * sinY;
+
+        return { x, y, z };
+      });
 
       const posData = new Float32Array(rotated.flatMap((p) => [p.x, p.y, p.z]));
       gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
@@ -316,78 +312,88 @@ const WebGLTagGlobe = ({
       gl.useProgram(program);
 
       const f = 1.0 / Math.tan((60 * (Math.PI / 180)) / 2);
-      const proj = new Float32Array([
-        f / (canvas.width / canvas.height),
-        0,
-        0,
-        0,
-        0,
-        f,
-        0,
-        0,
-        0,
-        0,
-        -1.02,
-        -1,
-        0,
-        0,
-        -0.2,
-        0,
-      ]);
-      const cosX = Math.cos(rotationRef.current.ax),
-        sinX = Math.sin(rotationRef.current.ax);
-      const cosY = Math.cos(rotationRef.current.ay),
-        sinY = Math.sin(rotationRef.current.ay);
-      const model = new Float32Array([
-        cosY,
-        sinX * sinY,
-        -cosX * sinY,
-        0,
-        0,
-        cosX,
-        sinX,
-        0,
-        sinY,
-        -sinX * cosY,
-        cosX * cosY,
-        0,
-        0,
-        0,
-        -2.5,
-        1,
-      ]);
+      gl.uniformMatrix4fv(
+        uProjection,
+        false,
+        new Float32Array([
+          f / (canvas.width / canvas.height),
+          0,
+          0,
+          0,
+          0,
+          f,
+          0,
+          0,
+          0,
+          0,
+          -1.02,
+          -1,
+          0,
+          0,
+          -0.2,
+          0,
+        ]),
+      );
 
-      gl.uniformMatrix4fv(uProjection, false, proj);
-      gl.uniformMatrix4fv(uModel, false, model);
+      const cosX = Math.cos(rotationRef.current.ax);
+      const sinX = Math.sin(rotationRef.current.ax);
+      const cosY = Math.cos(rotationRef.current.ay);
+      const sinY = Math.sin(rotationRef.current.ay);
+
+      gl.uniformMatrix4fv(
+        uModel,
+        false,
+        new Float32Array([
+          cosY,
+          sinX * sinY,
+          -cosX * sinY,
+          0,
+          0,
+          cosX,
+          sinX,
+          0,
+          sinY,
+          -sinX * cosY,
+          cosX * cosY,
+          0,
+          0,
+          0,
+          -2.5,
+          1,
+        ]),
+      );
+
       gl.enableVertexAttribArray(aPosition);
       gl.vertexAttribPointer(aPosition, 3, gl.FLOAT, false, 0, 0);
       gl.drawArrays(gl.POINTS, 0, rotated.length);
 
       const wWidth = canvas.width / window.devicePixelRatio;
       const wHeight = canvas.height / window.devicePixelRatio;
+
       rotated.forEach((p, idx) => {
         const label = labelRefs.current[tags[idx]];
         if (!label) return;
         const scale = 2.5 / (2.5 - p.z);
-        const x = wWidth / 2 + p.x * wWidth * 0.28 * scale;
-        const y = wHeight / 2 + p.y * wHeight * 0.28 * scale;
         const visible = p.z > -0.9;
+
         label.style.opacity = visible ? "1" : "0.15";
-        label.style.transform = `translate(${x}px, ${y}px) scale(${0.8 + scale * 0.2})`;
+        label.style.transform = `translate(${wWidth / 2 + p.x * wWidth * 0.28 * scale}px, ${wHeight / 2 + p.y * wHeight * 0.28 * scale}px) scale(${0.8 + scale * 0.2})`;
         label.style.zIndex = visible ? "20" : "10";
       });
 
       animId = requestAnimationFrame(render);
     };
+
     render();
 
     const handleMove = (e: PointerEvent) => {
       const r = canvas.getBoundingClientRect();
-      const x = (e.clientX - r.left) / r.width - 0.5;
-      const y = 0.5 - (e.clientY - r.top) / r.height;
-      rotationRef.current.targetAy = x * 1.5;
-      rotationRef.current.targetAx = y * 1.5;
+      rotationRef.current.targetAy =
+        ((e.clientX - r.left) / r.width - 0.5) * 1.5;
+      rotationRef.current.targetAx =
+        (0.5 - (e.clientY - r.top) / r.height) * 1.5;
     };
+
     const handleLeave = () => {
       rotationRef.current.targetAx = 0.3;
       rotationRef.current.targetAy = 0.3;
@@ -395,6 +401,7 @@ const WebGLTagGlobe = ({
 
     canvas.addEventListener("pointermove", handleMove);
     canvas.addEventListener("pointerleave", handleLeave);
+
     return () => {
       cancelAnimationFrame(animId);
       canvas.removeEventListener("pointermove", handleMove);
@@ -424,6 +431,7 @@ const WebGLTagGlobe = ({
   );
 };
 
+// --- CHAT IA ---
 const ChatHibrido = () => {
   const { t } = useApp();
   const [messages, setMessages] = useState<
@@ -445,20 +453,26 @@ const ChatHibrido = () => {
     if (!msg) return;
 
     if (displayedText.length >= msg.text.length) {
-      setIsTyping(false);
-      setActiveTypingId(null);
+      setTimeout(() => {
+        setIsTyping(false);
+        setActiveTypingId(null);
+      }, 0);
       return;
     }
 
     const delay = 30 + (Math.random() - 0.5) * 15;
     const timeout = setTimeout(() => {
-      setDisplayedText((p) => msg.text.substring(0, p.length + 1));
+      setDisplayedText((prev) => {
+        return msg.text.substring(0, prev.length + 1);
+      });
     }, delay);
+
     return () => clearTimeout(timeout);
-  }, [activeTypingId, displayedText, messages, isTyping]);
+  }, [activeTypingId, displayedText.length, messages, isTyping]);
 
   const handleSend = (text: string, isBtn = false) => {
     if (!text.trim() || isTyping) return;
+
     setMessages((p) => [
       ...p,
       { id: Date.now().toString(), sender: "user", text },
@@ -470,8 +484,9 @@ const ChatHibrido = () => {
     setActiveTypingId("pending");
 
     setTimeout(() => {
-      let reply = "";
       const query = text.toLowerCase();
+      let reply = t.chat.replyDefault;
+
       if (
         query.includes("projeto") ||
         query.includes("saas") ||
@@ -490,8 +505,6 @@ const ChatHibrido = () => {
         query.includes("🛠️")
       ) {
         reply = t.chat.replySkills;
-      } else {
-        reply = t.chat.replyDefault;
       }
 
       const botId = Date.now().toString();
@@ -532,6 +545,7 @@ const ChatHibrido = () => {
         {messages.map((m) => {
           const typing = activeTypingId === m.id && isTyping;
           if (m.id === "pending") return null;
+
           return (
             <div
               key={m.id}
@@ -577,12 +591,10 @@ const ChatHibrido = () => {
           onClick={() => handleSend("🚀 " + t.chat.btnProjects, true)}
           className="text-[8px] font-bold uppercase tracking-widest bg-bg/60 hover:bg-primary/10 border border-border hover:border-primary/30 px-3 py-2 rounded-full transition-all text-txt-muted hover:text-primary cursor-pointer"
         >
-          {t.chat.btnProjects}
+          🚀 {t.chat.btnProjects}
         </button>
         <button
-          onClick={() =>
-            handleSend("🤖 " + (t.nav.ai || "Automações IA"), true)
-          }
+          onClick={() => handleSend("🤖 Automações IA", true)}
           className="text-[8px] font-bold uppercase tracking-widest bg-bg/60 hover:bg-primary/10 border border-border hover:border-primary/30 px-3 py-2 rounded-full transition-all text-txt-muted hover:text-primary cursor-pointer"
         >
           🤖 Automações IA
@@ -628,6 +640,7 @@ const ChatHibrido = () => {
   );
 };
 
+// --- SEÇÕES PRINCIPAIS ---
 const Navbar = () => {
   const { t, lang, setLang, theme, toggleTheme } = useApp();
   const [scrolled, setScrolled] = useState(false);
@@ -636,12 +649,14 @@ const Navbar = () => {
 
   useEffect(() => {
     let lastY = window.scrollY;
+
     const handleScroll = () => {
       const current = window.scrollY;
       setScrolled(current > 40);
       setHidden(current > lastY && current > 100);
       lastY = current;
     };
+
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -702,6 +717,7 @@ const Navbar = () => {
           </div>
         </div>
       </div>
+
       <AnimatePresence>
         {menuOpen && (
           <motion.div
@@ -741,12 +757,14 @@ const HeroSection = () => {
         <FadeIn delay={0.1}>
           <Badge pulsing>{t.hero.badge}</Badge>
         </FadeIn>
+
         <FadeIn delay={0.25}>
           <h1 className="text-4xl sm:text-6xl md:text-[76px] font-black uppercase leading-[0.95] tracking-tighter mt-4 mb-6">
             {t.hero.title1} <br />
             <span className="text-gradient">{t.hero.title2}</span>
           </h1>
         </FadeIn>
+
         <FadeIn delay={0.4}>
           <div className="glass-panel p-6 md:p-8 rounded-2xl border border-border max-w-2xl w-full backdrop-blur-xl">
             <p className="text-txt-muted text-xs md:text-sm leading-relaxed mb-6">
@@ -827,6 +845,7 @@ const AboutSection = () => {
             </div>
           </FadeIn>
         </div>
+
         <div className="grid md:grid-cols-2 gap-4">
           <FadeIn delay={0.1}>
             <SpotlightCard>
@@ -1008,75 +1027,60 @@ const SkillsSection = ({
   onSelectTech: (tech: string | null) => void;
 }) => {
   const { t } = useApp();
-  const allTechs = t.skills.categories.flatMap((cat) => cat.techs);
+  const brandTechs = [
+    "JS",
+    "TS",
+    "React",
+    "Next.js",
+    "Python",
+    "Flask",
+    "Java",
+    "Spring",
+    "Prisma",
+    "Supabase",
+    "Neon",
+    "SQL",
+    "PostgreSQL",
+    "HTML5",
+    "CSS3",
+    "Tailwind",
+    "Git",
+    "GitHub",
+    "Docker",
+    "Vercel",
+    "N8N",
+    "Gemini AI",
+    "LLMs",
+    "Figma",
+  ];
 
   return (
-    <section id="skills" className="py-20 px-4">
-      <div className="container mx-auto max-w-5xl">
-        <div className="grid md:grid-cols-[1fr_1.2fr] gap-12 items-center">
-          <div className="space-y-4">
-            <FadeIn direction="right">
-              <Badge>{t.skills.badge}</Badge>
-              <h2 className="text-3xl md:text-4xl font-black uppercase mt-3 mb-4">
-                {t.skills.title1}{" "}
-                <span className="text-gradient">{t.skills.titleHighlight}</span>
-              </h2>
-              <p className="text-txt-muted text-xs md:text-sm leading-relaxed mb-6">
-                {t.skills.desc}
-              </p>
-            </FadeIn>
-            <FadeIn delay={0.15}>
-              <div className="globe-container">
-                <WebGLTagGlobe
-                  tags={allTechs}
-                  selectedTech={selectedTech}
-                  onSelectTech={onSelectTech}
-                />
-              </div>
-            </FadeIn>
+    <section
+      id="skills"
+      className="py-24 px-4 overflow-hidden border-t border-border/40 bg-bg/10"
+    >
+      <div className="container mx-auto max-w-4xl text-center">
+        <FadeIn>
+          <Badge>{t.skills.badge}</Badge>
+          <h2 className="text-3xl md:text-5xl font-black uppercase mt-4 mb-3">
+            {t.skills.title1}{" "}
+            <span className="text-gradient">{t.skills.titleHighlight}</span>
+          </h2>
+          <p className="text-txt-muted text-xs md:text-sm leading-relaxed max-w-xl mx-auto mb-12">
+            {t.skills.desc}
+          </p>
+        </FadeIn>
+
+        <FadeIn delay={0.2}>
+          <div className="relative w-full max-w-[500px] aspect-square mx-auto flex items-center justify-center globe-central-wrapper">
+            <div className="absolute w-[80%] h-[80%] bg-primary/5 rounded-full blur-[80px] pointer-events-none" />
+            <WebGLTagGlobe
+              tags={brandTechs}
+              selectedTech={selectedTech}
+              onSelectTech={onSelectTech}
+            />
           </div>
-          <div className="space-y-4">
-            {(t.skills.categories as any).map((cat: any, i: number) => (
-              <FadeIn key={i} delay={i * 0.05}>
-                <SpotlightCard>
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="p-2 bg-primary/10 border border-primary/20 rounded-lg text-primary">
-                      <Briefcase size={14} />
-                    </div>
-                    <div>
-                      <h4 className="font-black uppercase text-xs">
-                        {cat.title}
-                      </h4>
-                      <p className="text-[8px] text-txt-muted font-bold uppercase">
-                        {cat.count}
-                      </p>
-                    </div>
-                  </div>
-                  <p className="text-txt-muted text-[11px] leading-relaxed mb-3">
-                    {cat.desc}
-                  </p>
-                  <div className="flex flex-wrap gap-1">
-                    {cat.techs.map((tech: string) => (
-                      <button
-                        key={tech}
-                        onClick={() =>
-                          onSelectTech(selectedTech === tech ? null : tech)
-                        }
-                        className={`px-2.5 py-1 rounded-full border text-[8px] font-black uppercase transition-all ${
-                          selectedTech === tech
-                            ? "bg-primary border-accent text-white"
-                            : "border-border text-txt-muted hover:border-primary/40 hover:text-primary"
-                        }`}
-                      >
-                        {tech}
-                      </button>
-                    ))}
-                  </div>
-                </SpotlightCard>
-              </FadeIn>
-            ))}
-          </div>
-        </div>
+        </FadeIn>
       </div>
     </section>
   );
@@ -1090,9 +1094,9 @@ const ProjectsSection = ({
   onClearSelection: () => void;
 }) => {
   const { t } = useApp();
-  const [expandedIdx, setExpandedIdx] = useState<number | null>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-  const projectMeta = [
+  const projectMeta: ProjectMetaItem[] = [
     {
       link: "https://omni-gestao-pro-six.vercel.app",
       img: "/portfolio-carlos/projetos/omni-thumb.png",
@@ -1120,109 +1124,175 @@ const ProjectsSection = ({
     { link: "#", img: "", github: "#", wip: true },
   ];
 
-  const projects = t.projects.items.map((item, i) => ({
-    ...item,
-    ...projectMeta[i],
-  }));
+  const projects = t.projects.items.map((item, i) => {
+    const meta = projectMeta[i] || { link: "#", img: "", github: "#" };
+    return {
+      title: item.title,
+      desc: item.desc,
+      tag: item.tag,
+      techs: item.techs,
+      link: meta.link,
+      img: meta.img,
+      github: meta.github,
+      wip: "wip" in meta ? meta.wip : false,
+      videos: "videos" in meta ? meta.videos : undefined,
+    };
+  });
+
   const filtered = selectedTech
     ? projects.filter((p) => p.techs?.some((tech) => tech === selectedTech))
     : projects;
 
+  const { scrollYProgress } = useScroll({ target: scrollContainerRef });
+  const totalCards = filtered.length || 1;
+  const xTransform = useTransform(
+    scrollYProgress,
+    [0, 1],
+    ["0%", `-${(totalCards - 1) * 85}%`],
+  );
+
   return (
-    <section id="projetos" className="py-20 border-t border-border bg-bg/20">
-      <div className="container mx-auto px-4 max-w-5xl">
-        <div className="text-center mb-12">
-          <FadeIn>
-            <Badge>{t.projects.badge}</Badge>
-            <h2 className="text-3xl md:text-4xl font-black uppercase mt-3">
-              {t.projects.title1}{" "}
-              <span className="text-gradient">{t.projects.titleHighlight}</span>
-            </h2>
-          </FadeIn>
-        </div>
-        {selectedTech && (
-          <div className="mb-6 flex items-center justify-between border border-primary/20 bg-primary/5 p-3 rounded-xl text-xs uppercase font-black">
+    <section
+      ref={scrollContainerRef}
+      id="projetos"
+      className="relative h-[300vh] bg-bg/30 border-t border-border/60"
+    >
+      <div className="sticky top-0 h-screen w-full flex flex-col justify-center overflow-hidden py-12">
+        <div className="container mx-auto px-6 max-w-6xl shrink-0 mb-8">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
             <div>
-              Filtrando: <span className="text-gradient">{selectedTech}</span>
+              <Badge>{t.projects.badge}</Badge>
+              <h2 className="text-3xl md:text-5xl font-black uppercase mt-2">
+                {t.projects.title1}{" "}
+                <span className="text-gradient">
+                  {t.projects.titleHighlight}
+                </span>
+              </h2>
             </div>
-            <button
-              onClick={onClearSelection}
-              className="text-[9px] bg-bg border border-border rounded-lg px-2.5 py-1"
-            >
-              Limpar
-            </button>
-          </div>
-        )}
-        <div className="space-y-4">
-          {filtered.map((p, i) => {
-            const isExpanded = expandedIdx === i;
-            return (
-              <div
-                key={p.title}
-                className="bg-surface border border-border rounded-2xl overflow-hidden cursor-pointer"
-                onClick={() => setExpandedIdx(isExpanded ? null : i)}
-              >
-                <div className="p-6 md:p-8 flex flex-col md:flex-row gap-6 justify-between items-start md:items-center">
-                  <div className="flex-1">
-                    <span className="text-[8px] font-black uppercase tracking-widest text-primary">
-                      {p.tag}
-                    </span>
-                    <h3 className="text-lg font-black uppercase mt-1 mb-2">
-                      {p.title}
-                    </h3>
-                    <p className="text-txt-muted text-xs leading-relaxed max-w-2xl">
-                      {p.desc}
-                    </p>
-                  </div>
-                  <div className="text-[9px] font-black text-primary uppercase shrink-0">
-                    {isExpanded ? "▲ Fechar" : "▼ Detalhes"}
-                  </div>
+            {selectedTech && (
+              <div className="flex items-center gap-3 border border-primary/20 bg-primary/5 px-4 py-2 rounded-xl text-xs uppercase font-black">
+                <div>
+                  Filtro: <span className="text-gradient">{selectedTech}</span>
                 </div>
-                <motion.div
-                  initial={false}
-                  animate={{ height: isExpanded ? "auto" : 0 }}
-                  className="overflow-hidden bg-bg/40 border-t border-border/40"
+                <button
+                  onClick={onClearSelection}
+                  className="text-[10px] bg-bg border border-border rounded-lg px-2 py-1 cursor-pointer"
                 >
-                  <div className="p-6 space-y-4">
-                    {p.techs && (
-                      <div className="flex flex-wrap gap-1">
-                        {p.techs.map((tech) => (
-                          <span
-                            key={tech}
-                            className="px-2 py-0.5 rounded-full border border-primary/20 text-[8px] font-bold text-primary bg-primary/5"
-                          >
-                            {tech}
-                          </span>
+                  Limpar
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className="w-full flex-1 flex items-center relative px-6 md:px-12">
+          {filtered.length > 0 ? (
+            <motion.div
+              style={{ x: xTransform }}
+              className="flex gap-6 w-max px-4"
+            >
+              {filtered.map((p, i) => (
+                <div
+                  key={i}
+                  className="w-[85vw] sm:w-[540px] shrink-0 bg-surface border border-border rounded-[2rem] overflow-hidden shadow-2xl flex flex-col h-[55vh] min-h-[380px] group transition-all duration-300 hover:border-primary/30"
+                >
+                  <div className="h-[45%] w-full relative bg-bg/40 overflow-hidden border-b border-border/40">
+                    {p.img ? (
+                      <Image
+                        src={p.img}
+                        alt={p.title}
+                        fill
+                        className="object-cover transition-transform duration-700 group-hover:scale-102"
+                        unoptimized
+                      />
+                    ) : p.videos && p.videos.length > 0 ? (
+                      <div className="absolute inset-0 grid grid-cols-2 gap-1 p-1">
+                        {p.videos.map((vid: string, vi: number) => (
+                          <video
+                            key={vi}
+                            src={vid}
+                            autoPlay
+                            muted
+                            loop
+                            playsInline
+                            className="w-full h-full object-cover rounded-xl"
+                          />
                         ))}
                       </div>
+                    ) : (
+                      <div className="absolute inset-0 flex flex-col items-center justify-center gap-2">
+                        <Zap size={22} className="text-primary animate-pulse" />
+                        <span className="text-[9px] font-black text-txt-muted uppercase tracking-widest">
+                          Em Breve
+                        </span>
+                      </div>
                     )}
-                    <div className="flex gap-2">
-                      {p.link !== "#" && (
-                        <a
-                          href={p.link}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="bg-primary text-white text-[9px] font-black uppercase px-3 py-1.5 rounded-lg flex items-center gap-1"
-                        >
-                          Demo <ExternalLink size={10} />
-                        </a>
+                    {p.wip && (
+                      <div className="absolute top-4 left-4 bg-yellow-500/90 text-black px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest z-10">
+                        🚧 WIP
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="p-6 flex flex-col justify-between flex-1">
+                    <div>
+                      <span className="text-[8px] font-black uppercase tracking-widest text-primary block mb-1">
+                        {p.tag}
+                      </span>
+                      <h3 className="text-base font-black uppercase mb-2 text-txt group-hover:text-gradient transition-all">
+                        {p.title}
+                      </h3>
+                      <p className="text-txt-muted text-xs leading-relaxed line-clamp-3 md:line-clamp-4">
+                        {p.desc}
+                      </p>
+                    </div>
+                    <div className="space-y-3 pt-2 border-t border-border/40">
+                      {p.techs && (
+                        <div className="flex flex-wrap gap-1">
+                          {p.techs.slice(0, 5).map((tech) => (
+                            <span
+                              key={tech}
+                              className="px-2 py-0.5 rounded-full border border-primary/10 text-[8px] font-bold text-primary bg-primary/5"
+                            >
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
                       )}
-                      {p.github !== "#" && (
-                        <a
-                          href={p.github}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="border border-border text-[9px] font-black uppercase px-3 py-1.5 rounded-lg"
-                        >
-                          Code
-                        </a>
-                      )}
+                      <div className="flex gap-2">
+                        {p.link !== "#" && (
+                          <a
+                            href={p.link}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="bg-primary hover:bg-accent text-white text-[9px] font-black uppercase px-3 py-1.5 rounded-lg flex items-center gap-1 shadow-md shadow-primary/10 transition-all"
+                          >
+                            Demo <ExternalLink size={9} />
+                          </a>
+                        )}
+                        {p.github !== "#" && (
+                          <a
+                            href={p.github}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="border border-border text-txt-muted hover:text-txt text-[9px] font-black uppercase px-3 py-1.5 rounded-lg transition-all"
+                          >
+                            Code
+                          </a>
+                        )}
+                      </div>
                     </div>
                   </div>
-                </motion.div>
-              </div>
-            );
-          })}
+                </div>
+              ))}
+            </motion.div>
+          ) : (
+            <div className="w-full max-w-md mx-auto rounded-2xl border border-border p-8 text-center glass-card">
+              <p className="text-txt-muted text-xs">
+                Nenhum projeto encontrado para a stack selecionada.
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </section>
