@@ -16,10 +16,10 @@ export const translations = {
       badge: 'Disponível para novos projetos',
       title1: 'Desenvolvedor',
       title2: 'Full-Stack',
-      typewriter: ['Full-Stack Developer', 'Builder de Produtos', 'Engenheiro de Software', 'Arquiteto de Soluções'],
-      desc: 'Olá! Sou o Carlos André, desenvolvedor Full-Stack focado em construir soluções digitais completas e inteligentes. Especializado em criar do backend robusto a interfaces modernas de alta fidelidade, além de automações comerciais integradas com IA para otimizar processos de negócios.',
-      stat1v: '2+', stat1: 'Anos Exp.',
-      stat2v: '8+', stat2: 'Projetos',
+      typewriter: ['Sites & Sistemas Web', 'Aplicativos Mobile', 'Robôs com IA', 'Automações Comerciais'],
+      desc: 'Olá! Sou o Carlos André. Crio sites, sistemas e aplicativos do zero — com visual moderno e que funcionam de verdade. Se você precisa de uma solução digital para o seu negócio, estou aqui para transformar sua ideia em realidade.',
+      stat1v: '2+', stat1: 'Anos de Experiência',
+      stat2v: '8+', stat2: 'Projetos Entregues',
       stat3v: '100%', stat3: 'Dedicação',
       ctaPrimary: 'Ver Projetos',
       ctaSecondary: 'Entrar em Contato',
@@ -28,10 +28,10 @@ export const translations = {
       badge: 'Perfil',
       title1: 'Sobre o',
       titleHighlight: 'Carlos',
-      bio: 'Me chamo Carlos André, sou desenvolvedor Full-Stack focado em criar plataformas completas e escaláveis. Minha trajetória passou por automações inteligentes para WhatsApp e Instagram, ERPs sob demanda e plataformas SaaS com interfaces premium. Hoje, como freelancer, construo do backend robusto ao frontend de alta fidelidade.',
-      softSkillsTitle: 'Habilidades Comportamentais',
-      softSkillsCount: '6 pontos fortes',
-      softSkills: ['Comunicação Assertiva', 'Resolução de Problemas', 'Adaptabilidade', 'Trabalho em Equipe', 'Foco em Solução de Negócios', 'Atenção aos Detalhes'],
+      bio: 'Sou Carlos André, desenvolvedor de software com mais de 2 anos de experiência criando sistemas, sites e automações que realmente fazem diferença para o negócio. Já ajudei empresas a automatizar atendimento, controlar estoque e vender mais — tudo com tecnologia feita sob medida.',
+      softSkillsTitle: 'Pontos Fortes',
+      softSkillsCount: '6 diferenciais',
+      softSkills: ['Comunicação Clara', 'Solução de Problemas', 'Adaptabilidade', 'Trabalho em Equipe', 'Foco no Negócio do Cliente', 'Atenção aos Detalhes'],
       langTitle: 'Idiomas',
       langCount: '',
       langs: [
@@ -41,68 +41,101 @@ export const translations = {
       ],
     },
     solutions: {
-      badge: 'Soluções de Negócios',
-      title1: 'O que eu',
+      badge: 'O que eu faço',
+      title1: 'Problemas que eu',
       titleHighlight: 'Resolvo',
       items: [
-        { title: 'Plataformas Completas', desc: 'Arquitetura e desenvolvimento ponta a ponta de softwares sob demanda e escaláveis, do banco de dados ao dashboard interativo com UI premium.', icon: 'server' },
-        { title: 'APIs & Integrações Robustas', desc: 'Construção de APIs rápidas, seguras e bem documentadas para conectar sistemas, pagamentos e microsserviços com alta performance.', icon: 'code' },
-        { title: 'Automações Comerciais e Operacionais', desc: 'Otimização e aceleração de fluxos de trabalho para eliminar tarefas manuais e economizar tempo operacional.', icon: 'zap' }
+        {
+          title: 'Sites & Sistemas Completos',
+          desc: 'Criação do zero de sistemas para gerenciar sua empresa, lojas online, painéis administrativos e muito mais — bonitos, rápidos e fáceis de usar.',
+          icon: 'server'
+        },
+        {
+          title: 'Integrações & Conexões',
+          desc: 'Conecto diferentes ferramentas para que seus sistemas "conversem" entre si — automatizando tarefas, evitando retrabalho e poupando tempo do time.',
+          icon: 'code'
+        },
+        {
+          title: 'Robôs & Automações Inteligentes',
+          desc: 'Crio robôs que respondem clientes, enviam mensagens, organizam dados e executam tarefas repetitivas — para você focar no que realmente importa.',
+          icon: 'zap'
+        }
       ]
     },
     aiAutomations: {
       badge: 'IA & Automações',
-      title1: 'Inteligência',
-      titleHighlight: 'Artificial na Prática',
-      desc: 'Automações inteligentes construídas para reduzir tempo de resposta e escalar o comercial/suporte.',
+      title1: 'Tecnologia',
+      titleHighlight: 'Trabalhando por Você',
+      desc: 'Imagine ter um assistente que nunca dorme, responde em segundos e ainda qualifica seus clientes — tudo isso sem você precisar levantar um dedo.',
       items: [
-        { title: 'Agentes de Atendimento Inteligentes', desc: 'Modelagem de agentes de IA conversacional (Gemini/GPT) que operam via WhatsApp e Instagram com linguagem natural humana e contexto do negócio.' },
-        { title: 'Fluxos Avançados de Trabalho (N8N)', desc: 'Integração de CRMs, planilhas, gateways de pagamento e webhooks em fluxos automatizados robustos e estáveis.' }
+        {
+          title: 'Atendimento Automático no WhatsApp & Instagram',
+          desc: 'Um robô inteligente que conversa com seus clientes, responde dúvidas, agenda horários e envia orçamentos — no WhatsApp ou Instagram, 24h por dia, sete dias por semana.'
+        },
+        {
+          title: 'Tarefas no Piloto Automático',
+          desc: 'Automatizo processos que hoje consomem horas da sua equipe: envio de mensagens, atualização de planilhas, notificações e muito mais — tudo acontecendo sozinho.'
+        }
       ]
     },
     apps: {
       badge: 'Aplicativos & Web Apps',
       title1: 'Aplicações',
       titleHighlight: 'Modernas',
-      desc: 'Interfaces responsivas rápidas e intuitivas criadas para oferecer a melhor experiência mobile e web.',
+      desc: 'Interfaces rápidas e intuitivas criadas para oferecer a melhor experiência mobile e web.',
       items: [
-        { title: 'Omni Gestão Pro', desc: 'ERP mobile-first para controle inteligente de vendas, estoque e equipe na nuvem.' },
-        { title: 'Rank&Hub Analytics', desc: 'Web App interativo em tempo real para visualização de dados de alta complexidade com dashboards analíticos.' }
+        { title: 'Omni Gestão Pro', desc: 'Sistema de gestão para controle de vendas, estoque e equipe — acessível direto do celular.' },
+        { title: 'Rank&Hub Analytics', desc: 'Painel interativo em tempo real para acompanhar performance e dados da equipe com visual premium.' }
       ]
     },
     skills: {
       badge: 'Especialidade',
       title1: 'Tecnologias',
-      titleHighlight: 'Chave',
-      desc: 'As tecnologias que mais uso ao construir aplicações full-stack, automações com IA e soluções de alta performance.',
+      titleHighlight: 'que Utilizo',
+      desc: 'Ferramentas modernas e consolidadas no mercado para entregar soluções rápidas, seguras e escaláveis.',
     },
     services: {
       badge: 'Serviços',
       title1: 'O que posso',
-      titleHighlight: 'Construir para você',
-      desc: 'Do zero ao deploy — construo soluções completas, escaláveis e com design premium.',
+      titleHighlight: 'Criar para Você',
+      desc: 'Desde a ideia até o lançamento — entrego soluções digitais completas, com visual profissional e que funcionam no celular, tablet e computador.',
       cta: 'Solicitar Orçamento',
       items: [
         {
           icon: '💻',
-          title: 'Sistemas & Sites Web',
+          title: 'Sites & Sistemas Web',
           tag: 'Web & Sistemas',
-          desc: 'Sistemas completos e modernos que funcionam direto no navegador. Ideais para gerenciar sua empresa, vender assinaturas ou automatizar processos com painéis fáceis de usar.',
-          highlights: ['Painéis e relatórios visuais', 'Design moderno e intuitivo', 'Rápido e otimizado para celulares', 'Pronto para crescer com seu negócio'],
+          desc: 'Crio sites institucionais, lojas online, sistemas de gestão e painéis administrativos — modernos, rápidos e fáceis de usar em qualquer dispositivo.',
+          highlights: [
+            'Visual moderno e profissional',
+            'Funciona no celular, tablet e PC',
+            'Painel para gerenciar seu conteúdo',
+            'Pronto para crescer com seu negócio',
+          ],
         },
         {
           icon: '📱',
           title: 'Aplicativos de Celular',
           tag: 'Aplicativos',
-          desc: 'Aplicativos sob medida para celulares Android e iPhone. Leve seus serviços e produtos direto para a palma da mão dos seus clientes de forma prática e ágil.',
-          highlights: ['Funciona em Android e iPhone', 'Interface rápida e confortável', 'Notificações direto na tela', 'Funciona mesmo com internet instável'],
+          desc: 'Desenvolvido aplicativos personalizados para Android e iPhone que levam seus produtos e serviços direto para a tela do seu cliente — práticos e intuitivos.',
+          highlights: [
+            'Disponível para Android e iPhone',
+            'Interface simples e agradável',
+            'Notificações e alertas em tempo real',
+            'Funciona mesmo com internet fraca',
+          ],
         },
         {
           icon: '🤖',
-          title: 'Automações & Inteligência Artificial',
+          title: 'Automações com Inteligência Artificial',
           tag: 'IA & Automação',
-          desc: 'Robôs de atendimento inteligentes e automatizadores de tarefas que trabalham por você 24 horas por dia no WhatsApp ou Instagram, integrados com seus sistemas.',
-          highlights: ['Atendimento com Inteligência Artificial', 'Respostas rápidas e naturais', 'Integração de sistemas e planilhas', 'Economia de tempo operacional de suporte'],
+          desc: 'Robôs que atendem seus clientes no WhatsApp ou Instagram com respostas naturais e inteligentes — 24 horas por dia, sem precisar de uma pessoa disponível o tempo todo.',
+          highlights: [
+            'Atendimento automático no WhatsApp',
+            'Respostas inteligentes e humanizadas',
+            'Agenda horários e envia orçamentos sozinho',
+            'Filtra e encaminha clientes prontos para comprar',
+          ],
         },
       ],
     },
@@ -112,28 +145,28 @@ export const translations = {
       titleHighlight: 'sobre o trabalho',
       items: [
         {
-          text: 'O Carlos entregou o ERP muito além das expectativas. Interface premium, código limpo e suporte pós-entrega impecável. Recomendo demais!',
+          text: 'O Carlos entregou o sistema muito além das expectativas. Visual incrível, fácil de usar e suporte pós-entrega impecável. Super recomendo!',
           name: 'Rafael Mendes',
           role: 'CEO',
           company: 'Omni Gestão',
           avatar: 'RM',
         },
         {
-          text: 'Implementou a automação de IA no nosso WhatsApp em tempo recorde. O atendimento automatizado reduziu 80% das perguntas repetitivas da equipe.',
+          text: 'Implementou o robô de atendimento no nosso WhatsApp em poucos dias. Hoje ele responde 80% das perguntas sozinho — nossa equipe ficou muito mais livre.',
           name: 'Ana Paula',
           role: 'Gerente Comercial',
           company: 'Miluli',
           avatar: 'AP',
         },
         {
-          text: 'Profissional incrível, comunicação clara e entrega no prazo. O dashboard que desenvolveu superou todas as nossas expectativas de design e performance.',
+          text: 'Profissional incrível, comunicação clara e entrega no prazo combinado. O painel que desenvolveu ficou lindo e funciona perfeitamente.',
           name: 'Lucas Ferreira',
           role: 'CTO',
           company: 'StartupTech',
           avatar: 'LF',
         },
         {
-          text: 'Resolveu problemas complexos de integração em tempo recorde. A plataforma está em produção há meses sem nenhum incidente.',
+          text: 'Resolveu todos os problemas que tínhamos em tempo recorde. A plataforma está rodando há meses sem nenhuma falha.',
           name: 'Marina Costa',
           role: 'Product Manager',
           company: 'FinTech Brasil',
@@ -147,11 +180,42 @@ export const translations = {
       titleHighlight: 'Selecionados',
       all: 'Todos', details: 'Ver Detalhes',
       items: [
-        { title: 'Omni Gestão', category: 'Fullstack', tag: 'Web · Gestão / ERP', desc: 'Plataforma completa para controle de estoque e fluxo de caixa, com relatórios inteligentes e gestão de unidades operacionais.', techs: ['Next.js', 'React', 'Prisma', 'PostgreSQL', 'Tailwind'] },
-        { title: 'Omni Finanças', category: 'Fullstack', tag: 'Web · Fintech / ERP', desc: 'Plataforma robusta de gestão financeira e controle de estoque, focada em automação de fluxo de caixa e integridade de dados.', techs: ['Next.js', 'TypeScript', 'Supabase', 'Tailwind', 'Framer Motion'] },
-        { title: 'Rank&Hub', category: 'IA', tag: 'Web · Gamificação & IA', desc: 'Plataforma de analytics e gamificação com IA para gestão de performance e criação de rankings dinâmicos em tempo real.', techs: ['Next.js', 'Google Gemini', 'Python', 'Tailwind'] },
-        { title: 'Automação IA — WhatsApp & Instagram', category: 'IA', tag: 'Automação & IA · Atendimento', desc: 'Integração de IA conversacional no WhatsApp e Instagram para automação de atendimento ao cliente, qualificação e filtragem de leads, e agendamento inteligente. A IA responde em linguagem natural, entende o contexto da conversa e encaminha leads qualificados diretamente para o time comercial, reduzindo tempo de resposta em até 90%.', techs: ['Python', 'IA/LLMs', 'WhatsApp API', 'Instagram API', 'N8N'], hasVideo: true },
-        { title: 'Em breve...', category: 'Backend', tag: 'Java / Spring Boot', desc: 'Projeto em construção.', techs: ['Java', 'Spring Boot', 'PostgreSQL', 'Docker'] },
+        {
+          title: 'Omni Gestão',
+          category: 'Fullstack',
+          tag: 'Web · Sistema de Gestão',
+          desc: 'Sistema completo para controlar estoque, fluxo de caixa e operações de múltiplas unidades — com painel visual e relatórios em tempo real.',
+          techs: ['Next.js', 'React', 'Prisma', 'PostgreSQL', 'Tailwind']
+        },
+        {
+          title: 'Omni Finanças',
+          category: 'Fullstack',
+          tag: 'Web · Finanças Pessoais',
+          desc: 'Plataforma de controle financeiro pessoal e familiar — acompanhe gastos, metas e saldo do cartão de crédito tudo em um só lugar.',
+          techs: ['Next.js', 'TypeScript', 'Supabase', 'Tailwind', 'Framer Motion']
+        },
+        {
+          title: 'Rank&Hub',
+          category: 'IA',
+          tag: 'Web · Gestão de Equipe com IA',
+          desc: 'Painel de desempenho de equipes com ranking dinâmico e inteligência artificial — ideal para motivar vendedores e acompanhar resultados em tempo real.',
+          techs: ['Next.js', 'Google Gemini', 'Python', 'Tailwind']
+        },
+        {
+          title: 'Robô de Atendimento — WhatsApp & Instagram',
+          category: 'IA',
+          tag: 'Automação · Atendimento 24h',
+          desc: 'Robô inteligente que atende clientes automaticamente no WhatsApp e Instagram, responde dúvidas, agenda horários e encaminha os interessados para o time de vendas — reduzindo o tempo de resposta em até 90%.',
+          techs: ['Python', 'IA/LLMs', 'WhatsApp API', 'Instagram API', 'N8N'],
+          hasVideo: true
+        },
+        {
+          title: 'Em breve...',
+          category: 'Backend',
+          tag: 'Backend · API de Alta Performance',
+          desc: 'Novo projeto em desenvolvimento — uma API robusta e escalável para processamento de dados em alta velocidade.',
+          techs: ['Java', 'Spring Boot', 'PostgreSQL', 'Docker']
+        },
       ],
     },
     experience: {
@@ -163,18 +227,51 @@ export const translations = {
       newChapterEnd: 'pela frente',
       rotatingWords: ['etapa', 'jornada', 'experiência'],
       items: [
-        { title: 'Desenvolvedor Full-Stack & Freelancer', company: 'Autônomo', type: 'FREELANCER', date: '2026 - Presente', bullets: ['Desenvolvimento de plataformas SaaS completas como Omni Finanças e Rank&Hub — do design ao deploy — com Next.js, React e TypeScript.', 'Arquitetura de soluções integrando Google Gemini para analytics inteligentes e gamificação em tempo real no Rank&Hub.', 'Implementação de sistemas financeiros robustos com controle de cartão de crédito, metas e gestão de casal no Omni Finanças.', 'Deploy contínuo e manutenção de 3+ aplicações em produção na Vercel com PostgreSQL e Supabase.'] },
-        { title: 'Desenvolvedor Full-Stack — Projeto Cliente', company: 'Omni Gestão (Cliente)', type: 'PROJETO', date: '2025 - 2026', bullets: ['Desenvolvimento completo de ERP sob demanda para gestão de estoque, fluxo de caixa e unidades operacionais.', 'Criação de dashboard executivo com relatórios inteligentes e métricas de performance em tempo real.', 'Integração de sistema multi-unidades com controle de acesso por perfil e sincronização de dados.', 'Entrega de produto final ao cliente com documentação, treinamento e suporte pós-implantação.'] },
-        { title: 'Especialista em Automação de IA', company: 'Miluli', type: 'EXPERIÊNCIA', date: '2024 - 2026', bullets: ['Implementação de IA conversacional no WhatsApp e Instagram que automatizou 80% do atendimento ao cliente.', 'Criação de fluxos inteligentes de qualificação de leads que reduziram tempo de resposta em até 90%.', 'Integração de APIs de mensageria com LLMs para respostas contextuais em linguagem natural.', 'Automação de agendamentos e triagem de clientes, resultando em aumento de 40% nas conversões.'] },
+        {
+          title: 'Desenvolvedor Full-Stack & Freelancer',
+          company: 'Autônomo',
+          type: 'FREELANCER',
+          date: '2026 - Presente',
+          bullets: [
+            'Desenvolvimento de plataformas completas — do design ao lançamento — com Next.js, React e TypeScript.',
+            'Integração de Inteligência Artificial (Google Gemini) para análise de dados e gamificação no Rank&Hub.',
+            'Criação de sistema financeiro completo com controle de metas e gestão familiar no Omni Finanças.',
+            'Manutenção e suporte contínuo de 3+ aplicações em produção.'
+          ]
+        },
+        {
+          title: 'Desenvolvedor Full-Stack — Cliente',
+          company: 'Omni Gestão',
+          type: 'PROJETO',
+          date: '2025 - 2026',
+          bullets: [
+            'Desenvolvimento do zero de sistema de gestão empresarial para controle de estoque e financeiro.',
+            'Criação de painel executivo com relatórios e indicadores de performance em tempo real.',
+            'Sistema com múltiplas unidades e controle de acesso por nível de usuário.',
+            'Entrega com treinamento, documentação e suporte pós-lançamento.'
+          ]
+        },
+        {
+          title: 'Especialista em Automação de IA',
+          company: 'Miluli',
+          type: 'EXPERIÊNCIA',
+          date: '2024 - 2026',
+          bullets: [
+            'Implantação de robô de atendimento no WhatsApp e Instagram que automatizou 80% das interações com clientes.',
+            'Criação de fluxos de qualificação de leads que reduziram o tempo de resposta em até 90%.',
+            'Automação de agendamentos e triagem de clientes — aumento de 40% nas conversões.',
+            'Integração entre sistemas de mensagens e ferramentas de gestão da empresa.'
+          ]
+        },
       ],
     },
     contact: {
       badge: 'Contato',
-      title1: 'Entre em',
-      titleHighlight: 'Contato',
-      subtitle: 'Vamos Construir Algo',
-      desc: 'Se você está buscando um desenvolvedor full-stack, aplicativos móveis, integrações com IA ou projetos freelance, adoraria conversar. Também estou aberto a colaborações e novas oportunidades.',
-      available: 'Disponível para novas oportunidades',
+      title1: 'Vamos',
+      titleHighlight: 'Conversar?',
+      subtitle: 'Vamos Construir Algo Incrível',
+      desc: 'Tem uma ideia de projeto, quer automatizar algo no seu negócio ou simplesmente quer saber mais? Me manda uma mensagem — responderei o mais rápido possível.',
+      available: 'Disponível para novos projetos',
     },
     footer: {
       copy: '© 2026 Carlos André. Todos os direitos reservados.',
@@ -182,14 +279,14 @@ export const translations = {
     },
     chat: {
       assistantName: 'Carlos AI',
-      assistantRole: 'Assistente Inteligente',
-      welcome: 'Olá! Sou a IA do Carlos, alimentada pelo Gemini. Posso responder sobre seus projetos, habilidades ou orçamentos. Como posso ajudar?',
-      placeholder: 'Pergunte sobre projetos, skills, orçamentos...',
+      assistantRole: 'Assistente Virtual',
+      welcome: 'Olá! Sou a IA do portfólio do Carlos 👋 Pode me perguntar sobre os projetos, serviços ou pedir um orçamento. Como posso ajudar?',
+      placeholder: 'Pergunte sobre projetos, serviços, orçamentos...',
       btnProjects: 'Ver Projetos',
       btnQuote: 'Fazer Orçamento',
-      btnSkills: 'Ver Habilidades',
+      btnSkills: 'Ver Tecnologias',
       btnWhatsApp: 'WhatsApp Direto',
-      replyDefault: 'Olá! Sou o assistente de portfólio do Carlos. Posso te contar sobre projetos, habilidades ou orçamentos. O que você gostaria de saber?',
+      replyDefault: 'Olá! Posso te contar sobre os projetos do Carlos, os serviços oferecidos ou te ajudar com um orçamento. O que você gostaria de saber?',
     }
   },
   en: {
@@ -209,10 +306,10 @@ export const translations = {
       badge: 'Available for new projects',
       title1: 'Developer',
       title2: 'Full-Stack',
-      typewriter: ['Full-Stack Developer', 'Product Builder', 'Software Engineer', 'Solutions Architect'],
-      desc: 'Hi! I\'m Carlos André, a Full-Stack developer focused on building complete and intelligent digital products. Specialized in creating everything from robust backends to modern high-fidelity frontends, as well as AI-powered business automations to optimize operations.',
-      stat1v: '2+', stat1: 'Years Exp.',
-      stat2v: '8+', stat2: 'Projects',
+      typewriter: ['Websites & Web Systems', 'Mobile Applications', 'AI-Powered Bots', 'Business Automations'],
+      desc: "Hi! I'm Carlos André. I build websites, systems, and apps from scratch — with modern design that actually works. If you need a digital solution for your business, I'm here to turn your idea into reality.",
+      stat1v: '2+', stat1: 'Years of Experience',
+      stat2v: '8+', stat2: 'Projects Delivered',
       stat3v: '100%', stat3: 'Dedication',
       ctaPrimary: 'View Projects',
       ctaSecondary: 'Get in Touch',
@@ -221,10 +318,10 @@ export const translations = {
       badge: 'Profile',
       title1: 'About',
       titleHighlight: 'Carlos',
-      bio: 'My name is Carlos André, I am a Full-Stack developer focused on building complete, scalable platforms. My journey spans intelligent automations for WhatsApp and Instagram, custom ERPs and SaaS platforms with premium interfaces. Today, as a freelancer, I build from robust backend to high-fidelity frontend.',
-      softSkillsTitle: 'Soft Skills',
-      softSkillsCount: '6 strengths',
-      softSkills: ['Assertive Communication', 'Problem Solving', 'Adaptability', 'Teamwork', 'Focus on Business Solutions', 'Attention to Detail'],
+      bio: "I'm Carlos André, a software developer with 2+ years of experience building systems, websites, and automations that truly make a difference for businesses. I've helped companies automate customer service, manage inventory, and sell more — all with custom-built technology.",
+      softSkillsTitle: 'Key Strengths',
+      softSkillsCount: '6 differentials',
+      softSkills: ['Clear Communication', 'Problem Solving', 'Adaptability', 'Teamwork', 'Business-Focused Mindset', 'Attention to Detail'],
       langTitle: 'Languages',
       langCount: '',
       langs: [
@@ -234,68 +331,101 @@ export const translations = {
       ],
     },
     solutions: {
-      badge: 'Business Solutions',
-      title1: 'What I',
+      badge: 'What I Do',
+      title1: 'Problems I',
       titleHighlight: 'Solve',
       items: [
-        { title: 'Complete Platforms', desc: 'End-to-end architecture and development of scalable custom software, from database design to premium interactive dashboard UI.', icon: 'server' },
-        { title: 'Robust APIs & Integrations', desc: 'Building fast, secure, and well-documented APIs to connect systems, payment gateways, and high-performance microservices.', icon: 'code' },
-        { title: 'Commercial & Operational Automations', desc: 'Optimizing and accelerating workflows to eliminate manual tasks and save operational hours.', icon: 'zap' }
+        {
+          title: 'Websites & Full Systems',
+          desc: 'I build everything from scratch — management systems, online stores, dashboards, and much more. Beautiful, fast, and easy to use.',
+          icon: 'server'
+        },
+        {
+          title: 'Integrations & Connections',
+          desc: "I connect your tools so they work together seamlessly — automating tasks, eliminating manual work, and saving your team's time every single day.",
+          icon: 'code'
+        },
+        {
+          title: 'Smart Bots & Automations',
+          desc: 'I build bots that reply to customers, send messages, organize data, and handle repetitive tasks — so you can focus on what really matters.',
+          icon: 'zap'
+        }
       ]
     },
     aiAutomations: {
       badge: 'AI & Automations',
-      title1: 'Artificial Intelligence',
-      titleHighlight: 'In Action',
-      desc: 'Intelligent automations built to minimize response times and scale sales/support systems.',
+      title1: 'Technology',
+      titleHighlight: 'Working For You',
+      desc: 'Imagine having an assistant that never sleeps, replies in seconds, and even qualifies your customers — all without you lifting a finger.',
       items: [
-        { title: 'Smart Conversational Agents', desc: 'Modeling conversational AI agents (Gemini/GPT) operating on WhatsApp and Instagram with natural human tone and complete business context.' },
-        { title: 'Advanced Workflows (N8N)', desc: 'Integrating CRMs, sheets, payment gateways, and webhooks in robust, reliable automated workflows.' }
+        {
+          title: 'Automated Customer Service on WhatsApp & Instagram',
+          desc: 'A smart bot that chats with your customers, answers questions, schedules appointments, and sends quotes — on WhatsApp or Instagram, 24 hours a day, 7 days a week.'
+        },
+        {
+          title: 'Tasks on Autopilot',
+          desc: "I automate processes that currently consume hours of your team's time: sending messages, updating spreadsheets, sending notifications, and much more — all happening automatically."
+        }
       ]
     },
     apps: {
       badge: 'Applications & Web Apps',
       title1: 'Modern',
       titleHighlight: 'Applications',
-      desc: 'Fast, intuitive, responsive interfaces created to deliver top-notch mobile and web experiences.',
+      desc: 'Fast, intuitive interfaces crafted to deliver the best mobile and web experience for your users.',
       items: [
-        { title: 'Omni Gestão Pro', desc: 'Mobile-first cloud ERP for smart management of sales, stocks, and teams.' },
-        { title: 'Rank&Hub Analytics', desc: 'Interactive real-time web application for visualizing complex datasets with analytical dashboards.' }
+        { title: 'Omni Gestão Pro', desc: 'Management system for controlling sales, inventory, and team — accessible straight from your phone.' },
+        { title: 'Rank&Hub Analytics', desc: 'Real-time interactive dashboard to track team performance and data with a premium visual design.' }
       ]
     },
     skills: {
       badge: 'Expertise',
-      title1: 'Key',
-      titleHighlight: 'Technologies',
-      desc: 'The technologies I use most when building full-stack applications, AI automations and high-performance solutions.',
+      title1: 'Technologies',
+      titleHighlight: 'I Work With',
+      desc: 'Modern, market-proven tools to deliver fast, secure, and scalable solutions for any business.',
     },
     services: {
       badge: 'Services',
-      title1: 'What I can',
+      title1: 'What I Can',
       titleHighlight: 'Build for You',
-      desc: 'From zero to deploy — I build complete, scalable solutions with premium design.',
+      desc: 'From idea to launch — I deliver complete digital solutions with professional design that works on any device.',
       cta: 'Request a Quote',
       items: [
         {
           icon: '💻',
-          title: 'Systems & Websites',
+          title: 'Websites & Web Systems',
           tag: 'Web & Systems',
-          desc: 'Complete, modern systems running in the browser. Perfect for business management, selling subscriptions (SaaS) or displaying your brand with top-tier designs.',
-          highlights: ['Interactive dashboards and reports', 'Modern and intuitive UI', 'Fast and optimized for mobile devices', 'Ready to scale with your business'],
+          desc: 'I build institutional websites, online stores, management systems, and admin dashboards — modern, fast, and easy to use on any device.',
+          highlights: [
+            'Modern and professional design',
+            'Works on mobile, tablet, and PC',
+            'Dashboard to manage your content',
+            'Ready to scale with your business',
+          ],
         },
         {
           icon: '📱',
           title: 'Mobile Applications',
           tag: 'Mobile Apps',
-          desc: 'Tailored apps for Android and iPhone. Bring your services and products straight to the palm of your customers\' hands in a practical, fast way.',
-          highlights: ['Runs on both Android and iOS', 'Fast and comfortable user experience', 'Push notifications to screens', 'Works smoothly on unstable networks'],
+          desc: 'Custom apps for Android and iPhone that bring your products and services directly to your customers\' screens — practical and intuitive.',
+          highlights: [
+            'Available on Android and iPhone',
+            'Simple and enjoyable interface',
+            'Real-time notifications and alerts',
+            'Works even on weak internet connections',
+          ],
         },
         {
           icon: '🤖',
-          title: 'Automations & AI',
+          title: 'AI-Powered Automations',
           tag: 'AI & Automation',
-          desc: 'Intelligent customer service agents and task automators working for you 24/7 on WhatsApp or Instagram, connected directly with your databases and systems.',
-          highlights: ['Conversational AI Agents', 'Natural and fast replies', 'Automatic CRM and sheets syncing', 'Drastic cuts in support operational hours'],
+          desc: 'Bots that serve your customers on WhatsApp or Instagram with natural, intelligent responses — 24 hours a day, without needing someone available around the clock.',
+          highlights: [
+            'Automatic replies on WhatsApp',
+            'Smart and human-like responses',
+            'Schedules appointments and sends quotes alone',
+            'Filters and routes ready-to-buy customers',
+          ],
         },
       ],
     },
@@ -305,28 +435,28 @@ export const translations = {
       titleHighlight: 'about the work',
       items: [
         {
-          text: 'Carlos delivered the ERP far beyond expectations. Premium interface, clean code and impeccable post-delivery support. Highly recommend!',
+          text: 'Carlos delivered the system far beyond expectations. Amazing design, easy to use, and outstanding post-delivery support. Highly recommend!',
           name: 'Rafael Mendes',
           role: 'CEO',
           company: 'Omni Gestão',
           avatar: 'RM',
         },
         {
-          text: 'Implemented AI automation in our WhatsApp in record time. The automated service reduced 80% of repetitive team questions.',
+          text: 'He set up our WhatsApp bot in just a few days. Now it handles 80% of questions on its own — our team has so much more time to focus on what matters.',
           name: 'Ana Paula',
           role: 'Commercial Manager',
           company: 'Miluli',
           avatar: 'AP',
         },
         {
-          text: 'Amazing professional, clear communication and on-time delivery. The dashboard he developed exceeded all our design and performance expectations.',
+          text: 'Incredible professional, clear communication, and delivered exactly on time. The dashboard looks great and works perfectly.',
           name: 'Lucas Ferreira',
           role: 'CTO',
           company: 'StartupTech',
           avatar: 'LF',
         },
         {
-          text: 'Solved complex integration issues in record time. The platform has been in production for months with zero incidents.',
+          text: 'He fixed all our issues in record time. The platform has been running for months without a single failure.',
           name: 'Marina Costa',
           role: 'Product Manager',
           company: 'FinTech Brasil',
@@ -340,11 +470,42 @@ export const translations = {
       titleHighlight: 'Works',
       all: 'All', details: 'View Details',
       items: [
-        { title: 'Omni Gestão', category: 'Fullstack', tag: 'Web · ERP / Management', desc: 'Complete platform for inventory control and cash flow, with intelligent reports and operational unit management.', techs: ['Next.js', 'React', 'Prisma', 'PostgreSQL', 'Tailwind'] },
-        { title: 'Omni Finanças', category: 'Fullstack', tag: 'Web · Fintech / ERP', desc: 'Robust financial management and inventory control platform, focused on cash flow automation and data integrity.', techs: ['Next.js', 'TypeScript', 'Supabase', 'Tailwind', 'Framer Motion'] },
-        { title: 'Rank&Hub', category: 'AI', tag: 'Web · Gamification & AI', desc: 'Analytics and gamification platform with AI for performance management and real-time dynamic rankings.', techs: ['Next.js', 'Google Gemini', 'Python', 'Tailwind'] },
-        { title: 'AI Automation — WhatsApp & Instagram', category: 'AI', tag: 'Automation & AI · Conversational', desc: 'Conversational AI integration on WhatsApp and Instagram for automated customer service, lead qualification and filtering, and smart scheduling. The AI responds in natural language, understands conversation context and routes qualified leads directly to the sales team, reducing response time by up to 90%.', techs: ['Python', 'IA/LLMs', 'WhatsApp API', 'Instagram API', 'N8N'], hasVideo: true },
-        { title: 'API Microservices', category: 'Backend', tag: 'Java / Spring Boot', desc: 'Scalable microservices architecture built with Java and Spring Boot for high-performance data processing. Project under construction.', techs: ['Java', 'Spring Boot', 'PostgreSQL', 'Docker'] },
+        {
+          title: 'Omni Gestão',
+          category: 'Fullstack',
+          tag: 'Web · Business Management System',
+          desc: 'Complete system to manage inventory, cash flow, and multi-unit operations — with visual dashboards and real-time reports.',
+          techs: ['Next.js', 'React', 'Prisma', 'PostgreSQL', 'Tailwind']
+        },
+        {
+          title: 'Omni Finanças',
+          category: 'Fullstack',
+          tag: 'Web · Personal Finance',
+          desc: 'Personal and family financial control platform — track expenses, goals, and credit card balance all in one place.',
+          techs: ['Next.js', 'TypeScript', 'Supabase', 'Tailwind', 'Framer Motion']
+        },
+        {
+          title: 'Rank&Hub',
+          category: 'AI',
+          tag: 'Web · Team Management with AI',
+          desc: 'Team performance dashboard with dynamic rankings and AI — perfect for motivating sales teams and tracking results in real time.',
+          techs: ['Next.js', 'Google Gemini', 'Python', 'Tailwind']
+        },
+        {
+          title: 'AI Bot — WhatsApp & Instagram',
+          category: 'AI',
+          tag: 'Automation · 24h Customer Service',
+          desc: 'Smart bot that automatically serves customers on WhatsApp and Instagram, answers questions, schedules appointments, and routes interested buyers to the sales team — cutting response time by up to 90%.',
+          techs: ['Python', 'AI/LLMs', 'WhatsApp API', 'Instagram API', 'N8N'],
+          hasVideo: true
+        },
+        {
+          title: 'Coming Soon...',
+          category: 'Backend',
+          tag: 'Backend · High-Performance API',
+          desc: 'New project in development — a robust and scalable API for high-speed data processing.',
+          techs: ['Java', 'Spring Boot', 'PostgreSQL', 'Docker']
+        },
       ],
     },
     experience: {
@@ -356,18 +517,51 @@ export const translations = {
       newChapterEnd: 'ahead',
       rotatingWords: ['step', 'journey', 'experience'],
       items: [
-        { title: 'Full-Stack Developer & Freelancer', company: 'Self-Employed', type: 'FREELANCER', date: '2026 - Present', bullets: ['Development of complete SaaS platforms like Omni Finanças and Rank&Hub — from design to deploy — with Next.js, React and TypeScript.', 'Solution architecture integrating Google Gemini for intelligent analytics and real-time gamification on Rank&Hub.', 'Implementation of robust financial systems with credit card control, goals and couple management on Omni Finanças.', 'Continuous deployment and maintenance of 3+ production applications on Vercel with PostgreSQL and Supabase.'] },
-        { title: 'Full-Stack Developer — Client Project', company: 'Omni Gestão (Client)', type: 'PROJECT', date: '2025 - 2026', bullets: ['Complete development of custom ERP for inventory management, cash flow and operational units.', 'Creation of executive dashboard with intelligent reports and real-time performance metrics.', 'Multi-unit system integration with role-based access control and data synchronization.', 'Final product delivery to client with documentation, training and post-deployment support.'] },
-        { title: 'AI Automation Specialist', company: 'Miluli', type: 'EXPERIENCE', date: '2024 - 2026', bullets: ['Implementation of conversational AI on WhatsApp and Instagram that automated 80% of customer service.', 'Creation of intelligent lead qualification flows that reduced response time by up to 90%.', 'Integration of messaging APIs with LLMs for contextual responses in natural language.', 'Automation of scheduling and client triage, resulting in a 40% increase in conversions.'] },
+        {
+          title: 'Full-Stack Developer & Freelancer',
+          company: 'Self-Employed',
+          type: 'FREELANCER',
+          date: '2026 - Present',
+          bullets: [
+            'Building complete platforms — from design to launch — using Next.js, React, and TypeScript.',
+            'Integrated AI (Google Gemini) for data analysis and gamification features in Rank&Hub.',
+            'Built a full financial system with goal tracking and family management in Omni Finanças.',
+            'Ongoing maintenance and support for 3+ live production applications.'
+          ]
+        },
+        {
+          title: 'Full-Stack Developer — Client Project',
+          company: 'Omni Gestão',
+          type: 'PROJECT',
+          date: '2025 - 2026',
+          bullets: [
+            'Built a complete business management system for inventory and financial control from scratch.',
+            'Created executive dashboards with real-time performance indicators and reports.',
+            'Multi-unit system with role-based user access and data synchronization.',
+            'Delivered with training, documentation, and post-launch support.'
+          ]
+        },
+        {
+          title: 'AI Automation Specialist',
+          company: 'Miluli',
+          type: 'EXPERIENCE',
+          date: '2024 - 2026',
+          bullets: [
+            'Deployed a WhatsApp and Instagram service bot that automated 80% of customer interactions.',
+            'Created intelligent lead qualification flows that reduced response time by up to 90%.',
+            'Automated appointment scheduling and customer triage — increasing conversions by 40%.',
+            'Integrated messaging systems with the company\'s management tools.'
+          ]
+        },
       ],
     },
     contact: {
       badge: 'Contact',
-      title1: 'Get in',
-      titleHighlight: 'Touch',
-      subtitle: "Let's Build Something",
-      desc: "If you're looking for a full-stack developer, mobile apps, AI integrations or freelance projects, I'd love to chat. I'm also open to collaborations and new opportunities.",
-      available: 'Available for new opportunities',
+      title1: "Let's",
+      titleHighlight: 'Talk?',
+      subtitle: "Let's Build Something Amazing",
+      desc: "Have a project idea, want to automate something in your business, or just want to know more? Send me a message — I'll reply as quickly as possible.",
+      available: 'Available for new projects',
     },
     footer: {
       copy: '© 2026 Carlos André. All rights reserved.',
@@ -375,14 +569,14 @@ export const translations = {
     },
     chat: {
       assistantName: 'Carlos AI',
-      assistantRole: 'Smart Assistant',
-      welcome: "Hi! I'm Carlos's AI, powered by Gemini. I can answer about his projects, skills or quotes. How can I help?",
-      placeholder: 'Ask about projects, skills, quotes...',
+      assistantRole: 'Virtual Assistant',
+      welcome: "Hello! I'm Carlos's portfolio AI 👋 Feel free to ask about his projects, services, or request a quote. How can I help?",
+      placeholder: 'Ask about projects, services, quotes...',
       btnProjects: 'View Projects',
       btnQuote: 'Get a Quote',
-      btnSkills: 'View Skills',
+      btnSkills: 'View Technologies',
       btnWhatsApp: 'Direct WhatsApp',
-      replyDefault: "Hi! I'm Carlos's portfolio assistant. I can tell you about projects, skills or quotes. What would you like to know?",
+      replyDefault: "Hi! I can tell you about Carlos's projects, the services offered, or help you with a quote. What would you like to know?",
     }
   }
 } as const;
