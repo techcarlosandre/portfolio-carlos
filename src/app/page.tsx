@@ -1189,45 +1189,48 @@ const ProjectsSection = ({
   const activeMedia = mockupType === "desktop" ? p.desktop : p.mobile;
 
   return (
-    <section id="projetos" className="py-24 px-4 bg-bg/30 border-t border-border/60 relative overflow-hidden">
-      <div className="container mx-auto max-w-5xl relative z-10">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12">
-          <div>
-            <Badge>{t.projects.badge}</Badge>
-            <h2 className="text-3xl md:text-5xl font-black uppercase mt-4">
-              {t.projects.title1}{" "}
-              <span className="text-gradient">{t.projects.titleHighlight}</span>
-            </h2>
-          </div>
-          {selectedTech && (
-            <div className="flex items-center gap-3 border border-primary/20 bg-primary/5 px-4 py-2 rounded-xl text-xs uppercase font-black self-start">
-              <div>Filtro: <span className="text-gradient">{selectedTech}</span></div>
-              <button onClick={onClearSelection} className="text-[10px] bg-bg border border-border rounded-lg px-2 py-1 cursor-pointer hover:bg-primary/10 transition-colors">
-                Limpar
-              </button>
+    <section id="projetos" className="relative h-[150vh] bg-bg/20 border-t border-border/60">
+      <div className="sticky top-0 h-screen w-full flex flex-col justify-center items-center overflow-hidden z-10 px-4 md:px-8">
+        
+        <div className="container mx-auto max-w-5xl relative z-10 mb-8">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+            <div>
+              <Badge>{t.projects.badge}</Badge>
+              <h2 className="text-3xl md:text-5xl font-black uppercase mt-3">
+                {t.projects.title1}{" "}
+                <span className="text-gradient">{t.projects.titleHighlight}</span>
+              </h2>
             </div>
-          )}
+            {selectedTech && (
+              <div className="flex items-center gap-3 border border-primary/20 bg-primary/5 px-4 py-2 rounded-xl text-xs uppercase font-black self-start">
+                <div>Filtro: <span className="text-gradient">{selectedTech}</span></div>
+                <button onClick={onClearSelection} className="text-[10px] bg-bg border border-border rounded-lg px-2 py-1 cursor-pointer hover:bg-primary/10 transition-colors">
+                  Limpar
+                </button>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* 1px glowing gradient border effect for the carousel container */}
-        <div className="relative p-[1px] bg-zinc-800/40 hover:bg-gradient-to-r hover:from-primary hover:via-accent hover:to-primary/20 rounded-[2.5rem] transition-all duration-500 hover:shadow-[0_0_50px_rgba(128,0,0,0.18)]">
+        <div className="relative p-[1px] bg-zinc-800/40 hover:bg-gradient-to-r hover:from-primary hover:via-accent hover:to-primary/20 rounded-[2.5rem] transition-all duration-500 hover:shadow-[0_0_50px_rgba(128,0,0,0.18)] max-w-5xl w-full">
           <div className="grid md:grid-cols-[1.2fr_1fr] gap-8 items-center bg-[#09090b]/98 rounded-[39px] p-6 md:p-10 relative z-10 overflow-hidden">
             
             {/* Left Side: Device Mockup Media */}
             <div className="flex flex-col justify-center items-center w-full">
-              {/* Mockup Toggle Buttons */}
+              {/* Mockup Toggle Buttons - Renamed to Web / App */}
               <div className="flex justify-center gap-2 mb-6 bg-zinc-900/50 border border-zinc-850 p-1 rounded-xl">
                 <button
                   onClick={() => setMockupType("desktop")}
                   className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-wider transition-colors cursor-pointer ${mockupType === "desktop" ? "bg-primary text-white" : "text-txt-muted hover:text-txt"}`}
                 >
-                  💻 Monitor
+                  💻 Web
                 </button>
                 <button
                   onClick={() => setMockupType("mobile")}
                   className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-wider transition-colors cursor-pointer ${mockupType === "mobile" ? "bg-primary text-white" : "text-txt-muted hover:text-txt"}`}
                 >
-                  📱 Celular
+                  📱 App
                 </button>
               </div>
 
@@ -1236,10 +1239,10 @@ const ProjectsSection = ({
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={mockupType + "_" + currentIndex}
-                    initial={{ opacity: 0, x: 80, scale: 0.9, rotateY: 20 }}
-                    animate={{ opacity: 1, x: 0, scale: 1, rotateY: 0 }}
-                    exit={{ opacity: 0, x: -80, scale: 0.9, rotateY: -20 }}
-                    transition={{ type: "spring", stiffness: 260, damping: 22 }}
+                    initial={{ opacity: 0, x: 100, scale: 0.88, rotateY: 30, rotateZ: 2 }}
+                    animate={{ opacity: 1, x: 0, scale: 1, rotateY: 0, rotateZ: 0 }}
+                    exit={{ opacity: 0, x: -100, scale: 0.88, rotateY: -30, rotateZ: -2 }}
+                    transition={{ type: "spring", stiffness: 280, damping: 20 }}
                     className="w-full max-w-[420px] flex flex-col justify-center"
                     style={{ perspective: 1000 }}
                   >
@@ -1380,6 +1383,13 @@ const ProjectsSection = ({
 
           </div>
         </div>
+
+        {/* Scroll hint indicator at the bottom */}
+        <div className="absolute bottom-6 flex flex-col items-center gap-1 text-[8px] font-black uppercase tracking-widest text-txt-muted/50 animate-bounce pointer-events-none">
+          <span>Desça para continuar</span>
+          <span className="text-[10px]">↓</span>
+        </div>
+
       </div>
     </section>
   );
