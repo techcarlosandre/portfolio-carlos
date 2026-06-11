@@ -45,7 +45,7 @@ export const translations = {
       title1: 'O que eu',
       titleHighlight: 'Resolvo',
       items: [
-        { title: 'Plataformas SaaS Completas', desc: 'Arquitetura e desenvolvimento ponta a ponta de softwares por assinatura escaláveis, do banco de dados ao dashboard interativo com UI premium.', icon: 'server' },
+        { title: 'Plataformas Completas', desc: 'Arquitetura e desenvolvimento ponta a ponta de softwares sob demanda e escaláveis, do banco de dados ao dashboard interativo com UI premium.', icon: 'server' },
         { title: 'APIs & Integrações Robustas', desc: 'Construção de APIs rápidas, seguras e bem documentadas para conectar sistemas, pagamentos e microsserviços com alta performance.', icon: 'code' },
         { title: 'Automações Comerciais e Operacionais', desc: 'Otimização e aceleração de fluxos de trabalho para eliminar tarefas manuais e economizar tempo operacional.', icon: 'zap' }
       ]
@@ -86,7 +86,7 @@ export const translations = {
         {
           icon: '💻',
           title: 'Sistemas & Sites Web',
-          tag: 'Web & SaaS',
+          tag: 'Web & Sistemas',
           desc: 'Sistemas completos e modernos que funcionam direto no navegador. Ideais para gerenciar sua empresa, vender assinaturas ou automatizar processos com painéis fáceis de usar.',
           highlights: ['Painéis e relatórios visuais', 'Design moderno e intuitivo', 'Rápido e otimizado para celulares', 'Pronto para crescer com seu negócio'],
         },
@@ -238,7 +238,7 @@ export const translations = {
       title1: 'What I',
       titleHighlight: 'Solve',
       items: [
-        { title: 'Complete SaaS Platforms', desc: 'End-to-end architecture and development of scalable subscription software, from database design to premium interactive dashboard UI.', icon: 'server' },
+        { title: 'Complete Platforms', desc: 'End-to-end architecture and development of scalable custom software, from database design to premium interactive dashboard UI.', icon: 'server' },
         { title: 'Robust APIs & Integrations', desc: 'Building fast, secure, and well-documented APIs to connect systems, payment gateways, and high-performance microservices.', icon: 'code' },
         { title: 'Commercial & Operational Automations', desc: 'Optimizing and accelerating workflows to eliminate manual tasks and save operational hours.', icon: 'zap' }
       ]
@@ -279,7 +279,7 @@ export const translations = {
         {
           icon: '💻',
           title: 'Systems & Websites',
-          tag: 'Web & SaaS',
+          tag: 'Web & Systems',
           desc: 'Complete, modern systems running in the browser. Perfect for business management, selling subscriptions (SaaS) or displaying your brand with top-tier designs.',
           highlights: ['Interactive dashboards and reports', 'Modern and intuitive UI', 'Fast and optimized for mobile devices', 'Ready to scale with your business'],
         },

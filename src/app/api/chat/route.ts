@@ -19,7 +19,7 @@ const SYSTEM_PROMPT = `Você é o assistente de IA do portfólio de Carlos Andr�
 4. **Automação IA WhatsApp & Instagram** — Integração de IA conversacional para atendimento automatizado, qualificação de leads e agendamento. Stack: Python, N8N, WhatsApp API, Instagram API.
 
 **Experiência Profissional:**
-- **Freelancer Full-Stack** (2026 - Presente): Desenvolvimento de plataformas SaaS completas
+- **Freelancer Full-Stack** (2026 - Presente): Desenvolvimento de plataformas completas
 - **Omni Gestão (Cliente)** (2025 - 2026): ERP sob demanda, do design ao deploy
 - **Especialista em Automação IA - Miluli** (2024 - 2026): Automações inteligentes que reduziram 80% do tempo de atendimento
 
@@ -105,7 +105,7 @@ export async function POST(req: NextRequest) {
     }
 
     const model = genAI.getGenerativeModel({
-      model: "gemini-2.0-flash",
+      model: "gemini-1.5-flash",
       systemInstruction: SYSTEM_PROMPT,
     });
 

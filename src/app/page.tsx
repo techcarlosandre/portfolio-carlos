@@ -400,7 +400,7 @@ const TechLogoCard = ({
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src={`https://cdn.simpleicons.org/${info.slug}/${info.color.replace("#", "")}`}
+        src={tech === "CSS3" ? "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" : `https://cdn.simpleicons.org/${info.slug}/${info.color.replace("#", "")}`}
         alt={info.label}
         width={32}
         height={32}
@@ -588,7 +588,6 @@ const Navbar = () => {
 
   const links = [
     { name: t.nav.solutions, href: "#solucoes" },
-    { name: t.nav.ai, href: "#ia" },
     { name: t.nav.skills, href: "#skills" },
     { name: t.nav.services, href: "#servicos" },
     { name: t.nav.projects, href: "#projetos" },
@@ -978,21 +977,6 @@ const SkillsSection = ({
           </FadeIn>
         </div>
 
-        {selectedTech && (
-          <FadeIn>
-            <div className="flex justify-center mb-6">
-              <div className="flex items-center gap-3 border border-primary/20 bg-primary/5 px-4 py-2 rounded-xl text-xs uppercase font-black">
-                <div>Filtro: <span className="text-gradient">{selectedTech}</span></div>
-                <button
-                  onClick={() => onSelectTech(null)}
-                  className="text-[10px] bg-bg border border-border rounded-lg px-2 py-1 cursor-pointer hover:bg-primary/10 transition-colors"
-                >
-                  <X size={10} />
-                </button>
-              </div>
-            </div>
-          </FadeIn>
-        )}
 
         <FadeIn delay={0.15}>
           <div className="tech-logo-grid">
@@ -1012,12 +996,6 @@ const SkillsSection = ({
               </motion.div>
             ))}
           </div>
-        </FadeIn>
-
-        <FadeIn delay={0.3}>
-          <p className="text-center text-txt-muted text-[10px] font-bold uppercase tracking-widest mt-8">
-            Clique em uma tecnologia para filtrar os projetos ↓
-          </p>
         </FadeIn>
       </div>
     </section>
