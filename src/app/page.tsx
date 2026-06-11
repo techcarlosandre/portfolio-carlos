@@ -48,8 +48,8 @@ const AppContext = createContext<{
   lang: "pt",
   t: translations.pt,
   theme: "dark",
-  toggleTheme: () => {},
-  setLang: () => {},
+  toggleTheme: () => { },
+  setLang: () => { },
 });
 
 const useApp = () => useContext(AppContext);
@@ -354,28 +354,28 @@ const Badge = ({
 
 // ─── TECH LOGO GRID ───
 const TECH_ICONS: Record<string, { slug: string; color: string; label: string }> = {
-  "JS":         { slug: "javascript",   color: "#F7DF1E", label: "JavaScript" },
-  "TS":         { slug: "typescript",   color: "#3178C6", label: "TypeScript" },
-  "React":      { slug: "react",        color: "#61DAFB", label: "React" },
-  "Next.js":    { slug: "nextdotjs",    color: "#ffffff", label: "Next.js" },
-  "Python":     { slug: "python",       color: "#3776AB", label: "Python" },
-  "Flask":      { slug: "flask",        color: "#ffffff", label: "Flask" },
-  "Java":       { slug: "openjdk",      color: "#ED8B00", label: "Java" },
-  "Spring":     { slug: "spring",       color: "#6DB33F", label: "Spring" },
-  "Prisma":     { slug: "prisma",       color: "#ffffff", label: "Prisma" },
-  "Supabase":   { slug: "supabase",     color: "#3ECF8E", label: "Supabase" },
-  "PostgreSQL": { slug: "postgresql",   color: "#4169E1", label: "PostgreSQL" },
-  "HTML5":      { slug: "html5",        color: "#E34F26", label: "HTML5" },
-  "CSS3":       { slug: "css3",         color: "#1572B6", label: "CSS3" },
-  "Tailwind":   { slug: "tailwindcss",  color: "#06B6D4", label: "Tailwind" },
-  "Git":        { slug: "git",          color: "#F05032", label: "Git" },
-  "GitHub":     { slug: "github",       color: "#ffffff", label: "GitHub" },
-  "Docker":     { slug: "docker",       color: "#2496ED", label: "Docker" },
-  "Vercel":     { slug: "vercel",       color: "#ffffff", label: "Vercel" },
-  "N8N":        { slug: "n8n",          color: "#EA4B71", label: "N8N" },
-  "Gemini AI":  { slug: "googlegemini", color: "#8E75B2", label: "Gemini AI" },
-  "Figma":      { slug: "figma",        color: "#F24E1E", label: "Figma" },
-  "Node.js":    { slug: "nodedotjs",    color: "#339933", label: "Node.js" },
+  "JS": { slug: "javascript", color: "#F7DF1E", label: "JavaScript" },
+  "TS": { slug: "typescript", color: "#3178C6", label: "TypeScript" },
+  "React": { slug: "react", color: "#61DAFB", label: "React" },
+  "Next.js": { slug: "nextdotjs", color: "#ffffff", label: "Next.js" },
+  "Python": { slug: "python", color: "#3776AB", label: "Python" },
+  "Flask": { slug: "flask", color: "#ffffff", label: "Flask" },
+  "Java": { slug: "openjdk", color: "#ED8B00", label: "Java" },
+  "Spring": { slug: "spring", color: "#6DB33F", label: "Spring" },
+  "Prisma": { slug: "prisma", color: "#ffffff", label: "Prisma" },
+  "Supabase": { slug: "supabase", color: "#3ECF8E", label: "Supabase" },
+  "PostgreSQL": { slug: "postgresql", color: "#4169E1", label: "PostgreSQL" },
+  "HTML5": { slug: "html5", color: "#E34F26", label: "HTML5" },
+  "CSS3": { slug: "css3", color: "#1572B6", label: "CSS3" },
+  "Tailwind": { slug: "tailwindcss", color: "#06B6D4", label: "Tailwind" },
+  "Git": { slug: "git", color: "#F05032", label: "Git" },
+  "GitHub": { slug: "github", color: "#ffffff", label: "GitHub" },
+  "Docker": { slug: "docker", color: "#2496ED", label: "Docker" },
+  "Vercel": { slug: "vercel", color: "#ffffff", label: "Vercel" },
+  "N8N": { slug: "n8n", color: "#EA4B71", label: "N8N" },
+  "Gemini AI": { slug: "googlegemini", color: "#8E75B2", label: "Gemini AI" },
+  "Figma": { slug: "figma", color: "#F24E1E", label: "Figma" },
+  "Node.js": { slug: "nodedotjs", color: "#339933", label: "Node.js" },
 };
 
 const TechLogoCard = ({
@@ -494,11 +494,10 @@ const ChatHibrido = () => {
         {messages.map((m) => (
           <div key={m.id} className={`flex ${m.sender === "user" ? "justify-end" : "justify-start"}`}>
             <div
-              className={`max-w-[85%] rounded-2xl px-4 py-3 text-xs md:text-sm leading-relaxed ${
-                m.sender === "user"
-                  ? "bg-primary text-white rounded-tr-none"
-                  : "bg-surface/80 border border-border text-txt rounded-tl-none"
-              }`}
+              className={`max-w-[85%] rounded-2xl px-4 py-3 text-xs md:text-sm leading-relaxed ${m.sender === "user"
+                ? "bg-primary text-white rounded-tr-none"
+                : "bg-surface/80 border border-border text-txt rounded-tl-none"
+                }`}
               style={{ whiteSpace: "pre-line" }}
             >
               {m.text}
@@ -776,41 +775,6 @@ const SolutionsSection = () => {
               </div>
             </FadeIn>
           ))}
-        </div>
-      </div>
-    </section>
-  );
-};
-
-// ─── AI AUTOMATIONS SECTION ───
-const AIAutomationsSection = () => {
-  const { t } = useApp();
-  return (
-    <section id="ia" className="py-20">
-      <div className="container mx-auto px-4 max-w-5xl">
-        <div className="grid md:grid-cols-2 gap-10 items-center">
-          <FadeIn direction="right">
-            <div>
-              <Badge>{t.aiAutomations.badge}</Badge>
-              <h2 className="text-3xl md:text-4xl font-black uppercase mt-3 mb-4">
-                {t.aiAutomations.title1} <br />
-                <span className="text-gradient">{t.aiAutomations.titleHighlight}</span>
-              </h2>
-              <p className="text-txt-muted text-xs md:text-sm leading-relaxed">{t.aiAutomations.desc}</p>
-            </div>
-          </FadeIn>
-          <div className="space-y-4">
-            {t.aiAutomations.items.map((item, idx) => (
-              <FadeIn key={idx} delay={idx * 0.12}>
-                <div className="glow-card glass-card rounded-2xl p-5">
-                  <h3 className="text-xs font-black uppercase mb-1 flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-primary" /> {item.title}
-                  </h3>
-                  <p className="text-txt-muted text-[11px] leading-relaxed">{item.desc}</p>
-                </div>
-              </FadeIn>
-            ))}
-          </div>
         </div>
       </div>
     </section>
@@ -1149,12 +1113,12 @@ const ProjectsSection = ({
 
   const filtered = selectedTech
     ? projectsData.filter((p) => {
-        const aliases = TECH_ALIASES[selectedTech] || [selectedTech];
-        return p.techs?.some((tech) =>
-          aliases.some((alias) => tech.toLowerCase().includes(alias.toLowerCase())) ||
-          tech === selectedTech
-        );
-      })
+      const aliases = TECH_ALIASES[selectedTech] || [selectedTech];
+      return p.techs?.some((tech) =>
+        aliases.some((alias) => tech.toLowerCase().includes(alias.toLowerCase())) ||
+        tech === selectedTech
+      );
+    })
     : projectsData;
 
   useEffect(() => {
@@ -1211,7 +1175,7 @@ const ProjectsSection = ({
 
         {/* Main Carousel Card Container */}
         <div className="grid md:grid-cols-[1.2fr_1fr] gap-8 items-center bg-[#111] border border-border rounded-[2.5rem] p-6 md:p-10 shadow-2xl relative">
-          
+
           {/* Left Side: Device Mockup Media */}
           <div className="flex flex-col justify-center items-center w-full">
             {/* Mockup Toggle Buttons */}
@@ -1266,7 +1230,7 @@ const ProjectsSection = ({
                       <div className="relative w-[170px] h-[310px] border-[6px] border-[#1f1f1f] bg-[#0c0c0c] rounded-[2rem] overflow-hidden shadow-2xl flex flex-col items-center justify-center">
                         {/* Dynamic Island / Notch */}
                         <div className="absolute top-1.5 left-1/2 -translate-x-1/2 w-12 h-3 bg-black rounded-full z-20" />
-                        
+
                         {activeMedia.img ? (
                           <Image src={activeMedia.img} alt={p.title} fill className="object-cover" unoptimized />
                         ) : activeMedia.video ? (
@@ -1312,7 +1276,7 @@ const ProjectsSection = ({
                   ))}
                 </div>
               )}
-              
+
               <div className="flex items-center justify-between pt-2">
                 {/* Demo & Code Buttons */}
                 <div className="flex gap-2">
@@ -1469,7 +1433,6 @@ export default function PortfolioPage() {
             <Navbar />
             <HeroSection />
             <SolutionsSection />
-            <AIAutomationsSection />
             <SkillsSection
               selectedTech={selectedTech}
               onSelectTech={(tech) => setSelectedTech((curr) => (curr === tech ? null : tech))}
