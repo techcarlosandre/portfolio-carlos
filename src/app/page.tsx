@@ -9,7 +9,7 @@ import React, {
   useCallback,
 } from "react";
 import Image from "next/image";
-import { motion, AnimatePresence, useScroll, useSpring } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useSpring, useTransform } from "framer-motion";
 import {
   ChevronRight,
   ExternalLink,
@@ -854,13 +854,13 @@ const HeroSection = () => {
             <div className="w-full h-px bg-border mb-6" />
             <div className="flex justify-center gap-8 md:gap-16 mb-6">
               {[
-                { val: 2, suffix: "+", label: t.hero.stat1 },
-                { val: 8, suffix: "+", label: t.hero.stat2 },
-                { val: 100, suffix: "%", label: t.hero.stat3 },
+                { val: "1+", label: t.hero.stat1 },
+                { val: "8+", label: t.hero.stat2 },
+                { val: "100%", label: t.hero.stat3 },
               ].map((s, i) => (
                 <div key={i} className="flex flex-col items-center">
                   <span className="text-xl md:text-2xl font-black text-primary">
-                    <AnimatedCounter to={s.val} suffix={s.suffix} />
+                    {s.val}
                   </span>
                   <span className="text-[8px] font-black uppercase tracking-widest text-txt-muted mt-0.5">
                     {s.label}
@@ -1226,6 +1226,13 @@ const ProjectsSection = ({
   const { t } = useApp();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [mockupType, setMockupType] = useState<"desktop" | "mobile">("desktop");
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start start", "end end"] });
+  const scale = useTransform(scrollYProgress, [0, 0.35], [1, 75]);
+  const titleOpacity = useTransform(scrollYProgress, [0, 0.2, 0.35], [1, 1, 0]);
+  const projectsOpacity = useTransform(scrollYProgress, [0.28, 0.38, 0.85, 0.98], [0, 1, 1, 0]);
+  const projectsScale = useTransform(scrollYProgress, [0.28, 0.38], [0.92, 1]);
+  const projectsPointerEvents = useTransform(scrollYProgress, (val) => val >= 0.35 ? "auto" : "none");
 
   const projectsData = [
     {
@@ -1335,11 +1342,22 @@ const ProjectsSection = ({
   const activeMedia = mockupType === "desktop" ? p.desktop : p.mobile;
 
   return (
-    <section id="projetos" className="relative h-[160vh] bg-bg/20 border-t border-border/60">
+    <section ref={sectionRef} id="projetos" className="relative h-[280vh] bg-bg/20 border-t border-border/60">
       <div className="sticky top-0 h-screen w-full flex flex-col justify-center items-center overflow-hidden z-10 px-0">
         
+        {/* Giant portal title animation in the center */}
+        <motion.div
+          style={{ scale, opacity: titleOpacity, transformOrigin: "72% 50%", y: "-5%" }}
+          className="absolute inset-0 flex items-center justify-center pointer-events-none z-50 text-[12vw] font-black uppercase tracking-[0.05em] text-white"
+        >
+          PROJET<span className="text-primary">O</span>S
+        </motion.div>
+
         {/* Immersive Fullscreen Grid Layout */}
-        <div className="relative w-full h-full bg-[#070708]/98 flex items-center justify-center">
+        <motion.div 
+          style={{ opacity: projectsOpacity, scale: projectsScale, pointerEvents: projectsPointerEvents }}
+          className="relative w-full h-full bg-[#070708]/98 flex items-center justify-center z-10"
+        >
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 h-full w-full relative z-10 overflow-hidden">
             
             {/* Left Side (Col 1-7): Large Immersive Device Mockup View */}
@@ -1536,7 +1554,7 @@ const ProjectsSection = ({
             </div>
 
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
