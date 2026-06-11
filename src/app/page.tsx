@@ -1335,67 +1335,58 @@ const ProjectsSection = ({
   const activeMedia = mockupType === "desktop" ? p.desktop : p.mobile;
 
   return (
-    <section id="projetos" className="relative h-[155vh] bg-bg/20 border-t border-border/60">
+    <section id="projetos" className="relative h-[160vh] bg-bg/20 border-t border-border/60">
       <div className="sticky top-0 h-screen w-full flex flex-col justify-center items-center overflow-hidden z-10 px-0">
         
-        <div className="container mx-auto max-w-5xl relative z-10 mb-6 px-6">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-            <div>
-              <Badge>{t.projects.badge}</Badge>
-              <h2 className="text-3xl md:text-5xl font-black uppercase mt-3">
-                {t.projects.title1}{" "}
-                <span className="text-gradient">{t.projects.titleHighlight}</span>
-              </h2>
-            </div>
-            {selectedTech && (
-              <div className="flex items-center gap-3 border border-primary/20 bg-primary/5 px-4 py-2 rounded-xl text-xs uppercase font-black self-start">
-                <div>Filtro: <span className="text-gradient">{selectedTech}</span></div>
-                <button onClick={onClearSelection} className="text-[10px] bg-bg border border-border rounded-lg px-2 py-1 cursor-pointer hover:bg-primary/10 transition-colors">
-                  Limpar
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* 1px glowing gradient border effect for the carousel container - Fullscreen Width */}
-        <div className="relative p-[1px] bg-zinc-900 hover:bg-gradient-to-r hover:from-primary hover:via-accent hover:to-primary/20 transition-all duration-500 w-full h-[76vh] md:h-[72vh] flex items-center justify-center border-y border-zinc-900/60">
-          <div className="grid md:grid-cols-[1.25fr_1fr] gap-8 items-center bg-[#070708]/98 h-full w-full max-w-7xl mx-auto p-6 md:p-12 relative z-10 overflow-hidden">
+        {/* Immersive Fullscreen Grid Layout */}
+        <div className="relative w-full h-full bg-[#070708]/98 flex items-center justify-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 h-full w-full relative z-10 overflow-hidden">
             
-            {/* Left Side: Device Mockup Media */}
-            <div className="flex flex-col justify-center items-center w-full">
-              {/* Mockup Toggle Buttons - Renamed to Web / App */}
-              <div className="flex justify-center gap-2 mb-6 bg-zinc-900/50 border border-zinc-850 p-1 rounded-xl">
+            {/* Left Side (Col 1-7): Large Immersive Device Mockup View */}
+            <div className="lg:col-span-7 flex flex-col justify-center items-center w-full h-full bg-zinc-950/20 border-r border-border/40 p-8 relative">
+              <div className="absolute top-8 left-8 z-20">
+                <Badge>{t.projects.badge}</Badge>
+                <h2 className="text-xl md:text-3xl font-black uppercase mt-2">
+                  {t.projects.title1}{" "}
+                  <span className="text-gradient">{t.projects.titleHighlight}</span>
+                </h2>
+              </div>
+
+              {/* Glowing decorative backing grid */}
+              <div className="absolute inset-0 bg-radial-gradient from-primary/10 via-transparent to-transparent pointer-events-none opacity-40" />
+
+              {/* Mockup Toggle Buttons - Web / App */}
+              <div className="absolute top-8 right-8 flex justify-center gap-2 bg-zinc-900/60 border border-zinc-850 p-1 rounded-xl z-20">
                 <button
                   onClick={() => setMockupType("desktop")}
-                  className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-wider transition-colors cursor-pointer ${mockupType === "desktop" ? "bg-primary text-white" : "text-txt-muted hover:text-txt"}`}
+                  className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-wider transition-colors cursor-pointer ${mockupType === "desktop" ? "bg-primary text-white" : "text-txt-muted hover:text-txt"}`}
                 >
                   💻 Web
                 </button>
                 <button
                   onClick={() => setMockupType("mobile")}
-                  className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-wider transition-colors cursor-pointer ${mockupType === "mobile" ? "bg-primary text-white" : "text-txt-muted hover:text-txt"}`}
+                  className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-wider transition-colors cursor-pointer ${mockupType === "mobile" ? "bg-primary text-white" : "text-txt-muted hover:text-txt"}`}
                 >
                   📱 App
                 </button>
               </div>
 
-              {/* Device Mockup Display */}
-              <div className="w-full flex justify-center items-center h-[290px] md:h-[360px] overflow-hidden">
+              {/* Big Device Mockup Display */}
+              <div className="w-full h-full flex justify-center items-center mt-12 max-h-[70%]">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={mockupType + "_" + currentIndex}
-                    initial={{ opacity: 0, x: 100, scale: 0.88, rotateY: 30, rotateZ: 2 }}
-                    animate={{ opacity: 1, x: 0, scale: 1, rotateY: 0, rotateZ: 0 }}
-                    exit={{ opacity: 0, x: -100, scale: 0.88, rotateY: -30, rotateZ: -2 }}
-                    transition={{ type: "spring", stiffness: 280, damping: 20 }}
-                    className="w-full max-w-[420px] flex flex-col justify-center"
-                    style={{ perspective: 1000 }}
+                    initial={{ opacity: 0, scale: 0.92, rotateY: 15, z: -100 }}
+                    animate={{ opacity: 1, scale: 1, rotateY: 0, z: 0 }}
+                    exit={{ opacity: 0, scale: 0.92, rotateY: -15, z: -100 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 24 }}
+                    className="w-full max-w-[550px] flex flex-col justify-center"
+                    style={{ perspective: 1200 }}
                   >
                     {mockupType === "desktop" ? (
                       // Monitor Mockup
                       <div className="w-full group">
-                        <div className="relative w-full aspect-[16/10] border-[8px] border-[#1e1e20] bg-[#0c0c0c] rounded-t-2xl overflow-hidden shadow-2xl flex flex-col items-center justify-center">
+                        <div className="relative w-full aspect-[16/10] border-[10px] border-[#1e1e20] bg-[#0c0c0c] rounded-t-3xl overflow-hidden shadow-2xl shadow-primary/10 flex flex-col items-center justify-center">
                           {activeMedia.img ? (
                             <Image 
                               src={activeMedia.img} 
@@ -1408,21 +1399,21 @@ const ProjectsSection = ({
                             <video src={activeMedia.video} autoPlay muted loop playsInline className="w-full h-full object-cover" />
                           ) : (
                             <div className="flex flex-col items-center gap-2">
-                              <Zap size={28} className="text-primary animate-pulse" />
-                              <span className="text-[10px] font-black text-txt-muted uppercase tracking-widest">Em Breve</span>
+                              <Zap size={32} className="text-primary animate-pulse" />
+                              <span className="text-[11px] font-black text-txt-muted uppercase tracking-widest">Em Breve</span>
                             </div>
                           )}
                         </div>
                         {/* Monitor Stand */}
-                        <div className="w-16 h-8 bg-[#161618] mx-auto border-t border-white/5" />
-                        <div className="w-28 h-1.5 bg-[#202022] mx-auto rounded-full shadow-md" />
+                        <div className="w-20 h-10 bg-[#161618] mx-auto border-t border-white/5" />
+                        <div className="w-36 h-2 bg-[#202022] mx-auto rounded-full shadow-md" />
                       </div>
                     ) : (
                       // Mobile Phone Mockup
                       <div className="w-full flex justify-center group">
-                        <div className="relative w-[180px] h-[320px] border-[6px] border-[#1e1e20] bg-[#0c0c0c] rounded-[2rem] overflow-hidden shadow-2xl flex flex-col items-center justify-center">
+                        <div className="relative w-[210px] h-[370px] border-[8px] border-[#1e1e20] bg-[#0c0c0c] rounded-[2.5rem] overflow-hidden shadow-2xl shadow-primary/10 flex flex-col items-center justify-center">
                           {/* Dynamic Island / Notch */}
-                          <div className="absolute top-1.5 left-1/2 -translate-x-1/2 w-12 h-3.5 bg-black rounded-full z-20" />
+                          <div className="absolute top-2 left-1/2 -translate-x-1/2 w-14 h-4 bg-black rounded-full z-20" />
 
                           {activeMedia.img ? (
                             <Image 
@@ -1436,8 +1427,8 @@ const ProjectsSection = ({
                             <video src={activeMedia.video} autoPlay muted loop playsInline className="w-full h-full object-cover" />
                           ) : (
                             <div className="flex flex-col items-center gap-2">
-                              <Zap size={22} className="text-primary animate-pulse" />
-                              <span className="text-[8px] font-black text-txt-muted uppercase tracking-widest">Em Breve</span>
+                              <Zap size={26} className="text-primary animate-pulse" />
+                              <span className="text-[9px] font-black text-txt-muted uppercase tracking-widest">Em Breve</span>
                             </div>
                           )}
                         </div>
@@ -1446,96 +1437,106 @@ const ProjectsSection = ({
                   </motion.div>
                 </AnimatePresence>
               </div>
+
+              {selectedTech && (
+                <div className="absolute bottom-8 left-8 flex items-center gap-3 border border-primary/20 bg-primary/5 px-4 py-2 rounded-xl text-xs uppercase font-black z-20">
+                  <div>Filtro: <span className="text-gradient">{selectedTech}</span></div>
+                  <button onClick={onClearSelection} className="text-[10px] bg-bg border border-border rounded-lg px-2 py-1 cursor-pointer hover:bg-primary/10 transition-colors">
+                    Limpar
+                  </button>
+                </div>
+              )}
             </div>
 
-            {/* Right Side: Project Information */}
-            <div className="flex flex-col justify-between h-full min-h-[300px]">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={currentIndex}
-                  initial={{ opacity: 0, y: 15 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -15 }}
-                  transition={{ duration: 0.3, ease: "easeOut" }}
-                >
-                  {/* Project Area Badge */}
-                  <div className="flex flex-wrap items-center gap-2 mb-3">
-                    <span className="text-[8px] font-black uppercase tracking-widest text-primary bg-primary/10 border border-primary/20 px-2.5 py-1 rounded-full">
-                      {p.area}
-                    </span>
-                    <span className="text-[8px] font-bold uppercase tracking-wider text-txt-muted">
-                      {p.tag}
-                    </span>
-                  </div>
-
-                  <h3 className="text-xl md:text-2xl font-black uppercase mb-3 text-txt text-gradient">{p.title}</h3>
-                  <p className="text-txt-muted text-xs md:text-sm leading-relaxed mb-6">{p.desc}</p>
-                </motion.div>
-              </AnimatePresence>
-
-              <div className="space-y-4 pt-4 border-t border-zinc-900">
-                {p.techs && (
-                  <div className="flex flex-wrap gap-1">
-                    {p.techs.map((tech) => (
-                      <span key={tech} className="px-2 py-0.5 rounded-full border border-zinc-800 text-[8px] font-bold text-txt-muted bg-zinc-900/30">
-                        {tech}
+            {/* Right Side (Col 8-12): Detailed Info & Slider controls */}
+            <div className="lg:col-span-5 flex flex-col justify-between h-full p-8 md:p-16 lg:p-20 bg-surface/10 backdrop-blur-md">
+              <div className="my-auto space-y-6">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={currentIndex}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.35, ease: "easeOut" }}
+                  >
+                    {/* Project Area Badge */}
+                    <div className="flex flex-wrap items-center gap-2 mb-4">
+                      <span className="text-[9px] font-black uppercase tracking-widest text-primary bg-primary/10 border border-primary/20 px-3 py-1 rounded-full">
+                        {p.area}
                       </span>
-                    ))}
-                  </div>
-                )}
+                      <span className="text-[9px] font-bold uppercase tracking-wider text-txt-muted">
+                        {p.tag}
+                      </span>
+                    </div>
 
-                <div className="flex items-center justify-between pt-2 gap-4">
-                  {/* Demo CTA (largura total e destaque visual) */}
-                  <div className="flex-1">
-                    {p.wip ? (
-                      <div className="w-full text-center text-[10px] font-black uppercase tracking-widest text-txt-muted bg-zinc-900/40 border border-zinc-850 py-3.5 rounded-xl">
-                        Em breve...
-                      </div>
-                    ) : (
-                      <a
-                        href={p.link}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="flex items-center justify-center gap-2 w-full bg-primary hover:bg-accent text-white text-[10px] font-black uppercase tracking-wider py-3.5 rounded-xl transition-all shadow-md shadow-primary/15 duration-300"
+                    <h3 className="text-2xl md:text-4xl font-black uppercase mb-4 text-gradient">{p.title}</h3>
+                    <p className="text-txt-muted text-xs md:text-sm leading-relaxed mb-8">{p.desc}</p>
+                  </motion.div>
+                </AnimatePresence>
+
+                <div className="space-y-6 pt-6 border-t border-zinc-900/60">
+                  {p.techs && (
+                    <div className="flex flex-wrap gap-1.5">
+                      {p.techs.map((tech) => (
+                        <span key={tech} className="px-2.5 py-1 rounded-full border border-zinc-800 text-[9px] font-bold text-txt-muted bg-zinc-900/40">
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+
+                  <div className="flex items-center justify-between pt-4 gap-4">
+                    {/* Demo CTA */}
+                    <div className="flex-1">
+                      {p.wip ? (
+                        <div className="w-full text-center text-[10px] font-black uppercase tracking-widest text-txt-muted bg-zinc-900/40 border border-zinc-850 py-4 rounded-xl">
+                          Em breve...
+                        </div>
+                      ) : (
+                        <a
+                          href={p.link}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="flex items-center justify-center gap-2 w-full bg-primary hover:bg-accent text-white text-[10px] font-black uppercase tracking-wider py-4 rounded-xl transition-all shadow-md shadow-primary/20 duration-300"
+                        >
+                          Acessar Aplicação <ArrowUpRight size={14} />
+                        </a>
+                      )}
+                    </div>
+
+                    {/* Slider Controls */}
+                    <div className="flex gap-1 bg-zinc-900/50 border border-zinc-850 p-1 rounded-xl shrink-0">
+                      <button
+                        onClick={handlePrev}
+                        className="p-2 hover:bg-zinc-800 border border-transparent hover:border-zinc-750 rounded-lg text-txt-muted hover:text-txt cursor-pointer transition-colors"
+                        title="Anterior"
                       >
-                        Acessar Aplicação <ArrowUpRight size={14} />
-                      </a>
-                    )}
-                  </div>
-
-                  {/* Slider Controls */}
-                  <div className="flex gap-1 bg-zinc-900/50 border border-zinc-850 p-1 rounded-xl shrink-0">
-                    <button
-                      onClick={handlePrev}
-                      className="p-2 hover:bg-zinc-800 border border-transparent hover:border-zinc-750 rounded-lg text-txt-muted hover:text-txt cursor-pointer transition-colors"
-                      title="Anterior"
-                    >
-                      <ChevronRight size={14} className="rotate-180" />
-                    </button>
-                    <span className="text-[9px] font-black uppercase tracking-wider px-3 py-2 bg-[#0c0c0d] border border-zinc-850 rounded-lg flex items-center justify-center min-w-[36px]">
-                      {currentIndex + 1} / {filtered.length}
-                    </span>
-                    <button
-                      onClick={handleNext}
-                      className="p-2 hover:bg-zinc-800 border border-transparent hover:border-zinc-750 rounded-lg text-txt-muted hover:text-txt cursor-pointer transition-colors"
-                      title="Próximo"
-                    >
-                      <ChevronRight size={14} />
-                    </button>
+                        <ChevronRight size={14} className="rotate-180" />
+                      </button>
+                      <span className="text-[10px] font-black uppercase tracking-wider px-3.5 py-2 bg-[#0c0c0d] border border-zinc-850 rounded-lg flex items-center justify-center min-w-[42px]">
+                        {currentIndex + 1} / {filtered.length}
+                      </span>
+                      <button
+                        onClick={handleNext}
+                        className="p-2 hover:bg-zinc-800 border border-transparent hover:border-zinc-750 rounded-lg text-txt-muted hover:text-txt cursor-pointer transition-colors"
+                        title="Próximo"
+                      >
+                        <ChevronRight size={14} />
+                      </button>
+                    </div>
                   </div>
                 </div>
+              </div>
+
+              {/* Scroll hint indicator at the bottom */}
+              <div className="flex justify-center items-center gap-1.5 text-[8px] font-black uppercase tracking-widest text-txt-muted/40 animate-bounce pointer-events-none self-center">
+                <span>Desça para continuar</span>
+                <span className="text-[10px]">↓</span>
               </div>
             </div>
 
           </div>
         </div>
-
-        {/* Scroll hint indicator at the bottom */}
-        <div className="absolute bottom-6 flex flex-col items-center gap-1 text-[8px] font-black uppercase tracking-widest text-txt-muted/50 animate-bounce pointer-events-none">
-          <span>Desça para continuar</span>
-          <span className="text-[10px]">↓</span>
-        </div>
-
       </div>
     </section>
   );
