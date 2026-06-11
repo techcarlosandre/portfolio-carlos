@@ -62,22 +62,6 @@ export const translations = {
         }
       ]
     },
-    aiAutomations: {
-      badge: 'IA & Automações',
-      title1: 'Tecnologia',
-      titleHighlight: 'Trabalhando por Você',
-      desc: 'Imagine ter um assistente que nunca dorme, responde em segundos e ainda qualifica seus clientes — tudo isso sem você precisar levantar um dedo.',
-      items: [
-        {
-          title: 'Atendimento Automático no WhatsApp & Instagram',
-          desc: 'Um robô inteligente que conversa com seus clientes, responde dúvidas, agenda horários e envia orçamentos — no WhatsApp ou Instagram, 24h por dia, sete dias por semana.'
-        },
-        {
-          title: 'Tarefas no Piloto Automático',
-          desc: 'Automatizo processos que hoje consomem horas da sua equipe: envio de mensagens, atualização de planilhas, notificações e muito mais — tudo acontecendo sozinho.'
-        }
-      ]
-    },
     apps: {
       badge: 'Aplicativos & Web Apps',
       title1: 'Aplicações',
