@@ -438,8 +438,9 @@ body {
 /* ─── TECH LOGO GRID ─── */
 .tech-logo-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(105px, 115px));
   gap: 12px;
+  justify-content: center;
 }
 
 .tech-logo-card {
@@ -448,7 +449,8 @@ body {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 16px 8px;
+  width: 100%;
+  height: 110px;
   border-radius: 16px;
   border: 1px solid var(--color-border);
   background: var(--glass-bg);

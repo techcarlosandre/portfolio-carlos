@@ -419,10 +419,12 @@ const ChatHibrido = () => {
   >([{ id: "1", sender: "bot", text: t.chat.welcome }]);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
   }, [messages, isTyping]);
 
   const handleSend = useCallback(async (text: string) => {
@@ -488,7 +490,7 @@ const ChatHibrido = () => {
       </div>
 
       {/* Messages */}
-      <div className="h-[320px] overflow-y-auto p-6 space-y-4 chat-scrollbar bg-bg/5">
+      <div ref={chatContainerRef} className="h-[320px] overflow-y-auto p-6 space-y-4 chat-scrollbar bg-bg/5">
         {messages.map((m) => (
           <div key={m.id} className={`flex ${m.sender === "user" ? "justify-end" : "justify-start"}`}>
             <div
@@ -516,7 +518,6 @@ const ChatHibrido = () => {
             </div>
           </div>
         )}
-        <div ref={scrollRef} />
       </div>
 
       {/* Quick Buttons */}
@@ -586,13 +587,11 @@ const Navbar = () => {
   }, []);
 
   const links = [
-    { name: t.nav.about, href: "#sobre" },
     { name: t.nav.solutions, href: "#solucoes" },
     { name: t.nav.ai, href: "#ia" },
     { name: t.nav.skills, href: "#skills" },
     { name: t.nav.services, href: "#servicos" },
     { name: t.nav.projects, href: "#projetos" },
-    { name: t.nav.experience, href: "#experiencia" },
     { name: t.nav.contact, href: "#contato" },
   ];
 
@@ -732,17 +731,17 @@ const HeroSection = () => {
         </FadeIn>
 
         <FadeIn delay={0.55}>
-          <div className="flex items-center gap-5 mt-6">
+          <div className="flex flex-wrap items-center justify-center gap-4 mt-8">
             <a href="https://github.com/techcarlosandre" target="_blank" rel="noreferrer"
-              className="text-txt-muted hover:text-txt transition-colors hover:scale-110 transform duration-200">
-              <GithubIcon size={18} />
+              className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-xl bg-surface/50 border border-border hover:border-white/20 text-txt-muted hover:text-white transition-all text-xs font-black uppercase tracking-wider hover:bg-white/5 shadow-lg shadow-black/20 hover:-translate-y-0.5">
+              <GithubIcon size={16} /> GitHub
             </a>
             <a href="https://www.linkedin.com/in/devcarlosandre/" target="_blank" rel="noreferrer"
-              className="text-txt-muted hover:text-txt transition-colors hover:scale-110 transform duration-200">
-              <LinkedinIcon size={18} />
+              className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-xl bg-[#0077b5]/10 border border-[#0077b5]/30 hover:border-[#0077b5]/60 text-txt-muted hover:text-[#0077b5] transition-all text-xs font-black uppercase tracking-wider hover:bg-[#0077b5]/20 shadow-lg shadow-black/20 hover:-translate-y-0.5">
+              <LinkedinIcon size={16} /> LinkedIn
             </a>
-            <span className="w-px h-4 bg-border" />
-            <span className="text-[9px] font-bold text-txt-muted uppercase tracking-widest">Rio de Janeiro, BR</span>
+            <span className="hidden sm:inline w-px h-4 bg-border mx-2" />
+            <span className="text-[9px] font-black text-txt-muted uppercase tracking-widest bg-surface/40 px-3.5 py-2 rounded-lg border border-border">Rio de Janeiro, BR</span>
           </div>
         </FadeIn>
       </div>
@@ -750,76 +749,6 @@ const HeroSection = () => {
   );
 };
 
-// ─── ABOUT SECTION ───
-const AboutSection = () => {
-  const { t } = useApp();
-  return (
-    <section id="sobre" className="py-20 px-4">
-      <div className="container mx-auto max-w-5xl">
-        <div className="grid md:grid-cols-[1fr_2fr] gap-10 items-center mb-12">
-          <FadeIn direction="right">
-            <div className="relative group w-full max-w-[240px] aspect-square mx-auto md:mx-0">
-              <div className="absolute inset-0 bg-gradient-to-tr from-primary to-accent rounded-2xl blur-xl opacity-25" />
-              <div className="relative w-full h-full rounded-2xl overflow-hidden border border-border avatar-glow">
-                <Image src="/eu.png" alt="Carlos André" fill className="object-cover object-top" unoptimized />
-              </div>
-            </div>
-          </FadeIn>
-          <FadeIn direction="left">
-            <div className="text-center md:text-left">
-              <Badge>{t.about.badge}</Badge>
-              <h2 className="text-3xl md:text-4xl font-black uppercase mt-3 mb-4">
-                {t.about.title1}{" "}
-                <span className="text-gradient">{t.about.titleHighlight}</span>
-              </h2>
-              <p className="text-txt-muted text-xs md:text-sm leading-relaxed mb-6">
-                {t.about.bio}
-              </p>
-              <div className="flex justify-center md:justify-start gap-2.5">
-                <a href="https://github.com/techcarlosandre" target="_blank" rel="noreferrer"
-                  className="p-3 rounded-xl bg-surface/40 border border-border hover:bg-primary hover:border-primary transition-all">
-                  <GithubIcon size={16} />
-                </a>
-                <a href="https://www.linkedin.com/in/devcarlosandre/" target="_blank" rel="noreferrer"
-                  className="p-3 rounded-xl bg-surface/40 border border-border hover:bg-primary hover:border-primary transition-all">
-                  <LinkedinIcon size={16} />
-                </a>
-              </div>
-            </div>
-          </FadeIn>
-        </div>
-
-        <div className="grid md:grid-cols-2 gap-4">
-          <FadeIn delay={0.1}>
-            <SpotlightCard>
-              <h4 className="font-black uppercase tracking-wider text-xs mb-3">{t.about.softSkillsTitle}</h4>
-              <div className="flex flex-wrap gap-1.5">
-                {t.about.softSkills.map((s: string, i: number) => (
-                  <span key={i} className="px-2.5 py-1 rounded-full border border-border text-txt-muted text-[8px] font-bold uppercase">
-                    {s}
-                  </span>
-                ))}
-              </div>
-            </SpotlightCard>
-          </FadeIn>
-          <FadeIn delay={0.2}>
-            <SpotlightCard>
-              <h4 className="font-black uppercase tracking-wider text-xs mb-3">{t.about.langTitle}</h4>
-              <div className="space-y-2">
-                {(t.about.langs as readonly { name: string; level: string }[]).map((l, i) => (
-                  <div key={i} className="flex justify-between items-center text-xs">
-                    <span className="font-bold">{l.name}</span>
-                    <span className="text-[8px] font-black border border-border px-2 py-0.5 rounded-full">{l.level}</span>
-                  </div>
-                ))}
-              </div>
-            </SpotlightCard>
-          </FadeIn>
-        </div>
-      </div>
-    </section>
-  );
-};
 
 // ─── SOLUTIONS SECTION ───
 const SolutionsSection = () => {
@@ -889,6 +818,137 @@ const AIAutomationsSection = () => {
   );
 };
 
+// ─── NEURAL CANVAS EFFECT ───
+const NeuralCanvas = () => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    let animationFrameId: number;
+    let width = (canvas.width = canvas.offsetWidth);
+    let height = (canvas.height = canvas.offsetHeight);
+
+    const particles: Array<{
+      x: number;
+      y: number;
+      vx: number;
+      vy: number;
+      radius: number;
+    }> = [];
+
+    const particleCount = 45;
+    const connectionDistance = 110;
+    const mouse = { x: -1000, y: -1000, active: false };
+
+    for (let i = 0; i < particleCount; i++) {
+      particles.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 0.45,
+        vy: (Math.random() - 0.5) * 0.45,
+        radius: Math.random() * 1.5 + 1,
+      });
+    }
+
+    const handleResize = () => {
+      if (!canvas) return;
+      width = canvas.width = canvas.offsetWidth;
+      height = canvas.height = canvas.offsetHeight;
+    };
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const rect = canvas.getBoundingClientRect();
+      mouse.x = e.clientX - rect.left;
+      mouse.y = e.clientY - rect.top;
+      mouse.active = true;
+    };
+
+    const handleMouseLeave = () => {
+      mouse.x = -1000;
+      mouse.y = -1000;
+      mouse.active = false;
+    };
+
+    window.addEventListener("resize", handleResize);
+    const parent = canvas.parentElement;
+    if (parent) {
+      parent.addEventListener("mousemove", handleMouseMove);
+      parent.addEventListener("mouseleave", handleMouseLeave);
+    }
+
+    const animate = () => {
+      ctx.clearRect(0, 0, width, height);
+      ctx.fillStyle = "rgba(128, 0, 0, 0.25)";
+      ctx.strokeStyle = "rgba(128, 0, 0, 0.08)";
+
+      // Draw particles
+      particles.forEach((p) => {
+        p.x += p.vx;
+        p.y += p.vy;
+
+        // Bounce boundaries
+        if (p.x < 0 || p.x > width) p.vx *= -1;
+        if (p.y < 0 || p.y > height) p.vy *= -1;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      // Draw connections
+      for (let i = 0; i < particles.length; i++) {
+        const p1 = particles[i];
+        for (let j = i + 1; j < particles.length; j++) {
+          const p2 = particles[j];
+          const dist = Math.hypot(p1.x - p2.x, p1.y - p2.y);
+          if (dist < connectionDistance) {
+            const alpha = (1 - dist / connectionDistance) * 0.15;
+            ctx.strokeStyle = `rgba(128, 0, 0, ${alpha})`;
+            ctx.lineWidth = 0.8;
+            ctx.beginPath();
+            ctx.moveTo(p1.x, p1.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.stroke();
+          }
+        }
+
+        // Connect to mouse
+        if (mouse.active) {
+          const distToMouse = Math.hypot(p1.x - mouse.x, p1.y - mouse.y);
+          if (distToMouse < connectionDistance * 1.5) {
+            const alpha = (1 - distToMouse / (connectionDistance * 1.5)) * 0.35;
+            ctx.strokeStyle = `rgba(128, 0, 0, ${alpha})`;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(p1.x, p1.y);
+            ctx.lineTo(mouse.x, mouse.y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      animationFrameId = requestAnimationFrame(animate);
+    };
+
+    animate();
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      if (parent) {
+        parent.removeEventListener("mousemove", handleMouseMove);
+        parent.removeEventListener("mouseleave", handleMouseLeave);
+      }
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, []);
+
+  return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full pointer-events-none z-0" />;
+};
+
 // ─── SKILLS SECTION com Logo Grid ───
 const SkillsSection = ({
   selectedTech,
@@ -902,8 +962,9 @@ const SkillsSection = ({
   const allTechs = Object.keys(TECH_ICONS);
 
   return (
-    <section id="skills" className="py-24 px-4 border-t border-border/40 bg-bg/10">
-      <div className="container mx-auto max-w-5xl">
+    <section id="skills" className="py-24 px-4 border-t border-border/40 bg-bg/10 relative overflow-hidden">
+      <NeuralCanvas />
+      <div className="container mx-auto max-w-5xl relative z-10">
         <div className="text-center mb-12">
           <FadeIn>
             <Badge>{t.skills.badge}</Badge>
@@ -1024,85 +1085,6 @@ const ServicesSection = () => {
   );
 };
 
-// ─── TESTIMONIALS SECTION ───
-const TestimonialsSection = () => {
-  const { t } = useApp();
-  const items = t.testimonials.items as readonly {
-    text: string;
-    name: string;
-    role: string;
-    company: string;
-    avatar: string;
-  }[];
-
-  const doubled = [...items, ...items];
-
-  return (
-    <section className="py-20 border-t border-border/40 overflow-hidden bg-bg/10">
-      <div className="container mx-auto px-4 max-w-5xl mb-12 text-center">
-        <FadeIn>
-          <Badge>{t.testimonials.badge}</Badge>
-          <h2 className="text-3xl md:text-4xl font-black uppercase mt-4">
-            {t.testimonials.title1}{" "}
-            <span className="text-gradient">{t.testimonials.titleHighlight}</span>
-          </h2>
-        </FadeIn>
-      </div>
-
-      <div className="space-y-4">
-        {/* Row 1 — forward */}
-        <div className="overflow-hidden" style={{ maskImage: "linear-gradient(to right, transparent, black 80px, black calc(100% - 80px), transparent)" }}>
-          <div className="testimonials-track">
-            {doubled.map((item, i) => (
-              <div key={i} className="testimonial-card">
-                <div className="flex mb-3 gap-0.5">
-                  {[...Array(5)].map((_, si) => (
-                    <Star key={si} size={10} className="text-primary fill-primary" />
-                  ))}
-                </div>
-                <p className="text-txt-muted text-xs leading-relaxed mb-4">"{item.text}"</p>
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-primary/20 border border-primary/30 flex items-center justify-center text-[9px] font-black text-primary">
-                    {item.avatar}
-                  </div>
-                  <div>
-                    <p className="text-xs font-black">{item.name}</p>
-                    <p className="text-[9px] text-txt-muted">{item.role} · {item.company}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Row 2 — reverse */}
-        <div className="overflow-hidden" style={{ maskImage: "linear-gradient(to right, transparent, black 80px, black calc(100% - 80px), transparent)" }}>
-          <div className="testimonials-track testimonials-track-reverse">
-            {[...doubled].reverse().map((item, i) => (
-              <div key={i} className="testimonial-card">
-                <div className="flex mb-3 gap-0.5">
-                  {[...Array(5)].map((_, si) => (
-                    <Star key={si} size={10} className="text-primary fill-primary" />
-                  ))}
-                </div>
-                <p className="text-txt-muted text-xs leading-relaxed mb-4">"{item.text}"</p>
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-primary/20 border border-primary/30 flex items-center justify-center text-[9px] font-black text-primary">
-                    {item.avatar}
-                  </div>
-                  <div>
-                    <p className="text-xs font-black">{item.name}</p>
-                    <p className="text-[9px] text-txt-muted">{item.role} · {item.company}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-};
 
 // ─── PROJECTS SECTION ───
 const ProjectsSection = ({
@@ -1113,25 +1095,67 @@ const ProjectsSection = ({
   onClearSelection: () => void;
 }) => {
   const { t } = useApp();
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [mockupType, setMockupType] = useState<"desktop" | "mobile">("desktop");
 
-  const projectMeta: ProjectMetaItem[] = [
-    { link: "https://omni-gestao-pro-six.vercel.app", img: "/projetos/omni-thumb.png", github: "https://github.com/techcarlosandre/omni-gestao-vitrine" },
-    { link: "https://omni-financas-demo.vercel.app", img: "/projetos/omni-financas.png", github: "https://github.com/techcarlosandre/omni-financas-vitrine" },
-    { link: "https://rankehub.vercel.app/", img: "/projetos/rankhub.png", github: "https://github.com/techcarlosandre/Rank-Hub" },
-    { link: "#", img: "", github: "#", videos: ["/projetos/automacao-wpp.mp4", "/projetos/automacao-ig.mp4"] },
-    { link: "#", img: "", github: "#", wip: true },
+  const projectsData = [
+    {
+      title: t.projects.items[0].title,
+      desc: t.projects.items[0].desc,
+      tag: t.projects.items[0].tag,
+      techs: t.projects.items[0].techs,
+      link: "https://omni-gestao-pro-six.vercel.app",
+      github: "https://github.com/techcarlosandre/omni-gestao-vitrine",
+      area: "Web & ERP",
+      desktop: { img: "/projetos/omni-thumb.png" },
+      mobile: { img: "/projetos/omni-thumb.png" }
+    },
+    {
+      title: t.projects.items[1].title,
+      desc: t.projects.items[1].desc,
+      tag: t.projects.items[1].tag,
+      techs: t.projects.items[1].techs,
+      link: "https://omni-financas-demo.vercel.app",
+      github: "https://github.com/techcarlosandre/omni-financas-vitrine",
+      area: "Web & Fintech",
+      desktop: { img: "/projetos/omni-financas.png" },
+      mobile: { img: "/projetos/omni-financas.png" }
+    },
+    {
+      title: t.projects.items[2].title,
+      desc: t.projects.items[2].desc,
+      tag: t.projects.items[2].tag,
+      techs: t.projects.items[2].techs,
+      link: "https://rankehub.vercel.app/",
+      github: "https://github.com/techcarlosandre/Rank-Hub",
+      area: "Web & Analytics",
+      desktop: { img: "/projetos/rankhub.png" },
+      mobile: { img: "/projetos/rankhub.png" }
+    },
+    {
+      title: t.projects.items[3].title,
+      desc: t.projects.items[3].desc,
+      tag: t.projects.items[3].tag,
+      techs: t.projects.items[3].techs,
+      link: "#",
+      github: "#",
+      area: "Automação & IA",
+      desktop: { video: "/projetos/automacao-wpp.mp4" },
+      mobile: { video: "/projetos/automacao-ig.mp4" }
+    },
+    {
+      title: t.projects.items[4].title,
+      desc: t.projects.items[4].desc,
+      tag: t.projects.items[4].tag,
+      techs: t.projects.items[4].techs,
+      link: "#",
+      github: "#",
+      area: "Backend / API",
+      wip: true,
+      desktop: { placeholder: true },
+      mobile: { placeholder: true }
+    }
   ];
-
-  const projects = t.projects.items.map((item, i) => {
-    const meta = projectMeta[i] || { link: "#", img: "", github: "#" };
-    return {
-      title: item.title, desc: item.desc, tag: item.tag, techs: item.techs,
-      link: meta.link, img: meta.img, github: meta.github,
-      wip: "wip" in meta ? meta.wip : false,
-      videos: "videos" in meta ? meta.videos : undefined,
-    };
-  });
 
   // Map TECH_ICONS keys to project tech names for filtering
   const TECH_ALIASES: Record<string, string[]> = {
@@ -1146,171 +1170,218 @@ const ProjectsSection = ({
   };
 
   const filtered = selectedTech
-    ? projects.filter((p) => {
+    ? projectsData.filter((p) => {
         const aliases = TECH_ALIASES[selectedTech] || [selectedTech];
         return p.techs?.some((tech) =>
           aliases.some((alias) => tech.toLowerCase().includes(alias.toLowerCase())) ||
           tech === selectedTech
         );
       })
-    : projects;
+    : projectsData;
 
-  const { scrollYProgress } = useScroll({ target: scrollContainerRef });
-  const totalCards = filtered.length || 1;
-  const xTransform = useTransform(scrollYProgress, [0, 1], ["0%", `-${(totalCards - 1) * 85}%`]);
+  useEffect(() => {
+    setCurrentIndex(0);
+  }, [selectedTech]);
 
-  return (
-    <section ref={scrollContainerRef} id="projetos" className="relative h-[300vh] bg-bg/30 border-t border-border/60">
-      <div className="sticky top-0 h-screen w-full flex flex-col justify-center overflow-hidden py-12">
-        <div className="container mx-auto px-6 max-w-6xl shrink-0 mb-8">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-            <div>
-              <Badge>{t.projects.badge}</Badge>
-              <h2 className="text-3xl md:text-5xl font-black uppercase mt-2">
-                {t.projects.title1}{" "}
-                <span className="text-gradient">{t.projects.titleHighlight}</span>
-              </h2>
-            </div>
-            {selectedTech && (
-              <div className="flex items-center gap-3 border border-primary/20 bg-primary/5 px-4 py-2 rounded-xl text-xs uppercase font-black">
-                <div>Filtro: <span className="text-gradient">{selectedTech}</span></div>
-                <button onClick={onClearSelection} className="text-[10px] bg-bg border border-border rounded-lg px-2 py-1 cursor-pointer">
-                  Limpar
-                </button>
-              </div>
-            )}
+  const handleNext = () => {
+    setCurrentIndex((prev) => (prev + 1) % filtered.length);
+  };
+
+  const handlePrev = () => {
+    setCurrentIndex((prev) => (prev - 1 + filtered.length) % filtered.length);
+  };
+
+  if (filtered.length === 0) {
+    return (
+      <section id="projetos" className="py-24 px-4 bg-bg/30 border-t border-border/60">
+        <div className="container mx-auto max-w-5xl text-center">
+          <Badge>{t.projects.badge}</Badge>
+          <h2 className="text-3xl md:text-5xl font-black uppercase mt-4 mb-8">
+            {t.projects.title1} <span className="text-gradient">{t.projects.titleHighlight}</span>
+          </h2>
+          <div className="w-full max-w-md mx-auto rounded-2xl border border-border p-8 text-center glass-card mt-8">
+            <p className="text-txt-muted text-xs">Nenhum projeto encontrado para a tecnologia selecionada.</p>
           </div>
         </div>
+      </section>
+    );
+  }
 
-        <div className="w-full flex-1 flex items-center relative px-6 md:px-12">
-          {filtered.length > 0 ? (
-            <motion.div style={{ x: xTransform }} className="flex gap-6 w-max px-4">
-              {filtered.map((p, i) => (
-                <div key={i} className="w-[85vw] sm:w-[560px] shrink-0 bg-surface border border-border rounded-[2rem] overflow-hidden shadow-2xl flex flex-col h-[58vh] min-h-[400px] group transition-all duration-300 hover:border-primary/30 hover:shadow-primary/10">
-                  <div className="h-[45%] w-full relative bg-bg/40 overflow-hidden border-b border-border/40">
-                    {p.img ? (
-                      <Image src={p.img} alt={p.title} fill className="object-cover transition-transform duration-700 group-hover:scale-105" unoptimized />
-                    ) : p.videos && p.videos.length > 0 ? (
-                      <div className="absolute inset-0 grid grid-cols-2 gap-1 p-1">
-                        {p.videos.map((vid: string, vi: number) => (
-                          <video key={vi} src={vid} autoPlay muted loop playsInline className="w-full h-full object-cover rounded-xl" />
-                        ))}
-                      </div>
-                    ) : (
-                      <div className="absolute inset-0 flex flex-col items-center justify-center gap-2">
-                        <Zap size={22} className="text-primary animate-pulse" />
-                        <span className="text-[9px] font-black text-txt-muted uppercase tracking-widest">Em Breve</span>
-                      </div>
-                    )}
-                    {p.wip && (
-                      <div className="absolute top-4 left-4 bg-yellow-500/90 text-black px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest z-10">
-                        🚧 WIP
-                      </div>
-                    )}
-                  </div>
+  const p = filtered[currentIndex];
+  const activeMedia = mockupType === "desktop" ? p.desktop : p.mobile;
 
-                  <div className="p-6 flex flex-col justify-between flex-1">
-                    <div>
-                      <span className="text-[8px] font-black uppercase tracking-widest text-primary block mb-1">{p.tag}</span>
-                      <h3 className="text-base font-black uppercase mb-2 text-txt group-hover:text-gradient transition-all">{p.title}</h3>
-                      <p className="text-txt-muted text-xs leading-relaxed line-clamp-3">{p.desc}</p>
-                    </div>
-                    <div className="space-y-3 pt-3 border-t border-border/40">
-                      {p.techs && (
-                        <div className="flex flex-wrap gap-1">
-                          {p.techs.slice(0, 5).map((tech) => (
-                            <span key={tech} className="px-2 py-0.5 rounded-full border border-primary/10 text-[8px] font-bold text-primary bg-primary/5">
-                              {tech}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                      <div className="flex gap-2">
-                        {p.link !== "#" && (
-                          <a href={p.link} target="_blank" rel="noreferrer"
-                            className="bg-primary hover:bg-accent text-white text-[9px] font-black uppercase px-3 py-1.5 rounded-lg flex items-center gap-1 shadow-md shadow-primary/10 transition-all">
-                            Demo <ExternalLink size={9} />
-                          </a>
-                        )}
-                        {p.github !== "#" && (
-                          <a href={p.github} target="_blank" rel="noreferrer"
-                            className="border border-border text-txt-muted hover:text-txt text-[9px] font-black uppercase px-3 py-1.5 rounded-lg transition-all hover:border-primary/30">
-                            Code
-                          </a>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </motion.div>
-          ) : (
-            <div className="w-full max-w-md mx-auto rounded-2xl border border-border p-8 text-center glass-card">
-              <p className="text-txt-muted text-xs">Nenhum projeto encontrado para a tecnologia selecionada.</p>
+  return (
+    <section id="projetos" className="py-24 px-4 bg-bg/30 border-t border-border/60 relative overflow-hidden">
+      <div className="container mx-auto max-w-5xl relative z-10">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12">
+          <div>
+            <Badge>{t.projects.badge}</Badge>
+            <h2 className="text-3xl md:text-5xl font-black uppercase mt-4">
+              {t.projects.title1}{" "}
+              <span className="text-gradient">{t.projects.titleHighlight}</span>
+            </h2>
+          </div>
+          {selectedTech && (
+            <div className="flex items-center gap-3 border border-primary/20 bg-primary/5 px-4 py-2 rounded-xl text-xs uppercase font-black self-start">
+              <div>Filtro: <span className="text-gradient">{selectedTech}</span></div>
+              <button onClick={onClearSelection} className="text-[10px] bg-bg border border-border rounded-lg px-2 py-1 cursor-pointer hover:bg-primary/10 transition-colors">
+                Limpar
+              </button>
             </div>
           )}
         </div>
-      </div>
-    </section>
-  );
-};
 
-// ─── EXPERIENCE SECTION ───
-const ExperienceSection = () => {
-  const { t } = useApp();
-  const [active, setActive] = useState(0);
-  const container = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: container, offset: ["start 70%", "end 30%"] });
+        {/* Main Carousel Card Container */}
+        <div className="grid md:grid-cols-[1.2fr_1fr] gap-8 items-center bg-[#111] border border-border rounded-[2.5rem] p-6 md:p-10 shadow-2xl relative">
+          
+          {/* Left Side: Device Mockup Media */}
+          <div className="flex flex-col justify-center items-center w-full">
+            {/* Mockup Toggle Buttons */}
+            <div className="flex justify-center gap-2 mb-6 bg-bg/50 border border-border p-1 rounded-xl">
+              <button
+                onClick={() => setMockupType("desktop")}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider transition-colors cursor-pointer ${mockupType === "desktop" ? "bg-primary text-white" : "text-txt-muted hover:text-txt"}`}
+              >
+                💻 Monitor
+              </button>
+              <button
+                onClick={() => setMockupType("mobile")}
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider transition-colors cursor-pointer ${mockupType === "mobile" ? "bg-primary text-white" : "text-txt-muted hover:text-txt"}`}
+              >
+                📱 Celular
+              </button>
+            </div>
 
-  return (
-    <section id="experiencia" className="py-20 px-4">
-      <div className="container mx-auto max-w-5xl" ref={container}>
-        <div className="grid md:grid-cols-[1fr_2px_1.5fr] gap-8">
-          <div>
-            <div className="md:sticky md:top-28">
-              <Badge>{t.experience.badge}</Badge>
-              <h2 className="text-3xl md:text-4xl font-black uppercase mt-3 mb-4">
-                {t.experience.title1}{" "}
-                <span className="text-gradient">{t.experience.titleHighlight}</span>
-              </h2>
-              <p className="text-txt-muted text-xs leading-relaxed">{t.experience.subtitle}</p>
+            {/* Device Mockup Display */}
+            <div className="w-full flex justify-center items-center h-[280px] md:h-[350px]">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={mockupType + "_" + currentIndex}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.35 }}
+                  className="w-full max-w-[450px] flex flex-col justify-center"
+                >
+                  {mockupType === "desktop" ? (
+                    // Monitor Mockup
+                    <div className="w-full">
+                      <div className="relative w-full aspect-[16/10] border-[8px] border-[#1f1f1f] bg-[#0c0c0c] rounded-t-2xl overflow-hidden shadow-2xl flex flex-col items-center justify-center">
+                        {activeMedia.img ? (
+                          <Image src={activeMedia.img} alt={p.title} fill className="object-cover" unoptimized />
+                        ) : activeMedia.video ? (
+                          <video src={activeMedia.video} autoPlay muted loop playsInline className="w-full h-full object-cover" />
+                        ) : (
+                          <div className="flex flex-col items-center gap-2">
+                            <Zap size={28} className="text-primary animate-pulse" />
+                            <span className="text-[10px] font-black text-txt-muted uppercase tracking-widest">Em Breve</span>
+                          </div>
+                        )}
+                      </div>
+                      {/* Monitor Stand */}
+                      <div className="w-16 h-8 bg-[#181818] mx-auto border-t border-white/5" />
+                      <div className="w-28 h-1.5 bg-[#252525] mx-auto rounded-full shadow-md" />
+                    </div>
+                  ) : (
+                    // Mobile Phone Mockup
+                    <div className="w-full flex justify-center">
+                      <div className="relative w-[170px] h-[310px] border-[6px] border-[#1f1f1f] bg-[#0c0c0c] rounded-[2rem] overflow-hidden shadow-2xl flex flex-col items-center justify-center">
+                        {/* Dynamic Island / Notch */}
+                        <div className="absolute top-1.5 left-1/2 -translate-x-1/2 w-12 h-3 bg-black rounded-full z-20" />
+                        
+                        {activeMedia.img ? (
+                          <Image src={activeMedia.img} alt={p.title} fill className="object-cover" unoptimized />
+                        ) : activeMedia.video ? (
+                          <video src={activeMedia.video} autoPlay muted loop playsInline className="w-full h-full object-cover" />
+                        ) : (
+                          <div className="flex flex-col items-center gap-2">
+                            <Zap size={22} className="text-primary animate-pulse" />
+                            <span className="text-[8px] font-black text-txt-muted uppercase tracking-widest">Em Breve</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </motion.div>
+              </AnimatePresence>
             </div>
           </div>
-          <div className="hidden md:block relative bg-border w-full">
-            <motion.div
-              className="absolute top-0 left-0 w-full bg-primary origin-top"
-              style={{ scaleY: scrollYProgress, height: "100%" }}
-            />
-          </div>
-          <div className="space-y-4">
-            {t.experience.items.map((item, i) => (
-              <motion.div
-                key={i}
-                onViewportEnter={() => setActive(i)}
-                className={`p-5 rounded-2xl glass-card border transition-all ${active === i ? "border-primary/40" : "border-border"}`}
-              >
-                <div className="flex justify-between items-start text-xs mb-3">
-                  <div>
-                    <h4 className="font-black uppercase text-sm">{item.title}</h4>
-                    <p className="text-primary font-bold uppercase tracking-wider text-[10px]">{item.company}</p>
-                  </div>
-                  <span className="text-[9px] font-mono text-txt-muted shrink-0 ml-2">{item.date}</span>
-                </div>
-                <ul className="space-y-2">
-                  {item.bullets.map((b, bi) => (
-                    <li key={bi} className="text-txt-muted text-xs flex items-start gap-2">
-                      <span className="w-1 h-1 rounded-full bg-primary mt-1.5 shrink-0" /> {b}
-                    </li>
+
+          {/* Right Side: Project Information */}
+          <div className="flex flex-col justify-between h-full min-h-[280px]">
+            <div>
+              {/* Project Area Badge */}
+              <div className="flex flex-wrap items-center gap-2 mb-2">
+                <span className="text-[8px] font-black uppercase tracking-widest text-primary bg-primary/10 border border-primary/20 px-2.5 py-1 rounded-full">
+                  {p.area}
+                </span>
+                <span className="text-[8px] font-bold uppercase tracking-wider text-txt-muted">
+                  {p.tag}
+                </span>
+              </div>
+
+              <h3 className="text-xl md:text-2xl font-black uppercase mb-3 text-txt text-gradient">{p.title}</h3>
+              <p className="text-txt-muted text-xs md:text-sm leading-relaxed mb-6">{p.desc}</p>
+            </div>
+
+            <div className="space-y-4 pt-4 border-t border-border/40">
+              {p.techs && (
+                <div className="flex flex-wrap gap-1">
+                  {p.techs.map((tech) => (
+                    <span key={tech} className="px-2 py-0.5 rounded-full border border-primary/10 text-[8px] font-bold text-primary bg-primary/5">
+                      {tech}
+                    </span>
                   ))}
-                </ul>
-              </motion.div>
-            ))}
+                </div>
+              )}
+              
+              <div className="flex items-center justify-between pt-2">
+                {/* Demo & Code Buttons */}
+                <div className="flex gap-2">
+                  {p.link !== "#" && (
+                    <a href={p.link} target="_blank" rel="noreferrer"
+                      className="bg-primary hover:bg-accent text-white text-[9px] font-black uppercase px-3 py-2 rounded-lg flex items-center gap-1 shadow-md shadow-primary/10 transition-all hover:-translate-y-0.5">
+                      Demo <ExternalLink size={9} />
+                    </a>
+                  )}
+                  {p.github !== "#" && (
+                    <a href={p.github} target="_blank" rel="noreferrer"
+                      className="border border-border text-txt-muted hover:text-txt text-[9px] font-black uppercase px-3 py-2 rounded-lg transition-all hover:border-primary/30 hover:-translate-y-0.5">
+                      Code
+                    </a>
+                  )}
+                </div>
+
+                {/* Slider Controls */}
+                <div className="flex gap-1.5 bg-bg/40 border border-border p-1 rounded-lg">
+                  <button
+                    onClick={handlePrev}
+                    className="p-1.5 hover:bg-surface border border-transparent hover:border-border rounded-md text-txt-muted hover:text-txt cursor-pointer transition-colors"
+                    title="Anterior"
+                  >
+                    <ChevronRight size={14} className="rotate-180" />
+                  </button>
+                  <span className="text-[9px] font-black uppercase tracking-wider px-2 py-1 bg-surface border border-border rounded-md flex items-center justify-center min-w-[32px]">
+                    {currentIndex + 1} / {filtered.length}
+                  </span>
+                  <button
+                    onClick={handleNext}
+                    className="p-1.5 hover:bg-surface border border-transparent hover:border-border rounded-md text-txt-muted hover:text-txt cursor-pointer transition-colors"
+                    title="Próximo"
+                  >
+                    <ChevronRight size={14} />
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
+
         </div>
       </div>
     </section>
   );
 };
+
 
 // ─── FOOTER / CONTACT SECTION ───
 const FooterSection = () => {
@@ -1419,7 +1490,6 @@ export default function PortfolioPage() {
             <Particles />
             <Navbar />
             <HeroSection />
-            <AboutSection />
             <SolutionsSection />
             <AIAutomationsSection />
             <SkillsSection
@@ -1427,12 +1497,10 @@ export default function PortfolioPage() {
               onSelectTech={(tech) => setSelectedTech((curr) => (curr === tech ? null : tech))}
             />
             <ServicesSection />
-            <TestimonialsSection />
             <ProjectsSection
               selectedTech={selectedTech}
               onClearSelection={() => setSelectedTech(null)}
             />
-            <ExperienceSection />
             <FooterSection />
           </main>
         </>
