@@ -9,7 +9,7 @@ import React, {
   useCallback,
 } from "react";
 import Image from "next/image";
-import { motion, AnimatePresence, useScroll, useTransform, useSpring } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useSpring } from "framer-motion";
 import {
   ChevronRight,
   ExternalLink,
@@ -22,7 +22,8 @@ import {
   X,
   Check,
   ArrowRight,
-  Star,
+  ArrowUpRight,
+  AlertTriangle,
 } from "lucide-react";
 import { translations, type Lang } from "./translations";
 
@@ -31,7 +32,6 @@ interface ProjectMetaItem {
   img: string;
   github: string;
   wip?: boolean;
-  videos?: string[];
 }
 
 type TranslationType =
@@ -69,6 +69,53 @@ const LinkedinIcon = ({ size = 20 }: { size?: number }) => (
     <circle cx="4" cy="4" r="2" />
   </svg>
 );
+
+// ─── REDIRECTION SCREEN (Módulo 0) ───
+const MigrationOverlay = () => {
+  const [countdown, setCountdown] = useState(3);
+  const targetUrl = "https://portfolio.techcarlos.com.br";
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCountdown((prev) => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          window.location.href = targetUrl;
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <div className="fixed inset-0 bg-black z-[10000] flex flex-col items-center justify-center p-6 text-center dot-grid">
+      <div className="max-w-md w-full bg-zinc-950/60 backdrop-blur-xl border border-zinc-800 p-8 rounded-3xl shadow-2xl relative overflow-hidden">
+        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-accent to-primary" />
+        <div className="w-16 h-16 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center mx-auto mb-6 animate-pulse">
+          <AlertTriangle className="text-primary" size={32} />
+        </div>
+        <h2 className="text-2xl font-black uppercase tracking-tighter mb-4 text-white">
+          Portfólio atualizado
+        </h2>
+        <p className="text-txt-muted text-xs leading-relaxed mb-6">
+          Você está acessando uma versão antiga do meu portfólio. A nova versão possui projetos atualizados, melhorias visuais e novas funcionalidades.
+        </p>
+        <div className="mb-6 text-[10px] font-black uppercase tracking-widest text-primary">
+          Redirecionando em {countdown} segundos...
+        </div>
+        <a
+          href={targetUrl}
+          className="flex items-center justify-center gap-2 w-full bg-primary hover:bg-accent text-white text-xs font-black uppercase tracking-wider py-4 rounded-xl transition-all shadow-lg shadow-primary/20 hover:shadow-primary/35"
+        >
+          Visitar Nova Versão <ExternalLink size={14} />
+        </a>
+      </div>
+    </div>
+  );
+};
 
 // ─── LOADING SCREEN ───
 const LoadingScreen = ({ onDone }: { onDone: () => void }) => {
@@ -274,40 +321,6 @@ const AuroraBg = () => (
   </div>
 );
 
-// ─── SPOTLIGHT CARD ───
-const SpotlightCard = ({
-  children,
-  className = "",
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) => {
-  const ref = useRef<HTMLDivElement>(null);
-  const [pos, setPos] = useState({ x: 0, y: 0 });
-
-  const handleMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!ref.current) return;
-    const r = ref.current.getBoundingClientRect();
-    setPos({ x: e.clientX - r.left, y: e.clientY - r.top });
-  };
-
-  return (
-    <div
-      ref={ref}
-      onMouseMove={handleMove}
-      className={`glass-card spotlight-card rounded-3xl p-6 md:p-8 ${className}`}
-      style={
-        {
-          "--mouse-x": `${pos.x}px`,
-          "--mouse-y": `${pos.y}px`,
-        } as React.CSSProperties
-      }
-    >
-      <div className="relative z-10">{children}</div>
-    </div>
-  );
-};
-
 // ─── FADE IN ───
 const FadeIn = ({
   children,
@@ -352,30 +365,28 @@ const Badge = ({
   </div>
 );
 
-// ─── TECH LOGO GRID ───
+// ─── TECH LOGO GRID (Módulo 4) ───
 const TECH_ICONS: Record<string, { slug: string; color: string; label: string }> = {
   "JS": { slug: "javascript", color: "#F7DF1E", label: "JavaScript" },
   "TS": { slug: "typescript", color: "#3178C6", label: "TypeScript" },
   "React": { slug: "react", color: "#61DAFB", label: "React" },
   "Next.js": { slug: "nextdotjs", color: "#ffffff", label: "Next.js" },
+  "Vue.js": { slug: "vuedotjs", color: "#4FC08D", label: "Vue.js" },
+  "Node.js": { slug: "nodedotjs", color: "#339933", label: "Node.js" },
   "Python": { slug: "python", color: "#3776AB", label: "Python" },
-  "Flask": { slug: "flask", color: "#ffffff", label: "Flask" },
   "Java": { slug: "openjdk", color: "#ED8B00", label: "Java" },
-  "Spring": { slug: "spring", color: "#6DB33F", label: "Spring" },
+  "Spring": { slug: "spring", color: "#6DB33F", label: "Spring Boot" },
+  "GraphQL": { slug: "graphql", color: "#E10098", label: "GraphQL" },
+  "Axios": { slug: "axios", color: "#5A29E4", label: "Axios" },
   "Prisma": { slug: "prisma", color: "#ffffff", label: "Prisma" },
   "Supabase": { slug: "supabase", color: "#3ECF8E", label: "Supabase" },
   "PostgreSQL": { slug: "postgresql", color: "#4169E1", label: "PostgreSQL" },
-  "HTML5": { slug: "html5", color: "#E34F26", label: "HTML5" },
-  "CSS3": { slug: "css3", color: "#1572B6", label: "CSS3" },
-  "Tailwind": { slug: "tailwindcss", color: "#06B6D4", label: "Tailwind" },
   "Git": { slug: "git", color: "#F05032", label: "Git" },
-  "GitHub": { slug: "github", color: "#ffffff", label: "GitHub" },
   "Docker": { slug: "docker", color: "#2496ED", label: "Docker" },
-  "Vercel": { slug: "vercel", color: "#ffffff", label: "Vercel" },
   "N8N": { slug: "n8n", color: "#EA4B71", label: "N8N" },
-  "Gemini AI": { slug: "googlegemini", color: "#8E75B2", label: "Gemini AI" },
   "Figma": { slug: "figma", color: "#F24E1E", label: "Figma" },
-  "Node.js": { slug: "nodedotjs", color: "#339933", label: "Node.js" },
+  "Grafana": { slug: "grafana", color: "#F46800", label: "Grafana" },
+  "Chatwoot": { slug: "chatwoot", color: "#1F93FF", label: "Chatwoot" },
 };
 
 const TechLogoCard = ({
@@ -400,7 +411,7 @@ const TechLogoCard = ({
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src={tech === "CSS3" ? "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" : `https://cdn.simpleicons.org/${info.slug}/${info.color.replace("#", "")}`}
+        src={`https://cdn.simpleicons.org/${info.slug}/${info.color.replace("#", "")}`}
         alt={info.label}
         width={32}
         height={32}
@@ -411,7 +422,7 @@ const TechLogoCard = ({
   );
 };
 
-// ─── CHAT IA com Gemini Real ───
+// ─── CHAT IA ───
 const ChatHibrido = () => {
   const { t } = useApp();
   const [messages, setMessages] = useState<
@@ -647,7 +658,7 @@ const Navbar = () => {
   );
 };
 
-// ─── HERO SECTION ───
+// ─── HERO SECTION (Módulo 1) ───
 const HeroSection = () => {
   const { t } = useApp();
 
@@ -728,25 +739,57 @@ const HeroSection = () => {
           </div>
         </FadeIn>
 
+        {/* Refactored Social Buttons (Módulo 1) */}
         <FadeIn delay={0.55}>
-          <div className="flex flex-wrap items-center justify-center gap-4 mt-8">
-            <a href="https://github.com/techcarlosandre" target="_blank" rel="noreferrer"
-              className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-xl bg-surface/50 border border-border hover:border-white/20 text-txt-muted hover:text-white transition-all text-xs font-black uppercase tracking-wider hover:bg-white/5 shadow-lg shadow-black/20 hover:-translate-y-0.5">
-              <GithubIcon size={16} /> GitHub
-            </a>
-            <a href="https://www.linkedin.com/in/devcarlosandre/" target="_blank" rel="noreferrer"
-              className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-xl bg-[#0077b5]/10 border border-[#0077b5]/30 hover:border-[#0077b5]/60 text-txt-muted hover:text-[#0077b5] transition-all text-xs font-black uppercase tracking-wider hover:bg-[#0077b5]/20 shadow-lg shadow-black/20 hover:-translate-y-0.5">
-              <LinkedinIcon size={16} /> LinkedIn
-            </a>
-            <span className="hidden sm:inline w-px h-4 bg-border mx-2" />
-            <span className="text-[9px] font-black text-txt-muted uppercase tracking-widest bg-surface/40 px-3.5 py-2 rounded-lg border border-border">Rio de Janeiro, BR</span>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8 max-w-2xl mx-auto w-full px-4">
+            {[
+              {
+                href: "https://github.com/techcarlosandre",
+                icon: <GithubIcon size={18} />,
+                label: "GitHub",
+              },
+              {
+                href: "https://www.linkedin.com/in/devcarlosandre/",
+                icon: <LinkedinIcon size={18} />,
+                label: "LinkedIn",
+              },
+              {
+                href: "#",
+                icon: <span className="text-primary text-sm">📍</span>,
+                label: "Rio de Janeiro, BR",
+                isLocation: true
+              }
+            ].map((item, i) => {
+              const Tag = item.isLocation ? "div" : "a";
+              const props = item.isLocation ? {} : { href: item.href, target: "_blank", rel: "noreferrer" };
+              
+              return (
+                <motion.div
+                  key={i}
+                  className="w-full sm:w-48"
+                  whileHover={item.isLocation ? {} : { y: -4, scale: 1.02 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                >
+                  <Tag
+                    {...props}
+                    className={`flex items-center justify-center gap-3 w-full h-14 rounded-2xl border bg-zinc-900/40 backdrop-blur-md transition-all text-xs font-black uppercase tracking-wider ${
+                      item.isLocation 
+                        ? "border-zinc-800 text-txt-muted cursor-default" 
+                        : "border-zinc-800 text-txt-muted hover:text-txt hover:border-primary/50 hover:shadow-[0_0_20px_rgba(128,0,0,0.3)] hover:bg-zinc-900/60"
+                    }`}
+                  >
+                    {item.icon}
+                    <span>{item.label}</span>
+                  </Tag>
+                </motion.div>
+              );
+            })}
           </div>
         </FadeIn>
       </div>
     </section>
   );
 };
-
 
 // ─── SOLUTIONS SECTION ───
 const SolutionsSection = () => {
@@ -912,7 +955,7 @@ const NeuralCanvas = () => {
   return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full pointer-events-none z-0" />;
 };
 
-// ─── SKILLS SECTION com Logo Grid ───
+// ─── SKILLS SECTION (Módulo 4) ───
 const SkillsSection = ({
   selectedTech,
   onSelectTech,
@@ -921,7 +964,6 @@ const SkillsSection = ({
   onSelectTech: (tech: string | null) => void;
 }) => {
   const { t } = useApp();
-
   const allTechs = Object.keys(TECH_ICONS);
 
   return (
@@ -941,9 +983,8 @@ const SkillsSection = ({
           </FadeIn>
         </div>
 
-
         <FadeIn delay={0.15}>
-          <div className="tech-logo-grid">
+          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-4 w-full">
             {allTechs.map((tech, i) => (
               <motion.div
                 key={tech}
@@ -951,6 +992,7 @@ const SkillsSection = ({
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.03, duration: 0.4 }}
+                className="w-full flex items-center justify-center"
               >
                 <TechLogoCard
                   tech={tech}
@@ -1027,8 +1069,7 @@ const ServicesSection = () => {
   );
 };
 
-
-// ─── PROJECTS SECTION ───
+// ─── PROJECTS GRID SECTION (Módulo 2) ───
 const ProjectsSection = ({
   selectedTech,
   onClearSelection,
@@ -1037,8 +1078,6 @@ const ProjectsSection = ({
   onClearSelection: () => void;
 }) => {
   const { t } = useApp();
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [mockupType, setMockupType] = useState<"desktop" | "mobile">("desktop");
 
   const projectsData = [
     {
@@ -1047,10 +1086,8 @@ const ProjectsSection = ({
       tag: t.projects.items[0].tag,
       techs: t.projects.items[0].techs,
       link: "https://omni-gestao-pro-six.vercel.app",
-      github: "https://github.com/techcarlosandre/omni-gestao-vitrine",
       area: "Web & ERP",
-      desktop: { img: "/projetos/omni-thumb.png" },
-      mobile: { img: "/projetos/omni-thumb.png" }
+      img: "/projetos/omni-thumb.png"
     },
     {
       title: t.projects.items[1].title,
@@ -1058,10 +1095,8 @@ const ProjectsSection = ({
       tag: t.projects.items[1].tag,
       techs: t.projects.items[1].techs,
       link: "https://omni-financas-demo.vercel.app",
-      github: "https://github.com/techcarlosandre/omni-financas-vitrine",
       area: "Web & Fintech",
-      desktop: { img: "/projetos/omni-financas.png" },
-      mobile: { img: "/projetos/omni-financas.png" }
+      img: "/projetos/omni-financas.png"
     },
     {
       title: t.projects.items[2].title,
@@ -1069,21 +1104,17 @@ const ProjectsSection = ({
       tag: t.projects.items[2].tag,
       techs: t.projects.items[2].techs,
       link: "https://rankehub.vercel.app/",
-      github: "https://github.com/techcarlosandre/Rank-Hub",
       area: "Web & Analytics",
-      desktop: { img: "/projetos/rankhub.png" },
-      mobile: { img: "/projetos/rankhub.png" }
+      img: "/projetos/rankhub.png"
     },
     {
       title: t.projects.items[3].title,
       desc: t.projects.items[3].desc,
       tag: t.projects.items[3].tag,
       techs: t.projects.items[3].techs,
-      link: "#",
-      github: "#",
+      link: "https://api.whatsapp.com/send/?phone=21982665121&text=Olá+Carlos%2C+vi+seu+portfólio+e+gostaria+de+conversar+sobre+um+projeto.",
       area: "Automação & IA",
-      desktop: { video: "/projetos/automacao-wpp.mp4" },
-      mobile: { video: "/projetos/automacao-ig.mp4" }
+      img: "/projetos/omni-thumb.png"
     },
     {
       title: t.projects.items[4].title,
@@ -1091,24 +1122,22 @@ const ProjectsSection = ({
       tag: t.projects.items[4].tag,
       techs: t.projects.items[4].techs,
       link: "#",
-      github: "#",
       area: "Backend / API",
       wip: true,
-      desktop: { placeholder: true },
-      mobile: { placeholder: true }
+      img: "/projetos/omni-thumb.png"
     }
   ];
 
-  // Map TECH_ICONS keys to project tech names for filtering
   const TECH_ALIASES: Record<string, string[]> = {
     "JS": ["JavaScript"], "TS": ["TypeScript"], "React": ["React"],
     "Next.js": ["Next.js"], "Python": ["Python"], "Flask": ["Flask"],
-    "Java": ["Java"], "Spring": ["Spring Boot"], "Prisma": ["Prisma"],
+    "Java": ["Java"], "Spring": ["Spring Boot", "Spring"], "Prisma": ["Prisma"],
     "Supabase": ["Supabase"], "PostgreSQL": ["PostgreSQL", "SQL"],
     "HTML5": ["HTML"], "CSS3": ["CSS"], "Tailwind": ["Tailwind", "Tailwind CSS"],
     "Git": ["Git"], "GitHub": ["GitHub"], "Docker": ["Docker"],
-    "Vercel": ["Vercel"], "N8N": ["N8N"], "Gemini AI": ["Google Gemini", "Gemini"],
-    "Figma": ["Figma"], "Node.js": ["Node.js"],
+    "Vercel": ["Vercel"], "N8N": ["N8N"], "Figma": ["Figma"], "Node.js": ["Node.js"],
+    "GraphQL": ["GraphQL"], "Grafana": ["Grafana"], "Axios": ["Axios"],
+    "Vue.js": ["Vue.js"], "Chatwoot": ["Chatwoot"]
   };
 
   const filtered = selectedTech
@@ -1121,41 +1150,10 @@ const ProjectsSection = ({
     })
     : projectsData;
 
-  useEffect(() => {
-    setCurrentIndex(0);
-  }, [selectedTech]);
-
-  const handleNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % filtered.length);
-  };
-
-  const handlePrev = () => {
-    setCurrentIndex((prev) => (prev - 1 + filtered.length) % filtered.length);
-  };
-
-  if (filtered.length === 0) {
-    return (
-      <section id="projetos" className="py-24 px-4 bg-bg/30 border-t border-border/60">
-        <div className="container mx-auto max-w-5xl text-center">
-          <Badge>{t.projects.badge}</Badge>
-          <h2 className="text-3xl md:text-5xl font-black uppercase mt-4 mb-8">
-            {t.projects.title1} <span className="text-gradient">{t.projects.titleHighlight}</span>
-          </h2>
-          <div className="w-full max-w-md mx-auto rounded-2xl border border-border p-8 text-center glass-card mt-8">
-            <p className="text-txt-muted text-xs">Nenhum projeto encontrado para a tecnologia selecionada.</p>
-          </div>
-        </div>
-      </section>
-    );
-  }
-
-  const p = filtered[currentIndex];
-  const activeMedia = mockupType === "desktop" ? p.desktop : p.mobile;
-
   return (
     <section id="projetos" className="py-24 px-4 bg-bg/30 border-t border-border/60 relative overflow-hidden">
-      <div className="container mx-auto max-w-5xl relative z-10">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12">
+      <div className="container mx-auto max-w-6xl relative z-10">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-16">
           <div>
             <Badge>{t.projects.badge}</Badge>
             <h2 className="text-3xl md:text-5xl font-black uppercase mt-4">
@@ -1166,164 +1164,95 @@ const ProjectsSection = ({
           {selectedTech && (
             <div className="flex items-center gap-3 border border-primary/20 bg-primary/5 px-4 py-2 rounded-xl text-xs uppercase font-black self-start">
               <div>Filtro: <span className="text-gradient">{selectedTech}</span></div>
-              <button onClick={onClearSelection} className="text-[10px] bg-bg border border-border rounded-lg px-2 py-1 cursor-pointer hover:bg-primary/10 transition-colors">
+              <button onClick={onClearSelection} className="text-[10px] bg-bg border border-border rounded-lg px-2 py-1 cursor-pointer hover:bg-primary/10 transition-colors animate-pulse">
                 Limpar
               </button>
             </div>
           )}
         </div>
 
-        {/* Main Carousel Card Container */}
-        <div className="grid md:grid-cols-[1.2fr_1fr] gap-8 items-center bg-[#111] border border-border rounded-[2.5rem] p-6 md:p-10 shadow-2xl relative">
-
-          {/* Left Side: Device Mockup Media */}
-          <div className="flex flex-col justify-center items-center w-full">
-            {/* Mockup Toggle Buttons */}
-            <div className="flex justify-center gap-2 mb-6 bg-bg/50 border border-border p-1 rounded-xl">
-              <button
-                onClick={() => setMockupType("desktop")}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider transition-colors cursor-pointer ${mockupType === "desktop" ? "bg-primary text-white" : "text-txt-muted hover:text-txt"}`}
-              >
-                💻 Monitor
-              </button>
-              <button
-                onClick={() => setMockupType("mobile")}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider transition-colors cursor-pointer ${mockupType === "mobile" ? "bg-primary text-white" : "text-txt-muted hover:text-txt"}`}
-              >
-                📱 Celular
-              </button>
-            </div>
-
-            {/* Device Mockup Display */}
-            <div className="w-full flex justify-center items-center h-[280px] md:h-[350px]">
-              <AnimatePresence mode="wait">
+        {filtered.length === 0 ? (
+          <div className="w-full max-w-md mx-auto rounded-2xl border border-border p-8 text-center glass-card">
+            <p className="text-txt-muted text-xs">Nenhum projeto encontrado para a tecnologia selecionada.</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {filtered.map((project, idx) => (
+              <FadeIn key={project.title} delay={idx * 0.1}>
                 <motion.div
-                  key={mockupType + "_" + currentIndex}
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.35 }}
-                  className="w-full max-w-[450px] flex flex-col justify-center"
+                  className="group relative flex flex-col justify-between h-full bg-zinc-950/40 backdrop-blur-xl border border-zinc-800 rounded-3xl overflow-hidden transition-all duration-300 hover:shadow-[0_0_30px_rgba(128,0,0,0.25)] hover:border-primary/40"
+                  whileHover={{ y: -6 }}
                 >
-                  {mockupType === "desktop" ? (
-                    // Monitor Mockup
-                    <div className="w-full">
-                      <div className="relative w-full aspect-[16/10] border-[8px] border-[#1f1f1f] bg-[#0c0c0c] rounded-t-2xl overflow-hidden shadow-2xl flex flex-col items-center justify-center">
-                        {activeMedia.img ? (
-                          <Image src={activeMedia.img} alt={p.title} fill className="object-cover" unoptimized />
-                        ) : activeMedia.video ? (
-                          <video src={activeMedia.video} autoPlay muted loop playsInline className="w-full h-full object-cover" />
-                        ) : (
-                          <div className="flex flex-col items-center gap-2">
-                            <Zap size={28} className="text-primary animate-pulse" />
-                            <span className="text-[10px] font-black text-txt-muted uppercase tracking-widest">Em Breve</span>
-                          </div>
-                        )}
-                      </div>
-                      {/* Monitor Stand */}
-                      <div className="w-16 h-8 bg-[#181818] mx-auto border-t border-white/5" />
-                      <div className="w-28 h-1.5 bg-[#252525] mx-auto rounded-full shadow-md" />
+                  <div>
+                    {/* Imagem Container com Zoom */}
+                    <div className="relative aspect-[16/10] overflow-hidden w-full bg-zinc-900">
+                      <Image
+                        src={project.img}
+                        alt={project.title}
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        unoptimized
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/20 to-transparent opacity-80" />
+                      
+                      {/* Area Badge */}
+                      <span className="absolute top-4 left-4 text-[8px] font-black uppercase tracking-widest text-primary bg-primary/15 border border-primary/25 px-2.5 py-1 rounded-full backdrop-blur-md">
+                        {project.area}
+                      </span>
                     </div>
-                  ) : (
-                    // Mobile Phone Mockup
-                    <div className="w-full flex justify-center">
-                      <div className="relative w-[170px] h-[310px] border-[6px] border-[#1f1f1f] bg-[#0c0c0c] rounded-[2rem] overflow-hidden shadow-2xl flex flex-col items-center justify-center">
-                        {/* Dynamic Island / Notch */}
-                        <div className="absolute top-1.5 left-1/2 -translate-x-1/2 w-12 h-3 bg-black rounded-full z-20" />
 
-                        {activeMedia.img ? (
-                          <Image src={activeMedia.img} alt={p.title} fill className="object-cover" unoptimized />
-                        ) : activeMedia.video ? (
-                          <video src={activeMedia.video} autoPlay muted loop playsInline className="w-full h-full object-cover" />
-                        ) : (
-                          <div className="flex flex-col items-center gap-2">
-                            <Zap size={22} className="text-primary animate-pulse" />
-                            <span className="text-[8px] font-black text-txt-muted uppercase tracking-widest">Em Breve</span>
-                          </div>
+                    {/* Conteúdo */}
+                    <div className="p-6">
+                      <h3 className="text-lg font-black uppercase mb-2 group-hover:text-primary transition-colors">
+                        {project.title}
+                      </h3>
+                      <p className="text-txt-muted text-xs leading-relaxed mb-6 line-clamp-3">
+                        {project.desc}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Footer & CTA */}
+                  <div className="px-6 pb-6 pt-2 space-y-4">
+                    {project.techs && (
+                      <div className="flex flex-wrap gap-1">
+                        {project.techs.slice(0, 4).map((tech) => (
+                          <span key={tech} className="px-2 py-0.5 rounded-full border border-primary/10 text-[8px] font-bold text-primary bg-primary/5">
+                            {tech}
+                          </span>
+                        ))}
+                        {project.techs.length > 4 && (
+                          <span className="px-2 py-0.5 rounded-full border border-zinc-800 text-[8px] font-bold text-txt-muted">
+                            +{project.techs.length - 4}
+                          </span>
                         )}
                       </div>
-                    </div>
-                  )}
+                    )}
+
+                    {project.wip ? (
+                      <div className="w-full text-center text-[10px] font-black uppercase tracking-widest text-txt-muted bg-zinc-900/40 border border-zinc-800 py-3.5 rounded-xl">
+                        Em breve...
+                      </div>
+                    ) : (
+                      <a
+                        href={project.link}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="flex items-center justify-center gap-2 w-full bg-primary hover:bg-accent text-white text-[10px] font-black uppercase tracking-wider py-3.5 rounded-xl transition-all shadow-md shadow-primary/10 hover:shadow-primary/20"
+                      >
+                        Acessar Aplicação <ArrowUpRight size={14} />
+                      </a>
+                    )}
+                  </div>
                 </motion.div>
-              </AnimatePresence>
-            </div>
+              </FadeIn>
+            ))}
           </div>
-
-          {/* Right Side: Project Information */}
-          <div className="flex flex-col justify-between h-full min-h-[280px]">
-            <div>
-              {/* Project Area Badge */}
-              <div className="flex flex-wrap items-center gap-2 mb-2">
-                <span className="text-[8px] font-black uppercase tracking-widest text-primary bg-primary/10 border border-primary/20 px-2.5 py-1 rounded-full">
-                  {p.area}
-                </span>
-                <span className="text-[8px] font-bold uppercase tracking-wider text-txt-muted">
-                  {p.tag}
-                </span>
-              </div>
-
-              <h3 className="text-xl md:text-2xl font-black uppercase mb-3 text-txt text-gradient">{p.title}</h3>
-              <p className="text-txt-muted text-xs md:text-sm leading-relaxed mb-6">{p.desc}</p>
-            </div>
-
-            <div className="space-y-4 pt-4 border-t border-border/40">
-              {p.techs && (
-                <div className="flex flex-wrap gap-1">
-                  {p.techs.map((tech) => (
-                    <span key={tech} className="px-2 py-0.5 rounded-full border border-primary/10 text-[8px] font-bold text-primary bg-primary/5">
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              )}
-
-              <div className="flex items-center justify-between pt-2">
-                {/* Demo & Code Buttons */}
-                <div className="flex gap-2">
-                  {p.link !== "#" && (
-                    <a href={p.link} target="_blank" rel="noreferrer"
-                      className="bg-primary hover:bg-accent text-white text-[9px] font-black uppercase px-3 py-2 rounded-lg flex items-center gap-1 shadow-md shadow-primary/10 transition-all hover:-translate-y-0.5">
-                      Demo <ExternalLink size={9} />
-                    </a>
-                  )}
-                  {p.github !== "#" && (
-                    <a href={p.github} target="_blank" rel="noreferrer"
-                      className="border border-border text-txt-muted hover:text-txt text-[9px] font-black uppercase px-3 py-2 rounded-lg transition-all hover:border-primary/30 hover:-translate-y-0.5">
-                      Code
-                    </a>
-                  )}
-                </div>
-
-                {/* Slider Controls */}
-                <div className="flex gap-1.5 bg-bg/40 border border-border p-1 rounded-lg">
-                  <button
-                    onClick={handlePrev}
-                    className="p-1.5 hover:bg-surface border border-transparent hover:border-border rounded-md text-txt-muted hover:text-txt cursor-pointer transition-colors"
-                    title="Anterior"
-                  >
-                    <ChevronRight size={14} className="rotate-180" />
-                  </button>
-                  <span className="text-[9px] font-black uppercase tracking-wider px-2 py-1 bg-surface border border-border rounded-md flex items-center justify-center min-w-[32px]">
-                    {currentIndex + 1} / {filtered.length}
-                  </span>
-                  <button
-                    onClick={handleNext}
-                    className="p-1.5 hover:bg-surface border border-transparent hover:border-border rounded-md text-txt-muted hover:text-txt cursor-pointer transition-colors"
-                    title="Próximo"
-                  >
-                    <ChevronRight size={14} />
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
+        )}
       </div>
     </section>
   );
 };
-
 
 // ─── FOOTER / CONTACT SECTION ───
 const FooterSection = () => {
@@ -1407,6 +1336,17 @@ export default function PortfolioPage() {
   const [lang, setLang] = useState<Lang>("pt");
   const [selectedTech, setSelectedTech] = useState<string | null>(null);
   const [loaded, setLoaded] = useState(false);
+  const [isOldDomain, setIsOldDomain] = useState(false);
+
+  useEffect(() => {
+    // Detect if accessing from old domain (Módulo 0)
+    if (typeof window !== "undefined") {
+      const hostname = window.location.hostname;
+      if (hostname.includes("github.io") || hostname.includes("techcarlosandre.github.io")) {
+        setIsOldDomain(true);
+      }
+    }
+  }, []);
 
   const toggleTheme = () => {
     const next = theme === "dark" ? "light" : "dark";
@@ -1418,6 +1358,8 @@ export default function PortfolioPage() {
 
   return (
     <AppContext.Provider value={{ lang, t, theme, toggleTheme, setLang }}>
+      {isOldDomain && <MigrationOverlay />}
+
       <AnimatePresence mode="wait">
         {!loaded && <LoadingScreen key="loading" onDone={() => setLoaded(true)} />}
       </AnimatePresence>

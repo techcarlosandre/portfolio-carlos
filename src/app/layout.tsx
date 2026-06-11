@@ -15,7 +15,7 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://carlosandre.dev"),
+  metadataBase: new URL("https://portfolio.techcarlos.com.br"),
   title: "Carlos André | Desenvolvedor Full-Stack",
   description:
     "Portfólio de Carlos André — Desenvolvedor Full-Stack especializado em Next.js, React, TypeScript, Python e automações inteligentes. Criando plataformas SaaS de alta performance com UI premium.",

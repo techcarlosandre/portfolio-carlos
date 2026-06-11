@@ -1,5 +1,7 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextRequest, NextResponse } from "next/server";
+import { getFAQResponse } from "@/lib/faq";
+import { supabase, isSupabaseConfigured } from "@/lib/supabase";
 
 const SYSTEM_PROMPT = `Você é o assistente de IA do portfólio de Carlos André — um desenvolvedor Full-Stack com mais de 2 anos de experiência.
 
@@ -54,33 +56,77 @@ const SYSTEM_PROMPT = `Você é o assistente de IA do portfólio de Carlos Andr�
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
 
-// Rate limiting simples em memória (por IP)
-const requestLog = new Map<string, { count: number; resetAt: number }>();
-const RATE_LIMIT = 20; // requests por janela
+// Rate limiting and Cooldown (per IP)
+const requestLog = new Map<string, { count: number; resetAt: number; lastRequestAt: number }>();
+const RATE_LIMIT = 15; // requests por janela
 const RATE_WINDOW = 60 * 1000; // 1 minuto
+const COOLDOWN_TIME = 1500; // 1.5s entre requisições para evitar spam/double-click
 
-function checkRateLimit(ip: string): boolean {
+function checkRateLimit(ip: string): { allowed: boolean; reason?: string } {
   const now = Date.now();
   const entry = requestLog.get(ip);
 
-  if (!entry || now > entry.resetAt) {
-    requestLog.set(ip, { count: 1, resetAt: now + RATE_WINDOW });
-    return true;
+  if (!entry) {
+    requestLog.set(ip, { count: 1, resetAt: now + RATE_WINDOW, lastRequestAt: now });
+    return { allowed: true };
   }
 
-  if (entry.count >= RATE_LIMIT) return false;
+  // Cooldown check (debounce/spam protection)
+  if (now - entry.lastRequestAt < COOLDOWN_TIME) {
+    return { allowed: false, reason: "Aguarde um instante antes de enviar outra mensagem." };
+  }
+
+  // Window check
+  if (now > entry.resetAt) {
+    requestLog.set(ip, { count: 1, resetAt: now + RATE_WINDOW, lastRequestAt: now });
+    return { allowed: true };
+  }
+
+  if (entry.count >= RATE_LIMIT) {
+    return { allowed: false, reason: "Muitas requisições. Por favor, aguarde um momento antes de tentar novamente." };
+  }
 
   entry.count++;
-  return true;
+  entry.lastRequestAt = now;
+  return { allowed: true };
+}
+
+// Sørensen–Dice similarity coefficient for simple semantic matching
+function getSimilarity(s1: string, s2: string): number {
+  const getBigrams = (str: string) => {
+    const bigrams = new Set<string>();
+    for (let i = 0; i < str.length - 1; i++) {
+      bigrams.add(str.substring(i, i + 2));
+    }
+    return bigrams;
+  };
+  
+  const clean = (s: string) => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^\w\s]/g, "").trim();
+  const c1 = clean(s1);
+  const c2 = clean(s2);
+  
+  if (c1 === c2) return 1.0;
+  if (c1.length < 2 || c2.length < 2) return 0.0;
+  
+  const b1 = getBigrams(c1);
+  const b2 = getBigrams(c2);
+  
+  let matches = 0;
+  for (const bigram of b1) {
+    if (b2.has(bigram)) matches++;
+  }
+  
+  return (2 * matches) / (b1.size + b2.size);
 }
 
 export async function POST(req: NextRequest) {
   try {
-    // Rate limiting
     const ip = req.headers.get("x-forwarded-for")?.split(",")[0] ?? "unknown";
-    if (!checkRateLimit(ip)) {
+    const limitStatus = checkRateLimit(ip);
+    
+    if (!limitStatus.allowed) {
       return NextResponse.json(
-        { reply: "Muitas requisições. Por favor, aguarde um momento antes de tentar novamente." },
+        { reply: limitStatus.reason },
         { status: 429 }
       );
     }
@@ -92,11 +138,55 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Mensagem inválida" }, { status: 400 });
     }
 
-    // Limita tamanho da mensagem
-    if (message.length > 1000) {
+    if (message.length > 800) {
       return NextResponse.json({ error: "Mensagem muito longa" }, { status: 400 });
     }
 
+    // Determine context language based on message/history
+    const lang = message.toLowerCase().includes("hello") || message.toLowerCase().includes("hi ") ? "en" : "pt";
+
+    // ─── CAMADA 1: FAQ LOCAL ───
+    const faqResponse = getFAQResponse(message, lang);
+    if (faqResponse.matched) {
+      return NextResponse.json({ reply: faqResponse.reply, cached: true, source: "faq" });
+    }
+
+    // ─── CAMADA 2: CACHE DE BANCO DE DADOS (SUPABASE) ───
+    if (isSupabaseConfigured && supabase) {
+      try {
+        const queryText = message.trim();
+        // Check exact match first
+        const { data: exactMatch } = await supabase
+          .from("bot_cache")
+          .select("answer")
+          .eq("question", queryText)
+          .maybeSingle();
+
+        if (exactMatch) {
+          return NextResponse.json({ reply: exactMatch.answer, cached: true, source: "exact_db" });
+        }
+
+        // Check textual similarity against recent entries
+        const { data: recentCache } = await supabase
+          .from("bot_cache")
+          .select("question, answer")
+          .order("created_at", { ascending: false })
+          .limit(120);
+
+        if (recentCache && recentCache.length > 0) {
+          for (const item of recentCache) {
+            const sim = getSimilarity(queryText, item.question);
+            if (sim > 0.86) { // High similarity match
+              return NextResponse.json({ reply: item.answer, cached: true, source: "similar_db" });
+            }
+          }
+        }
+      } catch (dbError) {
+        console.error("Supabase cache fetch error (falling back to API):", dbError);
+      }
+    }
+
+    // ─── CAMADA 3: GEMINI AI ───
     if (!process.env.GEMINI_API_KEY) {
       return NextResponse.json(
         { reply: "Assistente temporariamente indisponível. Entre em contato direto: techcarlosandre@gmail.com" },
@@ -109,20 +199,19 @@ export async function POST(req: NextRequest) {
       systemInstruction: SYSTEM_PROMPT,
     });
 
-    // Limita histórico para evitar tokens excessivos (máx 10 turnos)
-    const rawHistory = Array.isArray(history) ? history.slice(-10) : [];
+    const rawHistory = Array.isArray(history) ? history.slice(-6) : [];
     const formattedHistory = rawHistory
       .filter((msg: { sender: string; text: string }) => msg.sender && msg.text)
       .map((msg: { sender: string; text: string }) => ({
-        role: msg.sender === "user" ? "user" as const : "model" as const,
+        role: msg.sender === "user" ? ("user" as const) : ("model" as const),
         parts: [{ text: msg.text }],
       }));
 
     const chat = model.startChat({
       history: formattedHistory,
       generationConfig: {
-        maxOutputTokens: 600,
-        temperature: 0.75,
+        maxOutputTokens: 500,
+        temperature: 0.65,
         topP: 0.9,
       },
     });
@@ -131,7 +220,18 @@ export async function POST(req: NextRequest) {
     const response = await result.response;
     const text = response.text();
 
-    return NextResponse.json({ reply: text });
+    // ─── PERSISTÊNCIA NO CACHE DO BANCO ───
+    if (isSupabaseConfigured && supabase) {
+      try {
+        await supabase
+          .from("bot_cache")
+          .insert([{ question: message.trim(), answer: text }]);
+      } catch (insertError) {
+        console.error("Supabase cache save error:", insertError);
+      }
+    }
+
+    return NextResponse.json({ reply: text, source: "gemini" });
   } catch (error) {
     console.error("Gemini API error:", error);
     return NextResponse.json(
