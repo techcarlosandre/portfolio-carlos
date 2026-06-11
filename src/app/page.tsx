@@ -422,14 +422,85 @@ const TechLogoCard = ({
   );
 };
 
-// ─── CHAT IA ───
-const ChatHibrido = () => {
+// ─── INTERACTIVE ARCHITECTURE DIAGRAM (Foto 3) ───
+const ArchitectureDiagram = ({ activeStep }: { activeStep: number }) => {
+  const steps = [
+    {
+      id: 1,
+      tag: "PASSO 1: API GATEWAY",
+      title: "API / INSTAGRAM & WHATSAPP",
+      desc: "Captura de mensagem e webhook em tempo real",
+      icon: "💬"
+    },
+    {
+      id: 2,
+      tag: "PASSO 2: BACKEND CONTROLLER",
+      title: "BACKEND / NODE.JS",
+      desc: "Validação de roteamento, cooldown e anti-spam",
+      icon: "⚡"
+    },
+    {
+      id: 3,
+      tag: "PASSO 3: IA GENERATIVA",
+      title: "GOOGLE GEMINI 3.5 FLASH",
+      desc: "Raciocínio lógico, histórico e decisão de resposta",
+      icon: "🧠"
+    },
+    {
+      id: 4,
+      tag: "PASSO 4: PERSISTÊNCIA & CACHE",
+      title: "CRM / SUPABASE CACHE",
+      desc: "Registro de leads, salvamento em banco e resposta final",
+      icon: "💾"
+    }
+  ];
+
+  return (
+    <div className="flex flex-col justify-center gap-4 w-full h-full max-w-md mx-auto relative p-6 bg-zinc-950/40 backdrop-blur-xl border border-zinc-800 rounded-[2rem] shadow-xl">
+      <h4 className="text-[10px] font-black uppercase tracking-widest text-primary mb-2">Arquitetura Conversacional Integrada</h4>
+      <div className="space-y-3 relative z-10">
+        {steps.map((step) => {
+          const isActive = activeStep === step.id;
+          return (
+            <div
+              key={step.id}
+              className={`flex items-center gap-4 p-3.5 rounded-2xl border transition-all duration-500 ${
+                isActive
+                  ? "border-primary bg-primary/10 shadow-[0_0_20px_rgba(128,0,0,0.35)] scale-[1.03]"
+                  : "border-zinc-900 bg-zinc-950/60 opacity-60"
+              }`}
+            >
+              <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-lg transition-colors ${
+                isActive ? "bg-primary text-white" : "bg-zinc-900 text-txt-muted"
+              }`}>
+                {step.icon}
+              </div>
+              <div className="flex-1 text-left">
+                <span className={`text-[7px] font-black uppercase tracking-wider block ${
+                  isActive ? "text-primary animate-pulse" : "text-txt-muted/70"
+                }`}>
+                  {step.tag}
+                </span>
+                <h5 className="text-[11px] font-bold text-white uppercase">{step.title}</h5>
+                <p className="text-[9px] text-txt-muted line-clamp-1 mt-0.5">{step.desc}</p>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+};
+
+// ─── CHAT IA COM DIAGRAMA INTEGRADO (Módulo 3 - Refatorado Premium) ───
+const ChatComDiagrama = () => {
   const { t } = useApp();
   const [messages, setMessages] = useState<
     { id: string; sender: "user" | "bot"; text: string }[]
   >([{ id: "1", sender: "bot", text: t.chat.welcome }]);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
+  const [activeStep, setActiveStep] = useState<number>(0);
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -446,6 +517,17 @@ const ChatHibrido = () => {
     setInput("");
     setIsTyping(true);
 
+    // Flow Animation: Step 1 (API Input)
+    setActiveStep(1);
+
+    setTimeout(() => {
+      setActiveStep(2); // Step 2 (Backend logic)
+    }, 450);
+
+    setTimeout(() => {
+      setActiveStep(3); // Step 3 (Gemini computation)
+    }, 1100);
+
     const history = messages
       .filter((m) => m.id !== "1")
       .map((m) => ({ sender: m.sender, text: m.text }));
@@ -458,8 +540,16 @@ const ChatHibrido = () => {
       });
       const data = await res.json();
       const reply = data.reply || t.chat.replyDefault;
+
+      // Flow Animation: Step 4 (Supabase Cache and Answer Rendered)
+      setActiveStep(4);
       setMessages((p) => [...p, { id: Date.now().toString(), sender: "bot", text: reply }]);
+      
+      setTimeout(() => {
+        setActiveStep(0); // Return to idle
+      }, 3000);
     } catch {
+      setActiveStep(0);
       setMessages((p) => [
         ...p,
         {
@@ -481,98 +571,99 @@ const ChatHibrido = () => {
   ];
 
   return (
-    <div className="w-full max-w-2xl mx-auto glass-panel border border-border rounded-[2rem] overflow-hidden flex flex-col shadow-2xl relative z-10">
-      {/* Header */}
-      <div className="bg-surface/40 backdrop-blur-xl px-6 py-4 border-b border-border flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="relative w-10 h-10 rounded-full border border-primary/30 overflow-hidden bg-primary/10 flex items-center justify-center avatar-glow">
-            <Image src="/eu.webp" alt="Carlos André" fill className="object-cover object-top" unoptimized />
-          </div>
-          <div>
-            <h4 className="font-black text-xs uppercase tracking-wider">{t.chat.assistantName}</h4>
-            <div className="flex items-center gap-1.5 text-[8px] font-bold text-green-500 uppercase tracking-widest">
-              <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" /> Online · Gemini
-            </div>
-          </div>
-        </div>
-        <span className="text-[8px] font-black bg-primary/15 text-accent border border-primary/20 px-3 py-1 rounded-full uppercase tracking-widest">
-          {t.chat.assistantRole}
-        </span>
-      </div>
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center max-w-6xl mx-auto w-full relative z-10 px-4">
+      {/* Left Column: Smartphone view of the chat */}
+      <div className="flex justify-center w-full">
+        <div className="relative w-full max-w-[320px] h-[560px] border-[10px] border-[#1e1e20] bg-[#0c0c0d] rounded-[2.5rem] overflow-hidden shadow-2xl flex flex-col justify-between">
+          {/* Dynamic Island / Notch */}
+          <div className="absolute top-2 left-1/2 -translate-x-1/2 w-24 h-4 bg-black rounded-full z-20" />
 
-      {/* Messages */}
-      <div ref={chatContainerRef} className="h-[320px] overflow-y-auto p-6 space-y-4 chat-scrollbar bg-bg/5">
-        {messages.map((m) => (
-          <div key={m.id} className={`flex ${m.sender === "user" ? "justify-end" : "justify-start"}`}>
-            <div
-              className={`max-w-[85%] rounded-2xl px-4 py-3 text-xs md:text-sm leading-relaxed ${m.sender === "user"
-                ? "bg-primary text-white rounded-tr-none"
-                : "bg-surface/80 border border-border text-txt rounded-tl-none"
-                }`}
-              style={{ whiteSpace: "pre-line" }}
-            >
-              {m.text}
+          {/* Chat Header */}
+          <div className="bg-surface/60 backdrop-blur-xl px-5 pt-7 pb-3 border-b border-border flex items-center gap-3">
+            <div className="relative w-8 h-8 rounded-full border border-primary/30 overflow-hidden bg-primary/10 flex items-center justify-center avatar-glow">
+              <Image src="/eu.webp" alt="Carlos André" fill className="object-cover object-top" unoptimized />
+            </div>
+            <div>
+              <h4 className="font-black text-[9px] uppercase tracking-wider">{t.chat.assistantName}</h4>
+              <div className="flex items-center gap-1 text-[7px] font-bold text-green-500 uppercase tracking-widest">
+                <span className="w-1 h-1 rounded-full bg-green-500 animate-pulse" /> Online · Gemini
+              </div>
             </div>
           </div>
-        ))}
-        {isTyping && (
-          <div className="flex justify-start">
-            <div className="bg-surface border border-border rounded-2xl rounded-tl-none px-4 py-3 flex gap-1.5 items-center">
-              {[0, 150, 300].map((d) => (
-                <span
-                  key={d}
-                  className="w-1.5 h-1.5 bg-primary rounded-full animate-bounce"
-                  style={{ animationDelay: `${d}ms` }}
-                />
+
+          {/* Messages */}
+          <div ref={chatContainerRef} className="flex-1 overflow-y-auto p-4 space-y-3 chat-scrollbar bg-bg/5">
+            {messages.map((m) => (
+              <div key={m.id} className={`flex ${m.sender === "user" ? "justify-end" : "justify-start"}`}>
+                <div
+                  className={`max-w-[85%] rounded-2xl px-3.5 py-2.5 text-[11px] leading-relaxed ${m.sender === "user"
+                    ? "bg-primary text-white rounded-tr-none"
+                    : "bg-surface border border-border text-txt rounded-tl-none"
+                    }`}
+                  style={{ whiteSpace: "pre-line" }}
+                >
+                  {m.text}
+                </div>
+              </div>
+            ))}
+            {isTyping && (
+              <div className="flex justify-start">
+                <div className="bg-surface border border-border rounded-2xl rounded-tl-none px-3.5 py-2.5 flex gap-1 items-center">
+                  {[0, 150, 300].map((d) => (
+                    <span
+                      key={d}
+                      className="w-1 h-1 bg-primary rounded-full animate-bounce"
+                      style={{ animationDelay: `${d}ms` }}
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Quick Buttons & Input */}
+          <div className="bg-surface/40 border-t border-border">
+            <div className="p-2 bg-surface/20 flex flex-wrap gap-1.5 justify-center max-h-[110px] overflow-y-auto chat-scrollbar">
+              {quickBtns.map((btn) => (
+                <button
+                  key={btn.label}
+                  onClick={() => handleSend(btn.msg)}
+                  disabled={isTyping}
+                  className="text-[7px] font-bold uppercase tracking-wider bg-bg/60 hover:bg-primary/10 border border-border hover:border-primary/30 px-2 py-1.5 rounded-full transition-all text-txt-muted hover:text-primary cursor-pointer disabled:opacity-50"
+                >
+                  {btn.label}
+                </button>
               ))}
             </div>
+
+            <form
+              onSubmit={(e) => { e.preventDefault(); handleSend(input); }}
+              className="p-2 bg-surface/40 border-t border-border flex gap-1.5"
+            >
+              <input
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder={t.chat.placeholder}
+                disabled={isTyping}
+                className="flex-1 bg-bg/40 border border-border rounded-lg px-3 py-2 text-[10px] focus:outline-none focus:border-primary/40 transition-colors text-txt disabled:opacity-60"
+              />
+              <button
+                type="submit"
+                disabled={isTyping || !input.trim()}
+                className="bg-primary hover:bg-accent disabled:opacity-50 text-white px-3 rounded-lg flex items-center justify-center transition-all"
+              >
+                <Send size={12} />
+              </button>
+            </form>
           </div>
-        )}
+        </div>
       </div>
 
-      {/* Quick Buttons */}
-      <div className="p-3 bg-surface/20 border-t border-border flex flex-wrap gap-2 justify-center">
-        {quickBtns.map((btn) => (
-          <button
-            key={btn.label}
-            onClick={() => handleSend(btn.msg)}
-            disabled={isTyping}
-            className="text-[8px] font-bold uppercase tracking-widest bg-bg/60 hover:bg-primary/10 border border-border hover:border-primary/30 px-3 py-2 rounded-full transition-all text-txt-muted hover:text-primary cursor-pointer disabled:opacity-50"
-          >
-            {btn.label}
-          </button>
-        ))}
-        <a
-          href="https://api.whatsapp.com/send/?phone=21982665121&text=Olá+Carlos%2C+vi+seu+portfólio+e+gostaria+de+conversar+sobre+um+projeto."
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-[8px] font-bold uppercase tracking-widest bg-bg/60 hover:bg-primary/10 border border-border hover:border-primary/30 px-3 py-2 rounded-full transition-all text-txt-muted hover:text-primary flex items-center"
-        >
-          💬 WhatsApp
-        </a>
+      {/* Right Column: Architectural flow diagram */}
+      <div className="w-full flex justify-center">
+        <ArchitectureDiagram activeStep={activeStep} />
       </div>
-
-      {/* Input */}
-      <form
-        onSubmit={(e) => { e.preventDefault(); handleSend(input); }}
-        className="p-3 bg-surface/40 border-t border-border flex gap-2"
-      >
-        <input
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder={t.chat.placeholder}
-          disabled={isTyping}
-          className="flex-1 bg-bg/40 border border-border rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:border-primary/40 transition-colors text-txt disabled:opacity-60"
-        />
-        <button
-          type="submit"
-          disabled={isTyping || !input.trim()}
-          className="bg-primary hover:bg-accent disabled:opacity-50 text-white px-4 rounded-xl flex items-center justify-center transition-all shadow-md"
-        >
-          <Send size={14} />
-        </button>
-      </form>
     </div>
   );
 };
@@ -1189,10 +1280,10 @@ const ProjectsSection = ({
   const activeMedia = mockupType === "desktop" ? p.desktop : p.mobile;
 
   return (
-    <section id="projetos" className="relative h-[150vh] bg-bg/20 border-t border-border/60">
-      <div className="sticky top-0 h-screen w-full flex flex-col justify-center items-center overflow-hidden z-10 px-4 md:px-8">
+    <section id="projetos" className="relative h-[155vh] bg-bg/20 border-t border-border/60">
+      <div className="sticky top-0 h-screen w-full flex flex-col justify-center items-center overflow-hidden z-10 px-0">
         
-        <div className="container mx-auto max-w-5xl relative z-10 mb-8">
+        <div className="container mx-auto max-w-5xl relative z-10 mb-6 px-6">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
             <div>
               <Badge>{t.projects.badge}</Badge>
@@ -1212,9 +1303,9 @@ const ProjectsSection = ({
           </div>
         </div>
 
-        {/* 1px glowing gradient border effect for the carousel container */}
-        <div className="relative p-[1px] bg-zinc-800/40 hover:bg-gradient-to-r hover:from-primary hover:via-accent hover:to-primary/20 rounded-[2.5rem] transition-all duration-500 hover:shadow-[0_0_50px_rgba(128,0,0,0.18)] max-w-5xl w-full">
-          <div className="grid md:grid-cols-[1.2fr_1fr] gap-8 items-center bg-[#09090b]/98 rounded-[39px] p-6 md:p-10 relative z-10 overflow-hidden">
+        {/* 1px glowing gradient border effect for the carousel container - Fullscreen Width */}
+        <div className="relative p-[1px] bg-zinc-900 hover:bg-gradient-to-r hover:from-primary hover:via-accent hover:to-primary/20 transition-all duration-500 w-full h-[76vh] md:h-[72vh] flex items-center justify-center border-y border-zinc-900/60">
+          <div className="grid md:grid-cols-[1.25fr_1fr] gap-8 items-center bg-[#070708]/98 h-full w-full max-w-7xl mx-auto p-6 md:p-12 relative z-10 overflow-hidden">
             
             {/* Left Side: Device Mockup Media */}
             <div className="flex flex-col justify-center items-center w-full">
@@ -1461,7 +1552,7 @@ const FooterSection = () => {
           </div>
         </FadeIn>
 
-        <ChatHibrido />
+        <ChatComDiagrama />
         <div className="mt-16 pt-6 border-t border-border flex flex-col md:flex-row justify-between items-center gap-3 text-txt-muted text-[9px] font-bold uppercase tracking-widest">
           <p>{t.footer.copy}</p>
           <p>{t.footer.made}</p>
