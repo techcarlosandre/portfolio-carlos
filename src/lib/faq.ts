@@ -1,5 +1,5 @@
 // Local FAQ library for matching user intent and responding instantly
-// to reduce Gemini token usage.
+// to reduce Gemini token usage with refined strict regex rules.
 
 export interface FAQResponse {
   reply: string;
@@ -25,7 +25,7 @@ const FAQ_DATA_PT: Record<string, string> = {
 - **WhatsApp:** [Enviar Mensagem](https://api.whatsapp.com/send/?phone=21982665121&text=Olá+Carlos%2C+vi+seu+portfólio+e+gostaria+de+conversar+sobre+um+projeto) ou +55 (21) 98266-5121
 - **Email:** techcarlosandre@gmail.com`,
   
-  email: `O email profissional do Carlos é **techcarlosandre@gmail.com**. Sinta-se à vontade para enviar uma proposta ou mensagem!`,
+  email: `O email profissional do Carlos é **techcarlosandre@gmail.com**. Sinta-se à voltar para enviar uma proposta ou mensagem!`,
   
   github: `Você pode conferir o perfil e repositórios do Carlos no GitHub: [github.com/techcarlosandre](https://github.com/techcarlosandre).`,
   
@@ -90,35 +90,73 @@ const FAQ_DATA_EN: Record<string, string> = {
 Scroll down to the Projects section to see them!`
 };
 
-// Simple keywords maps for intent detection
-const INTENTS_MAP: Record<string, string[]> = {
-  habilidades: ['habilidade', 'skills', 'skill', 'sabe fazer', 'conhece', 'domina', 'capacidade', 'knows'],
-  stack: ['stack', 'arquitetura', 'linguagem', 'linguagens', 'programar'],
-  tecnologias: ['tecnologia', 'tecnologias', 'ferramenta', 'ferramentas', 'framework', 'frameworks', 'library', 'biblioteca', 'technologies', 'tools'],
-  contato: ['contato', 'telefone', 'celular', 'whatsapp', 'wpp', 'falar com', 'conversar', 'contact', 'phone'],
-  email: ['email', 'e-mail', 'correio', 'mensagem'],
-  github: ['github', 'git', 'repositorio', 'repositorios', 'code', 'codigo'],
-  linkedin: ['linkedin', 'perfil profissional'],
-  experiencia: ['experiencia', 'trabalho', 'emprego', 'tramp', 'historico', 'cargo', 'empresa', 'empresas', 'experience', 'jobs', 'work'],
-  formacao: ['formacao', 'estudo', 'estudos', 'faculdade', 'curso', 'cursos', 'universidade', 'estacio', 'graduacao', 'education', 'college'],
-  localizacao: ['localizacao', 'onde mora', 'onde vive', 'cidade', 'estado', 'rio', 'rj', 'brasil', 'location', 'live', 'lives'],
-  projetos: ['projeto', 'projetos', 'portfolio', 'portfolios', 'trabalhos feitos', 'sistema', 'sistemas', 'projects', 'apps']
-};
-
 export function getFAQResponse(message: string, lang: 'pt' | 'en' = 'pt'): FAQResponse {
-  const normalized = message.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  const normalized = message.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
   
-  for (const [intent, keywords] of Object.entries(INTENTS_MAP)) {
-    for (const keyword of keywords) {
-      // Normalize keyword too
-      const normKeyword = keyword.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-      const regex = new RegExp(`\\b${normKeyword}\\b`, 'i');
-      if (regex.test(normalized) || normalized.includes(normKeyword)) {
-        const reply = lang === 'en' ? FAQ_DATA_EN[intent] : FAQ_DATA_PT[intent];
-        return { reply, matched: true };
-      }
-    }
+  // 1. Projects (Strict question checks like: "quais sao seus projetos", "portfolio", "ver trabalhos")
+  // Excludes intents related to making/funding a new project ("fazer um", "criar um", "orcamento")
+  const isQuestionAboutProjects = 
+    /^(quais|quais sao|mostre|ver|lista|listar|quais os|quais foram|me mostre|exibir|quais projetos|portfolio|portfolios|trabalhos|sistemas criados)/i.test(normalized) && 
+    (normalized.includes("projeto") || normalized.includes("trabalho") || normalized.includes("sistema") || normalized.includes("feito") || normalized.includes("criado") || normalized.includes("portfolio")) &&
+    !normalized.includes("fazer") && !normalized.includes("criar") && !normalized.includes("orcamento") && !normalized.includes("preco");
+
+  if (isQuestionAboutProjects) {
+    return { 
+      reply: lang === 'en' ? FAQ_DATA_EN.projetos : FAQ_DATA_PT.projetos, 
+      matched: true 
+    };
   }
   
+  // 2. Habilidades / Skills
+  const isSkills = /^(quais|habilidades|skills|tecnologias|sabe|domina|conhece|manja|ferramentas|habilidade|capacidade)/i.test(normalized) &&
+    (normalized.includes("habilidade") || normalized.includes("skill") || normalized.includes("sabe") || normalized.includes("domina") || normalized.includes("conhece") || normalized.includes("ferramenta") || normalized.includes("stack") || normalized.includes("tecnologia"));
+  if (isSkills) {
+    return { reply: lang === 'en' ? FAQ_DATA_EN.habilidades : FAQ_DATA_PT.habilidades, matched: true };
+  }
+
+  // 3. Contato / WhatsApp
+  const isContact = /(como falo|como entrar em contato|me passa o zap|whatsapp|wpp|telefone|celular|contato|conversar com carlos|falar com carlos|chamar no zap)/i.test(normalized) &&
+    !normalized.includes("fazer um") && !normalized.includes("criar um");
+  if (isContact) {
+    return { reply: lang === 'en' ? FAQ_DATA_EN.contato : FAQ_DATA_PT.contato, matched: true };
+  }
+
+  // 4. Email
+  const isEmail = /^(qual o |me passa o |enviar |mandar )?(email|e-mail|correio eletronico)/i.test(normalized);
+  if (isEmail) {
+    return { reply: lang === 'en' ? FAQ_DATA_EN.email : FAQ_DATA_PT.email, matched: true };
+  }
+
+  // 5. GitHub
+  const isGithub = /(github|git |repositorio|repositorios)/i.test(normalized);
+  if (isGithub) {
+    return { reply: lang === 'en' ? FAQ_DATA_EN.github : FAQ_DATA_PT.github, matched: true };
+  }
+
+  // 6. LinkedIn
+  const isLinkedin = /(linkedin)/i.test(normalized);
+  if (isLinkedin) {
+    return { reply: lang === 'en' ? FAQ_DATA_EN.linkedin : FAQ_DATA_PT.linkedin, matched: true };
+  }
+
+  // 7. Experiencia
+  const isExperience = /(experiencia|trabalhou|trabalho|emprego|tramp|cargo|empresa|empresas|historico profissional)/i.test(normalized) &&
+    (normalized.includes("carlos") || normalized.includes("sua") || normalized.includes("seu") || normalized.includes("experiencia") || normalized.includes("trabalho") || normalized.includes("historico"));
+  if (isExperience) {
+    return { reply: lang === 'en' ? FAQ_DATA_EN.experiencia : FAQ_DATA_PT.experiencia, matched: true };
+  }
+
+  // 8. Formacao
+  const isEducation = /(formacao|faculdade|estudo|estudou|curso|cursos|universidade|estacio|graduacao)/i.test(normalized);
+  if (isEducation) {
+    return { reply: lang === 'en' ? FAQ_DATA_EN.formacao : FAQ_DATA_PT.formacao, matched: true };
+  }
+
+  // 9. Localizacao
+  const isLocation = /(onde mora|onde vive|onde fica|localizacao|onde o carlos|mora no|rio de janeiro|rj|cidade)/i.test(normalized);
+  if (isLocation) {
+    return { reply: lang === 'en' ? FAQ_DATA_EN.localizacao : FAQ_DATA_PT.localizacao, matched: true };
+  }
+
   return { reply: '', matched: false };
 }
