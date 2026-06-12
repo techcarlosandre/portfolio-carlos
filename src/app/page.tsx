@@ -1229,6 +1229,7 @@ const ProjectsSection = ({
   const sectionRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start start", "end end"] });
   const scale = useTransform(scrollYProgress, [0, 0.35], [1, 75]);
+  const x = useTransform(scrollYProgress, [0, 0.35], ["0%", "-22%"]);
   const titleOpacity = useTransform(scrollYProgress, [0, 0.2, 0.35], [1, 1, 0]);
   const projectsOpacity = useTransform(scrollYProgress, [0.45, 0.55, 0.85, 0.98], [0, 1, 1, 0]);
   const projectsScale = useTransform(scrollYProgress, [0.45, 0.55], [0.92, 1]);
@@ -1347,7 +1348,7 @@ const ProjectsSection = ({
         
         {/* Giant portal title animation in the center */}
         <motion.div
-          style={{ scale, opacity: titleOpacity, transformOrigin: "72% 50%", y: "-5%" }}
+          style={{ scale, x, opacity: titleOpacity, transformOrigin: "72% 50%", y: "-5%" }}
           className="absolute inset-0 flex items-center justify-center pointer-events-none z-50 text-[12vw] font-black uppercase tracking-[0.05em] text-white"
         >
           PROJET<span className="text-primary">O</span>S
