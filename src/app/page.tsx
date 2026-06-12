@@ -1395,13 +1395,13 @@ const ProjectsSection = ({
                   <div className="flex gap-2 bg-zinc-900/60 border border-zinc-850 p-1 rounded-xl z-20">
                     <button
                       onClick={() => setMockupType("desktop")}
-                      className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-wider transition-colors cursor-pointer ${mockupType === "desktop" ? "bg-primary text-white" : "text-txt-muted hover:text-txt"}`}
+                      className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-wider transition-all duration-300 cursor-pointer shadow-sm ${mockupType === "desktop" ? "bg-gradient-to-r from-[#a00000] to-[#e03030] text-white font-bold" : "text-zinc-400 hover:text-white"}`}
                     >
                       💻 Web
                     </button>
                     <button
                       onClick={() => setMockupType("mobile")}
-                      className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-wider transition-colors cursor-pointer ${mockupType === "mobile" ? "bg-primary text-white" : "text-txt-muted hover:text-txt"}`}
+                      className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-wider transition-all duration-300 cursor-pointer shadow-sm ${mockupType === "mobile" ? "bg-gradient-to-r from-[#a00000] to-[#e03030] text-white font-bold" : "text-zinc-400 hover:text-white"}`}
                     >
                       📱 App
                     </button>
