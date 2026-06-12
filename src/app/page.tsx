@@ -1228,12 +1228,12 @@ const ProjectsSection = ({
   const [mockupType, setMockupType] = useState<"desktop" | "mobile">("desktop");
   const sectionRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start start", "end end"] });
-  const scale = useTransform(scrollYProgress, [0, 0.35], [1, 75]);
-  const x = useTransform(scrollYProgress, [0, 0.35], ["0%", "-22%"]);
-  const titleOpacity = useTransform(scrollYProgress, [0, 0.2, 0.35], [1, 1, 0]);
-  const projectsOpacity = useTransform(scrollYProgress, [0.45, 0.55, 0.85, 0.98], [0, 1, 1, 0]);
-  const projectsScale = useTransform(scrollYProgress, [0.45, 0.55], [0.92, 1]);
-  const projectsPointerEvents = useTransform(scrollYProgress, (val) => val >= 0.45 ? "auto" : "none");
+  const titleX = useTransform(scrollYProgress, [0, 0.35], ["0vw", "-100vw"]);
+  const titleOpacity = useTransform(scrollYProgress, [0, 0.30], [1, 0]);
+  const projectsX = useTransform(scrollYProgress, [0.15, 0.45, 0.85, 0.98], ["100vw", "0vw", "0vw", "-100vw"]);
+  const projectsOpacity = useTransform(scrollYProgress, [0.15, 0.35, 0.85, 0.98], [0, 1, 1, 0]);
+  const projectsScale = useTransform(scrollYProgress, [0.15, 0.45], [0.95, 1]);
+  const projectsPointerEvents = useTransform(scrollYProgress, (val) => val >= 0.35 ? "auto" : "none");
 
   const projectsData = [
     {
@@ -1348,7 +1348,7 @@ const ProjectsSection = ({
         
         {/* Giant portal title animation in the center */}
         <motion.div
-          style={{ scale, x, opacity: titleOpacity, transformOrigin: "72% 50%", y: "-5%" }}
+          style={{ x: titleX, opacity: titleOpacity, y: "-5%" }}
           className="absolute inset-0 flex items-center justify-center pointer-events-none z-50 text-[12vw] font-black uppercase tracking-[0.05em] text-white"
         >
           PROJET<span className="text-primary">O</span>S
@@ -1356,7 +1356,7 @@ const ProjectsSection = ({
 
         {/* Immersive Fullscreen Grid Layout */}
         <motion.div 
-          style={{ opacity: projectsOpacity, scale: projectsScale, pointerEvents: projectsPointerEvents }}
+          style={{ x: projectsX, opacity: projectsOpacity, scale: projectsScale, pointerEvents: projectsPointerEvents }}
           className="relative w-full h-full bg-[#070708]/98 flex items-center justify-center z-10"
         >
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 h-full w-full relative z-10 overflow-hidden">
