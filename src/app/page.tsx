@@ -1153,7 +1153,7 @@ const SkillsSection = ({
         </div>
 
         <FadeIn delay={0.15}>
-          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-4 w-full">
+          <div className="grid grid-cols-4 sm:grid-cols-5 lg:grid-cols-10 gap-2.5 sm:gap-4 w-full">
             {allTechs.map((tech, i) => (
               <motion.div
                 key={tech}

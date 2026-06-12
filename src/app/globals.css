@@ -782,12 +782,19 @@ body {
   }
 
   .tech-logo-card {
-    padding: 12px 6px;
+    padding: 8px 4px;
+    height: 72px;
+    border-radius: 12px;
+    gap: 4px;
   }
 
   .tech-logo-card img {
-    width: 26px;
-    height: 26px;
+    width: 24px;
+    height: 24px;
+  }
+
+  .tech-logo-label {
+    font-size: 0.5rem;
   }
 }
 
