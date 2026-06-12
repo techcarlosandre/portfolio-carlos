@@ -1231,10 +1231,10 @@ const ProjectsSection = ({
   const titleX = useTransform(scrollYProgress, [0, 0.35], ["0vw", "-100vw"]);
   const titleOpacity = useTransform(scrollYProgress, [0, 0.30], [1, 0]);
   const projectsX = useTransform(scrollYProgress, [0.15, 0.45], ["100vw", "0vw"]);
-  const projectsOpacity = useTransform(scrollYProgress, [0.12, 0.22], [0, 1]);
+  const projectsOpacity = 1;
   const projectsScale = useTransform(scrollYProgress, [0.15, 0.45], [0.98, 1]);
   const projectsRotateY = useTransform(scrollYProgress, [0.15, 0.45], [5, 0]);
-  const projectsPointerEvents = useTransform(scrollYProgress, (val) => val >= 0.22 ? "auto" : "none");
+  const projectsPointerEvents = useTransform(scrollYProgress, (val) => val >= 0.15 ? "auto" : "none");
 
   const projectsData = [
     {
@@ -1382,11 +1382,11 @@ const ProjectsSection = ({
             <div className="lg:col-span-6 flex flex-col justify-center items-center w-full h-full bg-transparent border-r border-white/[0.05] p-8 relative overflow-hidden">
               
               {/* High-fidelity glowing ambient backlights */}
-              <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-primary/10 blur-[120px] animate-pulse pointer-events-none" />
-              <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-accent/8 blur-[100px] pointer-events-none" />
+              <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-red-600/15 blur-[120px] animate-pulse pointer-events-none" />
+              <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-rose-500/12 blur-[100px] pointer-events-none" />
 
               {/* Glowing decorative backing grid */}
-              <div className="absolute inset-0 bg-radial-gradient from-primary/15 via-transparent to-transparent pointer-events-none opacity-40" />
+              <div className="absolute inset-0 bg-radial-gradient from-red-600/20 via-transparent to-transparent pointer-events-none opacity-50" />
 
               {/* Big Device Mockup Display */}
               <div className="w-full h-full flex flex-col justify-center items-center mt-12 max-h-[70%]">
@@ -1485,7 +1485,7 @@ const ProjectsSection = ({
             {/* Right Side (Col 7-12): Detailed Info & Slider controls */}
             <div className="lg:col-span-6 flex flex-col justify-between h-full p-8 md:p-16 lg:p-24 lg:pl-28 bg-transparent relative border-l border-white/[0.01]">
               {/* Subtle accent glow in info panel */}
-              <div className="absolute top-1/2 right-0 -translate-y-1/2 w-72 h-72 rounded-full bg-[#ff4d4d]/5 blur-[90px] pointer-events-none" />
+              <div className="absolute top-1/2 right-0 -translate-y-1/2 w-72 h-72 rounded-full bg-[#ff4d4d]/12 blur-[80px] pointer-events-none" />
               <div className="my-auto space-y-6">
                 <AnimatePresence mode="wait">
                   <motion.div
@@ -1514,7 +1514,7 @@ const ProjectsSection = ({
                   {p.techs && (
                     <div className="flex flex-wrap gap-1.5">
                       {p.techs.map((tech) => (
-                        <span key={tech} className="px-3 py-1 rounded-full border border-white/[0.05] hover:border-primary/40 text-[9px] font-bold text-txt-muted hover:text-white bg-white/[0.02] hover:bg-primary/10 transition-all duration-300">
+                        <span key={tech} className="px-3 py-1 rounded-full border border-white/[0.08] hover:border-[#ff4d4d]/40 text-[9px] font-bold text-zinc-400 hover:text-white bg-white/[0.03] hover:bg-[#ff4d4d]/10 transition-all duration-300 shadow-sm">
                           {tech}
                         </span>
                       ))}
