@@ -389,8 +389,8 @@ const TECH_ICONS: Record<string, { slug: string; color: string; label: string }>
   "Chatwoot": { slug: "chatwoot", color: "#1F93FF", label: "Chatwoot" },
   "Tailwind": { slug: "tailwindcss", color: "#06B6D4", label: "Tailwind CSS" },
   "Flask": { slug: "flask", color: "#ffffff", label: "Flask" },
-  "MCP": { slug: "anthropic", color: "#F9F6F0", label: "MCP" },
-  "LLMs": { slug: "openai", color: "#74AA9C", label: "LLMs" },
+  "MCP": { slug: "anthropic", color: "#ffffff", label: "MCP" },
+  "LLMs": { slug: "openai", color: "#ffffff", label: "LLMs" },
 };
 
 const TechLogoCard = ({
@@ -895,68 +895,50 @@ const HeroSection = () => {
                 </div>
               ))}
             </div>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <a
-                href="#projetos"
-                className="btn-magnetic inline-flex items-center justify-center gap-2 bg-primary hover:bg-accent text-white text-xs font-black uppercase tracking-wider px-6 py-3 rounded-xl transition-all shadow-lg shadow-primary/20 hover:shadow-primary/40 hover:-translate-y-0.5"
-              >
-                {t.hero.ctaPrimary} <ArrowRight size={14} />
-              </a>
-              <a
-                href="#contato"
-                className="inline-flex items-center justify-center gap-2 border border-border hover:border-primary/40 text-txt-muted hover:text-txt text-xs font-black uppercase tracking-wider px-6 py-3 rounded-xl transition-all hover:-translate-y-0.5"
-              >
-                {t.hero.ctaSecondary}
-              </a>
-            </div>
-          </div>
-        </FadeIn>
-
-        {/* Refactored Social Buttons (Módulo 1) */}
-        <FadeIn delay={0.55}>
-          <div className="grid grid-cols-2 md:flex md:flex-row items-center justify-center gap-3 md:gap-4 mt-8 w-full max-w-xl mx-auto px-4">
-            {[
-              {
-                href: "https://github.com/techcarlosandre",
-                icon: <GithubIcon size={18} />,
-                label: "GitHub",
-              },
-              {
-                href: "https://www.linkedin.com/in/devcarlosandre/",
-                icon: <LinkedinIcon size={18} />,
-                label: "LinkedIn",
-              },
-              {
-                href: "#",
-                icon: <span className="text-primary text-sm">📍</span>,
-                label: "Rio de Janeiro, BR",
-                isLocation: true
-              }
-            ].map((item, i) => {
-              const Tag = item.isLocation ? "div" : "a";
-              const props = item.isLocation ? {} : { href: item.href, target: "_blank", rel: "noreferrer" };
-              
-              return (
-                <motion.div
-                  key={i}
-                  className={item.isLocation ? "col-span-2 md:col-span-1 w-full md:w-48" : "col-span-1 w-full md:w-48"}
-                  whileHover={item.isLocation ? {} : { y: -4, scale: 1.02 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 25 }}
-                >
-                  <Tag
-                    {...props}
-                    className={`flex items-center justify-center gap-3 w-full h-14 rounded-2xl border bg-zinc-900/40 backdrop-blur-md transition-all text-xs font-black uppercase tracking-wider ${
-                      item.isLocation 
-                        ? "border-zinc-800 text-txt-muted cursor-default" 
-                        : "border-zinc-800 text-txt-muted hover:text-txt hover:border-primary/50 hover:shadow-[0_0_20px_rgba(128,0,0,0.3)] hover:bg-zinc-900/60"
-                    }`}
+            <div className="grid grid-cols-2 sm:flex sm:flex-row items-center justify-center gap-3 mt-6 w-full max-w-xl mx-auto">
+              {[
+                {
+                  href: "https://github.com/techcarlosandre",
+                  icon: <GithubIcon size={18} />,
+                  label: "GitHub",
+                },
+                {
+                  href: "https://www.linkedin.com/in/devcarlosandre/",
+                  icon: <LinkedinIcon size={18} />,
+                  label: "LinkedIn",
+                },
+                {
+                  href: "#",
+                  icon: <span className="text-primary text-sm">📍</span>,
+                  label: "Rio de Janeiro, BR",
+                  isLocation: true
+                }
+              ].map((item, i) => {
+                const Tag = item.isLocation ? "div" : "a";
+                const props = item.isLocation ? {} : { href: item.href, target: "_blank", rel: "noreferrer" };
+                
+                return (
+                  <motion.div
+                    key={i}
+                    className={item.isLocation ? "col-span-2 sm:col-span-1 w-full sm:w-44" : "col-span-1 w-full sm:w-44"}
+                    whileHover={item.isLocation ? {} : { y: -4, scale: 1.02 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 25 }}
                   >
-                    {item.icon}
-                    <span>{item.label}</span>
-                  </Tag>
-                </motion.div>
-              );
-            })}
+                    <Tag
+                      {...props}
+                      className={`flex items-center justify-center gap-3 w-full h-12 rounded-xl border bg-zinc-900/40 backdrop-blur-md transition-all text-xs font-black uppercase tracking-wider ${
+                        item.isLocation 
+                          ? "border-zinc-800 text-txt-muted cursor-default" 
+                          : "border-zinc-800 text-txt-muted hover:text-txt hover:border-primary/50 hover:shadow-[0_0_20px_rgba(128,0,0,0.3)] hover:bg-zinc-900/60"
+                      }`}
+                    >
+                      {item.icon}
+                      <span>{item.label}</span>
+                    </Tag>
+                  </motion.div>
+                );
+              })}
+            </div>
           </div>
         </FadeIn>
       </div>
