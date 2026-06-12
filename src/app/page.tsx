@@ -1365,7 +1365,7 @@ const ProjectsSection = ({
             pointerEvents: projectsPointerEvents,
             perspective: 1200
           }}
-          className="relative w-full h-full bg-zinc-950/35 dot-grid backdrop-blur-[2px] flex items-center justify-center z-10"
+          className="relative w-full h-full bg-transparent dot-grid flex items-center justify-center z-10"
         >
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 h-full w-full relative z-10 overflow-hidden">
             
@@ -1379,7 +1379,7 @@ const ProjectsSection = ({
             </div>
 
             {/* Left Side (Col 1-6): Large Immersive Device Mockup View */}
-            <div className="lg:col-span-6 flex flex-col justify-center items-center w-full h-full bg-zinc-950/25 border-r border-border/30 p-8 relative overflow-hidden">
+            <div className="lg:col-span-6 flex flex-col justify-center items-center w-full h-full bg-transparent border-r border-white/[0.05] p-8 relative overflow-hidden">
               
               {/* High-fidelity glowing ambient backlights */}
               <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-primary/10 blur-[120px] animate-pulse pointer-events-none" />
@@ -1483,7 +1483,7 @@ const ProjectsSection = ({
             </div>
 
             {/* Right Side (Col 7-12): Detailed Info & Slider controls */}
-            <div className="lg:col-span-6 flex flex-col justify-between h-full p-8 md:p-16 lg:p-24 lg:pl-28 bg-zinc-950/45 backdrop-blur-xl relative border-l border-white/[0.02]">
+            <div className="lg:col-span-6 flex flex-col justify-between h-full p-8 md:p-16 lg:p-24 lg:pl-28 bg-transparent relative border-l border-white/[0.01]">
               {/* Subtle accent glow in info panel */}
               <div className="absolute top-1/2 right-0 -translate-y-1/2 w-72 h-72 rounded-full bg-[#ff4d4d]/5 blur-[90px] pointer-events-none" />
               <div className="my-auto space-y-6">
