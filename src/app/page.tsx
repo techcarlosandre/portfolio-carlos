@@ -403,7 +403,28 @@ const TechLogoCard = ({
   onClick: () => void;
 }) => {
   const info = TECH_ICONS[tech];
+  const [llmIndex, setLlmIndex] = useState(0);
+  
+  const llmLogos = React.useMemo(() => [
+    { slug: "openai", color: "ffffff", label: "OpenAI" },
+    { slug: "googlegemini", color: "ffffff", label: "Gemini" },
+    { slug: "anthropic", color: "ffffff", label: "Claude" },
+    { slug: "huggingface", color: "ffffff", label: "HuggingFace" }
+  ], []);
+
+  useEffect(() => {
+    if (tech !== "LLMs") return;
+    const timer = setInterval(() => {
+      setLlmIndex((prev) => (prev + 1) % llmLogos.length);
+    }, 2800);
+    return () => clearInterval(timer);
+  }, [tech, llmLogos.length]);
+
   if (!info) return null;
+
+  const currentSlug = tech === "LLMs" ? llmLogos[llmIndex].slug : info.slug;
+  const currentColor = tech === "LLMs" ? llmLogos[llmIndex].color : info.color.replace("#", "");
+  const currentLabel = tech === "LLMs" ? llmLogos[llmIndex].label : info.label;
 
   return (
     <motion.button
@@ -411,17 +432,26 @@ const TechLogoCard = ({
       onClick={onClick}
       className={`tech-logo-card ${selected ? "selected" : ""}`}
       whileTap={{ scale: 0.95 }}
-      title={info.label}
+      title={tech === "LLMs" ? "Modelos de Linguagem (OpenAI, Gemini, Claude, HuggingFace)" : info.label}
     >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={`https://cdn.simpleicons.org/${info.slug}/${info.color.replace("#", "")}`}
-        alt={info.label}
-        width={32}
-        height={32}
-        loading="lazy"
-      />
-      <span className="tech-logo-label">{info.label}</span>
+      <div className="w-8 h-8 flex items-center justify-center relative">
+        <AnimatePresence mode="wait">
+          <motion.img
+            key={currentSlug}
+            initial={{ opacity: 0, scale: 0.7 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.7 }}
+            transition={{ duration: 0.25 }}
+            src={`https://cdn.simpleicons.org/${currentSlug}/${currentColor}`}
+            alt={currentLabel}
+            width={32}
+            height={32}
+            className="absolute object-contain"
+            loading="lazy"
+          />
+        </AnimatePresence>
+      </div>
+      <span className="tech-logo-label">{tech === "LLMs" ? "LLMs" : info.label}</span>
     </motion.button>
   );
 };
