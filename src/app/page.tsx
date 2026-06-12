@@ -402,6 +402,7 @@ const TechLogoCard = ({
   selected: boolean;
   onClick: () => void;
 }) => {
+  const { theme } = useApp();
   const info = TECH_ICONS[tech];
   const [llmIndex, setLlmIndex] = useState(0);
   
@@ -423,7 +424,8 @@ const TechLogoCard = ({
   if (!info) return null;
 
   const currentSlug = tech === "LLMs" ? llmLogos[llmIndex].slug : info.slug;
-  const currentColor = tech === "LLMs" ? llmLogos[llmIndex].color : info.color.replace("#", "");
+  const rawColor = tech === "LLMs" ? llmLogos[llmIndex].color : info.color.replace("#", "");
+  const currentColor = theme === "light" && (rawColor.toLowerCase() === "ffffff" || rawColor.toLowerCase() === "fff") ? "111111" : rawColor;
   const currentLabel = tech === "LLMs" ? llmLogos[llmIndex].label : info.label;
 
   return (
@@ -937,10 +939,10 @@ const HeroSection = () => {
                   >
                     <Tag
                       {...props}
-                      className={`flex items-center justify-center gap-3 w-full h-12 rounded-xl border bg-zinc-900/40 backdrop-blur-md transition-all text-xs font-black uppercase tracking-wider ${
+                      className={`flex items-center justify-center gap-3 w-full h-12 rounded-xl border bg-surface/20 backdrop-blur-md transition-all text-xs font-black uppercase tracking-wider ${
                         item.isLocation 
-                          ? "border-zinc-800 text-txt-muted cursor-default" 
-                          : "border-zinc-800 text-txt-muted hover:text-txt hover:border-primary/50 hover:shadow-[0_0_20px_rgba(128,0,0,0.3)] hover:bg-zinc-900/60"
+                          ? "border-border text-txt-muted cursor-default" 
+                          : "border-border text-txt-muted hover:text-txt hover:border-primary/50 hover:shadow-[0_0_20px_rgba(128,0,0,0.3)] hover:bg-surface/50"
                       }`}
                     >
                       {item.icon}
@@ -1436,7 +1438,7 @@ const ProjectsSection = ({
         {/* Giant portal title animation in the center */}
         <motion.div
           style={{ x: titleX, opacity: titleOpacity, y: "-5%" }}
-          className="absolute inset-0 hidden lg:flex items-center justify-center pointer-events-none z-50 text-[12vw] font-black uppercase tracking-[0.05em] text-white"
+          className="absolute inset-0 hidden lg:flex items-center justify-center pointer-events-none z-50 text-[12vw] font-black uppercase tracking-[0.05em] text-txt/10"
         >
           PROJET<span className="text-primary">O</span>S
         </motion.div>
@@ -1478,16 +1480,16 @@ const ProjectsSection = ({
               <div className="w-full h-full flex flex-col justify-center items-center mt-12 max-h-[70%]">
                 {/* Mockup Toggle Buttons - Web / App, positioned on top of the mockup (centered relative to mockup max-w-[550px]) */}
                 <div className="w-full max-w-[550px] flex justify-center mb-4">
-                  <div className="flex gap-2 bg-zinc-900/60 border border-zinc-850 p-1 rounded-xl z-20">
+                  <div className="flex gap-2 bg-surface/65 border border-border p-1 rounded-xl z-20">
                     <button
                       onClick={() => setMockupType("desktop")}
-                      className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-wider transition-all duration-300 cursor-pointer shadow-sm ${mockupType === "desktop" ? "bg-gradient-to-r from-[#a00000] to-[#e03030] text-white font-bold" : "text-zinc-400 hover:text-white"}`}
+                      className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-wider transition-all duration-300 cursor-pointer shadow-sm ${mockupType === "desktop" ? "bg-gradient-to-r from-[#a00000] to-[#e03030] text-white font-bold" : "text-txt-muted hover:text-txt"}`}
                     >
                       💻 Web
                     </button>
                     <button
                       onClick={() => setMockupType("mobile")}
-                      className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-wider transition-all duration-300 cursor-pointer shadow-sm ${mockupType === "mobile" ? "bg-gradient-to-r from-[#a00000] to-[#e03030] text-white font-bold" : "text-zinc-400 hover:text-white"}`}
+                      className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-wider transition-all duration-300 cursor-pointer shadow-sm ${mockupType === "mobile" ? "bg-gradient-to-r from-[#a00000] to-[#e03030] text-white font-bold" : "text-txt-muted hover:text-txt"}`}
                     >
                       📱 App
                     </button>
@@ -1525,8 +1527,8 @@ const ProjectsSection = ({
                           )}
                         </div>
                         {/* Monitor Stand */}
-                        <div className="w-20 h-10 bg-[#161618] mx-auto border-t border-white/5" />
-                        <div className="w-36 h-2 bg-[#202022] mx-auto rounded-full shadow-md" />
+                        <div className="w-20 h-10 bg-zinc-200 dark:bg-[#161618] mx-auto border-t border-border" />
+                        <div className="w-36 h-2 bg-zinc-300 dark:bg-[#202022] mx-auto rounded-full shadow-md" />
                       </div>
                     ) : (
                       // Mobile Phone Mockup
@@ -1586,21 +1588,21 @@ const ProjectsSection = ({
                       <span className="text-[9px] font-black uppercase tracking-widest text-[#ff4d4d] bg-[#ff4d4d]/10 border border-[#ff4d4d]/25 px-3 py-1 rounded-full">
                         {p.area}
                       </span>
-                      <span className="text-[9px] font-bold uppercase tracking-wider text-zinc-400">
+                      <span className="text-[9px] font-bold uppercase tracking-wider text-txt-muted">
                         {p.tag}
                       </span>
                     </div>
 
                     <h3 className="text-2xl md:text-4xl font-black uppercase mb-4 bg-gradient-to-r from-[#ff8080] via-[#ff4040] to-[#ff7070] bg-clip-text text-transparent filter drop-shadow-[0_0_15px_rgba(255,64,64,0.35)]">{p.title}</h3>
-                    <p className="text-zinc-300 text-xs md:text-sm leading-relaxed mb-8">{p.desc}</p>
+                    <p className="text-txt-muted text-xs md:text-sm leading-relaxed mb-8">{p.desc}</p>
                   </motion.div>
                 </AnimatePresence>
 
-                <div className="space-y-6 pt-6 border-t border-zinc-900/60">
+                <div className="space-y-6 pt-6 border-t border-border">
                   {p.techs && (
                     <div className="flex flex-wrap gap-1.5">
                       {p.techs.map((tech) => (
-                        <span key={tech} className="px-3 py-1 rounded-full border border-white/[0.08] hover:border-[#ff4d4d]/40 text-[9px] font-bold text-zinc-400 hover:text-white bg-white/[0.03] hover:bg-[#ff4d4d]/10 transition-all duration-300 shadow-sm">
+                        <span key={tech} className="px-3 py-1 rounded-full border border-border hover:border-[#ff4d4d]/40 text-[9px] font-bold text-txt-muted hover:text-txt bg-surface/30 hover:bg-[#ff4d4d]/10 transition-all duration-300 shadow-sm">
                           {tech}
                         </span>
                       ))}
@@ -1611,7 +1613,7 @@ const ProjectsSection = ({
                     {/* Demo CTA */}
                     <div className="flex-1">
                       {p.wip ? (
-                        <div className="w-full text-center text-[10px] font-black uppercase tracking-widest text-txt-muted bg-zinc-900/40 border border-zinc-850 py-4 rounded-xl">
+                        <div className="w-full text-center text-[10px] font-black uppercase tracking-widest text-txt-muted bg-surface/40 border border-border py-4 rounded-xl">
                           Em breve...
                         </div>
                       ) : (
@@ -1627,20 +1629,20 @@ const ProjectsSection = ({
                     </div>
 
                     {/* Slider Controls */}
-                    <div className="flex gap-1 bg-zinc-900/60 border border-zinc-800/80 p-1 rounded-xl shrink-0 shadow-lg">
+                    <div className="flex gap-1 bg-surface/60 border border-border p-1 rounded-xl shrink-0 shadow-lg">
                       <button
                         onClick={handlePrev}
-                        className="p-2 hover:bg-primary/20 border border-transparent hover:border-primary/40 rounded-lg text-txt-muted hover:text-txt cursor-pointer transition-all duration-300"
+                        className="p-2 hover:bg-primary/20 border border-transparent hover:border-primary/40 rounded-lg text-txt-muted hover:text-txt cursor-pointer transition-all duration-350"
                         title="Anterior"
                       >
                         <ChevronRight size={14} className="rotate-180" />
                       </button>
-                      <span className="text-[10px] font-black uppercase tracking-wider px-3.5 py-2 bg-[#0c0c0d] border border-zinc-800 rounded-lg flex items-center justify-center min-w-[42px] text-[#ff4d4d]">
+                      <span className="text-[10px] font-black uppercase tracking-wider px-3.5 py-2 bg-bg border border-border rounded-lg flex items-center justify-center min-w-[42px] text-[#ff4d4d]">
                         {currentIndex + 1} / {filtered.length}
                       </span>
                       <button
                         onClick={handleNext}
-                        className="p-2 hover:bg-primary/20 border border-transparent hover:border-primary/40 rounded-lg text-txt-muted hover:text-txt cursor-pointer transition-all duration-300"
+                        className="p-2 hover:bg-primary/20 border border-transparent hover:border-primary/40 rounded-lg text-txt-muted hover:text-txt cursor-pointer transition-all duration-350"
                         title="Próximo"
                       >
                         <ChevronRight size={14} />
