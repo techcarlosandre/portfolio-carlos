@@ -515,6 +515,8 @@ const ChatComDiagrama = () => {
   const [isTyping, setIsTyping] = useState(false);
   const [activeStep, setActiveStep] = useState<number>(0);
   const chatContainerRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const [hasPlayedDemo, setHasPlayedDemo] = useState(false);
 
   useEffect(() => {
     if (chatContainerRef.current) {
@@ -578,6 +580,27 @@ const ChatComDiagrama = () => {
     }
   }, [isTyping, messages, t.chat.replyDefault]);
 
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el || hasPlayedDemo) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasPlayedDemo) {
+          setHasPlayedDemo(true);
+          // Wait a bit, then simulate typing a question
+          setTimeout(() => {
+            handleSend("Quais são os principais projetos do Carlos?");
+          }, 1800);
+        }
+      },
+      { threshold: 0.15 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [handleSend, hasPlayedDemo]);
+
   const quickBtns = [
     { label: "🚀 " + t.chat.btnProjects, msg: "Quais são os principais projetos do Carlos?" },
     { label: "🤖 Automações IA", msg: "Quero saber sobre as automações de IA" },
@@ -586,7 +609,7 @@ const ChatComDiagrama = () => {
   ];
 
   return (
-    <div className="relative w-full z-10">
+    <div ref={sectionRef} className="relative w-full z-10">
       {/* Decorative connecting beams between Chat phone and Architecture Diagram */}
       <div className="absolute inset-0 pointer-events-none hidden lg:block overflow-visible z-0">
         <svg className="w-full h-full absolute top-0 left-0">
@@ -887,7 +910,7 @@ const HeroSection = () => {
 
         {/* Refactored Social Buttons (Módulo 1) */}
         <FadeIn delay={0.55}>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8 w-full max-w-4xl mx-auto px-4">
+          <div className="grid grid-cols-2 md:flex md:flex-row items-center justify-center gap-3 md:gap-4 mt-8 w-full max-w-xl mx-auto px-4">
             {[
               {
                 href: "https://github.com/techcarlosandre",
@@ -912,7 +935,7 @@ const HeroSection = () => {
               return (
                 <motion.div
                   key={i}
-                  className="w-full sm:w-48"
+                  className={item.isLocation ? "col-span-2 md:col-span-1 w-full md:w-48" : "col-span-1 w-full md:w-48"}
                   whileHover={item.isLocation ? {} : { y: -4, scale: 1.02 }}
                   transition={{ type: "spring", stiffness: 400, damping: 25 }}
                 >
@@ -1353,7 +1376,7 @@ const ProjectsSection = ({
   const activeMedia = mockupType === "desktop" ? p.desktop : p.mobile;
 
   return (
-    <section ref={sectionRef} id="projetos" className="relative h-auto lg:h-[200vh] bg-bg/20 border-t border-border/60">
+    <section ref={sectionRef} id="projetos" className="relative h-auto lg:h-[135vh] bg-bg/20 border-t border-border/60">
       <div className="lg:sticky lg:top-0 lg:h-screen w-full flex flex-col justify-center items-center lg:overflow-hidden z-10 px-0 py-12 lg:py-0">
         
         {/* Giant portal title animation in the center */}
@@ -1366,12 +1389,12 @@ const ProjectsSection = ({
 
         {/* Immersive Fullscreen Grid Layout */}
         <motion.div 
-          style={isMobile ? { opacity: 1 } : { 
-            x: projectsX, 
-            opacity: projectsOpacity, 
-            scale: projectsScale, 
-            rotateY: projectsRotateY,
-            pointerEvents: projectsPointerEvents,
+          style={{ 
+            x: isMobile ? "0vw" : projectsX, 
+            opacity: isMobile ? 1 : projectsOpacity, 
+            scale: isMobile ? 1 : projectsScale, 
+            rotateY: isMobile ? 0 : projectsRotateY,
+            pointerEvents: isMobile ? "auto" : projectsPointerEvents,
             perspective: 1200
           }}
           className="relative w-full h-auto lg:h-full bg-transparent dot-grid flex items-center justify-center z-10 py-8 lg:py-0"
