@@ -1381,7 +1381,7 @@ const ProjectsSection = ({
              {/* Top Center Title - Centered badge and title */}
             <div className="lg:absolute lg:top-8 lg:left-1/2 lg:-translate-x-1/2 z-20 text-center flex flex-col items-center w-full max-w-xl px-4 pt-6 lg:pt-0 mb-4 lg:mb-0 relative">
               <Badge>{t.projects.badge}</Badge>
-              <h2 className="text-xl md:text-3xl font-black uppercase mt-2">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black uppercase mt-2">
                 {t.projects.title1}{" "}
                 <span className="text-gradient">{t.projects.titleHighlight}</span>
               </h2>
