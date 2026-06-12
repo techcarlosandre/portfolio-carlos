@@ -1230,8 +1230,8 @@ const ProjectsSection = ({
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start start", "end end"] });
   const titleX = useTransform(scrollYProgress, [0, 0.35], ["0vw", "-100vw"]);
   const titleOpacity = useTransform(scrollYProgress, [0, 0.30], [1, 0]);
-  const projectsX = useTransform(scrollYProgress, [0.15, 0.45, 0.85, 0.98], ["100vw", "0vw", "0vw", "-100vw"]);
-  const projectsOpacity = useTransform(scrollYProgress, [0.15, 0.35, 0.85, 0.98], [0, 1, 1, 0]);
+  const projectsX = useTransform(scrollYProgress, [0.15, 0.45], ["100vw", "0vw"]);
+  const projectsOpacity = useTransform(scrollYProgress, [0.15, 0.35], [0, 1]);
   const projectsScale = useTransform(scrollYProgress, [0.15, 0.45], [0.95, 1]);
   const projectsPointerEvents = useTransform(scrollYProgress, (val) => val >= 0.35 ? "auto" : "none");
 
