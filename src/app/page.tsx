@@ -1438,7 +1438,7 @@ const ProjectsSection = ({
         {/* Giant portal title animation in the center */}
         <motion.div
           style={{ x: titleX, opacity: titleOpacity, y: "-5%" }}
-          className="absolute inset-0 hidden lg:flex items-center justify-center pointer-events-none z-50 text-[12vw] font-black uppercase tracking-[0.05em] text-txt/18"
+          className="absolute inset-0 hidden lg:flex items-center justify-center pointer-events-none z-50 text-[12vw] font-black uppercase tracking-[0.05em] text-txt/35"
         >
           PROJET<span className="text-primary">O</span>S
         </motion.div>
