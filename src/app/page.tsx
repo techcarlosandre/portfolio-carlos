@@ -1342,7 +1342,7 @@ const ProjectsSection = ({
   const activeMedia = mockupType === "desktop" ? p.desktop : p.mobile;
 
   return (
-    <section ref={sectionRef} id="projetos" className="relative h-[280vh] bg-bg/20 border-t border-border/60">
+    <section ref={sectionRef} id="projetos" className="relative h-[200vh] bg-bg/20 border-t border-border/60">
       <div className="sticky top-0 h-screen w-full flex flex-col justify-center items-center overflow-hidden z-10 px-0">
         
         {/* Giant portal title animation in the center */}
@@ -1360,37 +1360,40 @@ const ProjectsSection = ({
         >
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 h-full w-full relative z-10 overflow-hidden">
             
-            {/* Left Side (Col 1-7): Large Immersive Device Mockup View */}
-            <div className="lg:col-span-7 flex flex-col justify-center items-center w-full h-full bg-zinc-950/20 border-r border-border/40 p-8 relative">
-              <div className="absolute top-8 left-8 z-20">
-                <Badge>{t.projects.badge}</Badge>
-                <h2 className="text-xl md:text-3xl font-black uppercase mt-2">
-                  {t.projects.title1}{" "}
-                  <span className="text-gradient">{t.projects.titleHighlight}</span>
-                </h2>
-              </div>
+            {/* Top Center Title - Centered badge and title */}
+            <div className="absolute top-8 left-1/2 -translate-x-1/2 z-20 text-center flex flex-col items-center w-full max-w-xl px-4">
+              <Badge>{t.projects.badge}</Badge>
+              <h2 className="text-xl md:text-3xl font-black uppercase mt-2">
+                {t.projects.title1}{" "}
+                <span className="text-gradient">{t.projects.titleHighlight}</span>
+              </h2>
+            </div>
 
+            {/* Left Side (Col 1-6): Large Immersive Device Mockup View */}
+            <div className="lg:col-span-6 flex flex-col justify-center items-center w-full h-full bg-zinc-950/20 border-r border-border/40 p-8 relative">
+              
               {/* Glowing decorative backing grid */}
               <div className="absolute inset-0 bg-radial-gradient from-primary/10 via-transparent to-transparent pointer-events-none opacity-40" />
 
-              {/* Mockup Toggle Buttons - Web / App */}
-              <div className="absolute top-8 right-8 flex justify-center gap-2 bg-zinc-900/60 border border-zinc-850 p-1 rounded-xl z-20">
-                <button
-                  onClick={() => setMockupType("desktop")}
-                  className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-wider transition-colors cursor-pointer ${mockupType === "desktop" ? "bg-primary text-white" : "text-txt-muted hover:text-txt"}`}
-                >
-                  💻 Web
-                </button>
-                <button
-                  onClick={() => setMockupType("mobile")}
-                  className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-wider transition-colors cursor-pointer ${mockupType === "mobile" ? "bg-primary text-white" : "text-txt-muted hover:text-txt"}`}
-                >
-                  📱 App
-                </button>
-              </div>
-
               {/* Big Device Mockup Display */}
-              <div className="w-full h-full flex justify-center items-center mt-12 max-h-[70%]">
+              <div className="w-full h-full flex flex-col justify-center items-center mt-12 max-h-[70%]">
+                {/* Mockup Toggle Buttons - Web / App, positioned on top of the mockup (aligned left relative to mockup max-w-[550px]) */}
+                <div className="w-full max-w-[550px] flex justify-start mb-4">
+                  <div className="flex gap-2 bg-zinc-900/60 border border-zinc-850 p-1 rounded-xl z-20">
+                    <button
+                      onClick={() => setMockupType("desktop")}
+                      className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-wider transition-colors cursor-pointer ${mockupType === "desktop" ? "bg-primary text-white" : "text-txt-muted hover:text-txt"}`}
+                    >
+                      💻 Web
+                    </button>
+                    <button
+                      onClick={() => setMockupType("mobile")}
+                      className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-wider transition-colors cursor-pointer ${mockupType === "mobile" ? "bg-primary text-white" : "text-txt-muted hover:text-txt"}`}
+                    >
+                      📱 App
+                    </button>
+                  </div>
+                </div>
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={mockupType + "_" + currentIndex}
@@ -1466,8 +1469,8 @@ const ProjectsSection = ({
               )}
             </div>
 
-            {/* Right Side (Col 8-12): Detailed Info & Slider controls */}
-            <div className="lg:col-span-5 flex flex-col justify-between h-full p-8 md:p-16 lg:p-20 bg-surface/10 backdrop-blur-md">
+            {/* Right Side (Col 7-12): Detailed Info & Slider controls */}
+            <div className="lg:col-span-6 flex flex-col justify-between h-full p-8 md:p-16 lg:p-24 lg:pl-28 bg-surface/10 backdrop-blur-md">
               <div className="my-auto space-y-6">
                 <AnimatePresence mode="wait">
                   <motion.div
