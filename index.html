@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfólio Carlos André - Redirecionando...</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #080808;
+      color: #ffffff;
+      font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow: hidden;
+      text-align: center;
+    }
+    
+    /* Background dot grid pattern */
+    .dot-grid {
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(rgba(128, 0, 0, 0.1) 1px, transparent 1px);
+      background-size: 28px 28px;
+      z-index: 1;
+    }
+    
+    /* Glow highlights */
+    .glow {
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(128, 0, 0, 0.15) 0%, transparent 70%);
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      filter: blur(60px);
+      z-index: 2;
+    }
+    
+    .card {
+      position: relative;
+      z-index: 10;
+      max-width: 440px;
+      width: 90%;
+      padding: 40px;
+      background: rgba(17, 17, 17, 0.6);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 24px;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), 0 0 40px rgba(128, 0, 0, 0.15);
+    }
+    
+    .card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #ff7070, #e03030, #800000);
+      border-radius: 2px 2px 0 0;
+    }
+    
+    .logo-container {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: rgba(128, 0, 0, 0.1);
+      border: 1px solid rgba(128, 0, 0, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+      animation: pulse 2s infinite alternate;
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); box-shadow: 0 0 10px rgba(128, 0, 0, 0.2); }
+      100% { transform: scale(1.05); box-shadow: 0 0 20px rgba(128, 0, 0, 0.4); }
+    }
+    
+    .logo-container svg {
+      color: #ff4040;
+    }
+    
+    h1 {
+      font-size: 24px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: -0.02em;
+      margin: 0 0 16px;
+      background: linear-gradient(135deg, #ff7070, #e03030, #800000);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    p {
+      font-size: 13px;
+      line-height: 1.6;
+      color: #a1a1aa;
+      margin: 0 0 24px;
+    }
+    
+    .countdown {
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #ff4040;
+      margin-bottom: 24px;
+    }
+    
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 16px 24px;
+      background: #800000;
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(128, 0, 0, 0.25);
+    }
+    
+    .btn:hover {
+      background: #b30000;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(179, 0, 0, 0.4);
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="dot-grid"></div>
+  <div class="glow"></div>
+  
+  <div class="card">
+    <div class="logo-container">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m22 2-7 20-4-9-9-4Z"/>
+        <path d="M22 2 11 13"/>
+      </svg>
+    </div>
+    <h1>Portfólio Atualizado</h1>
+    <p>Você está acessando uma versão antiga do meu portfólio no GitHub Pages. Fui migrado para um domínio próprio com melhorias visuais e novos projetos.</p>
+    <div class="countdown" id="countdown-text">Redirecionando em 3 segundos...</div>
+    <a href="https://portfolio.techcarlos.com.br" class="btn">
+      Acessar Nova Versão
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+        <polyline points="15 3 21 3 21 9"/>
+        <line x1="10" y1="14" x2="21" y2="3"/>
+      </svg>
+    </a>
+  </div>
+
+  <script>
+    const targetUrl = "https://portfolio.techcarlos.com.br";
+    let count = 3;
+    const countdownEl = document.getElementById("countdown-text");
+    
+    const interval = setInterval(() => {
+      count--;
+      if (count <= 0) {
+        clearInterval(interval);
+        window.location.href = targetUrl;
+      } else {
+        countdownEl.textContent = `Redirecionando em ${count} segundos...`;
+      }
+    }, 1000);
+  </script>
+</body>
+</html>
