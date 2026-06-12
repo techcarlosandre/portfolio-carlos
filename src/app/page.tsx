@@ -1230,9 +1230,9 @@ const ProjectsSection = ({
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start start", "end end"] });
   const scale = useTransform(scrollYProgress, [0, 0.35], [1, 75]);
   const titleOpacity = useTransform(scrollYProgress, [0, 0.2, 0.35], [1, 1, 0]);
-  const projectsOpacity = useTransform(scrollYProgress, [0.35, 0.45, 0.85, 0.98], [0, 1, 1, 0]);
-  const projectsScale = useTransform(scrollYProgress, [0.35, 0.45], [0.92, 1]);
-  const projectsPointerEvents = useTransform(scrollYProgress, (val) => val >= 0.38 ? "auto" : "none");
+  const projectsOpacity = useTransform(scrollYProgress, [0.45, 0.55, 0.85, 0.98], [0, 1, 1, 0]);
+  const projectsScale = useTransform(scrollYProgress, [0.45, 0.55], [0.92, 1]);
+  const projectsPointerEvents = useTransform(scrollYProgress, (val) => val >= 0.45 ? "auto" : "none");
 
   const projectsData = [
     {
@@ -1377,8 +1377,8 @@ const ProjectsSection = ({
 
               {/* Big Device Mockup Display */}
               <div className="w-full h-full flex flex-col justify-center items-center mt-12 max-h-[70%]">
-                {/* Mockup Toggle Buttons - Web / App, positioned on top of the mockup (aligned left relative to mockup max-w-[550px]) */}
-                <div className="w-full max-w-[550px] flex justify-start mb-4">
+                {/* Mockup Toggle Buttons - Web / App, positioned on top of the mockup (centered relative to mockup max-w-[550px]) */}
+                <div className="w-full max-w-[550px] flex justify-center mb-4">
                   <div className="flex gap-2 bg-zinc-900/60 border border-zinc-850 p-1 rounded-xl z-20">
                     <button
                       onClick={() => setMockupType("desktop")}
