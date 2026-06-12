@@ -1574,7 +1574,7 @@ const ProjectsSection = ({
               </div>
 
               {/* Scroll hint indicator at the bottom */}
-              <div className="flex justify-center items-center gap-1.5 text-[8px] font-black uppercase tracking-widest text-txt-muted/40 animate-bounce pointer-events-none self-center">
+              <div className="hidden lg:flex justify-center items-center gap-1.5 text-[8px] font-black uppercase tracking-widest text-txt-muted/40 animate-bounce pointer-events-none self-center">
                 <span>Desça para continuar</span>
                 <span className="text-[10px]">↓</span>
               </div>
