@@ -1233,6 +1233,7 @@ const ProjectsSection = ({
   const projectsX = useTransform(scrollYProgress, [0.15, 0.45], ["100vw", "0vw"]);
   const projectsOpacity = useTransform(scrollYProgress, [0.15, 0.35], [0, 1]);
   const projectsScale = useTransform(scrollYProgress, [0.15, 0.45], [0.95, 1]);
+  const projectsRotateY = useTransform(scrollYProgress, [0.15, 0.45], [8, 0]);
   const projectsPointerEvents = useTransform(scrollYProgress, (val) => val >= 0.35 ? "auto" : "none");
 
   const projectsData = [
@@ -1356,7 +1357,14 @@ const ProjectsSection = ({
 
         {/* Immersive Fullscreen Grid Layout */}
         <motion.div 
-          style={{ x: projectsX, opacity: projectsOpacity, scale: projectsScale, pointerEvents: projectsPointerEvents }}
+          style={{ 
+            x: projectsX, 
+            opacity: projectsOpacity, 
+            scale: projectsScale, 
+            rotateY: projectsRotateY,
+            pointerEvents: projectsPointerEvents,
+            perspective: 1200
+          }}
           className="relative w-full h-full bg-[#070708]/98 flex items-center justify-center z-10"
         >
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 h-full w-full relative z-10 overflow-hidden">
@@ -1371,10 +1379,14 @@ const ProjectsSection = ({
             </div>
 
             {/* Left Side (Col 1-6): Large Immersive Device Mockup View */}
-            <div className="lg:col-span-6 flex flex-col justify-center items-center w-full h-full bg-zinc-950/20 border-r border-border/40 p-8 relative">
+            <div className="lg:col-span-6 flex flex-col justify-center items-center w-full h-full bg-zinc-950/25 border-r border-border/30 p-8 relative overflow-hidden">
               
+              {/* High-fidelity glowing ambient backlights */}
+              <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-primary/10 blur-[120px] animate-pulse pointer-events-none" />
+              <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-accent/8 blur-[100px] pointer-events-none" />
+
               {/* Glowing decorative backing grid */}
-              <div className="absolute inset-0 bg-radial-gradient from-primary/10 via-transparent to-transparent pointer-events-none opacity-40" />
+              <div className="absolute inset-0 bg-radial-gradient from-primary/15 via-transparent to-transparent pointer-events-none opacity-40" />
 
               {/* Big Device Mockup Display */}
               <div className="w-full h-full flex flex-col justify-center items-center mt-12 max-h-[70%]">
@@ -1408,7 +1420,7 @@ const ProjectsSection = ({
                     {mockupType === "desktop" ? (
                       // Monitor Mockup
                       <div className="w-full group">
-                        <div className="relative w-full aspect-[16/10] border-[10px] border-[#1e1e20] bg-[#0c0c0c] rounded-t-3xl overflow-hidden shadow-2xl shadow-primary/10 flex flex-col items-center justify-center">
+                        <div className="relative w-full aspect-[16/10] border-[10px] border-[#1d1d1f] bg-[#0c0c0c] rounded-t-3xl overflow-hidden shadow-[0_25px_60px_-15px_rgba(128,0,0,0.35)] border-b-0 flex flex-col items-center justify-center transition-all duration-500 group-hover:shadow-[0_30px_70px_-10px_rgba(179,0,0,0.45)]">
                           {activeMedia.img ? (
                             <Image 
                               src={activeMedia.img} 
@@ -1433,7 +1445,7 @@ const ProjectsSection = ({
                     ) : (
                       // Mobile Phone Mockup
                       <div className="w-full flex justify-center group">
-                        <div className="relative w-[210px] h-[370px] border-[8px] border-[#1e1e20] bg-[#0c0c0c] rounded-[2.5rem] overflow-hidden shadow-2xl shadow-primary/10 flex flex-col items-center justify-center">
+                        <div className="relative w-[210px] h-[370px] border-[8px] border-[#1d1d1f] bg-[#0c0c0c] rounded-[2.5rem] overflow-hidden shadow-[0_20px_50px_-10px_rgba(128,0,0,0.35)] flex flex-col items-center justify-center transition-all duration-500 group-hover:shadow-[0_25px_60px_-5px_rgba(179,0,0,0.45)]">
                           {/* Dynamic Island / Notch */}
                           <div className="absolute top-2 left-1/2 -translate-x-1/2 w-14 h-4 bg-black rounded-full z-20" />
 
@@ -1471,7 +1483,9 @@ const ProjectsSection = ({
             </div>
 
             {/* Right Side (Col 7-12): Detailed Info & Slider controls */}
-            <div className="lg:col-span-6 flex flex-col justify-between h-full p-8 md:p-16 lg:p-24 lg:pl-28 bg-surface/10 backdrop-blur-md">
+            <div className="lg:col-span-6 flex flex-col justify-between h-full p-8 md:p-16 lg:p-24 lg:pl-28 bg-zinc-950/45 backdrop-blur-xl relative border-l border-white/[0.02]">
+              {/* Subtle accent glow in info panel */}
+              <div className="absolute top-1/2 right-0 -translate-y-1/2 w-72 h-72 rounded-full bg-primary/5 blur-[90px] pointer-events-none" />
               <div className="my-auto space-y-6">
                 <AnimatePresence mode="wait">
                   <motion.div
@@ -1491,7 +1505,7 @@ const ProjectsSection = ({
                       </span>
                     </div>
 
-                    <h3 className="text-2xl md:text-4xl font-black uppercase mb-4 text-gradient">{p.title}</h3>
+                    <h3 className="text-2xl md:text-4xl font-black uppercase mb-4 text-gradient filter drop-shadow-[0_0_20px_rgba(179,0,0,0.3)]">{p.title}</h3>
                     <p className="text-txt-muted text-xs md:text-sm leading-relaxed mb-8">{p.desc}</p>
                   </motion.div>
                 </AnimatePresence>
@@ -1500,7 +1514,7 @@ const ProjectsSection = ({
                   {p.techs && (
                     <div className="flex flex-wrap gap-1.5">
                       {p.techs.map((tech) => (
-                        <span key={tech} className="px-2.5 py-1 rounded-full border border-zinc-800 text-[9px] font-bold text-txt-muted bg-zinc-900/40">
+                        <span key={tech} className="px-3 py-1 rounded-full border border-white/[0.05] hover:border-primary/40 text-[9px] font-bold text-txt-muted hover:text-white bg-white/[0.02] hover:bg-primary/10 transition-all duration-300">
                           {tech}
                         </span>
                       ))}
@@ -1527,20 +1541,20 @@ const ProjectsSection = ({
                     </div>
 
                     {/* Slider Controls */}
-                    <div className="flex gap-1 bg-zinc-900/50 border border-zinc-850 p-1 rounded-xl shrink-0">
+                    <div className="flex gap-1 bg-zinc-900/60 border border-zinc-800/80 p-1 rounded-xl shrink-0 shadow-lg">
                       <button
                         onClick={handlePrev}
-                        className="p-2 hover:bg-zinc-800 border border-transparent hover:border-zinc-750 rounded-lg text-txt-muted hover:text-txt cursor-pointer transition-colors"
+                        className="p-2 hover:bg-primary/20 border border-transparent hover:border-primary/40 rounded-lg text-txt-muted hover:text-txt cursor-pointer transition-all duration-300"
                         title="Anterior"
                       >
                         <ChevronRight size={14} className="rotate-180" />
                       </button>
-                      <span className="text-[10px] font-black uppercase tracking-wider px-3.5 py-2 bg-[#0c0c0d] border border-zinc-850 rounded-lg flex items-center justify-center min-w-[42px]">
+                      <span className="text-[10px] font-black uppercase tracking-wider px-3.5 py-2 bg-[#0c0c0d] border border-zinc-800 rounded-lg flex items-center justify-center min-w-[42px] text-gradient">
                         {currentIndex + 1} / {filtered.length}
                       </span>
                       <button
                         onClick={handleNext}
-                        className="p-2 hover:bg-zinc-800 border border-transparent hover:border-zinc-750 rounded-lg text-txt-muted hover:text-txt cursor-pointer transition-colors"
+                        className="p-2 hover:bg-primary/20 border border-transparent hover:border-primary/40 rounded-lg text-txt-muted hover:text-txt cursor-pointer transition-all duration-300"
                         title="Próximo"
                       >
                         <ChevronRight size={14} />
