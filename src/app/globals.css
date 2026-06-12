@@ -817,11 +817,11 @@ body {
 }
 
 .marquee-left {
-  animation: marquee-scroll-left 32s linear infinite;
+  animation: marquee-scroll-left 36s linear infinite;
 }
 
 .marquee-right {
-  animation: marquee-scroll-right 32s linear infinite;
+  animation: marquee-scroll-right 36s linear infinite;
 }
 
 /* Pause on hover (desktop) */
