@@ -614,26 +614,7 @@ const ChatComDiagrama = () => {
     }
   }, [isTyping, messages, t.chat.replyDefault]);
 
-  useEffect(() => {
-    const el = sectionRef.current;
-    if (!el || hasPlayedDemo) return;
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !hasPlayedDemo) {
-          setHasPlayedDemo(true);
-          // Wait a bit, then simulate typing a question
-          setTimeout(() => {
-            handleSend("Quais são os principais projetos do Carlos?");
-          }, 1800);
-        }
-      },
-      { threshold: 0.15 }
-    );
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, [handleSend, hasPlayedDemo]);
 
   const quickBtns = [
     { label: "🚀 " + t.chat.btnProjects, msg: "Quais são os principais projetos do Carlos?" },
