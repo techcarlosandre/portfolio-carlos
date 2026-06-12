@@ -1133,7 +1133,11 @@ const SkillsSection = ({
   onSelectTech: (tech: string | null) => void;
 }) => {
   const { t } = useApp();
-  const allTechs = Object.keys(TECH_ICONS);
+  const [pausedRow, setPausedRow] = useState<Record<number, boolean>>({});
+
+  const row1 = ["JS", "TS", "React", "Next.js", "Vue.js", "Node.js", "Python"];
+  const row2 = ["Java", "Spring", "GraphQL", "Axios", "Prisma", "Supabase", "PostgreSQL"];
+  const row3 = ["Git", "Docker", "N8N", "Figma", "Grafana", "Chatwoot"];
 
   return (
     <section id="skills" className="py-24 px-4 border-t border-border/40 bg-bg/10 relative overflow-hidden">
@@ -1153,23 +1157,57 @@ const SkillsSection = ({
         </div>
 
         <FadeIn delay={0.15}>
-          <div className="grid grid-cols-4 sm:grid-cols-5 lg:grid-cols-10 gap-2.5 sm:gap-4 w-full">
-            {allTechs.map((tech, i) => (
-              <motion.div
-                key={tech}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.03, duration: 0.4 }}
-                className="w-full flex items-center justify-center"
-              >
-                <TechLogoCard
-                  tech={tech}
-                  selected={selectedTech === tech}
-                  onClick={() => onSelectTech(selectedTech === tech ? null : tech)}
-                />
-              </motion.div>
-            ))}
+          <div className="skills-marquee-container">
+            {/* Row 1 (Left <-) */}
+            <div 
+              onClick={() => setPausedRow(prev => ({ ...prev, 1: !prev[1] }))}
+              style={{ animationPlayState: pausedRow[1] ? "paused" : undefined }}
+              className="skills-marquee-row marquee-left"
+            >
+              {[...row1, ...row1, ...row1].map((tech, i) => (
+                <div key={tech + "_1_" + i} className="w-[90px] sm:w-[110px] shrink-0">
+                  <TechLogoCard
+                    tech={tech}
+                    selected={selectedTech === tech}
+                    onClick={() => onSelectTech(selectedTech === tech ? null : tech)}
+                  />
+                </div>
+              ))}
+            </div>
+
+            {/* Row 2 (Right ->) */}
+            <div 
+              onClick={() => setPausedRow(prev => ({ ...prev, 2: !prev[2] }))}
+              style={{ animationPlayState: pausedRow[2] ? "paused" : undefined }}
+              className="skills-marquee-row marquee-right"
+            >
+              {[...row2, ...row2, ...row2].map((tech, i) => (
+                <div key={tech + "_2_" + i} className="w-[90px] sm:w-[110px] shrink-0">
+                  <TechLogoCard
+                    tech={tech}
+                    selected={selectedTech === tech}
+                    onClick={() => onSelectTech(selectedTech === tech ? null : tech)}
+                  />
+                </div>
+              ))}
+            </div>
+
+            {/* Row 3 (Left <-) */}
+            <div 
+              onClick={() => setPausedRow(prev => ({ ...prev, 3: !prev[3] }))}
+              style={{ animationPlayState: pausedRow[3] ? "paused" : undefined }}
+              className="skills-marquee-row marquee-left"
+            >
+              {[...row3, ...row3, ...row3].map((tech, i) => (
+                <div key={tech + "_3_" + i} className="w-[90px] sm:w-[110px] shrink-0">
+                  <TechLogoCard
+                    tech={tech}
+                    selected={selectedTech === tech}
+                    onClick={() => onSelectTech(selectedTech === tech ? null : tech)}
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </FadeIn>
       </div>

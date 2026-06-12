@@ -782,20 +782,66 @@ body {
   }
 
   .tech-logo-card {
-    padding: 8px 4px;
-    height: 72px;
-    border-radius: 12px;
-    gap: 4px;
+    padding: 12px 6px;
   }
 
   .tech-logo-card img {
-    width: 24px;
-    height: 24px;
+    width: 26px;
+    height: 26px;
   }
+}
 
-  .tech-logo-label {
-    font-size: 0.5rem;
-  }
+/* ─── SKILLS MARQUEE ─── */
+.skills-marquee-container {
+  overflow: hidden;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  margin-right: calc(-50vw + 50%);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+  padding: 12px 0;
+}
+
+.skills-marquee-row {
+  display: flex;
+  width: max-content;
+  gap: 16px;
+  user-select: none;
+  cursor: grab;
+}
+
+.skills-marquee-row:active {
+  cursor: grabbing;
+}
+
+.marquee-left {
+  animation: marquee-scroll-left 32s linear infinite;
+}
+
+.marquee-right {
+  animation: marquee-scroll-right 32s linear infinite;
+}
+
+/* Pause on hover (desktop) */
+.skills-marquee-row:hover {
+  animation-play-state: paused;
+}
+
+/* Fallback pause on active (mobile tap hold) */
+.skills-marquee-row:active {
+  animation-play-state: paused;
+}
+
+@keyframes marquee-scroll-left {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-33.333%, 0, 0); }
+}
+
+@keyframes marquee-scroll-right {
+  0% { transform: translate3d(-33.333%, 0, 0); }
+  100% { transform: translate3d(0, 0, 0); }
 }
 
 .animate-fade-in-up {
