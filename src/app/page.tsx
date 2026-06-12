@@ -1231,10 +1231,10 @@ const ProjectsSection = ({
   const titleX = useTransform(scrollYProgress, [0, 0.35], ["0vw", "-100vw"]);
   const titleOpacity = useTransform(scrollYProgress, [0, 0.30], [1, 0]);
   const projectsX = useTransform(scrollYProgress, [0.15, 0.45], ["100vw", "0vw"]);
-  const projectsOpacity = useTransform(scrollYProgress, [0.15, 0.35], [0, 1]);
-  const projectsScale = useTransform(scrollYProgress, [0.15, 0.45], [0.95, 1]);
-  const projectsRotateY = useTransform(scrollYProgress, [0.15, 0.45], [8, 0]);
-  const projectsPointerEvents = useTransform(scrollYProgress, (val) => val >= 0.35 ? "auto" : "none");
+  const projectsOpacity = useTransform(scrollYProgress, [0.12, 0.22], [0, 1]);
+  const projectsScale = useTransform(scrollYProgress, [0.15, 0.45], [0.98, 1]);
+  const projectsRotateY = useTransform(scrollYProgress, [0.15, 0.45], [5, 0]);
+  const projectsPointerEvents = useTransform(scrollYProgress, (val) => val >= 0.22 ? "auto" : "none");
 
   const projectsData = [
     {
