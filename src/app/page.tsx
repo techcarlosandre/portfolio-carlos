@@ -1226,6 +1226,15 @@ const ProjectsSection = ({
   const { t } = useApp();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [mockupType, setMockupType] = useState<"desktop" | "mobile">("desktop");
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   const sectionRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start start", "end end"] });
   const titleX = useTransform(scrollYProgress, [0, 0.35], ["0vw", "-100vw"]);
@@ -1344,20 +1353,20 @@ const ProjectsSection = ({
   const activeMedia = mockupType === "desktop" ? p.desktop : p.mobile;
 
   return (
-    <section ref={sectionRef} id="projetos" className="relative h-[200vh] bg-bg/20 border-t border-border/60">
-      <div className="sticky top-0 h-screen w-full flex flex-col justify-center items-center overflow-hidden z-10 px-0">
+    <section ref={sectionRef} id="projetos" className="relative h-auto lg:h-[200vh] bg-bg/20 border-t border-border/60">
+      <div className="lg:sticky lg:top-0 lg:h-screen w-full flex flex-col justify-center items-center lg:overflow-hidden z-10 px-0 py-12 lg:py-0">
         
         {/* Giant portal title animation in the center */}
         <motion.div
           style={{ x: titleX, opacity: titleOpacity, y: "-5%" }}
-          className="absolute inset-0 flex items-center justify-center pointer-events-none z-50 text-[12vw] font-black uppercase tracking-[0.05em] text-white"
+          className="absolute inset-0 hidden lg:flex items-center justify-center pointer-events-none z-50 text-[12vw] font-black uppercase tracking-[0.05em] text-white"
         >
           PROJET<span className="text-primary">O</span>S
         </motion.div>
 
         {/* Immersive Fullscreen Grid Layout */}
         <motion.div 
-          style={{ 
+          style={isMobile ? { opacity: 1 } : { 
             x: projectsX, 
             opacity: projectsOpacity, 
             scale: projectsScale, 
@@ -1365,12 +1374,12 @@ const ProjectsSection = ({
             pointerEvents: projectsPointerEvents,
             perspective: 1200
           }}
-          className="relative w-full h-full bg-transparent dot-grid flex items-center justify-center z-10"
+          className="relative w-full h-auto lg:h-full bg-transparent dot-grid flex items-center justify-center z-10 py-8 lg:py-0"
         >
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 h-full w-full relative z-10 overflow-hidden">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-0 h-auto lg:h-full w-full relative z-10">
             
-            {/* Top Center Title - Centered badge and title */}
-            <div className="absolute top-8 left-1/2 -translate-x-1/2 z-20 text-center flex flex-col items-center w-full max-w-xl px-4">
+             {/* Top Center Title - Centered badge and title */}
+            <div className="lg:absolute lg:top-8 lg:left-1/2 lg:-translate-x-1/2 z-20 text-center flex flex-col items-center w-full max-w-xl px-4 pt-6 lg:pt-0 mb-4 lg:mb-0 relative">
               <Badge>{t.projects.badge}</Badge>
               <h2 className="text-xl md:text-3xl font-black uppercase mt-2">
                 {t.projects.title1}{" "}
@@ -1379,7 +1388,7 @@ const ProjectsSection = ({
             </div>
 
             {/* Left Side (Col 1-6): Large Immersive Device Mockup View */}
-            <div className="lg:col-span-6 flex flex-col justify-center items-center w-full h-full bg-transparent border-r border-white/[0.05] p-8 relative overflow-hidden">
+            <div className="lg:col-span-6 flex flex-col justify-center items-center w-full h-auto lg:h-full bg-transparent lg:border-r border-white/[0.05] p-4 lg:p-8 relative">
               
               {/* High-fidelity glowing ambient backlights */}
               <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-red-600/15 blur-[120px] animate-pulse pointer-events-none" />
@@ -1483,7 +1492,7 @@ const ProjectsSection = ({
             </div>
 
             {/* Right Side (Col 7-12): Detailed Info & Slider controls */}
-            <div className="lg:col-span-6 flex flex-col justify-between h-full p-8 md:p-16 lg:p-24 lg:pl-28 bg-transparent relative border-l border-white/[0.01]">
+            <div className="lg:col-span-6 flex flex-col justify-between h-auto lg:h-full p-6 md:p-16 lg:p-24 lg:pl-28 bg-transparent relative lg:border-l border-white/[0.01]">
               {/* Subtle accent glow in info panel */}
               <div className="absolute top-1/2 right-0 -translate-y-1/2 w-72 h-72 rounded-full bg-[#ff4d4d]/12 blur-[80px] pointer-events-none" />
               <div className="my-auto space-y-6">
