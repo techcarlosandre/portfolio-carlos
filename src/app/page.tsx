@@ -387,6 +387,10 @@ const TECH_ICONS: Record<string, { slug: string; color: string; label: string }>
   "Figma": { slug: "figma", color: "#F24E1E", label: "Figma" },
   "Grafana": { slug: "grafana", color: "#F46800", label: "Grafana" },
   "Chatwoot": { slug: "chatwoot", color: "#1F93FF", label: "Chatwoot" },
+  "Tailwind": { slug: "tailwindcss", color: "#06B6D4", label: "Tailwind CSS" },
+  "Flask": { slug: "flask", color: "#ffffff", label: "Flask" },
+  "MCP": { slug: "anthropic", color: "#F9F6F0", label: "MCP" },
+  "LLMs": { slug: "openai", color: "#74AA9C", label: "LLMs" },
 };
 
 const TechLogoCard = ({
@@ -1135,9 +1139,10 @@ const SkillsSection = ({
   const { t } = useApp();
   const [pausedRow, setPausedRow] = useState<Record<number, boolean>>({});
 
-  const row1 = ["JS", "TS", "React", "Next.js", "Vue.js", "Node.js", "Python"];
-  const row2 = ["Java", "Spring", "GraphQL", "Axios", "Prisma", "Supabase", "PostgreSQL"];
+  const row1 = ["JS", "TS", "React", "Next.js", "Vue.js", "Node.js"];
+  const row2 = ["Java", "Spring", "GraphQL", "Axios", "Prisma", "Supabase"];
   const row3 = ["Git", "Docker", "N8N", "Figma", "Grafana", "Chatwoot"];
+  const row4 = ["Python", "PostgreSQL", "Tailwind", "Flask", "MCP", "LLMs"];
 
   return (
     <section id="skills" className="py-24 px-4 border-t border-border/40 bg-bg/10 relative overflow-hidden">
@@ -1200,6 +1205,23 @@ const SkillsSection = ({
             >
               {[...row3, ...row3, ...row3].map((tech, i) => (
                 <div key={tech + "_3_" + i} className="w-[90px] sm:w-[110px] shrink-0">
+                  <TechLogoCard
+                    tech={tech}
+                    selected={selectedTech === tech}
+                    onClick={() => onSelectTech(selectedTech === tech ? null : tech)}
+                  />
+                </div>
+              ))}
+            </div>
+
+            {/* Row 4 (Right ->) */}
+            <div 
+              onClick={() => setPausedRow(prev => ({ ...prev, 4: !prev[4] }))}
+              style={{ animationPlayState: pausedRow[4] ? "paused" : undefined }}
+              className="skills-marquee-row marquee-right"
+            >
+              {[...row4, ...row4, ...row4].map((tech, i) => (
+                <div key={tech + "_4_" + i} className="w-[90px] sm:w-[110px] shrink-0">
                   <TechLogoCard
                     tech={tech}
                     selected={selectedTech === tech}
@@ -1369,7 +1391,8 @@ const ProjectsSection = ({
     "Git": ["Git"], "GitHub": ["GitHub"], "Docker": ["Docker"],
     "Vercel": ["Vercel"], "N8N": ["N8N"], "Figma": ["Figma"], "Node.js": ["Node.js"],
     "GraphQL": ["GraphQL"], "Grafana": ["Grafana"], "Axios": ["Axios"],
-    "Vue.js": ["Vue.js"], "Chatwoot": ["Chatwoot"]
+    "Vue.js": ["Vue.js"], "Chatwoot": ["Chatwoot"],
+    "MCP": ["MCP"], "LLMs": ["LLMs", "IA", "Gemini", "OpenAI"]
   };
 
   const filtered = selectedTech
