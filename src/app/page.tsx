@@ -1365,7 +1365,7 @@ const ProjectsSection = ({
             pointerEvents: projectsPointerEvents,
             perspective: 1200
           }}
-          className="relative w-full h-full bg-[#070708]/98 flex items-center justify-center z-10"
+          className="relative w-full h-full bg-zinc-950/35 dot-grid backdrop-blur-[2px] flex items-center justify-center z-10"
         >
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 h-full w-full relative z-10 overflow-hidden">
             
@@ -1485,7 +1485,7 @@ const ProjectsSection = ({
             {/* Right Side (Col 7-12): Detailed Info & Slider controls */}
             <div className="lg:col-span-6 flex flex-col justify-between h-full p-8 md:p-16 lg:p-24 lg:pl-28 bg-zinc-950/45 backdrop-blur-xl relative border-l border-white/[0.02]">
               {/* Subtle accent glow in info panel */}
-              <div className="absolute top-1/2 right-0 -translate-y-1/2 w-72 h-72 rounded-full bg-primary/5 blur-[90px] pointer-events-none" />
+              <div className="absolute top-1/2 right-0 -translate-y-1/2 w-72 h-72 rounded-full bg-[#ff4d4d]/5 blur-[90px] pointer-events-none" />
               <div className="my-auto space-y-6">
                 <AnimatePresence mode="wait">
                   <motion.div
@@ -1497,16 +1497,16 @@ const ProjectsSection = ({
                   >
                     {/* Project Area Badge */}
                     <div className="flex flex-wrap items-center gap-2 mb-4">
-                      <span className="text-[9px] font-black uppercase tracking-widest text-primary bg-primary/10 border border-primary/20 px-3 py-1 rounded-full">
+                      <span className="text-[9px] font-black uppercase tracking-widest text-[#ff4d4d] bg-[#ff4d4d]/10 border border-[#ff4d4d]/25 px-3 py-1 rounded-full">
                         {p.area}
                       </span>
-                      <span className="text-[9px] font-bold uppercase tracking-wider text-txt-muted">
+                      <span className="text-[9px] font-bold uppercase tracking-wider text-zinc-400">
                         {p.tag}
                       </span>
                     </div>
 
-                    <h3 className="text-2xl md:text-4xl font-black uppercase mb-4 text-gradient filter drop-shadow-[0_0_20px_rgba(179,0,0,0.3)]">{p.title}</h3>
-                    <p className="text-txt-muted text-xs md:text-sm leading-relaxed mb-8">{p.desc}</p>
+                    <h3 className="text-2xl md:text-4xl font-black uppercase mb-4 bg-gradient-to-r from-[#ff8080] via-[#ff4040] to-[#ff7070] bg-clip-text text-transparent filter drop-shadow-[0_0_15px_rgba(255,64,64,0.35)]">{p.title}</h3>
+                    <p className="text-zinc-300 text-xs md:text-sm leading-relaxed mb-8">{p.desc}</p>
                   </motion.div>
                 </AnimatePresence>
 
@@ -1529,11 +1529,11 @@ const ProjectsSection = ({
                           Em breve...
                         </div>
                       ) : (
-                        <a
+                      <a
                           href={p.link}
                           target="_blank"
                           rel="noreferrer"
-                          className="flex items-center justify-center gap-2 w-full bg-primary hover:bg-accent text-white text-[10px] font-black uppercase tracking-wider py-4 rounded-xl transition-all shadow-md shadow-primary/20 duration-300"
+                          className="flex items-center justify-center gap-2 w-full bg-gradient-to-r from-[#a00000] to-[#e03030] hover:from-[#e03030] hover:to-[#a00000] text-white text-[10px] font-black uppercase tracking-wider py-4 rounded-xl transition-all shadow-[0_4px_20px_rgba(224,48,48,0.25)] hover:shadow-[0_4px_25px_rgba(224,48,48,0.45)] duration-300"
                         >
                           Acessar Aplicação <ArrowUpRight size={14} />
                         </a>
@@ -1549,7 +1549,7 @@ const ProjectsSection = ({
                       >
                         <ChevronRight size={14} className="rotate-180" />
                       </button>
-                      <span className="text-[10px] font-black uppercase tracking-wider px-3.5 py-2 bg-[#0c0c0d] border border-zinc-800 rounded-lg flex items-center justify-center min-w-[42px] text-gradient">
+                      <span className="text-[10px] font-black uppercase tracking-wider px-3.5 py-2 bg-[#0c0c0d] border border-zinc-800 rounded-lg flex items-center justify-center min-w-[42px] text-[#ff4d4d]">
                         {currentIndex + 1} / {filtered.length}
                       </span>
                       <button
