@@ -390,7 +390,7 @@ const TECH_ICONS: Record<string, { slug: string; color: string; label: string }>
   "Tailwind": { slug: "tailwindcss", color: "#06B6D4", label: "Tailwind CSS" },
   "Flask": { slug: "flask", color: "#ffffff", label: "Flask" },
   "MCP": { slug: "anthropic", color: "#ffffff", label: "MCP" },
-  "LLMs": { slug: "openai", color: "#ffffff", label: "LLMs" },
+  "Flutter": { slug: "flutter", color: "#02569B", label: "Flutter" },
 };
 
 const TechLogoCard = ({
@@ -1155,7 +1155,7 @@ const SkillsSection = ({
   const row1 = ["JS", "TS", "React", "Next.js", "Vue.js", "Node.js"];
   const row2 = ["Java", "Spring", "GraphQL", "Axios", "Prisma", "Supabase"];
   const row3 = ["Git", "Docker", "N8N", "Figma", "Grafana", "Chatwoot"];
-  const row4 = ["Python", "PostgreSQL", "Tailwind", "Flask", "MCP", "LLMs"];
+  const row4 = ["Python", "PostgreSQL", "Tailwind", "Flask", "MCP", "Flutter"];
 
   return (
     <section id="skills" className="py-24 px-4 border-t border-border/40 bg-bg/10 relative overflow-hidden">
@@ -1414,7 +1414,7 @@ const ProjectsSection = ({
     "Vercel": ["Vercel"], "N8N": ["N8N"], "Figma": ["Figma"], "Node.js": ["Node.js"],
     "GraphQL": ["GraphQL"], "Grafana": ["Grafana"], "Axios": ["Axios"],
     "Vue.js": ["Vue.js"], "Chatwoot": ["Chatwoot"],
-    "MCP": ["MCP"], "LLMs": ["LLMs", "IA", "Gemini", "OpenAI"]
+    "MCP": ["MCP"], "Flutter": ["Flutter"]
   };
 
   const filtered = selectedTech
