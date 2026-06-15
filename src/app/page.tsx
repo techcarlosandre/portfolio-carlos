@@ -1359,8 +1359,8 @@ const ProjectsSection = ({
       techs: t.projects.items[0].techs,
       link: "https://projetos.techcarlos.com.br/sushi",
       area: "Web & UX/UI",
-      desktop: { video: "/sushi/sushi.mp4" },
-      mobile: { video: "/sushi/sushi-app.mp4" }
+      desktop: { img: "/sushi/sushi.png" },
+      mobile: { img: "/sushi/sushi.png" }
     },
     {
       title: t.projects.items[1].title,
@@ -1369,8 +1369,8 @@ const ProjectsSection = ({
       techs: t.projects.items[1].techs,
       link: "https://projetos.techcarlos.com.br/fitgym",
       area: "Mobile & Flutter",
-      desktop: { video: "/fitgym/fitgym.mp4" },
-      mobile: { video: "/fitgym/fitgym-app.mp4" }
+      desktop: { img: "/fitgym/fitgym.png" },
+      mobile: { img: "/fitgym/fitgym.png" }
     },
     {
       title: t.projects.items[2].title,
@@ -1379,8 +1379,8 @@ const ProjectsSection = ({
       techs: t.projects.items[2].techs,
       link: "https://projetos.techcarlos.com.br/horizonte",
       area: "Sistemas & Dashboard",
-      desktop: { video: "/horizonte/horizonte.mp4" },
-      mobile: { video: "/horizonte/horizonte-app.mp4" }
+      desktop: { img: "/horizonte/horizonte.png" },
+      mobile: { img: "/horizonte/horizonte.png" }
     },
     {
       title: t.projects.items[3].title,
@@ -1389,8 +1389,8 @@ const ProjectsSection = ({
       techs: t.projects.items[3].techs,
       link: "https://projetos.techcarlos.com.br/barber",
       area: "Gestão & CRM",
-      desktop: { video: "/barber/barber.mp4" },
-      mobile: { video: "/barber/barber-app.mp4" }
+      desktop: { img: "/barber/barber.png" },
+      mobile: { img: "/barber/barber.png" }
     },
     {
       title: t.projects.items[4].title,
