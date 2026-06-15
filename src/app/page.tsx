@@ -148,6 +148,129 @@ const SkillBar = ({ name, percent }: { name: string; percent: number }) => {
   );
 };
 
+interface Project {
+  title: string;
+  tag: string;
+  desc: string;
+  link: string;
+  github: string;
+  folder: string;
+  stack: string[];
+}
+
+const ProjectCard = ({ project }: { project: Project }) => {
+  const [activeTab, setActiveTab] = useState<'desktop' | 'mobile'>('desktop');
+  const [videoError, setVideoError] = useState(false);
+  const videoRef = React.useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    setVideoError(false);
+    if (videoRef.current) {
+      videoRef.current.load();
+    }
+  }, [activeTab]);
+
+  const videoSrc = `/portfolio-carlos/${project.folder}/${activeTab}.mp4`;
+
+  return (
+    <motion.div
+      whileHover={{ y: -5, borderColor: "rgba(128,0,0,0.3)" }}
+      className="bg-surface rounded-2xl overflow-hidden border border-white/5 group transition-all duration-300 flex flex-col justify-between h-full shadow-xl"
+    >
+      <div>
+        {/* Media Container */}
+        <div className="h-64 bg-black/40 relative overflow-hidden flex items-center justify-center">
+          <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent z-10 pointer-events-none" />
+          
+          {!videoError ? (
+            <video
+              ref={videoRef}
+              src={videoSrc}
+              onError={() => setVideoError(true)}
+              className="w-full h-full object-cover"
+              loop
+              muted
+              playsInline
+              autoPlay
+            />
+          ) : (
+            <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center bg-black/60 backdrop-blur-sm">
+              <div className="w-12 h-12 rounded-full border border-primary/20 flex items-center justify-center mb-3 text-primary bg-primary/5">
+                {activeTab === 'desktop' ? <Globe size={20} /> : <Phone size={20} />}
+              </div>
+              <p className="text-xs font-bold uppercase tracking-wider text-gray-300">Demonstração {activeTab === 'desktop' ? 'Web' : 'Mobile'}</p>
+              <p className="text-[10px] text-gray-500 mt-2 max-w-[220px] leading-relaxed">
+                Adicione o vídeo em <br />
+                <code className="text-primary bg-primary/10 px-1.5 py-0.5 rounded font-mono break-all text-[9px]">public/{project.folder}/{activeTab}.mp4</code>
+              </p>
+            </div>
+          )}
+
+          {/* Tag Overlay */}
+          <div className="absolute bottom-4 left-4 z-20">
+            <span className="text-[10px] font-black uppercase bg-primary px-3 py-1 rounded-full text-white tracking-widest">{project.tag}</span>
+          </div>
+
+          {/* Device Toggle Overlay */}
+          <div className="absolute top-4 right-4 z-20 flex bg-black/80 backdrop-blur-md p-1 rounded-full border border-white/10 text-[9px] font-black uppercase tracking-wider shadow-lg">
+            <button
+              onClick={() => setActiveTab('desktop')}
+              className={`px-3 py-1.5 rounded-full transition-all duration-200 ${activeTab === 'desktop' ? 'bg-primary text-white glow-primary' : 'text-gray-400 hover:text-white'}`}
+            >
+              Web
+            </button>
+            <button
+              onClick={() => setActiveTab('mobile')}
+              className={`px-3 py-1.5 rounded-full transition-all duration-200 ${activeTab === 'mobile' ? 'bg-primary text-white glow-primary' : 'text-gray-400 hover:text-white'}`}
+            >
+              Mobile
+            </button>
+          </div>
+        </div>
+
+        {/* Details Container */}
+        <div className="p-8">
+          <h3 className="text-xl font-black mb-3 uppercase tracking-wider text-white">{project.title}</h3>
+          <p className="text-gray-400 text-sm mb-6 leading-relaxed min-h-[72px]">
+            {project.desc}
+          </p>
+
+          {/* Tech Stack Badges */}
+          <div className="flex flex-wrap gap-2 mb-2">
+            {project.stack.map((tech) => (
+              <span key={tech} className="text-[9px] font-bold uppercase tracking-widest bg-white/5 border border-white/10 px-2.5 py-1 rounded text-gray-300">
+                {tech}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Action Buttons */}
+      <div className="px-8 pb-8 pt-0 flex gap-6 mt-auto">
+        <a
+          href={project.link}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-xs font-black uppercase tracking-widest text-primary flex items-center gap-1 hover:text-white transition-colors"
+        >
+          Abrir <ExternalLink size={12} />
+        </a>
+        {project.github && project.github !== '#' && (
+          <a
+            href={project.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs font-black uppercase tracking-widest text-gray-500 hover:text-white transition-colors"
+          >
+            GitHub
+          </a>
+        )}
+      </div>
+    </motion.div>
+  );
+};
+
 export default function PortfolioPage() {
   const { scrollYProgress } = useScroll();
   const [copied, setCopied] = useState(false);
@@ -366,75 +489,55 @@ export default function PortfolioPage() {
             <div className="w-20 h-1 bg-primary mt-4" />
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
               {
-                title: "Omni Gestão",
-                tag: "ERP / Gestão",
-                desc: "Plataforma completa para controle de estoque e fluxo de caixa, com relatórios inteligentes e gestão de unidades operacionais.",
-                link: "https://omni-gestao-pro-six.vercel.app",
-                github: "https://github.com/techcarlosandre/omni-gestao-vitrine",
-                img: "/portfolio-carlos/omni-thumb.png"
+                title: "Sushi House Premium",
+                tag: "Front-End Premium",
+                desc: "Site institucional premium com Motion Design requintado, navegação fluida, menus interativos e filtros de cardápio avançados.",
+                link: "https://projetos.techcarlos.com.br/sushi",
+                github: "https://github.com/techcarlosandre/sushi",
+                folder: "sushi",
+                stack: ["React", "Vite", "Tailwind", "Framer Motion"]
               },
               {
-                title: "META DIFF",
-                tag: "Analytics / Gaming",
-                desc: "Plataforma de análise de dados para League of Legends, utilizando a Riot Games API para insights de desempenho e meta-analysis.",
-                link: "https://meta-diff.vercel.app",
-                github: "https://github.com/techcarlosandre/meta-diff",
-                img: "/portfolio-carlos/meta-diff-thumb.png"
+                title: "FitGym",
+                tag: "Mobile & API REST",
+                desc: "Aplicativo mobile moderno integrado com backend robusto em Java Spring Boot, documentação Swagger e automações inteligentes via N8N.",
+                link: "https://projetos.techcarlos.com.br/fitgym",
+                github: "https://github.com/techcarlosandre/fitgym",
+                folder: "fitgym",
+                stack: ["Flutter", "Java", "Spring Boot", "REST API", "N8N"]
               },
               {
-                title: "Projeto 03",
-                tag: "...",
-                desc: "Projeto em desenvolvimento...",
-                link: "#",
-                github: "#",
-                img: ""
+                title: "Horizonte Aprendizado",
+                tag: "SaaS / Corporativo",
+                desc: "Plataforma SaaS educacional completa com dashboards analíticos avançados, controle financeiro, boletins digitais e funil de CRM.",
+                link: "https://projetos.techcarlos.com.br/horizonte",
+                github: "https://github.com/techcarlosandre/horizonte",
+                folder: "horizonte",
+                stack: ["Next.js", "TypeScript", "Shadcn", "Recharts", "N8N"]
+              },
+              {
+                title: "Barber+",
+                tag: "Gestão & CRM",
+                desc: "Sistema operacional completo para barbearias, contendo agenda interativa, fluxo de comissão de barbeiros, controle de estoque e pós-venda.",
+                link: "https://projetos.techcarlos.com.br/barber",
+                github: "https://github.com/techcarlosandre/barber",
+                folder: "barber",
+                stack: ["Next.js", "TypeScript", "Node.js", "Express", "N8N"]
+              },
+              {
+                title: "VitaMed",
+                tag: "Integrações & IA",
+                desc: "Central de atendimento inteligente e multicanal, com confirmação automatizada de consultas via WhatsApp e triagem baseada em IA generativa.",
+                link: "https://projetos.techcarlos.com.br/vitamed",
+                github: "https://github.com/techcarlosandre/vitamed",
+                folder: "vitamed",
+                stack: ["Next.js", "Python", "Flask", "OpenAI", "N8N"]
               }
             ].map((project, index) => (
-              <motion.div
-                key={index}
-                whileHover={{ y: -10, borderColor: "rgba(128,0,0,0.3)" }}
-                className="bg-surface rounded-2xl overflow-hidden border border-white/5 group transition-all duration-300"
-              >
-                <div className="h-64 bg-secondary/20 relative overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent z-10" />
-                  {project.img ? (
-                    <Image
-                      src={project.img}
-                      alt={project.title}
-                      fill
-                      className="object-cover group-hover:scale-110 transition-transform duration-500"
-                    />
-                  ) : null}
-                  <div className="absolute bottom-4 left-4 z-20">
-                    <span className="text-[10px] font-black uppercase bg-primary px-3 py-1 rounded-full">{project.tag}</span>
-                  </div>
-                </div>
-                <div className="p-8">
-                  <h3 className="text-xl font-bold mb-3 uppercase tracking-wider">{project.title}</h3>
-                  <p className="text-gray-400 text-sm mb-6 leading-relaxed">
-                    {project.desc}
-                  </p>
-                  <div className="flex gap-4">
-                    <a
-                      href={project.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xs font-black uppercase tracking-widest text-primary flex items-center gap-1 hover:text-white transition-colors"
-                    >
-                      {index === 0 ? 'Demo' : 'Abrir'} <ExternalLink size={12} />
-                    </a>
-                    <a
-                      href={project.github}
-                      className="text-xs font-black uppercase tracking-widest text-gray-500 hover:text-white transition-colors"
-                    >
-                      GitHub
-                    </a>
-                  </div>
-                </div>
-              </motion.div>
+              <ProjectCard key={index} project={project} />
             ))}
           </div>
         </div>
