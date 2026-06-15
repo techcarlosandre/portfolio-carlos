@@ -438,19 +438,37 @@ const TechLogoCard = ({
     >
       <div className="w-8 h-8 flex items-center justify-center relative">
         <AnimatePresence mode="wait">
-          <motion.img
-            key={currentSlug}
-            initial={{ opacity: 0, scale: 0.7 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.7 }}
-            transition={{ duration: 0.25 }}
-            src={`https://cdn.simpleicons.org/${currentSlug}/${currentColor}`}
-            alt={currentLabel}
-            width={32}
-            height={32}
-            className="absolute object-contain"
-            loading="lazy"
-          />
+          {currentSlug === "openai" ? (
+            <motion.svg
+              key="openai"
+              initial={{ opacity: 0, scale: 0.7 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.7 }}
+              transition={{ duration: 0.25 }}
+              viewBox="0 0 24 24"
+              width={32}
+              height={32}
+              fill="currentColor"
+              style={{ color: `#${currentColor}` }}
+              className="absolute object-contain"
+            >
+              <path d="M21.3,10.1a3.9,3.9,0,0,0-.4-3.3,4.1,4.1,0,0,0-4.4-1.9,4.1,4.1,0,0,0-5.7-1.8A4.1,4.1,0,0,0,6.2,6.1,4.1,4.1,0,0,0,4.7,5.5,3.9,3.9,0,0,0,1,10.1,4.1,4.1,0,0,0,1.4,13.4a3.9,3.9,0,0,0,.4,3.3,4.1,4.1,0,0,0,4.4,1.9,4.1,4.1,0,0,0,5.7,1.8,4.1,4.1,0,0,0,4.6-2.9,4.1,4.1,0,0,0,1.5-.7,4,4,0,0,0,1.2-1.2A4.1,4.1,0,0,0,21.3,10.1ZM12,19a3.1,3.1,0,0,1-1.9-.7l.1-.1,3.2-1.8a.5.5,0,0,0,.3-.5V11.4l1.4.8a.1.1,0,0,1,0,.1V16A3,3,0,0,1,12,19ZM5.5,16.2a3,3,0,0,1-.4-2l.1.1,3.2,1.8a.5.5,0,0,0,.5,0l3.9-2.2v1.5a.1.1,0,0,1,0,.1L9.3,15.1A3,3,0,0,1,5.5,16.2ZM4.6,9.3a3,3,0,0,1,1.1-1.9v3.8a.5.5,0,0,0,.3.4l3.9,2.2-1.4.8a.1.1,0,0,1,0,0L5.7,13.3A3,3,0,0,1,4.6,9.3ZM18.3,11.5l-3.9-2.2,1.4-.8a.1.1,0,0,1,0,0l2.8,1.6a3,3,0,0,1,1.1,1.9,3,3,0,0,1-.3,3.2A3,3,0,0,1,18,16.2V12A.5.5,0,0,0,18.3,11.5ZM19.4,7.8l-.1-.1-3.2-1.8a.5.5,0,0,0-.5,0L11.7,8.2V6.6a.1.1,0,0,1,0-.1l3.5-2A3,3,0,0,1,19.4,7.8ZM8,5.7V9.5a.5.5,0,0,0,.3.4l3.9,2.2-1.4.8a.1.1,0,0,1,0,0L8,11.4A3,3,0,0,1,8,5.7Z" />
+            </motion.svg>
+          ) : (
+            <motion.img
+              key={currentSlug}
+              initial={{ opacity: 0, scale: 0.7 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.7 }}
+              transition={{ duration: 0.25 }}
+              src={`https://cdn.simpleicons.org/${currentSlug}/${currentColor}`}
+              alt={currentLabel}
+              width={32}
+              height={32}
+              className="absolute object-contain"
+              loading="lazy"
+            />
+          )}
         </AnimatePresence>
       </div>
       <span className="tech-logo-label">{tech === "LLMs" ? "LLMs" : info.label}</span>
