@@ -1359,8 +1359,8 @@ const ProjectsSection = ({
       techs: t.projects.items[0].techs,
       link: "https://projetos.techcarlos.com.br/sushi",
       area: "Web & UX/UI",
-      desktop: { img: "/sushi/sushi.png" },
-      mobile: { img: "/sushi/sushi.png" }
+      desktop: { video: "/sushi/sushi.mp4" },
+      mobile: { video: "/sushi/sushi-app.mp4" }
     },
     {
       title: t.projects.items[1].title,
@@ -1369,8 +1369,8 @@ const ProjectsSection = ({
       techs: t.projects.items[1].techs,
       link: "https://projetos.techcarlos.com.br/fitgym",
       area: "Mobile & Flutter",
-      desktop: { img: "/fitgym/fitgym.png" },
-      mobile: { img: "/fitgym/fitgym.png" }
+      desktop: { video: "/fitgym/fitgym.mp4" },
+      mobile: { video: "/fitgym/fitgym-app.mp4" }
     },
     {
       title: t.projects.items[2].title,
@@ -1379,8 +1379,8 @@ const ProjectsSection = ({
       techs: t.projects.items[2].techs,
       link: "https://projetos.techcarlos.com.br/horizonte",
       area: "Sistemas & Dashboard",
-      desktop: { img: "/horizonte/horizonte.png" },
-      mobile: { img: "/horizonte/horizonte.png" }
+      desktop: { video: "/horizonte/horizonte.mp4" },
+      mobile: { video: "/horizonte/horizonte-app.mp4" }
     },
     {
       title: t.projects.items[3].title,
@@ -1389,8 +1389,8 @@ const ProjectsSection = ({
       techs: t.projects.items[3].techs,
       link: "https://projetos.techcarlos.com.br/barber",
       area: "Gestão & CRM",
-      desktop: { img: "/barber/barber.png" },
-      mobile: { img: "/barber/barber.png" }
+      desktop: { video: "/barber/barber.mp4" },
+      mobile: { video: "/barber/barber-app.mp4" }
     },
     {
       title: t.projects.items[4].title,
@@ -1512,13 +1512,13 @@ const ProjectsSection = ({
                       onClick={() => setMockupType("desktop")}
                       className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-wider transition-all duration-300 cursor-pointer shadow-sm ${mockupType === "desktop" ? "bg-gradient-to-r from-[#a00000] to-[#e03030] text-white font-bold" : "text-txt-muted hover:text-txt"}`}
                     >
-                      💻 Web
+                      💻 {t.projects.computer}
                     </button>
                     <button
                       onClick={() => setMockupType("mobile")}
                       className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-wider transition-all duration-300 cursor-pointer shadow-sm ${mockupType === "mobile" ? "bg-gradient-to-r from-[#a00000] to-[#e03030] text-white font-bold" : "text-txt-muted hover:text-txt"}`}
                     >
-                      📱 App
+                      📱 {t.projects.mobile}
                     </button>
                   </div>
                 </div>

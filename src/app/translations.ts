@@ -163,6 +163,8 @@ export const translations = {
       title1: 'Trabalhos',
       titleHighlight: 'Selecionados',
       all: 'Todos', details: 'Ver Detalhes',
+      computer: 'Computador',
+      mobile: 'Celular',
       items: [
         {
           title: 'Sushi House Premium',
@@ -452,6 +454,8 @@ export const translations = {
       title1: 'Selected',
       titleHighlight: 'Works',
       all: 'All', details: 'View Details',
+      computer: 'Computer',
+      mobile: 'Mobile',
       items: [
         {
           title: 'Sushi House Premium',
