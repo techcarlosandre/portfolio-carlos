@@ -1341,57 +1341,66 @@ const ProjectsSection = ({
   const projectsRotateY = useTransform(scrollYProgress, [0.15, 0.45], [5, 0]);
   const projectsPointerEvents = useTransform(scrollYProgress, (val) => val >= 0.15 ? "auto" : "none");
 
-  const projectsData = [
+  const projectsData: {
+    title: string;
+    desc: string;
+    tag: string;
+    techs: readonly string[];
+    link: string;
+    area: string;
+    wip?: boolean;
+    desktop: { img?: string; video?: string; placeholder?: boolean };
+    mobile: { img?: string; video?: string; placeholder?: boolean };
+  }[] = [
     {
       title: t.projects.items[0].title,
       desc: t.projects.items[0].desc,
       tag: t.projects.items[0].tag,
       techs: t.projects.items[0].techs,
-      link: "https://omni-gestao-pro-six.vercel.app",
-      area: "Web & ERP",
-      desktop: { img: "/projetos/omni-thumb.png" },
-      mobile: { img: "/projetos/omni-thumb.png" }
+      link: "https://projetos.techcarlos.com.br/sushi",
+      area: "Web & UX/UI",
+      desktop: { video: "/sushi/sushi.mp4" },
+      mobile: { video: "/sushi/sushi-app.mp4" }
     },
     {
       title: t.projects.items[1].title,
       desc: t.projects.items[1].desc,
       tag: t.projects.items[1].tag,
       techs: t.projects.items[1].techs,
-      link: "https://omni-financas-demo.vercel.app",
-      area: "Web & Fintech",
-      desktop: { img: "/projetos/omni-financas.png" },
-      mobile: { img: "/projetos/omni-financas.png" }
+      link: "https://projetos.techcarlos.com.br/fitgym",
+      area: "Mobile & Flutter",
+      desktop: { video: "/fitgym/fitgym.mp4" },
+      mobile: { video: "/fitgym/fitgym-app.mp4" }
     },
     {
       title: t.projects.items[2].title,
       desc: t.projects.items[2].desc,
       tag: t.projects.items[2].tag,
       techs: t.projects.items[2].techs,
-      link: "https://rankehub.vercel.app/",
-      area: "Web & Analytics",
-      desktop: { img: "/projetos/rankhub.png" },
-      mobile: { img: "/projetos/rankhub.png" }
+      link: "https://projetos.techcarlos.com.br/horizonte",
+      area: "Sistemas & Dashboard",
+      desktop: { video: "/horizonte/horizonte.mp4" },
+      mobile: { video: "/horizonte/horizonte-app.mp4" }
     },
     {
       title: t.projects.items[3].title,
       desc: t.projects.items[3].desc,
       tag: t.projects.items[3].tag,
       techs: t.projects.items[3].techs,
-      link: "https://api.whatsapp.com/send/?phone=21982665121&text=Olá+Carlos%2C+vi+seu+portfólio+e+gostaria+de+conversar+sobre+um+projeto.",
-      area: "Automação & IA",
-      desktop: { video: "/projetos/automacao-wpp.mp4" },
-      mobile: { video: "/projetos/automacao-ig.mp4" }
+      link: "https://projetos.techcarlos.com.br/barber",
+      area: "Gestão & CRM",
+      desktop: { video: "/barber/barber.mp4" },
+      mobile: { video: "/barber/barber-app.mp4" }
     },
     {
       title: t.projects.items[4].title,
       desc: t.projects.items[4].desc,
       tag: t.projects.items[4].tag,
       techs: t.projects.items[4].techs,
-      link: "#",
-      area: "Backend / API",
-      wip: true,
-      desktop: { placeholder: true },
-      mobile: { placeholder: true }
+      link: "https://projetos.techcarlos.com.br/vitamed",
+      area: "Integrações & IA",
+      desktop: { video: "/vitamed/vitamed.mp4" },
+      mobile: { video: "/vitamed/vitamed-app.mp4" }
     }
   ];
 

@@ -165,40 +165,39 @@ export const translations = {
       all: 'Todos', details: 'Ver Detalhes',
       items: [
         {
-          title: 'Omni Gestão',
-          category: 'Fullstack',
-          tag: 'Web · Sistema de Gestão',
-          desc: 'Sistema completo para controlar estoque, fluxo de caixa e operações de múltiplas unidades — com painel visual e relatórios em tempo real.',
-          techs: ['Next.js', 'React', 'Prisma', 'PostgreSQL', 'Tailwind']
+          title: 'Sushi House Premium',
+          category: 'Front-End',
+          tag: 'Web · Landing Page Premium & UX/UI',
+          desc: 'Site institucional premium com motion design refinado, filtros de cardápio interativos, galeria responsiva e fluxo de reserva integrado com automação de atendimento.',
+          techs: ['React', 'Vite', 'Tailwind', 'Framer Motion', 'N8N']
         },
         {
-          title: 'Omni Finanças',
-          category: 'Fullstack',
-          tag: 'Web · Finanças Pessoais',
-          desc: 'Plataforma de controle financeiro pessoal e familiar — acompanhe gastos, metas e saldo do cartão de crédito tudo em um só lugar.',
-          techs: ['Next.js', 'TypeScript', 'Supabase', 'Tailwind', 'Framer Motion']
+          title: 'FitGym',
+          category: 'Mobile',
+          tag: 'App · Flutter & Java Spring API',
+          desc: 'Aplicativo mobile completo para academia com onboarding animado, controle de treinos e progresso diário com gráficos de evolução, além de API em Java Spring Boot.',
+          techs: ['Flutter', 'Java', 'Spring Boot', 'PostgreSQL', 'N8N']
         },
         {
-          title: 'Rank&Hub',
-          category: 'IA',
-          tag: 'Web · Gestão de Equipe com IA',
-          desc: 'Painel de desempenho de equipes com ranking dinâmico e inteligência artificial — ideal para motivar vendedores e acompanhar resultados em tempo real.',
-          techs: ['Next.js', 'Google Gemini', 'Python', 'Tailwind']
+          title: 'Horizonte Aprendizado',
+          category: 'Sistemas',
+          tag: 'Web · Plataforma Educacional & CRM',
+          desc: 'Plataforma educacional com painéis separados para aluno, professor e responsável, boletim digital, controle financeiro, CRM de matrículas e relatórios em tempo real.',
+          techs: ['Next.js', 'TypeScript', 'Shadcn', 'Recharts', 'N8N']
         },
         {
-          title: 'Robô de Atendimento — WhatsApp & Instagram',
-          category: 'IA',
-          tag: 'Automação · Atendimento 24h',
-          desc: 'Robô inteligente que atende clientes automaticamente no WhatsApp e Instagram, responde dúvidas, agenda horários e encaminha os interessados para o time de vendas — reduzindo o tempo de resposta em até 90%.',
-          techs: ['Python', 'IA/LLMs', 'WhatsApp API', 'Instagram API', 'N8N'],
-          hasVideo: true
+          title: 'Barber+',
+          category: 'Sistemas',
+          tag: 'Web · Gestão Comercial & Financeiro',
+          desc: 'Sistema interno para barbearia com agenda de atendimentos em tempo real, controle de fluxo de caixa, comissões de barbeiros, gestão de estoque e automação de lembretes.',
+          techs: ['Next.js', 'TypeScript', 'Node.js', 'Express', 'N8N']
         },
         {
-          title: 'Em breve...',
-          category: 'Backend',
-          tag: 'Backend · API de Alta Performance',
-          desc: 'Novo projeto em desenvolvimento — uma API robusta e escalável para processamento de dados em alta velocidade.',
-          techs: ['Java', 'Spring Boot', 'PostgreSQL', 'Docker']
+          title: 'VitaMed',
+          category: 'IA & Automação',
+          tag: 'Web · Central de Atendimento & Automação',
+          desc: 'Central inteligente de atendimento para clínica médica integrada com WhatsApp, OpenAI, Gmail e Google Calendar via N8N, contendo relatórios de consultas e confirmações.',
+          techs: ['Python', 'Flask', 'Next.js', 'OpenAI', 'N8N']
         },
       ],
     },
@@ -455,40 +454,39 @@ export const translations = {
       all: 'All', details: 'View Details',
       items: [
         {
-          title: 'Omni Gestão',
-          category: 'Fullstack',
-          tag: 'Web · Business Management System',
-          desc: 'Complete system to manage inventory, cash flow, and multi-unit operations — with visual dashboards and real-time reports.',
-          techs: ['Next.js', 'React', 'Prisma', 'PostgreSQL', 'Tailwind']
+          title: 'Sushi House Premium',
+          category: 'Front-End',
+          tag: 'Web · Premium Landing Page & UX/UI',
+          desc: 'Premium institutional website with refined motion design, interactive menu filters, responsive gallery, and booking flow integrated with customer service automation.',
+          techs: ['React', 'Vite', 'Tailwind', 'Framer Motion', 'N8N']
         },
         {
-          title: 'Omni Finanças',
-          category: 'Fullstack',
-          tag: 'Web · Personal Finance',
-          desc: 'Personal and family financial control platform — track expenses, goals, and credit card balance all in one place.',
-          techs: ['Next.js', 'TypeScript', 'Supabase', 'Tailwind', 'Framer Motion']
+          title: 'FitGym',
+          category: 'Mobile',
+          tag: 'App · Flutter & Java Spring API',
+          desc: 'Complete mobile app for gyms with animated onboarding, workout tracking, daily progress charts, and back-end integration via Java Spring Boot.',
+          techs: ['Flutter', 'Java', 'Spring Boot', 'PostgreSQL', 'N8N']
         },
         {
-          title: 'Rank&Hub',
-          category: 'AI',
-          tag: 'Web · Team Management with AI',
-          desc: 'Team performance dashboard with dynamic rankings and AI — perfect for motivating sales teams and tracking results in real time.',
-          techs: ['Next.js', 'Google Gemini', 'Python', 'Tailwind']
+          title: 'Horizonte Aprendizado',
+          category: 'Systems',
+          tag: 'Web · Educational Platform & CRM',
+          desc: 'Educational platform with separate dashboards for students, teachers, and guardians, digital reports, financial control, enrollment CRM, and real-time reports.',
+          techs: ['Next.js', 'TypeScript', 'Shadcn', 'Recharts', 'N8N']
         },
         {
-          title: 'AI Bot — WhatsApp & Instagram',
-          category: 'AI',
-          tag: 'Automation · 24h Customer Service',
-          desc: 'Smart bot that automatically serves customers on WhatsApp and Instagram, answers questions, schedules appointments, and routes interested buyers to the sales team — cutting response time by up to 90%.',
-          techs: ['Python', 'AI/LLMs', 'WhatsApp API', 'Instagram API', 'N8N'],
-          hasVideo: true
+          title: 'Barber+',
+          category: 'Systems',
+          tag: 'Web · Business Management & Finance',
+          desc: 'Internal management system for barbershops with real-time scheduling, cash flow tracking, barbers\' commission split, inventory control, and automated reminders.',
+          techs: ['Next.js', 'TypeScript', 'Node.js', 'Express', 'N8N']
         },
         {
-          title: 'Coming Soon...',
-          category: 'Backend',
-          tag: 'Backend · High-Performance API',
-          desc: 'New project in development — a robust and scalable API for high-speed data processing.',
-          techs: ['Java', 'Spring Boot', 'PostgreSQL', 'Docker']
+          title: 'VitaMed',
+          category: 'IA & Automation',
+          tag: 'Web · Customer Service Hub & Automation',
+          desc: 'Smart patient appointment hub integrated with WhatsApp, OpenAI, Gmail, and Google Calendar via N8N, with confirmation dashboards and reports.',
+          techs: ['Python', 'Flask', 'Next.js', 'OpenAI', 'N8N']
         },
       ],
     },
