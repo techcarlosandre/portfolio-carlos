@@ -13,7 +13,8 @@ FROM node:22-alpine AS builder
 WORKDIR /app
 
 COPY --from=deps /app/node_modules ./node_modules
-COPY . .
+COPY src ./src
+COPY next.config.ts tsconfig.json package.json package-lock.json eslint.config.mjs postcss.config.mjs ./
 
 # Disable Next.js telemetry during build
 ENV NEXT_TELEMETRY_DISABLED=1
@@ -36,7 +37,7 @@ RUN addgroup --system --gid 1001 nodejs \
 # Copy standalone output (Next.js bundles everything needed)
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-COPY --from=builder --chown=nextjs:nodejs /app/public ./public
+COPY --chown=nextjs:nodejs public ./public
 
 USER nextjs
 
