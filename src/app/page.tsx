@@ -824,7 +824,11 @@ const Navbar = () => {
           </div>
           <div className="flex items-center gap-2">
             <button
-              onClick={() => setLang(lang === "pt" ? "en" : "pt")}
+              onClick={() => {
+                const newLang = lang === "pt" ? "en" : "pt";
+                localStorage.setItem("carlos_portfolio_lang", newLang);
+                window.location.reload();
+              }}
               className="flex items-center gap-1 px-2.5 py-1 rounded-full border border-border text-[8px] font-bold bg-surface/20 hover:bg-surface/40 transition-colors"
             >
               <Globe size={10} className="text-primary" /> {lang === "pt" ? "EN" : "PT"}
@@ -1309,7 +1313,211 @@ const ServicesSection = () => {
   );
 };
 
-// ─── PROJECTS SLIDER SECTION (Módulo 2 - Restored & Refined Mockup Slider) ───
+// ─── NEURAL SYNAPSE CANVAS (Projects Background) ───
+const NeuralSynapseCanvas = ({ active }: { active: boolean }) => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    if (!active) return;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    let animationFrameId: number;
+    let width = canvas.width = canvas.offsetWidth;
+    let height = canvas.height = canvas.offsetHeight;
+
+    interface Node {
+      x: number; y: number; vx: number; vy: number;
+      radius: number; phase: number; speed: number;
+      pulseDelay: number; activated: boolean;
+    }
+
+    const nodes: Node[] = [];
+    const nodeCount = 60;
+    const connectionDist = 140;
+    let elapsed = 0;
+
+    for (let i = 0; i < nodeCount; i++) {
+      nodes.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
+        radius: Math.random() * 2 + 1,
+        phase: Math.random() * Math.PI * 2,
+        speed: Math.random() * 0.02 + 0.01,
+        pulseDelay: Math.random() * 120,
+        activated: false,
+      });
+    }
+
+    const handleResize = () => {
+      if (!canvas) return;
+      width = canvas.width = canvas.offsetWidth;
+      height = canvas.height = canvas.offsetHeight;
+    };
+    window.addEventListener("resize", handleResize);
+
+    const animate = () => {
+      elapsed++;
+      ctx.clearRect(0, 0, width, height);
+
+      // Activate nodes progressively (synapse cascade)
+      nodes.forEach((n) => {
+        if (!n.activated && elapsed > n.pulseDelay) {
+          n.activated = true;
+        }
+      });
+
+      // Draw connections first (behind nodes)
+      for (let i = 0; i < nodes.length; i++) {
+        if (!nodes[i].activated) continue;
+        for (let j = i + 1; j < nodes.length; j++) {
+          if (!nodes[j].activated) continue;
+          const dx = nodes[i].x - nodes[j].x;
+          const dy = nodes[i].y - nodes[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < connectionDist) {
+            const alpha = (1 - dist / connectionDist) * 0.12;
+            const pulse = Math.sin(elapsed * 0.03 + nodes[i].phase) * 0.5 + 0.5;
+            ctx.strokeStyle = `rgba(200, 30, 30, ${alpha * (0.5 + pulse * 0.5)})`;
+            ctx.lineWidth = 0.6;
+            ctx.beginPath();
+            ctx.moveTo(nodes[i].x, nodes[i].y);
+            ctx.lineTo(nodes[j].x, nodes[j].y);
+            ctx.stroke();
+
+            // Traveling pulse dot along connection
+            if (pulse > 0.85 && Math.random() > 0.97) {
+              const t = Math.random();
+              const px = nodes[i].x + (nodes[j].x - nodes[i].x) * t;
+              const py = nodes[i].y + (nodes[j].y - nodes[i].y) * t;
+              ctx.fillStyle = `rgba(255, 60, 60, ${alpha * 3})`;
+              ctx.beginPath();
+              ctx.arc(px, py, 1.5, 0, Math.PI * 2);
+              ctx.fill();
+            }
+          }
+        }
+      }
+
+      // Draw nodes
+      nodes.forEach((n) => {
+        if (!n.activated) return;
+
+        n.x += n.vx;
+        n.y += n.vy;
+        if (n.x < 0 || n.x > width) n.vx *= -1;
+        if (n.y < 0 || n.y > height) n.vy *= -1;
+
+        const pulse = Math.sin(elapsed * n.speed + n.phase);
+        const glowRadius = n.radius + pulse * 1.5;
+
+        // Outer glow
+        const grad = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, glowRadius * 4);
+        grad.addColorStop(0, `rgba(200, 40, 40, 0.15)`);
+        grad.addColorStop(1, `rgba(200, 40, 40, 0)`);
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, glowRadius * 4, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Core
+        ctx.fillStyle = `rgba(220, 50, 50, ${0.4 + pulse * 0.3})`;
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, glowRadius, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      animationFrameId = requestAnimationFrame(animate);
+    };
+
+    animate();
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, [active]);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className="absolute inset-0 w-full h-full pointer-events-none z-0"
+      style={{ opacity: active ? 1 : 0, transition: "opacity 1.5s ease" }}
+    />
+  );
+};
+
+// ─── DECODING TEXT CHARACTER ───
+const DecodingChar = ({
+  char,
+  delay,
+  shouldAnimate,
+  isHighlight,
+}: {
+  char: string;
+  delay: number;
+  shouldAnimate: boolean;
+  isHighlight: boolean;
+}) => {
+  const [display, setDisplay] = useState(shouldAnimate ? "" : char);
+  const [decoded, setDecoded] = useState(!shouldAnimate);
+  const glitchChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%&*!?<>{}[]~^";
+
+  useEffect(() => {
+    if (!shouldAnimate) {
+      setDisplay(char);
+      setDecoded(true);
+      return;
+    }
+
+    let frame = 0;
+    const totalFrames = 8;
+    let timeout: ReturnType<typeof setTimeout>;
+    let interval: ReturnType<typeof setInterval>;
+
+    timeout = setTimeout(() => {
+      interval = setInterval(() => {
+        frame++;
+        if (frame >= totalFrames) {
+          setDisplay(char);
+          setDecoded(true);
+          clearInterval(interval);
+        } else {
+          setDisplay(glitchChars[Math.floor(Math.random() * glitchChars.length)]);
+        }
+      }, 50);
+    }, delay);
+
+    return () => {
+      clearTimeout(timeout);
+      if (interval) clearInterval(interval);
+    };
+  }, [char, delay, shouldAnimate]);
+
+  return (
+    <motion.span
+      className={`inline-block ${isHighlight ? "text-primary" : ""}`}
+      initial={shouldAnimate ? { opacity: 0, y: 20, scale: 0.5 } : {}}
+      animate={decoded ? { opacity: 1, y: 0, scale: 1 } : {}}
+      transition={{ type: "spring", stiffness: 120, damping: 14, delay: delay / 1000 }}
+      style={{
+        textShadow: decoded && isHighlight
+          ? "0 0 30px rgba(200,30,30,0.6), 0 0 60px rgba(200,30,30,0.3)"
+          : decoded
+            ? "0 0 15px rgba(200,30,30,0.15)"
+            : "none",
+      }}
+    >
+      {display || "\u00A0"}
+    </motion.span>
+  );
+};
+
+// ─── PROJECTS SECTION (Neuro-Tactile / Bio-Symbolic) ───
 const ProjectsSection = ({
   selectedTech,
   onClearSelection,
@@ -1317,10 +1525,48 @@ const ProjectsSection = ({
   selectedTech: string | null;
   onClearSelection: () => void;
 }) => {
-  const { t } = useApp();
+  const { t, lang } = useApp();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [mockupType, setMockupType] = useState<"desktop" | "mobile">("desktop");
   const [isMobile, setIsMobile] = useState(false);
+  const [hasAnimated, setHasAnimated] = useState(false);
+  const [isInView, setIsInView] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  // Check sessionStorage on mount
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const alreadySeen = sessionStorage.getItem("carlos_portfolio_projects_viewed");
+      if (alreadySeen === "true") {
+        setHasAnimated(true);
+      }
+    }
+  }, []);
+
+  // Intersection Observer to detect first view
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !isInView) {
+          setIsInView(true);
+          if (!hasAnimated) {
+            // Mark as viewed after animation completes
+            setTimeout(() => {
+              setHasAnimated(true);
+              sessionStorage.setItem("carlos_portfolio_projects_viewed", "true");
+            }, 2500);
+          }
+        }
+      },
+      { threshold: 0.15 }
+    );
+
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, [hasAnimated, isInView]);
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 1024);
@@ -1329,15 +1575,11 @@ const ProjectsSection = ({
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start start", "end end"] });
-  const titleX = useTransform(scrollYProgress, [0, 0.35], ["0vw", "-100vw"]);
-  const titleOpacity = useTransform(scrollYProgress, [0, 0.30], [1, 0]);
-  const projectsX = useTransform(scrollYProgress, [0.15, 0.45], ["100vw", "0vw"]);
-  const projectsOpacity = 1;
-  const projectsScale = useTransform(scrollYProgress, [0.15, 0.45], [0.98, 1]);
-  const projectsRotateY = useTransform(scrollYProgress, [0.15, 0.45], [5, 0]);
-  const projectsPointerEvents = useTransform(scrollYProgress, (val) => val >= 0.15 ? "auto" : "none");
+  const shouldAnimate = isInView && !hasAnimated;
+
+  // Background giant text based on language
+  const bgText = lang === "en" ? "PROJECTS" : "PROJETOS";
+  const highlightIndex = lang === "en" ? 7 : 6; // 'S' in PROJECTS, 'O' in PROJETOS
 
   const projectsData: {
     title: string;
@@ -1446,7 +1688,7 @@ const ProjectsSection = ({
             {t.projects.title1} <span className="text-gradient">{t.projects.titleHighlight}</span>
           </h2>
           <div className="w-full max-w-md mx-auto rounded-2xl border border-border p-8 text-center glass-card mt-8">
-            <p className="text-txt-muted text-xs">Nenhum projeto encontrado para a tecnologia selecionada.</p>
+            <p className="text-txt-muted text-xs">{lang === "en" ? "No projects found for the selected technology." : "Nenhum projeto encontrado para a tecnologia selecionada."}</p>
           </div>
         </div>
       </section>
@@ -1457,149 +1699,179 @@ const ProjectsSection = ({
   const activeMedia = mockupType === "desktop" ? p.desktop : p.mobile;
 
   return (
-    <section ref={sectionRef} id="projetos" className="relative h-auto lg:h-[135vh] bg-bg/20 border-t border-border/60">
-      <div className="lg:sticky lg:top-0 lg:h-screen w-full flex flex-col justify-center items-center lg:overflow-hidden z-10 px-0 py-12 lg:py-0">
+    <section
+      ref={sectionRef}
+      id="projetos"
+      className="relative min-h-screen bg-bg/20 border-t border-border/60 overflow-hidden py-16 lg:py-24"
+    >
+      {/* Neural Synapse Background Canvas */}
+      <NeuralSynapseCanvas active={isInView} />
 
-        {/* Giant portal title animation in the center */}
-        <motion.div
-          style={{ x: titleX, opacity: titleOpacity, y: "-5%" }}
-          className="absolute inset-0 hidden lg:flex items-center justify-center pointer-events-none z-50 text-[12vw] font-black uppercase tracking-[0.05em] text-txt/35"
+      {/* Giant Background Text with Decoding Animation */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-[1] select-none overflow-hidden">
+        <div
+          className="text-[15vw] lg:text-[12vw] font-black uppercase tracking-[0.05em] text-txt/[0.04] whitespace-nowrap"
+          style={{ userSelect: "none" }}
         >
-          PROJET<span className="text-primary">O</span>S
+          {bgText.split("").map((char, i) => (
+            <DecodingChar
+              key={`bg-${lang}-${i}`}
+              char={char}
+              delay={shouldAnimate ? 200 + i * 120 : 0}
+              shouldAnimate={shouldAnimate}
+              isHighlight={i === highlightIndex}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="relative z-10 w-full px-4">
+
+        {/* Top Center Title */}
+        <motion.div
+          className="text-center flex flex-col items-center w-full max-w-xl mx-auto mb-12 lg:mb-16"
+          initial={shouldAnimate ? { opacity: 0, y: 30 } : {}}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ type: "spring", stiffness: 80, damping: 20, delay: shouldAnimate ? 0.3 : 0 }}
+        >
+          <Badge>{t.projects.badge}</Badge>
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black uppercase mt-2">
+            {t.projects.title1}{" "}
+            <span className="text-gradient">{t.projects.titleHighlight}</span>
+          </h2>
         </motion.div>
 
-        {/* Immersive Fullscreen Grid Layout */}
-        <motion.div
-          style={{
-            x: isMobile ? "0vw" : projectsX,
-            opacity: isMobile ? 1 : projectsOpacity,
-            scale: isMobile ? 1 : projectsScale,
-            rotateY: isMobile ? 0 : projectsRotateY,
-            pointerEvents: isMobile ? "auto" : projectsPointerEvents,
-            perspective: 1200
-          }}
-          className="relative w-full h-auto lg:h-full bg-transparent dot-grid flex items-center justify-center z-10 py-8 lg:py-0"
-        >
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-0 h-auto lg:h-full w-full relative z-10">
+        {/* Main Grid */}
+        <div className="container mx-auto max-w-7xl">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
 
-            {/* Top Center Title - Centered badge and title */}
-            <div className="lg:absolute lg:top-8 lg:left-1/2 lg:-translate-x-1/2 z-20 text-center flex flex-col items-center w-full max-w-xl px-4 pt-6 lg:pt-0 mb-4 lg:mb-0 relative">
-              <Badge>{t.projects.badge}</Badge>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black uppercase mt-2">
-                {t.projects.title1}{" "}
-                <span className="text-gradient">{t.projects.titleHighlight}</span>
-              </h2>
-            </div>
+            {/* Left Side: Device Mockup */}
+            <motion.div
+              className="lg:col-span-6 flex flex-col justify-center items-center relative"
+              initial={shouldAnimate ? { opacity: 0, x: -80, scale: 0.9 } : {}}
+              animate={isInView ? { opacity: 1, x: 0, scale: 1 } : {}}
+              transition={{ type: "spring", stiffness: 60, damping: 18, delay: shouldAnimate ? 0.8 : 0 }}
+            >
+              {/* Ambient backlights */}
+              <motion.div
+                className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-red-600/15 blur-[120px] pointer-events-none"
+                animate={isInView ? { scale: [0.8, 1.1, 1], opacity: [0, 0.8, 0.6] } : {}}
+                transition={{ duration: 3, delay: shouldAnimate ? 1 : 0 }}
+              />
+              <motion.div
+                className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-rose-500/12 blur-[100px] pointer-events-none"
+                animate={isInView ? { scale: [0.8, 1.2, 1], opacity: [0, 0.6, 0.4] } : {}}
+                transition={{ duration: 3.5, delay: shouldAnimate ? 1.2 : 0 }}
+              />
 
-            {/* Left Side (Col 1-6): Large Immersive Device Mockup View */}
-            <div className="lg:col-span-6 flex flex-col justify-center items-center w-full h-auto lg:h-full bg-transparent lg:border-r border-white/[0.05] p-4 lg:p-8 relative">
-
-              {/* High-fidelity glowing ambient backlights */}
-              <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-red-600/15 blur-[120px] animate-pulse pointer-events-none" />
-              <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-rose-500/12 blur-[100px] pointer-events-none" />
-
-              {/* Glowing decorative backing grid */}
-              <div className="absolute inset-0 bg-radial-gradient from-red-600/20 via-transparent to-transparent pointer-events-none opacity-50" />
-
-              {/* Big Device Mockup Display */}
-              <div className="w-full h-full flex flex-col justify-center items-center mt-12 max-h-[70%]">
-                {/* Mockup Toggle Buttons - Web / App, positioned on top of the mockup (centered relative to mockup max-w-[550px]) */}
-                <div className="w-full max-w-[550px] flex justify-center mb-4">
-                  <div className="flex gap-2 bg-surface/65 border border-border p-1 rounded-xl z-20">
-                    <button
-                      onClick={() => setMockupType("desktop")}
-                      className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-wider transition-all duration-300 cursor-pointer shadow-sm ${mockupType === "desktop" ? "bg-gradient-to-r from-[#a00000] to-[#e03030] text-white font-bold" : "text-txt-muted hover:text-txt"}`}
-                    >
-                      💻 {t.projects.computer}
-                    </button>
-                    <button
-                      onClick={() => setMockupType("mobile")}
-                      className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-wider transition-all duration-300 cursor-pointer shadow-sm ${mockupType === "mobile" ? "bg-gradient-to-r from-[#a00000] to-[#e03030] text-white font-bold" : "text-txt-muted hover:text-txt"}`}
-                    >
-                      📱 {t.projects.mobile}
-                    </button>
-                  </div>
-                </div>
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={mockupType + "_" + currentIndex}
-                    initial={{ opacity: 0, scale: 0.92, rotateY: 15, z: -100 }}
-                    animate={{ opacity: 1, scale: 1, rotateY: 0, z: 0 }}
-                    exit={{ opacity: 0, scale: 0.92, rotateY: -15, z: -100 }}
-                    transition={{ type: "spring", stiffness: 300, damping: 24 }}
-                    className="w-full max-w-[550px] flex flex-col justify-center"
-                    style={{ perspective: 1200 }}
+              {/* Mockup Toggle Buttons */}
+              <motion.div
+                className="w-full max-w-[550px] flex justify-center mb-4"
+                initial={shouldAnimate ? { opacity: 0, y: -20 } : {}}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ type: "spring", stiffness: 100, damping: 15, delay: shouldAnimate ? 1.2 : 0 }}
+              >
+                <div className="flex gap-2 bg-surface/65 border border-border p-1 rounded-xl z-20">
+                  <button
+                    onClick={() => setMockupType("desktop")}
+                    className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-wider transition-all duration-300 cursor-pointer shadow-sm ${mockupType === "desktop" ? "bg-gradient-to-r from-[#a00000] to-[#e03030] text-white font-bold" : "text-txt-muted hover:text-txt"}`}
                   >
-                    {mockupType === "desktop" ? (
-                      // Monitor Mockup
-                      <div className="w-full group">
-                        <div className="relative w-full aspect-[16/10] border-[10px] border-[#1d1d1f] bg-[#0c0c0c] rounded-t-3xl overflow-hidden shadow-[0_25px_60px_-15px_rgba(128,0,0,0.35)] border-b-0 flex flex-col items-center justify-center transition-all duration-500 group-hover:shadow-[0_30px_70px_-10px_rgba(179,0,0,0.45)]">
-                          {activeMedia.img ? (
-                            <Image
-                              src={activeMedia.img}
-                              alt={p.title}
-                              fill
-                              className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
-                              unoptimized
-                            />
-                          ) : activeMedia.video ? (
-                            <video src={activeMedia.video} autoPlay muted loop playsInline className="w-full h-full object-cover" />
-                          ) : (
-                            <div className="flex flex-col items-center gap-2">
-                              <Zap size={32} className="text-primary animate-pulse" />
-                              <span className="text-[11px] font-black text-txt-muted uppercase tracking-widest">{t.projects.comingSoon}</span>
-                            </div>
-                          )}
-                        </div>
-                        {/* Monitor Stand */}
-                        <div className="w-20 h-10 bg-zinc-200 dark:bg-[#161618] mx-auto border-t border-border" />
-                        <div className="w-36 h-2 bg-zinc-300 dark:bg-[#202022] mx-auto rounded-full shadow-md" />
-                      </div>
-                    ) : (
-                      // Mobile Phone Mockup
-                      <div className="w-full flex justify-center group">
-                        <div className="relative w-[210px] h-[370px] border-[8px] border-[#1d1d1f] bg-[#0c0c0c] rounded-[2.5rem] overflow-hidden shadow-[0_20px_50px_-10px_rgba(128,0,0,0.35)] flex flex-col items-center justify-center transition-all duration-500 group-hover:shadow-[0_25px_60px_-5px_rgba(179,0,0,0.45)]">
-                          {/* Dynamic Island / Notch */}
-                          <div className="absolute top-2 left-1/2 -translate-x-1/2 w-14 h-4 bg-black rounded-full z-20" />
+                    💻 {t.projects.computer}
+                  </button>
+                  <button
+                    onClick={() => setMockupType("mobile")}
+                    className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-wider transition-all duration-300 cursor-pointer shadow-sm ${mockupType === "mobile" ? "bg-gradient-to-r from-[#a00000] to-[#e03030] text-white font-bold" : "text-txt-muted hover:text-txt"}`}
+                  >
+                    📱 {t.projects.mobile}
+                  </button>
+                </div>
+              </motion.div>
 
-                          {activeMedia.img ? (
-                            <Image
-                              src={activeMedia.img}
-                              alt={p.title}
-                              fill
-                              className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
-                              unoptimized
-                            />
-                          ) : activeMedia.video ? (
-                            <video src={activeMedia.video} autoPlay muted loop playsInline className="w-full h-full object-cover" />
-                          ) : (
-                            <div className="flex flex-col items-center gap-2">
-                              <Zap size={26} className="text-primary animate-pulse" />
-                              <span className="text-[9px] font-black text-txt-muted uppercase tracking-widest">{t.projects.comingSoon}</span>
-                            </div>
-                          )}
-                        </div>
+              {/* Device Mockup */}
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={mockupType + "_" + currentIndex}
+                  initial={{ opacity: 0, scale: 0.92, rotateY: 15, z: -100 }}
+                  animate={{ opacity: 1, scale: 1, rotateY: 0, z: 0 }}
+                  exit={{ opacity: 0, scale: 0.92, rotateY: -15, z: -100 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 24 }}
+                  className="w-full max-w-[550px] flex flex-col justify-center"
+                  style={{ perspective: 1200 }}
+                >
+                  {mockupType === "desktop" ? (
+                    <div className="w-full group">
+                      <div className="relative w-full aspect-[16/10] border-[10px] border-[#1d1d1f] bg-[#0c0c0c] rounded-t-3xl overflow-hidden shadow-[0_25px_60px_-15px_rgba(128,0,0,0.35)] border-b-0 flex flex-col items-center justify-center transition-all duration-500 group-hover:shadow-[0_30px_70px_-10px_rgba(179,0,0,0.45)]">
+                        {activeMedia.img ? (
+                          <Image
+                            src={activeMedia.img}
+                            alt={p.title}
+                            fill
+                            className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                            unoptimized
+                          />
+                        ) : activeMedia.video ? (
+                          <video src={activeMedia.video} autoPlay muted loop playsInline className="w-full h-full object-cover" />
+                        ) : (
+                          <div className="flex flex-col items-center gap-2">
+                            <Zap size={32} className="text-primary animate-pulse" />
+                            <span className="text-[11px] font-black text-txt-muted uppercase tracking-widest">{t.projects.comingSoon}</span>
+                          </div>
+                        )}
                       </div>
-                    )}
-                  </motion.div>
-                </AnimatePresence>
-              </div>
+                      {/* Monitor Stand */}
+                      <div className="w-20 h-10 bg-zinc-200 dark:bg-[#161618] mx-auto border-t border-border" />
+                      <div className="w-36 h-2 bg-zinc-300 dark:bg-[#202022] mx-auto rounded-full shadow-md" />
+                    </div>
+                  ) : (
+                    <div className="w-full flex justify-center group">
+                      <div className="relative w-[210px] h-[370px] border-[8px] border-[#1d1d1f] bg-[#0c0c0c] rounded-[2.5rem] overflow-hidden shadow-[0_20px_50px_-10px_rgba(128,0,0,0.35)] flex flex-col items-center justify-center transition-all duration-500 group-hover:shadow-[0_25px_60px_-5px_rgba(179,0,0,0.45)]">
+                        {/* Dynamic Island */}
+                        <div className="absolute top-2 left-1/2 -translate-x-1/2 w-14 h-4 bg-black rounded-full z-20" />
+                        {activeMedia.img ? (
+                          <Image
+                            src={activeMedia.img}
+                            alt={p.title}
+                            fill
+                            className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                            unoptimized
+                          />
+                        ) : activeMedia.video ? (
+                          <video src={activeMedia.video} autoPlay muted loop playsInline className="w-full h-full object-cover" />
+                        ) : (
+                          <div className="flex flex-col items-center gap-2">
+                            <Zap size={26} className="text-primary animate-pulse" />
+                            <span className="text-[9px] font-black text-txt-muted uppercase tracking-widest">{t.projects.comingSoon}</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </motion.div>
+              </AnimatePresence>
 
+              {/* Tech Filter indicator */}
               {selectedTech && (
-                <div className="absolute bottom-8 left-8 flex items-center gap-3 border border-primary/20 bg-primary/5 px-4 py-2 rounded-xl text-xs uppercase font-black z-20">
+                <div className="mt-4 flex items-center gap-3 border border-primary/20 bg-primary/5 px-4 py-2 rounded-xl text-xs uppercase font-black z-20">
                   <div>{t.projects.filter} <span className="text-gradient">{selectedTech}</span></div>
                   <button onClick={onClearSelection} className="text-[10px] bg-bg border border-border rounded-lg px-2 py-1 cursor-pointer hover:bg-primary/10 transition-colors">
                     {t.projects.clear}
                   </button>
                 </div>
               )}
-            </div>
+            </motion.div>
 
-            {/* Right Side (Col 7-12): Detailed Info & Slider controls */}
-            <div className="lg:col-span-6 flex flex-col justify-between h-auto lg:h-full p-6 md:p-16 lg:p-24 lg:pl-28 bg-transparent relative lg:border-l border-white/[0.01]">
-              {/* Subtle accent glow in info panel */}
+            {/* Right Side: Project Info & Controls */}
+            <motion.div
+              className="lg:col-span-6 flex flex-col justify-center relative"
+              initial={shouldAnimate ? { opacity: 0, x: 80, scale: 0.95 } : {}}
+              animate={isInView ? { opacity: 1, x: 0, scale: 1 } : {}}
+              transition={{ type: "spring", stiffness: 60, damping: 18, delay: shouldAnimate ? 1.0 : 0 }}
+            >
+              {/* Subtle accent glow */}
               <div className="absolute top-1/2 right-0 -translate-y-1/2 w-72 h-72 rounded-full bg-[#ff4d4d]/12 blur-[80px] pointer-events-none" />
-              <div className="my-auto space-y-6">
+
+              <div className="space-y-6">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={currentIndex}
@@ -1627,9 +1899,14 @@ const ProjectsSection = ({
                   {p.techs && (
                     <div className="flex flex-wrap gap-1.5">
                       {p.techs.map((tech) => (
-                        <span key={tech} className="px-3 py-1 rounded-full border border-border hover:border-[#ff4d4d]/40 text-[9px] font-bold text-txt-muted hover:text-txt bg-surface/30 hover:bg-[#ff4d4d]/10 transition-all duration-300 shadow-sm">
+                        <motion.span
+                          key={tech}
+                          className="px-3 py-1 rounded-full border border-border hover:border-[#ff4d4d]/40 text-[9px] font-bold text-txt-muted hover:text-txt bg-surface/30 hover:bg-[#ff4d4d]/10 transition-all duration-300 shadow-sm cursor-default"
+                          whileHover={{ scale: 1.08, y: -2 }}
+                          transition={{ type: "spring", stiffness: 400, damping: 15 }}
+                        >
                           {tech}
-                        </span>
+                        </motion.span>
                       ))}
                     </div>
                   )}
@@ -1676,20 +1953,15 @@ const ProjectsSection = ({
                   </div>
                 </div>
               </div>
-
-              {/* Scroll hint indicator at the bottom */}
-              <div className="hidden lg:flex justify-center items-center gap-1.5 text-[8px] font-black uppercase tracking-widest text-txt-muted/40 animate-bounce pointer-events-none self-center">
-                <span>{t.projects.scrollHint}</span>
-                <span className="text-[10px]">↓</span>
-              </div>
-            </div>
+            </motion.div>
 
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );
 };
+
 
 // ─── FOOTER / CONTACT SECTION ───
 const FooterSection = () => {
@@ -1770,7 +2042,13 @@ const FooterSection = () => {
 // ─── MAIN PAGE ───
 export default function PortfolioPage() {
   const [theme, setTheme] = useState("dark");
-  const [lang, setLang] = useState<Lang>("pt");
+  const [lang, setLang] = useState<Lang>(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("carlos_portfolio_lang");
+      if (saved === "en" || saved === "pt") return saved;
+    }
+    return "pt";
+  });
   const [selectedTech, setSelectedTech] = useState<string | null>(null);
   const [loaded, setLoaded] = useState(false);
   const [isOldDomain, setIsOldDomain] = useState(false);
