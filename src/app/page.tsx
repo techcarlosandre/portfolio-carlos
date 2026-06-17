@@ -1313,42 +1313,61 @@ const ServicesSection = () => {
   );
 };
 
-// ─── NEURAL SYNAPSE CANVAS (Projects Background) ───
-const NeuralSynapseCanvas = ({ active }: { active: boolean }) => {
+// ─── NEURAL SYNAPSE INTRO CANVAS (Projects Full-Screen Intro) ───
+const NeuralSynapseIntro = ({
+  active,
+  onComplete,
+}: {
+  active: boolean;
+  onComplete: () => void;
+}) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const completedRef = useRef(false);
 
   useEffect(() => {
-    if (!active) return;
+    if (!active || completedRef.current) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
     let animationFrameId: number;
-    let width = canvas.width = canvas.offsetWidth;
-    let height = canvas.height = canvas.offsetHeight;
+    let width = (canvas.width = canvas.offsetWidth);
+    let height = (canvas.height = canvas.offsetHeight);
 
     interface Node {
-      x: number; y: number; vx: number; vy: number;
-      radius: number; phase: number; speed: number;
-      pulseDelay: number; activated: boolean;
+      x: number;
+      y: number;
+      vx: number;
+      vy: number;
+      radius: number;
+      phase: number;
+      speed: number;
+      pulseDelay: number;
+      activated: boolean;
     }
 
     const nodes: Node[] = [];
-    const nodeCount = 60;
-    const connectionDist = 140;
+    const nodeCount = 80;
+    const connectionDist = 160;
     let elapsed = 0;
+    const INTRO_DURATION_FRAMES = 90; // ~1.5s at 60fps
 
+    // Spawn nodes from center outward
+    const cx = width / 2;
+    const cy = height / 2;
     for (let i = 0; i < nodeCount; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const dist = Math.random() * Math.max(width, height) * 0.6;
       nodes.push({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.3,
-        vy: (Math.random() - 0.5) * 0.3,
-        radius: Math.random() * 2 + 1,
+        x: cx + Math.cos(angle) * dist,
+        y: cy + Math.sin(angle) * dist,
+        vx: (Math.random() - 0.5) * 0.8,
+        vy: (Math.random() - 0.5) * 0.8,
+        radius: Math.random() * 2.5 + 1,
         phase: Math.random() * Math.PI * 2,
-        speed: Math.random() * 0.02 + 0.01,
-        pulseDelay: Math.random() * 120,
+        speed: Math.random() * 0.03 + 0.015,
+        pulseDelay: Math.random() * 40, // faster cascade
         activated: false,
       });
     }
@@ -1364,14 +1383,26 @@ const NeuralSynapseCanvas = ({ active }: { active: boolean }) => {
       elapsed++;
       ctx.clearRect(0, 0, width, height);
 
-      // Activate nodes progressively (synapse cascade)
+      // Global intensity ramps up then fades at the end
+      const progress = elapsed / INTRO_DURATION_FRAMES;
+      const intensity =
+        progress < 0.6
+          ? Math.min(progress / 0.3, 1) // ramp up in first 30%
+          : 1 - (progress - 0.6) / 0.4; // fade out in last 40%
+
+      if (progress >= 1 && !completedRef.current) {
+        completedRef.current = true;
+        onComplete();
+      }
+
+      // Activate nodes in cascade
       nodes.forEach((n) => {
         if (!n.activated && elapsed > n.pulseDelay) {
           n.activated = true;
         }
       });
 
-      // Draw connections first (behind nodes)
+      // Draw connections
       for (let i = 0; i < nodes.length; i++) {
         if (!nodes[i].activated) continue;
         for (let j = i + 1; j < nodes.length; j++) {
@@ -1380,23 +1411,25 @@ const NeuralSynapseCanvas = ({ active }: { active: boolean }) => {
           const dy = nodes[i].y - nodes[j].y;
           const dist = Math.sqrt(dx * dx + dy * dy);
           if (dist < connectionDist) {
-            const alpha = (1 - dist / connectionDist) * 0.12;
-            const pulse = Math.sin(elapsed * 0.03 + nodes[i].phase) * 0.5 + 0.5;
+            const alpha =
+              (1 - dist / connectionDist) * 0.25 * intensity;
+            const pulse =
+              Math.sin(elapsed * 0.04 + nodes[i].phase) * 0.5 + 0.5;
             ctx.strokeStyle = `rgba(200, 30, 30, ${alpha * (0.5 + pulse * 0.5)})`;
-            ctx.lineWidth = 0.6;
+            ctx.lineWidth = 0.8 * intensity;
             ctx.beginPath();
             ctx.moveTo(nodes[i].x, nodes[i].y);
             ctx.lineTo(nodes[j].x, nodes[j].y);
             ctx.stroke();
 
-            // Traveling pulse dot along connection
-            if (pulse > 0.85 && Math.random() > 0.97) {
+            // Traveling pulse dots
+            if (pulse > 0.8 && Math.random() > 0.93) {
               const t = Math.random();
               const px = nodes[i].x + (nodes[j].x - nodes[i].x) * t;
               const py = nodes[i].y + (nodes[j].y - nodes[i].y) * t;
-              ctx.fillStyle = `rgba(255, 60, 60, ${alpha * 3})`;
+              ctx.fillStyle = `rgba(255, 60, 60, ${alpha * 4})`;
               ctx.beginPath();
-              ctx.arc(px, py, 1.5, 0, Math.PI * 2);
+              ctx.arc(px, py, 2 * intensity, 0, Math.PI * 2);
               ctx.fill();
             }
           }
@@ -1406,32 +1439,51 @@ const NeuralSynapseCanvas = ({ active }: { active: boolean }) => {
       // Draw nodes
       nodes.forEach((n) => {
         if (!n.activated) return;
-
         n.x += n.vx;
         n.y += n.vy;
         if (n.x < 0 || n.x > width) n.vx *= -1;
         if (n.y < 0 || n.y > height) n.vy *= -1;
 
         const pulse = Math.sin(elapsed * n.speed + n.phase);
-        const glowRadius = n.radius + pulse * 1.5;
+        const glowRadius = (n.radius + pulse * 2) * intensity;
 
         // Outer glow
-        const grad = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, glowRadius * 4);
-        grad.addColorStop(0, `rgba(200, 40, 40, 0.15)`);
-        grad.addColorStop(1, `rgba(200, 40, 40, 0)`);
+        const grad = ctx.createRadialGradient(
+          n.x,
+          n.y,
+          0,
+          n.x,
+          n.y,
+          glowRadius * 5
+        );
+        grad.addColorStop(0, `rgba(220, 40, 40, ${0.25 * intensity})`);
+        grad.addColorStop(1, `rgba(220, 40, 40, 0)`);
         ctx.fillStyle = grad;
         ctx.beginPath();
-        ctx.arc(n.x, n.y, glowRadius * 4, 0, Math.PI * 2);
+        ctx.arc(n.x, n.y, glowRadius * 5, 0, Math.PI * 2);
         ctx.fill();
 
         // Core
-        ctx.fillStyle = `rgba(220, 50, 50, ${0.4 + pulse * 0.3})`;
+        ctx.fillStyle = `rgba(240, 50, 50, ${(0.6 + pulse * 0.4) * intensity})`;
         ctx.beginPath();
         ctx.arc(n.x, n.y, glowRadius, 0, Math.PI * 2);
         ctx.fill();
       });
 
-      animationFrameId = requestAnimationFrame(animate);
+      // Center convergence glow (dramatic focal point)
+      const centerGlowSize = Math.min(width, height) * 0.4 * intensity;
+      const centerGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, centerGlowSize);
+      centerGrad.addColorStop(0, `rgba(180, 20, 20, ${0.15 * intensity})`);
+      centerGrad.addColorStop(0.5, `rgba(150, 10, 10, ${0.06 * intensity})`);
+      centerGrad.addColorStop(1, `rgba(100, 0, 0, 0)`);
+      ctx.fillStyle = centerGrad;
+      ctx.beginPath();
+      ctx.arc(cx, cy, centerGlowSize, 0, Math.PI * 2);
+      ctx.fill();
+
+      if (progress < 1.2) {
+        animationFrameId = requestAnimationFrame(animate);
+      }
     };
 
     animate();
@@ -1440,84 +1492,124 @@ const NeuralSynapseCanvas = ({ active }: { active: boolean }) => {
       window.removeEventListener("resize", handleResize);
       cancelAnimationFrame(animationFrameId);
     };
-  }, [active]);
+  }, [active, onComplete]);
 
   return (
     <canvas
       ref={canvasRef}
-      className="absolute inset-0 w-full h-full pointer-events-none z-0"
-      style={{ opacity: active ? 1 : 0, transition: "opacity 1.5s ease" }}
+      className="absolute inset-0 w-full h-full pointer-events-none"
+      style={{ zIndex: 30 }}
     />
   );
 };
 
-// ─── DECODING TEXT CHARACTER ───
-const DecodingChar = ({
-  char,
-  delay,
-  shouldAnimate,
-  isHighlight,
+// ─── DECODING TEXT (Intro Overlay) ───
+const DecodingTitle = ({
+  text,
+  highlightIndex,
+  active,
+  onComplete,
 }: {
-  char: string;
-  delay: number;
-  shouldAnimate: boolean;
-  isHighlight: boolean;
+  text: string;
+  highlightIndex: number;
+  active: boolean;
+  onComplete: () => void;
 }) => {
-  const [display, setDisplay] = useState(shouldAnimate ? "" : char);
-  const [decoded, setDecoded] = useState(!shouldAnimate);
-  const glitchChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%&*!?<>{}[]~^";
+  const [chars, setChars] = useState<string[]>(
+    active ? Array(text.length).fill("") : text.split("")
+  );
+  const [decoded, setDecoded] = useState(!active);
+  const glitchChars =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%&*!?<>{}[]~^";
 
   useEffect(() => {
-    if (!shouldAnimate) {
-      setDisplay(char);
+    if (!active) {
+      setChars(text.split(""));
       setDecoded(true);
       return;
     }
 
-    let frame = 0;
-    const totalFrames = 8;
-    let timeout: ReturnType<typeof setTimeout>;
-    let interval: ReturnType<typeof setInterval>;
+    const charTimers: ReturnType<typeof setTimeout>[] = [];
+    const charIntervals: ReturnType<typeof setInterval>[] = [];
 
-    timeout = setTimeout(() => {
-      interval = setInterval(() => {
-        frame++;
-        if (frame >= totalFrames) {
-          setDisplay(char);
-          setDecoded(true);
-          clearInterval(interval);
-        } else {
-          setDisplay(glitchChars[Math.floor(Math.random() * glitchChars.length)]);
-        }
-      }, 50);
-    }, delay);
+    text.split("").forEach((targetChar, i) => {
+      const delay = 100 + i * 100;
+      const timer = setTimeout(() => {
+        let frame = 0;
+        const totalFrames = 10;
+        const interval = setInterval(() => {
+          frame++;
+          setChars((prev) => {
+            const next = [...prev];
+            if (frame >= totalFrames) {
+              next[i] = targetChar;
+            } else {
+              next[i] =
+                glitchChars[
+                  Math.floor(Math.random() * glitchChars.length)
+                ];
+            }
+            return next;
+          });
+          if (frame >= totalFrames) {
+            clearInterval(interval);
+            // If last character, signal completion
+            if (i === text.length - 1) {
+              setTimeout(() => {
+                setDecoded(true);
+                onComplete();
+              }, 200);
+            }
+          }
+        }, 40);
+        charIntervals.push(interval);
+      }, delay);
+      charTimers.push(timer);
+    });
 
     return () => {
-      clearTimeout(timeout);
-      if (interval) clearInterval(interval);
+      charTimers.forEach(clearTimeout);
+      charIntervals.forEach(clearInterval);
     };
-  }, [char, delay, shouldAnimate]);
+  }, [active, text, onComplete]);
 
   return (
-    <motion.span
-      className={`inline-block ${isHighlight ? "text-primary" : ""}`}
-      initial={shouldAnimate ? { opacity: 0, y: 20, scale: 0.5 } : {}}
-      animate={decoded ? { opacity: 1, y: 0, scale: 1 } : {}}
-      transition={{ type: "spring", stiffness: 120, damping: 14, delay: delay / 1000 }}
-      style={{
-        textShadow: decoded && isHighlight
-          ? "0 0 30px rgba(200,30,30,0.6), 0 0 60px rgba(200,30,30,0.3)"
-          : decoded
-            ? "0 0 15px rgba(200,30,30,0.15)"
-            : "none",
-      }}
-    >
-      {display || "\u00A0"}
-    </motion.span>
+    <div className="flex items-center justify-center">
+      {chars.map((char, i) => (
+        <motion.span
+          key={`decode-${i}`}
+          className={`inline-block text-[15vw] lg:text-[12vw] font-black uppercase tracking-[0.03em] ${
+            i === highlightIndex ? "text-primary" : "text-txt/80"
+          }`}
+          initial={active ? { opacity: 0, y: 40, scale: 0.3, rotateX: 90 } : {}}
+          animate={
+            char
+              ? { opacity: 1, y: 0, scale: 1, rotateX: 0 }
+              : { opacity: 0 }
+          }
+          transition={{
+            type: "spring",
+            stiffness: 150,
+            damping: 12,
+            delay: active ? (100 + i * 100) / 1000 : 0,
+          }}
+          style={{
+            textShadow:
+              decoded && i === highlightIndex
+                ? "0 0 40px rgba(200,30,30,0.7), 0 0 80px rgba(200,30,30,0.3)"
+                : char
+                ? "0 0 20px rgba(200,30,30,0.2)"
+                : "none",
+          }}
+        >
+          {char || "\u00A0"}
+        </motion.span>
+      ))}
+    </div>
   );
 };
 
-// ─── PROJECTS SECTION (Neuro-Tactile / Bio-Symbolic) ───
+// ─── PROJECTS SECTION (3-Phase Intro Sequence) ───
 const ProjectsSection = ({
   selectedTech,
   onClearSelection,
@@ -1528,58 +1620,67 @@ const ProjectsSection = ({
   const { t, lang } = useApp();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [mockupType, setMockupType] = useState<"desktop" | "mobile">("desktop");
-  const [isMobile, setIsMobile] = useState(false);
-  const [hasAnimated, setHasAnimated] = useState(false);
-  const [isInView, setIsInView] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
+
+  // ── 3-Phase State Machine ──
+  // "idle" → "intro" → "revealing" → "ready"
+  const [phase, setPhase] = useState<"idle" | "intro" | "revealing" | "ready">("idle");
+  const [hasPlayedIntro, setHasPlayedIntro] = useState(false);
 
   // Check sessionStorage on mount
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const alreadySeen = sessionStorage.getItem("carlos_portfolio_projects_viewed");
+      const alreadySeen = sessionStorage.getItem(
+        "carlos_portfolio_projects_viewed"
+      );
       if (alreadySeen === "true") {
-        setHasAnimated(true);
+        setHasPlayedIntro(true);
+        setPhase("ready");
       }
     }
   }, []);
 
-  // Intersection Observer to detect first view
+  // Intersection Observer — triggers the intro
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && !isInView) {
-          setIsInView(true);
-          if (!hasAnimated) {
-            // Mark as viewed after animation completes
-            setTimeout(() => {
-              setHasAnimated(true);
-              sessionStorage.setItem("carlos_portfolio_projects_viewed", "true");
-            }, 2500);
-          }
+        if (entry.isIntersecting && phase === "idle" && !hasPlayedIntro) {
+          setPhase("intro");
+        }
+        // If already played, just go ready
+        if (entry.isIntersecting && hasPlayedIntro && phase === "idle") {
+          setPhase("ready");
         }
       },
-      { threshold: 0.15 }
+      { threshold: 0.2 }
     );
 
     observer.observe(section);
     return () => observer.disconnect();
-  }, [hasAnimated, isInView]);
+  }, [phase, hasPlayedIntro]);
 
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
+  // Phase transitions
+  const handleIntroCanvasComplete = useCallback(() => {
+    // Canvas animation done → start text decode (they overlap slightly)
   }, []);
 
-  const shouldAnimate = isInView && !hasAnimated;
+  const handleTextDecodeComplete = useCallback(() => {
+    // Text decoding done → transition to revealing phase
+    setPhase("revealing");
+    // After staggered reveal completes, set ready
+    setTimeout(() => {
+      setPhase("ready");
+      setHasPlayedIntro(true);
+      sessionStorage.setItem("carlos_portfolio_projects_viewed", "true");
+    }, 1200);
+  }, []);
 
-  // Background giant text based on language
+  // Background giant text
   const bgText = lang === "en" ? "PROJECTS" : "PROJETOS";
-  const highlightIndex = lang === "en" ? 7 : 6; // 'S' in PROJECTS, 'O' in PROJETOS
+  const highlightIndex = lang === "en" ? 7 : 6;
 
   const projectsData: {
     title: string;
@@ -1592,79 +1693,99 @@ const ProjectsSection = ({
     desktop: { img?: string; video?: string; placeholder?: boolean };
     mobile: { img?: string; video?: string; placeholder?: boolean };
   }[] = [
-      {
-        title: t.projects.items[0].title,
-        desc: t.projects.items[0].desc,
-        tag: t.projects.items[0].tag,
-        techs: t.projects.items[0].techs,
-        link: "https://projetos.techcarlos.com.br/sushi",
-        area: "Web & UX/UI",
-        desktop: { video: "/sushi/sushi.mp4" },
-        mobile: { video: "/sushi/sushi-app.mp4" }
-      },
-      {
-        title: t.projects.items[1].title,
-        desc: t.projects.items[1].desc,
-        tag: t.projects.items[1].tag,
-        techs: t.projects.items[1].techs,
-        link: "https://projetos.techcarlos.com.br/fitgym",
-        area: "Mobile & Flutter",
-        desktop: { video: "/fitgym/fitgym.mp4" },
-        mobile: { video: "/fitgym/fitgym-app.mp4" }
-      },
-      {
-        title: t.projects.items[2].title,
-        desc: t.projects.items[2].desc,
-        tag: t.projects.items[2].tag,
-        techs: t.projects.items[2].techs,
-        link: "https://projetos.techcarlos.com.br/horizonte",
-        area: "Sistemas & Dashboard",
-        desktop: { video: "/horizonte/horizonte.mp4" },
-        mobile: { video: "/horizonte/horizonte-app.mp4" }
-      },
-      {
-        title: t.projects.items[3].title,
-        desc: t.projects.items[3].desc,
-        tag: t.projects.items[3].tag,
-        techs: t.projects.items[3].techs,
-        link: "https://projetos.techcarlos.com.br/barber",
-        area: "Gestão & CRM",
-        desktop: { video: "/barber/barber.mp4" },
-        mobile: { video: "/barber/barber-app.mp4" }
-      },
-      {
-        title: t.projects.items[4].title,
-        desc: t.projects.items[4].desc,
-        tag: t.projects.items[4].tag,
-        techs: t.projects.items[4].techs,
-        link: "https://projetos.techcarlos.com.br/vitamed",
-        area: "Integrações & IA",
-        desktop: { video: "/vitamed/vitamed.mp4" },
-        mobile: { video: "/vitamed/vitamed-app.mp4" }
-      }
-    ];
+    {
+      title: t.projects.items[0].title,
+      desc: t.projects.items[0].desc,
+      tag: t.projects.items[0].tag,
+      techs: t.projects.items[0].techs,
+      link: "https://projetos.techcarlos.com.br/sushi",
+      area: "Web & UX/UI",
+      desktop: { video: "/sushi/sushi.mp4" },
+      mobile: { video: "/sushi/sushi-app.mp4" },
+    },
+    {
+      title: t.projects.items[1].title,
+      desc: t.projects.items[1].desc,
+      tag: t.projects.items[1].tag,
+      techs: t.projects.items[1].techs,
+      link: "https://projetos.techcarlos.com.br/fitgym",
+      area: "Mobile & Flutter",
+      desktop: { video: "/fitgym/fitgym.mp4" },
+      mobile: { video: "/fitgym/fitgym-app.mp4" },
+    },
+    {
+      title: t.projects.items[2].title,
+      desc: t.projects.items[2].desc,
+      tag: t.projects.items[2].tag,
+      techs: t.projects.items[2].techs,
+      link: "https://projetos.techcarlos.com.br/horizonte",
+      area: "Sistemas & Dashboard",
+      desktop: { video: "/horizonte/horizonte.mp4" },
+      mobile: { video: "/horizonte/horizonte-app.mp4" },
+    },
+    {
+      title: t.projects.items[3].title,
+      desc: t.projects.items[3].desc,
+      tag: t.projects.items[3].tag,
+      techs: t.projects.items[3].techs,
+      link: "https://projetos.techcarlos.com.br/barber",
+      area: "Gestão & CRM",
+      desktop: { video: "/barber/barber.mp4" },
+      mobile: { video: "/barber/barber-app.mp4" },
+    },
+    {
+      title: t.projects.items[4].title,
+      desc: t.projects.items[4].desc,
+      tag: t.projects.items[4].tag,
+      techs: t.projects.items[4].techs,
+      link: "https://projetos.techcarlos.com.br/vitamed",
+      area: "Integrações & IA",
+      desktop: { video: "/vitamed/vitamed.mp4" },
+      mobile: { video: "/vitamed/vitamed-app.mp4" },
+    },
+  ];
 
   const TECH_ALIASES: Record<string, string[]> = {
-    "JS": ["JavaScript"], "TS": ["TypeScript"], "React": ["React"],
-    "Next.js": ["Next.js"], "Python": ["Python"], "Flask": ["Flask"],
-    "Java": ["Java"], "Spring": ["Spring Boot", "Spring"], "Prisma": ["Prisma"],
-    "Supabase": ["Supabase"], "PostgreSQL": ["PostgreSQL", "SQL"],
-    "HTML5": ["HTML"], "CSS3": ["CSS"], "Tailwind": ["Tailwind", "Tailwind CSS"],
-    "Git": ["Git"], "GitHub": ["GitHub"], "Docker": ["Docker"],
-    "Vercel": ["Vercel"], "N8N": ["N8N"], "Figma": ["Figma"], "Node.js": ["Node.js"],
-    "GraphQL": ["GraphQL"], "Grafana": ["Grafana"], "Axios": ["Axios"],
-    "Vue.js": ["Vue.js"], "Chatwoot": ["Chatwoot"],
-    "MCP": ["MCP"], "Flutter": ["Flutter"]
+    JS: ["JavaScript"],
+    TS: ["TypeScript"],
+    React: ["React"],
+    "Next.js": ["Next.js"],
+    Python: ["Python"],
+    Flask: ["Flask"],
+    Java: ["Java"],
+    Spring: ["Spring Boot", "Spring"],
+    Prisma: ["Prisma"],
+    Supabase: ["Supabase"],
+    PostgreSQL: ["PostgreSQL", "SQL"],
+    HTML5: ["HTML"],
+    CSS3: ["CSS"],
+    Tailwind: ["Tailwind", "Tailwind CSS"],
+    Git: ["Git"],
+    GitHub: ["GitHub"],
+    Docker: ["Docker"],
+    Vercel: ["Vercel"],
+    N8N: ["N8N"],
+    Figma: ["Figma"],
+    "Node.js": ["Node.js"],
+    GraphQL: ["GraphQL"],
+    Grafana: ["Grafana"],
+    Axios: ["Axios"],
+    "Vue.js": ["Vue.js"],
+    Chatwoot: ["Chatwoot"],
+    MCP: ["MCP"],
+    Flutter: ["Flutter"],
   };
 
   const filtered = selectedTech
     ? projectsData.filter((p) => {
-      const aliases = TECH_ALIASES[selectedTech] || [selectedTech];
-      return p.techs?.some((tech) =>
-        aliases.some((alias) => tech.toLowerCase().includes(alias.toLowerCase())) ||
-        tech === selectedTech
-      );
-    })
+        const aliases = TECH_ALIASES[selectedTech] || [selectedTech];
+        return p.techs?.some(
+          (tech) =>
+            aliases.some((alias) =>
+              tech.toLowerCase().includes(alias.toLowerCase())
+            ) || tech === selectedTech
+        );
+      })
     : projectsData;
 
   useEffect(() => {
@@ -1672,23 +1793,33 @@ const ProjectsSection = ({
   }, [selectedTech]);
 
   const handleNext = () => {
+    if (phase !== "ready") return;
     setCurrentIndex((prev) => (prev + 1) % filtered.length);
   };
 
   const handlePrev = () => {
+    if (phase !== "ready") return;
     setCurrentIndex((prev) => (prev - 1 + filtered.length) % filtered.length);
   };
 
   if (filtered.length === 0) {
     return (
-      <section id="projetos" className="py-24 px-4 bg-bg/30 border-t border-border/60">
+      <section
+        id="projetos"
+        className="py-24 px-4 bg-bg/30 border-t border-border/60"
+      >
         <div className="container mx-auto max-w-5xl text-center">
           <Badge>{t.projects.badge}</Badge>
           <h2 className="text-3xl md:text-5xl font-black uppercase mt-4 mb-8">
-            {t.projects.title1} <span className="text-gradient">{t.projects.titleHighlight}</span>
+            {t.projects.title1}{" "}
+            <span className="text-gradient">{t.projects.titleHighlight}</span>
           </h2>
           <div className="w-full max-w-md mx-auto rounded-2xl border border-border p-8 text-center glass-card mt-8">
-            <p className="text-txt-muted text-xs">{lang === "en" ? "No projects found for the selected technology." : "Nenhum projeto encontrado para a tecnologia selecionada."}</p>
+            <p className="text-txt-muted text-xs">
+              {lang === "en"
+                ? "No projects found for the selected technology."
+                : "Nenhum projeto encontrado para a tecnologia selecionada."}
+            </p>
           </div>
         </div>
       </section>
@@ -1698,42 +1829,76 @@ const ProjectsSection = ({
   const p = filtered[currentIndex];
   const activeMedia = mockupType === "desktop" ? p.desktop : p.mobile;
 
+  const isIntroActive = phase === "intro";
+  const showContent = phase === "revealing" || phase === "ready";
+  const isReady = phase === "ready";
+  const staggerDelay = phase === "revealing" ? 0.15 : 0;
+
   return (
     <section
       ref={sectionRef}
       id="projetos"
-      className="relative min-h-screen bg-bg/20 border-t border-border/60 overflow-hidden py-16 lg:py-24"
+      className="relative min-h-screen bg-bg/20 border-t border-border/60 overflow-hidden"
     >
-      {/* Neural Synapse Background Canvas */}
-      <NeuralSynapseCanvas active={isInView} />
-
-      {/* Giant Background Text with Decoding Animation */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-[1] select-none overflow-hidden">
-        <div
-          className="text-[15vw] lg:text-[12vw] font-black uppercase tracking-[0.05em] text-txt/[0.04] whitespace-nowrap"
-          style={{ userSelect: "none" }}
-        >
-          {bgText.split("").map((char, i) => (
-            <DecodingChar
-              key={`bg-${lang}-${i}`}
-              char={char}
-              delay={shouldAnimate ? 200 + i * 120 : 0}
-              shouldAnimate={shouldAnimate}
-              isHighlight={i === highlightIndex}
+      {/* ═══ PHASE 1: Full-Screen Intro Overlay ═══ */}
+      <AnimatePresence>
+        {isIntroActive && (
+          <motion.div
+            key="intro-overlay"
+            className="absolute inset-0 z-40 flex flex-col items-center justify-center bg-bg/95"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0, scale: 1.05 }}
+            transition={{ duration: 0.6, ease: "easeInOut" }}
+          >
+            {/* Neural Synapse Canvas fills the intro */}
+            <NeuralSynapseIntro
+              active={isIntroActive}
+              onComplete={handleIntroCanvasComplete}
             />
-          ))}
-        </div>
-      </div>
 
-      {/* Content */}
-      <div className="relative z-10 w-full px-4">
+            {/* Decoding Title centered */}
+            <div className="relative z-50">
+              <DecodingTitle
+                text={bgText}
+                highlightIndex={highlightIndex}
+                active={isIntroActive}
+                onComplete={handleTextDecodeComplete}
+              />
+              {/* Subtle label below */}
+              <motion.p
+                className="text-center text-[10px] font-black uppercase tracking-[0.3em] text-txt-muted/50 mt-4"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.8, duration: 0.5 }}
+              >
+                {t.projects.badge}
+              </motion.p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
+      {/* ═══ PHASE 2 & 3: Project Content (staggered reveal → interactive) ═══ */}
+      <div
+        className="relative z-10 w-full px-4 py-16 lg:py-24"
+        style={{
+          opacity: showContent ? 1 : 0,
+          pointerEvents: isReady ? "auto" : "none",
+          transition: "opacity 0.8s ease",
+        }}
+      >
         {/* Top Center Title */}
         <motion.div
           className="text-center flex flex-col items-center w-full max-w-xl mx-auto mb-12 lg:mb-16"
-          initial={shouldAnimate ? { opacity: 0, y: 30 } : {}}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ type: "spring", stiffness: 80, damping: 20, delay: shouldAnimate ? 0.3 : 0 }}
+          initial={{ opacity: 0, y: 30 }}
+          animate={showContent ? { opacity: 1, y: 0 } : {}}
+          transition={{
+            type: "spring",
+            stiffness: 80,
+            damping: 20,
+            delay: staggerDelay * 0,
+          }}
         >
           <Badge>{t.projects.badge}</Badge>
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black uppercase mt-2">
@@ -1745,43 +1910,70 @@ const ProjectsSection = ({
         {/* Main Grid */}
         <div className="container mx-auto max-w-7xl">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-
             {/* Left Side: Device Mockup */}
             <motion.div
               className="lg:col-span-6 flex flex-col justify-center items-center relative"
-              initial={shouldAnimate ? { opacity: 0, x: -80, scale: 0.9 } : {}}
-              animate={isInView ? { opacity: 1, x: 0, scale: 1 } : {}}
-              transition={{ type: "spring", stiffness: 60, damping: 18, delay: shouldAnimate ? 0.8 : 0 }}
+              initial={{ opacity: 0, x: -60, scale: 0.92 }}
+              animate={showContent ? { opacity: 1, x: 0, scale: 1 } : {}}
+              transition={{
+                type: "spring",
+                stiffness: 60,
+                damping: 18,
+                delay: staggerDelay * 1,
+              }}
             >
               {/* Ambient backlights */}
               <motion.div
                 className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-red-600/15 blur-[120px] pointer-events-none"
-                animate={isInView ? { scale: [0.8, 1.1, 1], opacity: [0, 0.8, 0.6] } : {}}
-                transition={{ duration: 3, delay: shouldAnimate ? 1 : 0 }}
+                animate={
+                  showContent
+                    ? { scale: [0.8, 1.1, 1], opacity: [0, 0.8, 0.6] }
+                    : {}
+                }
+                transition={{ duration: 3, delay: staggerDelay * 2 }}
               />
               <motion.div
                 className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-rose-500/12 blur-[100px] pointer-events-none"
-                animate={isInView ? { scale: [0.8, 1.2, 1], opacity: [0, 0.6, 0.4] } : {}}
-                transition={{ duration: 3.5, delay: shouldAnimate ? 1.2 : 0 }}
+                animate={
+                  showContent
+                    ? { scale: [0.8, 1.2, 1], opacity: [0, 0.6, 0.4] }
+                    : {}
+                }
+                transition={{ duration: 3.5, delay: staggerDelay * 3 }}
               />
 
               {/* Mockup Toggle Buttons */}
               <motion.div
                 className="w-full max-w-[550px] flex justify-center mb-4"
-                initial={shouldAnimate ? { opacity: 0, y: -20 } : {}}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ type: "spring", stiffness: 100, damping: 15, delay: shouldAnimate ? 1.2 : 0 }}
+                initial={{ opacity: 0, y: -20 }}
+                animate={showContent ? { opacity: 1, y: 0 } : {}}
+                transition={{
+                  type: "spring",
+                  stiffness: 100,
+                  damping: 15,
+                  delay: staggerDelay * 2,
+                }}
               >
                 <div className="flex gap-2 bg-surface/65 border border-border p-1 rounded-xl z-20">
                   <button
                     onClick={() => setMockupType("desktop")}
-                    className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-wider transition-all duration-300 cursor-pointer shadow-sm ${mockupType === "desktop" ? "bg-gradient-to-r from-[#a00000] to-[#e03030] text-white font-bold" : "text-txt-muted hover:text-txt"}`}
+                    disabled={!isReady}
+                    className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-wider transition-all duration-300 cursor-pointer shadow-sm ${
+                      mockupType === "desktop"
+                        ? "bg-gradient-to-r from-[#a00000] to-[#e03030] text-white font-bold"
+                        : "text-txt-muted hover:text-txt"
+                    }`}
                   >
                     💻 {t.projects.computer}
                   </button>
                   <button
                     onClick={() => setMockupType("mobile")}
-                    className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-wider transition-all duration-300 cursor-pointer shadow-sm ${mockupType === "mobile" ? "bg-gradient-to-r from-[#a00000] to-[#e03030] text-white font-bold" : "text-txt-muted hover:text-txt"}`}
+                    disabled={!isReady}
+                    className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-wider transition-all duration-300 cursor-pointer shadow-sm ${
+                      mockupType === "mobile"
+                        ? "bg-gradient-to-r from-[#a00000] to-[#e03030] text-white font-bold"
+                        : "text-txt-muted hover:text-txt"
+                    }`}
                   >
                     📱 {t.projects.mobile}
                   </button>
@@ -1811,11 +2003,23 @@ const ProjectsSection = ({
                             unoptimized
                           />
                         ) : activeMedia.video ? (
-                          <video src={activeMedia.video} autoPlay muted loop playsInline className="w-full h-full object-cover" />
+                          <video
+                            src={activeMedia.video}
+                            autoPlay
+                            muted
+                            loop
+                            playsInline
+                            className="w-full h-full object-cover"
+                          />
                         ) : (
                           <div className="flex flex-col items-center gap-2">
-                            <Zap size={32} className="text-primary animate-pulse" />
-                            <span className="text-[11px] font-black text-txt-muted uppercase tracking-widest">{t.projects.comingSoon}</span>
+                            <Zap
+                              size={32}
+                              className="text-primary animate-pulse"
+                            />
+                            <span className="text-[11px] font-black text-txt-muted uppercase tracking-widest">
+                              {t.projects.comingSoon}
+                            </span>
                           </div>
                         )}
                       </div>
@@ -1837,11 +2041,23 @@ const ProjectsSection = ({
                             unoptimized
                           />
                         ) : activeMedia.video ? (
-                          <video src={activeMedia.video} autoPlay muted loop playsInline className="w-full h-full object-cover" />
+                          <video
+                            src={activeMedia.video}
+                            autoPlay
+                            muted
+                            loop
+                            playsInline
+                            className="w-full h-full object-cover"
+                          />
                         ) : (
                           <div className="flex flex-col items-center gap-2">
-                            <Zap size={26} className="text-primary animate-pulse" />
-                            <span className="text-[9px] font-black text-txt-muted uppercase tracking-widest">{t.projects.comingSoon}</span>
+                            <Zap
+                              size={26}
+                              className="text-primary animate-pulse"
+                            />
+                            <span className="text-[9px] font-black text-txt-muted uppercase tracking-widest">
+                              {t.projects.comingSoon}
+                            </span>
                           </div>
                         )}
                       </div>
@@ -1853,8 +2069,15 @@ const ProjectsSection = ({
               {/* Tech Filter indicator */}
               {selectedTech && (
                 <div className="mt-4 flex items-center gap-3 border border-primary/20 bg-primary/5 px-4 py-2 rounded-xl text-xs uppercase font-black z-20">
-                  <div>{t.projects.filter} <span className="text-gradient">{selectedTech}</span></div>
-                  <button onClick={onClearSelection} className="text-[10px] bg-bg border border-border rounded-lg px-2 py-1 cursor-pointer hover:bg-primary/10 transition-colors">
+                  <div>
+                    {t.projects.filter}{" "}
+                    <span className="text-gradient">{selectedTech}</span>
+                  </div>
+                  <button
+                    onClick={onClearSelection}
+                    disabled={!isReady}
+                    className="text-[10px] bg-bg border border-border rounded-lg px-2 py-1 cursor-pointer hover:bg-primary/10 transition-colors"
+                  >
                     {t.projects.clear}
                   </button>
                 </div>
@@ -1864,9 +2087,14 @@ const ProjectsSection = ({
             {/* Right Side: Project Info & Controls */}
             <motion.div
               className="lg:col-span-6 flex flex-col justify-center relative"
-              initial={shouldAnimate ? { opacity: 0, x: 80, scale: 0.95 } : {}}
-              animate={isInView ? { opacity: 1, x: 0, scale: 1 } : {}}
-              transition={{ type: "spring", stiffness: 60, damping: 18, delay: shouldAnimate ? 1.0 : 0 }}
+              initial={{ opacity: 0, x: 60, scale: 0.95 }}
+              animate={showContent ? { opacity: 1, x: 0, scale: 1 } : {}}
+              transition={{
+                type: "spring",
+                stiffness: 60,
+                damping: 18,
+                delay: staggerDelay * 3,
+              }}
             >
               {/* Subtle accent glow */}
               <div className="absolute top-1/2 right-0 -translate-y-1/2 w-72 h-72 rounded-full bg-[#ff4d4d]/12 blur-[80px] pointer-events-none" />
@@ -1890,20 +2118,42 @@ const ProjectsSection = ({
                       </span>
                     </div>
 
-                    <h3 className="text-2xl md:text-4xl font-black uppercase mb-4 bg-gradient-to-r from-[#ff8080] via-[#ff4040] to-[#ff7070] bg-clip-text text-transparent filter drop-shadow-[0_0_15px_rgba(255,64,64,0.35)]">{p.title}</h3>
-                    <p className="text-txt-muted text-xs md:text-sm leading-relaxed mb-8">{p.desc}</p>
+                    <h3 className="text-2xl md:text-4xl font-black uppercase mb-4 bg-gradient-to-r from-[#ff8080] via-[#ff4040] to-[#ff7070] bg-clip-text text-transparent filter drop-shadow-[0_0_15px_rgba(255,64,64,0.35)]">
+                      {p.title}
+                    </h3>
+                    <p className="text-txt-muted text-xs md:text-sm leading-relaxed mb-8">
+                      {p.desc}
+                    </p>
                   </motion.div>
                 </AnimatePresence>
 
                 <div className="space-y-6 pt-6 border-t border-border">
                   {p.techs && (
                     <div className="flex flex-wrap gap-1.5">
-                      {p.techs.map((tech) => (
+                      {p.techs.map((tech, techIdx) => (
                         <motion.span
                           key={tech}
                           className="px-3 py-1 rounded-full border border-border hover:border-[#ff4d4d]/40 text-[9px] font-bold text-txt-muted hover:text-txt bg-surface/30 hover:bg-[#ff4d4d]/10 transition-all duration-300 shadow-sm cursor-default"
+                          initial={
+                            phase === "revealing"
+                              ? { opacity: 0, scale: 0.8, y: 10 }
+                              : {}
+                          }
+                          animate={
+                            showContent
+                              ? { opacity: 1, scale: 1, y: 0 }
+                              : {}
+                          }
                           whileHover={{ scale: 1.08, y: -2 }}
-                          transition={{ type: "spring", stiffness: 400, damping: 15 }}
+                          transition={{
+                            type: "spring",
+                            stiffness: 400,
+                            damping: 15,
+                            delay:
+                              phase === "revealing"
+                                ? staggerDelay * 4 + techIdx * 0.06
+                                : 0,
+                          }}
                         >
                           {tech}
                         </motion.span>
@@ -1911,7 +2161,19 @@ const ProjectsSection = ({
                     </div>
                   )}
 
-                  <div className="flex items-center justify-between pt-4 gap-4">
+                  <motion.div
+                    className="flex items-center justify-between pt-4 gap-4"
+                    initial={
+                      phase === "revealing" ? { opacity: 0, y: 20 } : {}
+                    }
+                    animate={showContent ? { opacity: 1, y: 0 } : {}}
+                    transition={{
+                      type: "spring",
+                      stiffness: 80,
+                      damping: 18,
+                      delay: phase === "revealing" ? staggerDelay * 5 : 0,
+                    }}
+                  >
                     {/* Demo CTA */}
                     <div className="flex-1">
                       {p.wip ? (
@@ -1923,7 +2185,12 @@ const ProjectsSection = ({
                           href={p.link}
                           target="_blank"
                           rel="noreferrer"
-                          className="flex items-center justify-center gap-2 w-full bg-gradient-to-r from-[#a00000] to-[#e03030] hover:from-[#e03030] hover:to-[#a00000] text-white text-[10px] font-black uppercase tracking-wider py-4 rounded-xl transition-all shadow-[0_4px_20px_rgba(224,48,48,0.25)] hover:shadow-[0_4px_25px_rgba(224,48,48,0.45)] duration-300"
+                          className={`flex items-center justify-center gap-2 w-full bg-gradient-to-r from-[#a00000] to-[#e03030] hover:from-[#e03030] hover:to-[#a00000] text-white text-[10px] font-black uppercase tracking-wider py-4 rounded-xl transition-all shadow-[0_4px_20px_rgba(224,48,48,0.25)] hover:shadow-[0_4px_25px_rgba(224,48,48,0.45)] duration-300 ${
+                            !isReady
+                              ? "pointer-events-none opacity-50"
+                              : ""
+                          }`}
+                          tabIndex={isReady ? 0 : -1}
                         >
                           {t.projects.demo} <ArrowUpRight size={14} />
                         </a>
@@ -1931,9 +2198,14 @@ const ProjectsSection = ({
                     </div>
 
                     {/* Slider Controls */}
-                    <div className="flex gap-1 bg-surface/60 border border-border p-1 rounded-xl shrink-0 shadow-lg">
+                    <div
+                      className={`flex gap-1 bg-surface/60 border border-border p-1 rounded-xl shrink-0 shadow-lg ${
+                        !isReady ? "opacity-50 pointer-events-none" : ""
+                      }`}
+                    >
                       <button
                         onClick={handlePrev}
+                        disabled={!isReady}
                         className="p-2 hover:bg-primary/20 border border-transparent hover:border-primary/40 rounded-lg text-txt-muted hover:text-txt cursor-pointer transition-all duration-350"
                         title={t.projects.prev}
                       >
@@ -1944,23 +2216,24 @@ const ProjectsSection = ({
                       </span>
                       <button
                         onClick={handleNext}
+                        disabled={!isReady}
                         className="p-2 hover:bg-primary/20 border border-transparent hover:border-primary/40 rounded-lg text-txt-muted hover:text-txt cursor-pointer transition-all duration-350"
                         title={t.projects.next}
                       >
                         <ChevronRight size={14} />
                       </button>
                     </div>
-                  </div>
+                  </motion.div>
                 </div>
               </div>
             </motion.div>
-
           </div>
         </div>
       </div>
     </section>
   );
 };
+
 
 
 // ─── FOOTER / CONTACT SECTION ───
