@@ -560,16 +560,16 @@ const ArchitectureDiagram = ({ activeStep }: { activeStep: number }) => {
 
 // ─── CHAT IA COM DIAGRAMA INTEGRADO (Módulo 3 - Refatorado Premium) ───
 const ChatComDiagrama = () => {
-  const { t } = useApp();
+  const { t, lang } = useApp();
   const [messages, setMessages] = useState<
     { id: string; sender: "user" | "bot"; text: string }[]
   >([{ id: "1", sender: "bot", text: t.chat.welcome }]);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [activeStep, setActiveStep] = useState<number>(0);
+  const [activeSubMenu, setActiveSubMenu] = useState<"main" | "projects">("main");
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
-  const [hasPlayedDemo, setHasPlayedDemo] = useState(false);
 
   useEffect(() => {
     if (chatContainerRef.current) {
@@ -585,6 +585,83 @@ const ChatComDiagrama = () => {
     setInput("");
     setIsTyping(true);
 
+    const cleanText = text.trim().toLowerCase();
+    let localReply = "";
+
+    const isProjectsMsg = cleanText === t.chat.msgProjects.toLowerCase() || cleanText.includes("principais projetos");
+    const isAiMsg = cleanText === t.chat.msgAi.toLowerCase() || cleanText.includes("automações de ia") || cleanText.includes("automacoes de ia");
+    const isQuoteMsg = cleanText === t.chat.msgQuote.toLowerCase() || cleanText.includes("orçamento") || cleanText.includes("orcamento");
+    const isSkillsMsg = cleanText === t.chat.msgSkills.toLowerCase() || cleanText.includes("habilidades") || cleanText.includes("tecnologias");
+
+    // Submenu project categories
+    const isWebProj = cleanText === "projetos web" || cleanText === "web projects";
+    const isMobileProj = cleanText === "projetos mobile" || cleanText === "mobile projects";
+    const isAiProj = cleanText === "ia & automações" || cleanText === "ai & automations";
+    const isAllProj = cleanText === "todos os projetos" || cleanText === "all projects";
+    const isBack = cleanText === "voltar ao menu" || cleanText === "back to menu" || cleanText === "voltar";
+
+    if (isProjectsMsg) {
+      setActiveSubMenu("projects");
+      localReply = lang === "pt"
+        ? "Excelente! O Carlos desenvolve projetos em diversas frentes. Qual área você gostaria de explorar?"
+        : "Excellent! Carlos builds projects across multiple domains. Which area would you like to explore?";
+    } else if (isWebProj) {
+      localReply = lang === "pt"
+        ? "Aqui estão os principais projetos Web do Carlos:\n\n• **Sushi House Premium**: Landing Page de altíssimo padrão com Framer Motion, galeria responsiva e reserva integrada com WhatsApp.\n• **Horizonte Aprendizado**: Plataforma SaaS de gestão de ensino com painéis para alunos/professores/responsáveis e CRM de matrículas.\n• **Barber+**: Sistema de gestão comercial para barbearia com agenda em tempo real, fluxo de caixa e comissões."
+        : "Here are Carlos's main Web projects:\n\n• **Sushi House Premium**: High-end landing page with Framer Motion, responsive gallery, and booking flow integrated with WhatsApp.\n• **Horizonte Aprendizado**: SaaS educational management platform with student/teacher/guardian portals and enrollment CRM.\n• **Barber+**: Business management system for barbershops with real-time scheduling, cash flow, and commissions.";
+    } else if (isMobileProj) {
+      localReply = lang === "pt"
+        ? "Aqui está o principal projeto Mobile do Carlos:\n\n• **FitGym**: Aplicativo nativo multiplataforma (iOS e Android) criado em Flutter, com controle de treinos, onboarding animado, relatórios gráficos de evolução física e sincronização offline com banco PostgreSQL."
+        : "Here is Carlos's main Mobile project:\n\n• **FitGym**: Native cross-platform app (iOS & Android) built with Flutter, featuring workout tracking, animated onboarding, progress charts, and offline database sync with PostgreSQL.";
+    } else if (isAiProj) {
+      localReply = lang === "pt"
+        ? "Aqui está o destaque em IA & Automação:\n\n• **VitaMed**: Central de atendimento com Inteligência Artificial (OpenAI GPT) integrada ao WhatsApp e Google Calendar via N8N para qualificar leads, agendar consultas e automatizar o fluxo médico."
+        : "Here is the highlight in AI & Automation:\n\n• **VitaMed**: Smart healthcare portal with Generative AI (OpenAI GPT) integrated with WhatsApp and Google Calendar via N8N for automated triage and dynamic scheduling.";
+    } else if (isAllProj) {
+      localReply = lang === "pt"
+        ? "Aqui estão todos os projetos em destaque do Carlos:\n\n1. **Sushi House Premium** (Front-End & UX/UI)\n2. **FitGym** (Mobile App & API Java Spring)\n3. **Horizonte Aprendizado** (SaaS & CRM)\n4. **Barber+** (Gestão & Financeiro)\n5. **VitaMed** (Integrações com IA & N8N)\n\nVocê pode ver detalhes de cada um deles navegando pelos painéis interativos logo acima!"
+        : "Here are all of Carlos's featured projects:\n\n1. **Sushi House Premium** (Front-End & UX/UI)\n2. **FitGym** (Mobile App & Java Spring API)\n3. **Horizonte Aprendizado** (SaaS & CRM)\n4. **Barber+** (Management & Finance)\n5. **VitaMed** (AI Integrations & N8N)\n\nYou can see full details and videos of each of them in the interactive mockups right above!";
+    } else if (isBack) {
+      setActiveSubMenu("main");
+      localReply = lang === "pt"
+        ? "Voltando ao menu principal. Como posso te ajudar?"
+        : "Returning to main menu. How can I help you?";
+    } else if (isAiMsg) {
+      localReply = lang === "pt"
+        ? "O Carlos é especialista em construir fluxos de automação de processos comerciais e inteligência artificial:\n\n• **Integração de LLMs**: Conexão de modelos inteligentes (Gemini/GPT) para criar atendimentos humanizados.\n• **WhatsApp & Instagram APIs**: Desenvolvimento de robôs que qualificam leads e realizam agendamentos 24/7.\n• **Orquestração com N8N**: Automação de tarefas repetitivas integrando planilhas, CRMs e e-mails para economizar tempo do seu time."
+        : "Carlos specializes in building business process automation workflows and AI integrations:\n\n• **LLM Integration**: Connecting smart models (Gemini/GPT) to create natural customer support bots.\n• **WhatsApp & Instagram APIs**: Developing bots that qualify leads and schedule appointments 24/7.\n• **N8N Orquestration**: Automating repetitive tasks by connecting spreadsheets, CRMs, and emails to save your team time.";
+    } else if (isQuoteMsg) {
+      localReply = lang === "pt"
+        ? "Para solicitar um orçamento ou tirar dúvidas sobre o seu projeto com o Carlos, você pode:\n\n💬 **WhatsApp**: [Clique aqui para iniciar a conversa](https://api.whatsapp.com/send/?phone=21982665121&text=Olá+Carlos%2C+vi+seu+portfólio+e+gostaria+de+um+orçamento.)\n✉️ **E-mail**: Envie uma mensagem para **techcarlosandre@gmail.com**\n\nRetornaremos com uma proposta técnica personalizada o mais rápido possível!"
+        : "To request a quote or ask questions about your project with Carlos, you can:\n\n💬 **WhatsApp**: [Click here to start a conversation](https://api.whatsapp.com/send/?phone=21982665121&text=Olá+Carlos%2C+vi+seu+portfólio+e+gostaria+de+um+orçamento.)\n✉️ **Email**: Send a message to **techcarlosandre@gmail.com**\n\nWe will get back to you with a customized technical proposal as soon as possible!";
+    } else if (isSkillsMsg) {
+      localReply = lang === "pt"
+        ? "Aqui está o conjunto de tecnologias que o Carlos utiliza em seus projetos:\n\n• **Frontend**: React, Next.js, TypeScript, Framer Motion, Tailwind CSS.\n• **Backend**: Node.js, Python (Flask), Java (Spring Boot), PostgreSQL, Supabase, Prisma.\n• **Automação & IA**: N8N, OpenAI API, Google Gemini, WhatsApp Cloud API.\n• **DevOps**: Docker, Git, Deploy com Coolify e VPS."
+        : "Here is the set of technologies Carlos uses in his projects:\n\n• **Frontend**: React, Next.js, TypeScript, Framer Motion, Tailwind CSS.\n• **Backend**: Node.js, Python (Flask), Java (Spring Boot), PostgreSQL, Supabase, Prisma.\n• **Automation & AI**: N8N, OpenAI API, Google Gemini, WhatsApp Cloud API.\n• **DevOps**: Docker, Git, Deployment with Coolify and VPS.";
+    }
+
+    if (localReply) {
+      try {
+        setActiveStep(1);
+        await new Promise((resolve) => setTimeout(resolve, 150));
+        setActiveStep(2);
+        await new Promise((resolve) => setTimeout(resolve, 150));
+        setActiveStep(4);
+        await new Promise((resolve) => setTimeout(resolve, 200));
+
+        setMessages((p) => [...p, { id: Date.now().toString(), sender: "bot", text: localReply }]);
+
+        setTimeout(() => {
+          setActiveStep(0);
+        }, 1500);
+      } catch {
+        setActiveStep(0);
+      } finally {
+        setIsTyping(false);
+      }
+      return;
+    }
+
     const history = messages
       .filter((m) => m.id !== "1")
       .map((m) => ({ sender: m.sender, text: m.text }));
@@ -596,13 +673,10 @@ const ChatComDiagrama = () => {
     });
 
     try {
-      // Step-by-step pipeline sequence showing connection
       setActiveStep(1);
       await new Promise((resolve) => setTimeout(resolve, 600));
-
       setActiveStep(2);
       await new Promise((resolve) => setTimeout(resolve, 600));
-
       setActiveStep(3);
       await new Promise((resolve) => setTimeout(resolve, 800));
 
@@ -631,15 +705,19 @@ const ChatComDiagrama = () => {
     } finally {
       setIsTyping(false);
     }
-  }, [isTyping, messages, t.chat.replyDefault]);
+  }, [isTyping, messages, t.chat.replyDefault, lang]);
 
-
-
-  const quickBtns = [
+  const quickBtns = activeSubMenu === "main" ? [
     { label: "🚀 " + t.chat.btnProjects, msg: t.chat.msgProjects },
     { label: "🤖 " + t.chat.btnAi, msg: t.chat.msgAi },
     { label: "💼 " + t.chat.btnQuote, msg: t.chat.msgQuote },
     { label: "🛠️ " + t.chat.btnSkills, msg: t.chat.msgSkills },
+  ] : [
+    { label: "💻 Web", msg: lang === "pt" ? "Projetos Web" : "Web Projects" },
+    { label: "📱 Mobile", msg: lang === "pt" ? "Projetos Mobile" : "Mobile Projects" },
+    { label: "🤖 IA / AI", msg: lang === "pt" ? "IA & Automações" : "AI & Automations" },
+    { label: "📋 " + (lang === "pt" ? "Todos" : "All"), msg: lang === "pt" ? "Todos os Projetos" : "All Projects" },
+    { label: "⬅️ " + (lang === "pt" ? "Voltar" : "Back"), msg: lang === "pt" ? "Voltar ao Menu" : "Back to Menu" },
   ];
 
   return (
@@ -1627,19 +1705,6 @@ const ProjectsSection = ({
   const [phase, setPhase] = useState<"idle" | "intro" | "revealing" | "ready">("idle");
   const [hasPlayedIntro, setHasPlayedIntro] = useState(false);
 
-  // Check sessionStorage on mount
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const alreadySeen = sessionStorage.getItem(
-        "carlos_portfolio_projects_viewed"
-      );
-      if (alreadySeen === "true") {
-        setHasPlayedIntro(true);
-        setPhase("ready");
-      }
-    }
-  }, []);
-
   // Intersection Observer — triggers the intro
   useEffect(() => {
     const section = sectionRef.current;
@@ -1674,7 +1739,6 @@ const ProjectsSection = ({
     setTimeout(() => {
       setPhase("ready");
       setHasPlayedIntro(true);
-      sessionStorage.setItem("carlos_portfolio_projects_viewed", "true");
     }, 1200);
   }, []);
 

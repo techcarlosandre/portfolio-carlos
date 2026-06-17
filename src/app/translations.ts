@@ -177,35 +177,35 @@ export const translations = {
           title: 'Sushi House Premium',
           category: 'Front-End',
           tag: 'Web · Landing Page Premium & UX/UI',
-          desc: 'Site institucional premium com motion design refinado, filtros de cardápio interativos, galeria responsiva e fluxo de reserva integrado com automação de atendimento.',
+          desc: 'Landing Page de altíssimo padrão desenvolvida para o segmento gastronômico premium. Conta com animações de alta performance e fluidas via Framer Motion, filtros dinâmicos de cardápio, galeria de fotos otimizada e um fluxo inteligente de reservas integrado a uma automação no WhatsApp via webhook no N8N. Pensado para encantar o cliente final e otimizar o atendimento interno.',
           techs: ['React', 'Vite', 'Tailwind', 'Framer Motion', 'N8N']
         },
         {
           title: 'FitGym',
           category: 'Mobile',
           tag: 'App · Flutter & Java Spring API',
-          desc: 'Aplicativo mobile completo para academia com onboarding animado, controle de treinos e progresso diário com gráficos de evolução, além de API em Java Spring Boot.',
+          desc: 'Aplicativo mobile nativo multiplataforma (iOS e Android) criado com Flutter, integrado a um back-end robusto em Java com Spring Boot. Oferece controle completo de treinos personalizado, onboarding animado com micro-interações, relatórios de evolução física com gráficos dinâmicos e sincronização de dados offline com banco relacional PostgreSQL.',
           techs: ['Flutter', 'Java', 'Spring Boot', 'PostgreSQL', 'N8N']
         },
         {
           title: 'Horizonte Aprendizado',
           category: 'Sistemas',
           tag: 'Web · Plataforma Educacional & CRM',
-          desc: 'Plataforma educacional com painéis separados para aluno, professor e responsável, boletim digital, controle financeiro, CRM de matrículas e relatórios em tempo real.',
+          desc: 'Plataforma Web SaaS completa voltada para a gestão de instituições de ensino. Possui dashboards dedicados para alunos, professores e responsáveis financeiros. Conta com boletim digital em tempo real, controle de mensalidades integrando gateways de pagamento, funil CRM completo de matrículas para captar novos alunos e relatórios analíticos interativos criados com Shadcn/UI e Recharts.',
           techs: ['Next.js', 'TypeScript', 'Shadcn', 'Recharts', 'N8N']
         },
         {
           title: 'Barber+',
           category: 'Sistemas',
           tag: 'Web · Gestão Comercial & Financeiro',
-          desc: 'Sistema interno para barbearia com agenda de atendimentos em tempo real, controle de fluxo de caixa, comissões de barbeiros, gestão de estoque e automação de lembretes.',
+          desc: 'Sistema de gestão comercial e operacional interna para barbearias e salões. Centraliza agendamento de atendimentos em tempo real (evitando conflitos de horários), controle de fluxo de caixa diário, cálculo automatizado de comissões de profissionais, controle de estoque integrado e envio automatizado de lembretes via webhook para reduzir ausências de clientes.',
           techs: ['Next.js', 'TypeScript', 'Node.js', 'Express', 'N8N']
         },
         {
           title: 'VitaMed',
           category: 'IA & Automação',
           tag: 'Web · Central de Atendimento & Automação',
-          desc: 'Central inteligente de atendimento para clínica médica integrada com WhatsApp, OpenAI, Gmail e Google Calendar via N8N, contendo relatórios de consultas e confirmações.',
+          desc: 'Plataforma centralizada com IA que automatiza toda a jornada do paciente em clínicas médicas. Integra o WhatsApp à API da OpenAI (GPT) e ao Google Calendar via fluxos no N8N. O sistema responde dúvidas frequentes de pacientes, realiza o agendamento direto na agenda médica de forma dinâmica, envia e-mails de confirmação e fornece um dashboard administrativo completo com métricas de agendamento.',
           techs: ['Python', 'Flask', 'Next.js', 'OpenAI', 'N8N']
         },
       ],
@@ -502,35 +502,35 @@ export const translations = {
           title: 'Sushi House Premium',
           category: 'Front-End',
           tag: 'Web · Premium Landing Page & UX/UI',
-          desc: 'Premium institutional website with refined motion design, interactive menu filters, responsive gallery, and booking flow integrated with customer service automation.',
+          desc: 'High-end landing page developed for the premium culinary sector. Features high-performance fluid animations using Framer Motion, dynamic menu filtering, optimized media galleries, and an intelligent reservation system connected to a WhatsApp automation via N8N webhooks. Built to captivate the end user and streamline operations.',
           techs: ['React', 'Vite', 'Tailwind', 'Framer Motion', 'N8N']
         },
         {
           title: 'FitGym',
           category: 'Mobile',
           tag: 'App · Flutter & Java Spring API',
-          desc: 'Complete mobile app for gyms with animated onboarding, workout tracking, daily progress charts, and back-end integration via Java Spring Boot.',
+          desc: 'Native cross-platform mobile application (iOS & Android) built with Flutter and integrated with a robust Java Spring Boot back-end. Provides personalized workout tracking, animated onboarding screens, interactive physical progress charts, and offline data synchronization backed by a relational PostgreSQL database.',
           techs: ['Flutter', 'Java', 'Spring Boot', 'PostgreSQL', 'N8N']
         },
         {
           title: 'Horizonte Aprendizado',
           category: 'Systems',
           tag: 'Web · Educational Platform & CRM',
-          desc: 'Educational platform with separate dashboards for students, teachers, and guardians, digital reports, financial control, enrollment CRM, and real-time reports.',
+          desc: 'A complete Web SaaS platform designed for educational institution management. Features tailored, secure portals for students, teachers, and parents. Includes real-time digital gradebooks, financial tracking with payment gateway integrations, an admissions CRM pipeline to track new enrollments, and interactive analytics dashboards built with Shadcn/UI and Recharts.',
           techs: ['Next.js', 'TypeScript', 'Shadcn', 'Recharts', 'N8N']
         },
         {
           title: 'Barber+',
           category: 'Systems',
           tag: 'Web · Business Management & Finance',
-          desc: 'Internal management system for barbershops with real-time scheduling, cash flow tracking, barbers\' commission split, inventory control, and automated reminders.',
+          desc: 'An internal business and operational management system for barbershops and salons. Centralizes real-time appointment scheduling to eliminate booking conflicts, daily cash flow tracking, automated calculation of staff commission splits, integrated inventory management, and automated client notifications via webhooks to reduce no-shows.',
           techs: ['Next.js', 'TypeScript', 'Node.js', 'Express', 'N8N']
         },
         {
           title: 'VitaMed',
           category: 'IA & Automation',
           tag: 'Web · Customer Service Hub & Automation',
-          desc: 'Smart patient appointment hub integrated with WhatsApp, OpenAI, Gmail, and Google Calendar via N8N, with confirmation dashboards and reports.',
+          desc: 'An AI-powered patient engagement platform that automates the entire healthcare appointment lifecycle. Integrates WhatsApp with OpenAI\'s GPT API and Google Calendar through advanced N8N workflows. It autonomously handles inquiries, schedules appointments dynamically, sends confirmation emails, and displays key metrics on an administrative analytics dashboard.',
           techs: ['Python', 'Flask', 'Next.js', 'OpenAI', 'N8N']
         },
       ],
