@@ -163,6 +163,7 @@ export const translations = {
       title1: 'Trabalhos',
       titleHighlight: 'Selecionados',
       all: 'Todos', details: 'Ver Detalhes',
+      demo: 'Acessar demonstração',
       computer: 'Computador',
       mobile: 'Celular',
       items: [
@@ -271,7 +272,13 @@ export const translations = {
       btnQuote: 'Fazer Orçamento',
       btnSkills: 'Ver Tecnologias',
       btnWhatsApp: 'WhatsApp Direto',
+      btnAi: 'Automações IA',
+      msgProjects: 'Quais são os principais projetos do Carlos?',
+      msgAi: 'Quero saber sobre as automações de IA',
+      msgQuote: 'Quero fazer um orçamento de projeto',
+      msgSkills: 'Quais são as habilidades técnicas do Carlos?',
       replyDefault: 'Olá! Posso te contar sobre os projetos do Carlos, os serviços oferecidos ou te ajudar com um orçamento. O que você gostaria de saber?',
+      error: 'Ops! Tive um problema técnico. Fale com o Carlos direto: techcarlosandre@gmail.com',
     }
   },
   en: {
@@ -454,6 +461,7 @@ export const translations = {
       title1: 'Selected',
       titleHighlight: 'Works',
       all: 'All', details: 'View Details',
+      demo: 'Access demo',
       computer: 'Computer',
       mobile: 'Mobile',
       items: [
@@ -562,7 +570,13 @@ export const translations = {
       btnQuote: 'Get a Quote',
       btnSkills: 'View Technologies',
       btnWhatsApp: 'Direct WhatsApp',
+      btnAi: 'AI Automations',
+      msgProjects: 'What are Carlos\'s main projects?',
+      msgAi: 'I want to know about AI automations',
+      msgQuote: 'I want to request a project quote',
+      msgSkills: 'What are Carlos\'s technical skills?',
       replyDefault: "Hi! I can tell you about Carlos's projects, the services offered, or help you with a quote. What would you like to know?",
+      error: 'Oops! I had a technical problem. Talk to Carlos directly: techcarlosandre@gmail.com',
     }
   }
 } as const;

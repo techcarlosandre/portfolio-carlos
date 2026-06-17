@@ -405,7 +405,7 @@ const TechLogoCard = ({
   const { theme } = useApp();
   const info = TECH_ICONS[tech];
   const [llmIndex, setLlmIndex] = useState(0);
-  
+
   const llmLogos = React.useMemo(() => [
     { slug: "openai", color: "ffffff", label: "OpenAI" },
     { slug: "googlegemini", color: "ffffff", label: "Gemini" },
@@ -512,14 +512,14 @@ const ArchitectureDiagram = ({ activeStep }: { activeStep: number }) => {
   return (
     <div className="flex flex-col justify-center gap-4 w-full h-full max-w-md mx-auto relative p-6 bg-zinc-950/40 backdrop-blur-xl border border-zinc-800 rounded-[2rem] shadow-xl">
       <h4 className="text-[10px] font-black uppercase tracking-widest text-primary mb-2">Arquitetura Conversacional Integrada</h4>
-      
+
       {/* Step connection line */}
       <div className="absolute top-[80px] bottom-[40px] left-[44px] w-0.5 bg-zinc-900/50 pointer-events-none z-0">
-        <motion.div 
+        <motion.div
           className="absolute top-0 left-0 w-full bg-gradient-to-b from-primary to-accent shadow-[0_0_12px_#ff4040]"
           initial={{ height: "0%" }}
-          animate={{ 
-            height: activeStep === 0 ? "0%" : activeStep === 1 ? "12%" : activeStep === 2 ? "45%" : activeStep === 3 ? "76%" : "100%" 
+          animate={{
+            height: activeStep === 0 ? "0%" : activeStep === 1 ? "12%" : activeStep === 2 ? "45%" : activeStep === 3 ? "76%" : "100%"
           }}
           transition={{ duration: 0.4, ease: "easeInOut" }}
         />
@@ -531,21 +531,18 @@ const ArchitectureDiagram = ({ activeStep }: { activeStep: number }) => {
           return (
             <div
               key={step.id}
-              className={`flex items-center gap-4 p-3.5 rounded-2xl border transition-all duration-500 ${
-                isActive
+              className={`flex items-center gap-4 p-3.5 rounded-2xl border transition-all duration-500 ${isActive
                   ? "border-primary bg-primary/10 shadow-[0_0_20px_rgba(128,0,0,0.35)] scale-[1.03]"
                   : "border-zinc-900 bg-zinc-950/60 opacity-65"
-              }`}
+                }`}
             >
-              <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-lg z-10 transition-colors ${
-                isActive ? "bg-primary text-white" : "bg-zinc-900 text-txt-muted"
-              }`}>
+              <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-lg z-10 transition-colors ${isActive ? "bg-primary text-white" : "bg-zinc-900 text-txt-muted"
+                }`}>
                 {step.icon}
               </div>
               <div className="flex-1 text-left">
-                <span className={`text-[7px] font-black uppercase tracking-wider block ${
-                  isActive ? "text-primary animate-pulse" : "text-txt-muted/70"
-                }`}>
+                <span className={`text-[7px] font-black uppercase tracking-wider block ${isActive ? "text-primary animate-pulse" : "text-txt-muted/70"
+                  }`}>
                   {step.tag}
                 </span>
                 <h5 className="text-[11px] font-bold text-white uppercase">{step.title}</h5>
@@ -613,11 +610,11 @@ const ChatComDiagrama = () => {
 
       setActiveStep(4);
       await new Promise((resolve) => setTimeout(resolve, 600));
-      
+
       setMessages((p) => [...p, { id: Date.now().toString(), sender: "bot", text: reply }]);
-      
+
       setTimeout(() => {
-        setActiveStep(0); 
+        setActiveStep(0);
       }, 3000);
     } catch {
       setActiveStep(0);
@@ -626,7 +623,7 @@ const ChatComDiagrama = () => {
         {
           id: Date.now().toString(),
           sender: "bot",
-          text: "Ops! Tive um problema técnico. Fale com o Carlos direto: techcarlosandre@gmail.com",
+          text: t.chat.error,
         },
       ]);
     } finally {
@@ -637,10 +634,10 @@ const ChatComDiagrama = () => {
 
 
   const quickBtns = [
-    { label: "🚀 " + t.chat.btnProjects, msg: "Quais são os principais projetos do Carlos?" },
-    { label: "🤖 Automações IA", msg: "Quero saber sobre as automações de IA" },
-    { label: "💼 " + t.chat.btnQuote, msg: "Quero fazer um orçamento de projeto" },
-    { label: "🛠️ " + t.chat.btnSkills, msg: "Quais são as habilidades técnicas do Carlos?" },
+    { label: "🚀 " + t.chat.btnProjects, msg: t.chat.msgProjects },
+    { label: "🤖 " + t.chat.btnAi, msg: t.chat.msgAi },
+    { label: "💼 " + t.chat.btnQuote, msg: t.chat.msgQuote },
+    { label: "🛠️ " + t.chat.btnSkills, msg: t.chat.msgSkills },
   ];
 
   return (
@@ -947,7 +944,7 @@ const HeroSection = () => {
               ].map((item, i) => {
                 const Tag = item.isLocation ? "div" : "a";
                 const props = item.isLocation ? {} : { href: item.href, target: "_blank", rel: "noreferrer" };
-                
+
                 return (
                   <motion.div
                     key={i}
@@ -957,11 +954,10 @@ const HeroSection = () => {
                   >
                     <Tag
                       {...props}
-                      className={`flex items-center justify-center gap-3 w-full h-12 rounded-xl border bg-surface/20 backdrop-blur-md transition-all text-xs font-black uppercase tracking-wider ${
-                        item.isLocation 
-                          ? "border-border text-txt-muted cursor-default" 
+                      className={`flex items-center justify-center gap-3 w-full h-12 rounded-xl border bg-surface/20 backdrop-blur-md transition-all text-xs font-black uppercase tracking-wider ${item.isLocation
+                          ? "border-border text-txt-muted cursor-default"
                           : "border-border text-txt-muted hover:text-txt hover:border-primary/50 hover:shadow-[0_0_20px_rgba(128,0,0,0.3)] hover:bg-surface/50"
-                      }`}
+                        }`}
                     >
                       {item.icon}
                       <span>{item.label}</span>
@@ -1177,7 +1173,7 @@ const SkillsSection = ({
         <FadeIn delay={0.15}>
           <div className="skills-marquee-container">
             {/* Row 1 (Left <-) */}
-            <div 
+            <div
               onClick={() => setPausedRow(prev => ({ ...prev, 1: !prev[1] }))}
               style={{ animationPlayState: pausedRow[1] ? "paused" : undefined }}
               className="skills-marquee-row marquee-left"
@@ -1194,7 +1190,7 @@ const SkillsSection = ({
             </div>
 
             {/* Row 2 (Right ->) */}
-            <div 
+            <div
               onClick={() => setPausedRow(prev => ({ ...prev, 2: !prev[2] }))}
               style={{ animationPlayState: pausedRow[2] ? "paused" : undefined }}
               className="skills-marquee-row marquee-right"
@@ -1211,7 +1207,7 @@ const SkillsSection = ({
             </div>
 
             {/* Row 3 (Left <-) */}
-            <div 
+            <div
               onClick={() => setPausedRow(prev => ({ ...prev, 3: !prev[3] }))}
               style={{ animationPlayState: pausedRow[3] ? "paused" : undefined }}
               className="skills-marquee-row marquee-left"
@@ -1228,7 +1224,7 @@ const SkillsSection = ({
             </div>
 
             {/* Row 4 (Right ->) */}
-            <div 
+            <div
               onClick={() => setPausedRow(prev => ({ ...prev, 4: !prev[4] }))}
               style={{ animationPlayState: pausedRow[4] ? "paused" : undefined }}
               className="skills-marquee-row marquee-right"
@@ -1352,57 +1348,57 @@ const ProjectsSection = ({
     desktop: { img?: string; video?: string; placeholder?: boolean };
     mobile: { img?: string; video?: string; placeholder?: boolean };
   }[] = [
-    {
-      title: t.projects.items[0].title,
-      desc: t.projects.items[0].desc,
-      tag: t.projects.items[0].tag,
-      techs: t.projects.items[0].techs,
-      link: "https://projetos.techcarlos.com.br/sushi",
-      area: "Web & UX/UI",
-      desktop: { video: "/sushi/sushi.mp4" },
-      mobile: { video: "/sushi/sushi-app.mp4" }
-    },
-    {
-      title: t.projects.items[1].title,
-      desc: t.projects.items[1].desc,
-      tag: t.projects.items[1].tag,
-      techs: t.projects.items[1].techs,
-      link: "https://projetos.techcarlos.com.br/fitgym",
-      area: "Mobile & Flutter",
-      desktop: { video: "/fitgym/fitgym.mp4" },
-      mobile: { video: "/fitgym/fitgym-app.mp4" }
-    },
-    {
-      title: t.projects.items[2].title,
-      desc: t.projects.items[2].desc,
-      tag: t.projects.items[2].tag,
-      techs: t.projects.items[2].techs,
-      link: "https://projetos.techcarlos.com.br/horizonte",
-      area: "Sistemas & Dashboard",
-      desktop: { video: "/horizonte/horizonte.mp4" },
-      mobile: { video: "/horizonte/horizonte-app.mp4" }
-    },
-    {
-      title: t.projects.items[3].title,
-      desc: t.projects.items[3].desc,
-      tag: t.projects.items[3].tag,
-      techs: t.projects.items[3].techs,
-      link: "https://projetos.techcarlos.com.br/barber",
-      area: "Gestão & CRM",
-      desktop: { video: "/barber/barber.mp4" },
-      mobile: { video: "/barber/barber-app.mp4" }
-    },
-    {
-      title: t.projects.items[4].title,
-      desc: t.projects.items[4].desc,
-      tag: t.projects.items[4].tag,
-      techs: t.projects.items[4].techs,
-      link: "https://projetos.techcarlos.com.br/vitamed",
-      area: "Integrações & IA",
-      desktop: { video: "/vitamed/vitamed.mp4" },
-      mobile: { video: "/vitamed/vitamed-app.mp4" }
-    }
-  ];
+      {
+        title: t.projects.items[0].title,
+        desc: t.projects.items[0].desc,
+        tag: t.projects.items[0].tag,
+        techs: t.projects.items[0].techs,
+        link: "https://projetos.techcarlos.com.br/sushi",
+        area: "Web & UX/UI",
+        desktop: { video: "/sushi/sushi.mp4" },
+        mobile: { video: "/sushi/sushi-app.mp4" }
+      },
+      {
+        title: t.projects.items[1].title,
+        desc: t.projects.items[1].desc,
+        tag: t.projects.items[1].tag,
+        techs: t.projects.items[1].techs,
+        link: "https://projetos.techcarlos.com.br/fitgym",
+        area: "Mobile & Flutter",
+        desktop: { video: "/fitgym/fitgym.mp4" },
+        mobile: { video: "/fitgym/fitgym-app.mp4" }
+      },
+      {
+        title: t.projects.items[2].title,
+        desc: t.projects.items[2].desc,
+        tag: t.projects.items[2].tag,
+        techs: t.projects.items[2].techs,
+        link: "https://projetos.techcarlos.com.br/horizonte",
+        area: "Sistemas & Dashboard",
+        desktop: { video: "/horizonte/horizonte.mp4" },
+        mobile: { video: "/horizonte/horizonte-app.mp4" }
+      },
+      {
+        title: t.projects.items[3].title,
+        desc: t.projects.items[3].desc,
+        tag: t.projects.items[3].tag,
+        techs: t.projects.items[3].techs,
+        link: "https://projetos.techcarlos.com.br/barber",
+        area: "Gestão & CRM",
+        desktop: { video: "/barber/barber.mp4" },
+        mobile: { video: "/barber/barber-app.mp4" }
+      },
+      {
+        title: t.projects.items[4].title,
+        desc: t.projects.items[4].desc,
+        tag: t.projects.items[4].tag,
+        techs: t.projects.items[4].techs,
+        link: "https://projetos.techcarlos.com.br/vitamed",
+        area: "Integrações & IA",
+        desktop: { video: "/vitamed/vitamed.mp4" },
+        mobile: { video: "/vitamed/vitamed-app.mp4" }
+      }
+    ];
 
   const TECH_ALIASES: Record<string, string[]> = {
     "JS": ["JavaScript"], "TS": ["TypeScript"], "React": ["React"],
@@ -1461,7 +1457,7 @@ const ProjectsSection = ({
   return (
     <section ref={sectionRef} id="projetos" className="relative h-auto lg:h-[135vh] bg-bg/20 border-t border-border/60">
       <div className="lg:sticky lg:top-0 lg:h-screen w-full flex flex-col justify-center items-center lg:overflow-hidden z-10 px-0 py-12 lg:py-0">
-        
+
         {/* Giant portal title animation in the center */}
         <motion.div
           style={{ x: titleX, opacity: titleOpacity, y: "-5%" }}
@@ -1471,11 +1467,11 @@ const ProjectsSection = ({
         </motion.div>
 
         {/* Immersive Fullscreen Grid Layout */}
-        <motion.div 
-          style={{ 
-            x: isMobile ? "0vw" : projectsX, 
-            opacity: isMobile ? 1 : projectsOpacity, 
-            scale: isMobile ? 1 : projectsScale, 
+        <motion.div
+          style={{
+            x: isMobile ? "0vw" : projectsX,
+            opacity: isMobile ? 1 : projectsOpacity,
+            scale: isMobile ? 1 : projectsScale,
             rotateY: isMobile ? 0 : projectsRotateY,
             pointerEvents: isMobile ? "auto" : projectsPointerEvents,
             perspective: 1200
@@ -1483,8 +1479,8 @@ const ProjectsSection = ({
           className="relative w-full h-auto lg:h-full bg-transparent dot-grid flex items-center justify-center z-10 py-8 lg:py-0"
         >
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-0 h-auto lg:h-full w-full relative z-10">
-            
-             {/* Top Center Title - Centered badge and title */}
+
+            {/* Top Center Title - Centered badge and title */}
             <div className="lg:absolute lg:top-8 lg:left-1/2 lg:-translate-x-1/2 z-20 text-center flex flex-col items-center w-full max-w-xl px-4 pt-6 lg:pt-0 mb-4 lg:mb-0 relative">
               <Badge>{t.projects.badge}</Badge>
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black uppercase mt-2">
@@ -1495,7 +1491,7 @@ const ProjectsSection = ({
 
             {/* Left Side (Col 1-6): Large Immersive Device Mockup View */}
             <div className="lg:col-span-6 flex flex-col justify-center items-center w-full h-auto lg:h-full bg-transparent lg:border-r border-white/[0.05] p-4 lg:p-8 relative">
-              
+
               {/* High-fidelity glowing ambient backlights */}
               <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-red-600/15 blur-[120px] animate-pulse pointer-events-none" />
               <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-rose-500/12 blur-[100px] pointer-events-none" />
@@ -1537,12 +1533,12 @@ const ProjectsSection = ({
                       <div className="w-full group">
                         <div className="relative w-full aspect-[16/10] border-[10px] border-[#1d1d1f] bg-[#0c0c0c] rounded-t-3xl overflow-hidden shadow-[0_25px_60px_-15px_rgba(128,0,0,0.35)] border-b-0 flex flex-col items-center justify-center transition-all duration-500 group-hover:shadow-[0_30px_70px_-10px_rgba(179,0,0,0.45)]">
                           {activeMedia.img ? (
-                            <Image 
-                              src={activeMedia.img} 
-                              alt={p.title} 
-                              fill 
-                              className="object-cover transition-transform duration-700 group-hover:scale-[1.03]" 
-                              unoptimized 
+                            <Image
+                              src={activeMedia.img}
+                              alt={p.title}
+                              fill
+                              className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                              unoptimized
                             />
                           ) : activeMedia.video ? (
                             <video src={activeMedia.video} autoPlay muted loop playsInline className="w-full h-full object-cover" />
@@ -1565,12 +1561,12 @@ const ProjectsSection = ({
                           <div className="absolute top-2 left-1/2 -translate-x-1/2 w-14 h-4 bg-black rounded-full z-20" />
 
                           {activeMedia.img ? (
-                            <Image 
-                              src={activeMedia.img} 
-                              alt={p.title} 
-                              fill 
-                              className="object-cover transition-transform duration-700 group-hover:scale-[1.03]" 
-                              unoptimized 
+                            <Image
+                              src={activeMedia.img}
+                              alt={p.title}
+                              fill
+                              className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                              unoptimized
                             />
                           ) : activeMedia.video ? (
                             <video src={activeMedia.video} autoPlay muted loop playsInline className="w-full h-full object-cover" />
@@ -1644,13 +1640,13 @@ const ProjectsSection = ({
                           Em breve...
                         </div>
                       ) : (
-                      <a
+                        <a
                           href={p.link}
                           target="_blank"
                           rel="noreferrer"
                           className="flex items-center justify-center gap-2 w-full bg-gradient-to-r from-[#a00000] to-[#e03030] hover:from-[#e03030] hover:to-[#a00000] text-white text-[10px] font-black uppercase tracking-wider py-4 rounded-xl transition-all shadow-[0_4px_20px_rgba(224,48,48,0.25)] hover:shadow-[0_4px_25px_rgba(224,48,48,0.45)] duration-300"
                         >
-                          Acessar Aplicação <ArrowUpRight size={14} />
+                          {t.projects.demo} <ArrowUpRight size={14} />
                         </a>
                       )}
                     </div>
