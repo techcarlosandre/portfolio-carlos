@@ -72,6 +72,7 @@ const LinkedinIcon = ({ size = 20 }: { size?: number }) => (
 
 // ─── REDIRECTION SCREEN (Módulo 0) ───
 const MigrationOverlay = () => {
+  const { t } = useApp();
   const [countdown, setCountdown] = useState(3);
   const targetUrl = "https://portfolio.techcarlos.com.br";
 
@@ -98,19 +99,19 @@ const MigrationOverlay = () => {
           <AlertTriangle className="text-primary" size={32} />
         </div>
         <h2 className="text-2xl font-black uppercase tracking-tighter mb-4 text-white">
-          Portfólio atualizado
+          {t.migration.title}
         </h2>
         <p className="text-txt-muted text-xs leading-relaxed mb-6">
-          Você está acessando uma versão antiga do meu portfólio. A nova versão possui projetos atualizados, melhorias visuais e novas funcionalidades.
+          {t.migration.desc}
         </p>
         <div className="mb-6 text-[10px] font-black uppercase tracking-widest text-primary">
-          Redirecionando em {countdown} segundos...
+          {t.migration.redirecting.replace("{seconds}", countdown.toString())}
         </div>
         <a
           href={targetUrl}
           className="flex items-center justify-center gap-2 w-full bg-primary hover:bg-accent text-white text-xs font-black uppercase tracking-wider py-4 rounded-xl transition-all shadow-lg shadow-primary/20 hover:shadow-primary/35"
         >
-          Visitar Nova Versão <ExternalLink size={14} />
+          {t.migration.cta} <ExternalLink size={14} />
         </a>
       </div>
     </div>
@@ -478,40 +479,41 @@ const TechLogoCard = ({
 
 // ─── INTERACTIVE ARCHITECTURE DIAGRAM (Foto 3) ───
 const ArchitectureDiagram = ({ activeStep }: { activeStep: number }) => {
+  const { t } = useApp();
   const steps = [
     {
       id: 1,
-      tag: "PASSO 1: API GATEWAY",
-      title: "API / INSTAGRAM & WHATSAPP",
-      desc: "Captura de mensagem e webhook em tempo real",
+      tag: t.chat.architecture.step1Tag,
+      title: t.chat.architecture.step1Title,
+      desc: t.chat.architecture.step1Desc,
       icon: "💬"
     },
     {
       id: 2,
-      tag: "PASSO 2: BACKEND CONTROLLER",
-      title: "BACKEND / NODE.JS",
-      desc: "Validação de roteamento, cooldown e anti-spam",
+      tag: t.chat.architecture.step2Tag,
+      title: t.chat.architecture.step2Title,
+      desc: t.chat.architecture.step2Desc,
       icon: "⚡"
     },
     {
       id: 3,
-      tag: "PASSO 3: IA GENERATIVA",
-      title: "GOOGLE GEMINI 3.5 FLASH",
-      desc: "Raciocínio lógico, histórico e decisão de resposta",
+      tag: t.chat.architecture.step3Tag,
+      title: t.chat.architecture.step3Title,
+      desc: t.chat.architecture.step3Desc,
       icon: "🧠"
     },
     {
       id: 4,
-      tag: "PASSO 4: PERSISTÊNCIA & CACHE",
-      title: "CRM / SUPABASE CACHE",
-      desc: "Registro de leads, salvamento em banco e resposta final",
+      tag: t.chat.architecture.step4Tag,
+      title: t.chat.architecture.step4Title,
+      desc: t.chat.architecture.step4Desc,
       icon: "💾"
     }
   ];
 
   return (
     <div className="flex flex-col justify-center gap-4 w-full h-full max-w-md mx-auto relative p-6 bg-zinc-950/40 backdrop-blur-xl border border-zinc-800 rounded-[2rem] shadow-xl">
-      <h4 className="text-[10px] font-black uppercase tracking-widest text-primary mb-2">Arquitetura Conversacional Integrada</h4>
+      <h4 className="text-[10px] font-black uppercase tracking-widest text-primary mb-2">{t.chat.architecture.title}</h4>
 
       {/* Step connection line */}
       <div className="absolute top-[80px] bottom-[40px] left-[44px] w-0.5 bg-zinc-900/50 pointer-events-none z-0">
@@ -1545,7 +1547,7 @@ const ProjectsSection = ({
                           ) : (
                             <div className="flex flex-col items-center gap-2">
                               <Zap size={32} className="text-primary animate-pulse" />
-                              <span className="text-[11px] font-black text-txt-muted uppercase tracking-widest">Em Breve</span>
+                              <span className="text-[11px] font-black text-txt-muted uppercase tracking-widest">{t.projects.comingSoon}</span>
                             </div>
                           )}
                         </div>
@@ -1573,7 +1575,7 @@ const ProjectsSection = ({
                           ) : (
                             <div className="flex flex-col items-center gap-2">
                               <Zap size={26} className="text-primary animate-pulse" />
-                              <span className="text-[9px] font-black text-txt-muted uppercase tracking-widest">Em Breve</span>
+                              <span className="text-[9px] font-black text-txt-muted uppercase tracking-widest">{t.projects.comingSoon}</span>
                             </div>
                           )}
                         </div>
@@ -1585,9 +1587,9 @@ const ProjectsSection = ({
 
               {selectedTech && (
                 <div className="absolute bottom-8 left-8 flex items-center gap-3 border border-primary/20 bg-primary/5 px-4 py-2 rounded-xl text-xs uppercase font-black z-20">
-                  <div>Filtro: <span className="text-gradient">{selectedTech}</span></div>
+                  <div>{t.projects.filter} <span className="text-gradient">{selectedTech}</span></div>
                   <button onClick={onClearSelection} className="text-[10px] bg-bg border border-border rounded-lg px-2 py-1 cursor-pointer hover:bg-primary/10 transition-colors">
-                    Limpar
+                    {t.projects.clear}
                   </button>
                 </div>
               )}
@@ -1637,7 +1639,7 @@ const ProjectsSection = ({
                     <div className="flex-1">
                       {p.wip ? (
                         <div className="w-full text-center text-[10px] font-black uppercase tracking-widest text-txt-muted bg-surface/40 border border-border py-4 rounded-xl">
-                          Em breve...
+                          {t.projects.comingSoon}
                         </div>
                       ) : (
                         <a
@@ -1656,7 +1658,7 @@ const ProjectsSection = ({
                       <button
                         onClick={handlePrev}
                         className="p-2 hover:bg-primary/20 border border-transparent hover:border-primary/40 rounded-lg text-txt-muted hover:text-txt cursor-pointer transition-all duration-350"
-                        title="Anterior"
+                        title={t.projects.prev}
                       >
                         <ChevronRight size={14} className="rotate-180" />
                       </button>
@@ -1666,7 +1668,7 @@ const ProjectsSection = ({
                       <button
                         onClick={handleNext}
                         className="p-2 hover:bg-primary/20 border border-transparent hover:border-primary/40 rounded-lg text-txt-muted hover:text-txt cursor-pointer transition-all duration-350"
-                        title="Próximo"
+                        title={t.projects.next}
                       >
                         <ChevronRight size={14} />
                       </button>
@@ -1677,7 +1679,7 @@ const ProjectsSection = ({
 
               {/* Scroll hint indicator at the bottom */}
               <div className="hidden lg:flex justify-center items-center gap-1.5 text-[8px] font-black uppercase tracking-widest text-txt-muted/40 animate-bounce pointer-events-none self-center">
-                <span>Desça para continuar</span>
+                <span>{t.projects.scrollHint}</span>
                 <span className="text-[10px]">↓</span>
               </div>
             </div>

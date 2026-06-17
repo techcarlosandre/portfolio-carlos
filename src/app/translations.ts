@@ -166,6 +166,12 @@ export const translations = {
       demo: 'Acessar demonstração',
       computer: 'Computador',
       mobile: 'Celular',
+      filter: 'Filtro:',
+      clear: 'Limpar',
+      comingSoon: 'Em breve...',
+      prev: 'Anterior',
+      next: 'Próximo',
+      scrollHint: 'Desça para continuar',
       items: [
         {
           title: 'Sushi House Premium',
@@ -279,6 +285,27 @@ export const translations = {
       msgSkills: 'Quais são as habilidades técnicas do Carlos?',
       replyDefault: 'Olá! Posso te contar sobre os projetos do Carlos, os serviços oferecidos ou te ajudar com um orçamento. O que você gostaria de saber?',
       error: 'Ops! Tive um problema técnico. Fale com o Carlos direto: techcarlosandre@gmail.com',
+      architecture: {
+        title: 'Arquitetura Conversacional Integrada',
+        step1Tag: 'PASSO 1: API GATEWAY',
+        step1Title: 'API / INSTAGRAM & WHATSAPP',
+        step1Desc: 'Captura de mensagem e webhook em tempo real',
+        step2Tag: 'PASSO 2: BACKEND CONTROLLER',
+        step2Title: 'BACKEND / NODE.JS',
+        step2Desc: 'Validação de roteamento, cooldown e anti-spam',
+        step3Tag: 'PASSO 3: IA GENERATIVA',
+        step3Title: 'GOOGLE GEMINI 3.5 FLASH',
+        step3Desc: 'Raciocínio lógico, histórico e decisão de resposta',
+        step4Tag: 'PASSO 4: PERSISTÊNCIA & CACHE',
+        step4Title: 'CRM / SUPABASE CACHE',
+        step4Desc: 'Registro de leads, salvamento em banco e resposta final',
+      }
+    },
+    migration: {
+      title: 'Portfólio atualizado',
+      desc: 'Você está acessando uma versão antiga do meu portfólio. A nova versão possui projetos atualizados, melhorias visuais e novas funcionalidades.',
+      redirecting: 'Redirecionando em {seconds} segundos...',
+      cta: 'Visitar Nova Versão',
     }
   },
   en: {
@@ -464,6 +491,12 @@ export const translations = {
       demo: 'Access demo',
       computer: 'Computer',
       mobile: 'Mobile',
+      filter: 'Filter:',
+      clear: 'Clear',
+      comingSoon: 'Coming soon...',
+      prev: 'Previous',
+      next: 'Next',
+      scrollHint: 'Scroll down to continue',
       items: [
         {
           title: 'Sushi House Premium',
@@ -577,6 +610,27 @@ export const translations = {
       msgSkills: 'What are Carlos\'s technical skills?',
       replyDefault: "Hi! I can tell you about Carlos's projects, the services offered, or help you with a quote. What would you like to know?",
       error: 'Oops! I had a technical problem. Talk to Carlos directly: techcarlosandre@gmail.com',
+      architecture: {
+        title: 'Integrated Conversational Architecture',
+        step1Tag: 'STEP 1: API GATEWAY',
+        step1Title: 'API / INSTAGRAM & WHATSAPP',
+        step1Desc: 'Real-time message and webhook capture',
+        step2Tag: 'STEP 2: BACKEND CONTROLLER',
+        step2Title: 'BACKEND / NODE.JS',
+        step2Desc: 'Routing validation, cooldown and anti-spam',
+        step3Tag: 'STEP 3: GENERATIVE AI',
+        step3Title: 'GOOGLE GEMINI 3.5 FLASH',
+        step3Desc: 'Logical reasoning, history and response decision',
+        step4Tag: 'STEP 4: PERSISTENCE & CACHE',
+        step4Title: 'CRM / SUPABASE CACHE',
+        step4Desc: 'Lead registration, database saving and final response',
+      }
+    },
+    migration: {
+      title: 'Portfolio updated',
+      desc: 'You are accessing an old version of my portfolio. The new version features updated projects, visual improvements, and new features.',
+      redirecting: 'Redirecting in {seconds} seconds...',
+      cta: 'Visit New Version',
     }
   }
 } as const;
