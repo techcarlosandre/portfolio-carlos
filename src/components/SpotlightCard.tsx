@@ -33,7 +33,7 @@ export const SpotlightCard: React.FC<SpotlightCardProps> = ({
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsFocused(true)}
       onMouseLeave={() => setIsFocused(false)}
-      className={`relative overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-950/60 p-6 backdrop-blur-xl transition-all duration-300 hover:border-red-950/60 ${className}`}
+      className={`relative overflow-hidden transition-all duration-300 ${className}`}
       {...props}
     >
       <div
@@ -43,7 +43,7 @@ export const SpotlightCard: React.FC<SpotlightCardProps> = ({
           background: `radial-gradient(400px circle at ${coords.x}px ${coords.y}px, ${glowColor}, transparent 60%)`,
         }}
       />
-      <div className="relative z-10">{children}</div>
+      <div className="relative z-10 h-full w-full">{children}</div>
     </div>
   );
 };
