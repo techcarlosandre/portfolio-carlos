@@ -26,6 +26,10 @@ import {
   AlertTriangle,
 } from "lucide-react";
 import { translations, type Lang } from "./translations";
+import { BackgroundGrid } from "../components/BackgroundGrid";
+import { SpotlightCard } from "../components/SpotlightCard";
+import { SplitText } from "../components/SplitText";
+import { ShinyText } from "../components/ShinyText";
 
 interface ProjectMetaItem {
   link: string;
@@ -968,14 +972,16 @@ const HeroSection = () => {
         </FadeIn>
 
         <FadeIn delay={0.1}>
-          <Badge pulsing>{t.hero.badge}</Badge>
+          <Badge pulsing>
+            <ShinyText text={t.hero.badge} />
+          </Badge>
         </FadeIn>
 
         <FadeIn delay={0.25}>
           <h1 className="text-4xl sm:text-6xl md:text-[76px] font-black uppercase leading-[0.95] tracking-tighter mt-6 mb-3">
-            {t.hero.title1}
+            <SplitText text={t.hero.title1} />
             <br />
-            <span className="text-gradient">{t.hero.title2}</span>
+            <span className="text-gradient"><SplitText text={t.hero.title2} delay={0.25} /></span>
           </h1>
         </FadeIn>
 
@@ -986,7 +992,7 @@ const HeroSection = () => {
         </FadeIn>
 
         <FadeIn delay={0.45}>
-          <div className="glass-panel p-6 md:p-10 rounded-3xl border border-border w-full max-w-4xl backdrop-blur-xl">
+          <SpotlightCard className="w-full max-w-4xl bg-zinc-950/40 backdrop-blur-xl border border-zinc-800 p-6 md:p-10 rounded-3xl shadow-xl">
             <p className="text-txt-muted text-xs md:text-sm leading-relaxed mb-6">
               {t.hero.desc}
             </p>
@@ -1050,7 +1056,7 @@ const HeroSection = () => {
                 );
               })}
             </div>
-          </div>
+          </SpotlightCard>
         </FadeIn>
       </div>
     </section>
@@ -1067,21 +1073,21 @@ const SolutionsSection = () => {
           <FadeIn>
             <Badge>{t.solutions.badge}</Badge>
             <h2 className="text-3xl md:text-4xl font-black uppercase mt-3">
-              {t.solutions.title1}{" "}
-              <span className="text-gradient">{t.solutions.titleHighlight}</span>
+              <SplitText text={t.solutions.title1 + " "} />
+              <span className="text-gradient"><SplitText text={t.solutions.titleHighlight} delay={0.2} /></span>
             </h2>
           </FadeIn>
         </div>
         <div className="grid md:grid-cols-3 gap-4">
           {t.solutions.items.map((item, idx) => (
             <FadeIn key={idx} delay={idx * 0.12}>
-              <div className="glow-card glass-card rounded-2xl p-6 h-full flex flex-col">
+              <SpotlightCard className="h-full flex flex-col border border-zinc-800 bg-zinc-950/60 p-6 rounded-2xl backdrop-blur-xl hover:border-red-950/60">
                 <div className="w-10 h-10 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center mb-4">
                   <Zap size={18} className="text-primary" />
                 </div>
                 <h3 className="text-sm font-black uppercase mb-2">{item.title}</h3>
                 <p className="text-txt-muted text-xs leading-relaxed">{item.desc}</p>
-              </div>
+              </SpotlightCard>
             </FadeIn>
           ))}
         </div>
@@ -1245,8 +1251,8 @@ const SkillsSection = ({
           <FadeIn>
             <Badge>{t.skills.badge}</Badge>
             <h2 className="text-3xl md:text-5xl font-black uppercase mt-4 mb-3">
-              {t.skills.title1}{" "}
-              <span className="text-gradient">{t.skills.titleHighlight}</span>
+              <SplitText text={t.skills.title1 + " "} />
+              <span className="text-gradient"><SplitText text={t.skills.titleHighlight} delay={0.2} /></span>
             </h2>
             <p className="text-txt-muted text-xs md:text-sm leading-relaxed max-w-xl mx-auto">
               {t.skills.desc}
@@ -1341,8 +1347,8 @@ const ServicesSection = () => {
           <FadeIn>
             <Badge>{t.services.badge}</Badge>
             <h2 className="text-3xl md:text-5xl font-black uppercase mt-4 mb-3">
-              {t.services.title1}{" "}
-              <span className="text-gradient">{t.services.titleHighlight}</span>
+              <SplitText text={t.services.title1 + " "} />
+              <span className="text-gradient"><SplitText text={t.services.titleHighlight} delay={0.2} /></span>
             </h2>
             <p className="text-txt-muted text-xs md:text-sm max-w-xl mx-auto">{t.services.desc}</p>
           </FadeIn>
@@ -1351,7 +1357,7 @@ const ServicesSection = () => {
         <div className="grid md:grid-cols-3 gap-5">
           {t.services.items.map((item, idx) => (
             <FadeIn key={idx} delay={idx * 0.12}>
-              <div className="service-card h-full flex flex-col">
+              <SpotlightCard className="h-full flex flex-col border border-zinc-800 bg-zinc-950/60 p-6 rounded-2xl backdrop-blur-xl hover:border-red-950/60 relative overflow-hidden">
                 {/* Top accent line */}
                 <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
 
@@ -1382,7 +1388,7 @@ const ServicesSection = () => {
                 >
                   {t.services.cta} <ChevronRight size={12} />
                 </a>
-              </div>
+              </SpotlightCard>
             </FadeIn>
           ))}
         </div>
@@ -2422,8 +2428,7 @@ export default function PortfolioPage() {
           <ScrollProgress />
           <main className="relative min-h-screen bg-bg text-txt selection:bg-primary selection:text-white overflow-x-clip dot-grid">
             <div className="grain-overlay" />
-            <AuroraBg />
-            <Particles />
+            <BackgroundGrid />
             <Navbar />
             <HeroSection />
             <SolutionsSection />
