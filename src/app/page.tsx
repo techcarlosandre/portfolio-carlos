@@ -1770,8 +1770,8 @@ const ProjectsSection = ({
       techs: t.projects.items[0].techs,
       link: "https://projetos.techcarlos.com.br/sushi",
       area: "Web & UX/UI",
-      desktop: { video: "/sushi/sushi.mp4" },
-      mobile: { video: "/sushi/sushi-app.mp4" },
+      desktop: { video: "/sushi/sushi_opt.mp4" },
+      mobile: { video: "/sushi/sushi-app_opt.mp4" },
     },
     {
       title: t.projects.items[1].title,
@@ -1780,8 +1780,8 @@ const ProjectsSection = ({
       techs: t.projects.items[1].techs,
       link: "https://projetos.techcarlos.com.br/fitgym",
       area: "Mobile & Flutter",
-      desktop: { video: "/fitgym/fitgym.mp4" },
-      mobile: { video: "/fitgym/fitgym-app.mp4" },
+      desktop: { video: "/fitgym/fitgym_opt.mp4" },
+      mobile: { video: "/fitgym/fitgym-app_opt.mp4" },
     },
     {
       title: t.projects.items[2].title,
@@ -1790,8 +1790,8 @@ const ProjectsSection = ({
       techs: t.projects.items[2].techs,
       link: "https://projetos.techcarlos.com.br/horizonte",
       area: "Sistemas & Dashboard",
-      desktop: { video: "/horizonte/horizonte.mp4" },
-      mobile: { video: "/horizonte/horizonte-app.mp4" },
+      desktop: { video: "/horizonte/horizonte_opt.mp4" },
+      mobile: { video: "/horizonte/horizonte-app_opt.mp4" },
     },
     {
       title: t.projects.items[3].title,
@@ -1800,8 +1800,8 @@ const ProjectsSection = ({
       techs: t.projects.items[3].techs,
       link: "https://projetos.techcarlos.com.br/barber",
       area: "Gestão & CRM",
-      desktop: { video: "/barber/barber.mp4" },
-      mobile: { video: "/barber/barber-app.mp4" },
+      desktop: { video: "/barber/barber_opt.mp4" },
+      mobile: { video: "/barber/barber-app_opt.mp4" },
     },
     {
       title: t.projects.items[4].title,
@@ -1810,8 +1810,8 @@ const ProjectsSection = ({
       techs: t.projects.items[4].techs,
       link: "https://projetos.techcarlos.com.br/vitamed",
       area: "Integrações & IA",
-      desktop: { video: "/vitamed/vitamed.mp4" },
-      mobile: { video: "/vitamed/vitamed-app.mp4" },
+      desktop: { video: "/vitamed/vitamed_opt.mp4" },
+      mobile: { video: "/vitamed/vitamed-app_opt.mp4" },
     },
   ];
 
@@ -2074,13 +2074,15 @@ const ProjectsSection = ({
                           />
                         ) : activeMedia.video ? (
                           <video
-                            src={activeMedia.video}
                             autoPlay
                             muted
                             loop
                             playsInline
                             className="w-full h-full object-cover"
-                          />
+                          >
+                            <source src={activeMedia.video.replace(".mp4", ".webm")} type="video/webm" />
+                            <source src={activeMedia.video} type="video/mp4" />
+                          </video>
                         ) : (
                           <div className="flex flex-col items-center gap-2">
                             <Zap
@@ -2112,13 +2114,15 @@ const ProjectsSection = ({
                           />
                         ) : activeMedia.video ? (
                           <video
-                            src={activeMedia.video}
                             autoPlay
                             muted
                             loop
                             playsInline
                             className="w-full h-full object-cover"
-                          />
+                          >
+                            <source src={activeMedia.video.replace(".mp4", ".webm")} type="video/webm" />
+                            <source src={activeMedia.video} type="video/mp4" />
+                          </video>
                         ) : (
                           <div className="flex flex-col items-center gap-2">
                             <Zap
