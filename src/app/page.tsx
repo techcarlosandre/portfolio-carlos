@@ -375,8 +375,8 @@ const StackingSection = ({
     offset: ["start start", "end start"],
   });
 
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.94]);
-  const opacity = useTransform(scrollYProgress, [0, 0.85], [1, 0.35]);
+  const scale = useTransform(scrollYProgress, [0, 0.85, 1], [1, 1, 0.96]);
+  const opacity = useTransform(scrollYProgress, [0, 0.85, 1], [1, 1, 0.9]);
 
   return (
     <div ref={containerRef} className="relative w-full">
@@ -1378,21 +1378,27 @@ const ProjectsSection = ({
     const section = sectionRef.current;
     if (!section) return;
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && phase === "idle" && !hasPlayedIntro) {
-          setPhase("intro");
-        }
-        // If already played, just go ready
-        if (entry.isIntersecting && hasPlayedIntro && phase === "idle") {
-          setPhase("ready");
-        }
-      },
-      { threshold: 0.2 }
-    );
+    let observer: IntersectionObserver;
+    const timer = setTimeout(() => {
+      observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting && phase === "idle" && !hasPlayedIntro) {
+            setPhase("intro");
+          }
+          // If already played, just go ready
+          if (entry.isIntersecting && hasPlayedIntro && phase === "idle") {
+            setPhase("ready");
+          }
+        },
+        { threshold: 0.25 }
+      );
+      observer.observe(section);
+    }, 600);
 
-    observer.observe(section);
-    return () => observer.disconnect();
+    return () => {
+      clearTimeout(timer);
+      if (observer) observer.disconnect();
+    };
   }, [phase, hasPlayedIntro]);
 
   // Phase transitions
