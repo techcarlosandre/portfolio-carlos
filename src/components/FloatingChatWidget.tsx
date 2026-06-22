@@ -70,8 +70,8 @@ export const FloatingChatWidget: React.FC<FloatingChatWidgetProps> = ({ t, lang,
         : "He creates smart workflows in N8N with WhatsApp Cloud API and GPT/Gemini models to automate sales and support.";
     } else if (isQuoteMsg) {
       localReply = lang === "pt"
-        ? "Fale diretamente pelo WhatsApp: [Falar no WhatsApp](https://api.whatsapp.com/send/?phone=21982665121&text=Olá+Carlos%2C+vi+seu+portfólio+e+gostaria+de+um+orçamento.) ou e-mail **techcarlosandre@gmail.com**!"
-        : "Speak directly on WhatsApp: [Chat on WhatsApp](https://api.whatsapp.com/send/?phone=21982665121&text=Olá+Carlos%2C+vi+seu+portfólio+e+gostaria+de+um+orçamento.) or email **techcarlosandre@gmail.com**!";
+        ? "Fale diretamente pelo WhatsApp: [Falar no WhatsApp](https://api.whatsapp.com/send/?phone=21982665121%26text=Olá+Carlos%2C+vi+seu+portfólio+e+gostaria+de+um+orçamento.) ou e-mail **techcarlosandre@gmail.com**!"
+        : "Speak directly on WhatsApp: [Chat on WhatsApp](https://api.whatsapp.com/send/?phone=21982665121%26text=Olá+Carlos%2C+vi+seu+portfólio+e+gostaria+de+um+orçamento.) or email **techcarlosandre@gmail.com**!";
     } else if (isSkillsMsg) {
       localReply = lang === "pt"
         ? "As principais tecnologias usadas são: React, Next.js, Node.js, Flutter, Java Spring Boot, N8N, Docker e PostgreSQL."
