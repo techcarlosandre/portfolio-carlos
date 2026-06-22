@@ -33,6 +33,8 @@ import { ShinyText } from "../components/ShinyText";
 import { CardTilt3D } from "../components/CardTilt3D";
 import { BackgroundBeams } from "../components/BackgroundBeams";
 import { FloatingChatWidget } from "../components/FloatingChatWidget";
+import { GlitchText } from "../components/GlitchText";
+
 
 interface ProjectMetaItem {
   link: string;
@@ -356,6 +358,39 @@ const FadeIn = ({
     </motion.div>
   );
 };
+
+// ─── STACKING SECTION ───
+const StackingSection = ({
+  children,
+  className = "",
+  id,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  id?: string;
+}) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end start"],
+  });
+
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.94]);
+  const opacity = useTransform(scrollYProgress, [0, 0.85], [1, 0.35]);
+
+  return (
+    <div ref={containerRef} className="relative w-full">
+      <motion.div
+        id={id}
+        style={{ scale, opacity }}
+        className={`w-full ${className}`}
+      >
+        {children}
+      </motion.div>
+    </div>
+  );
+};
+
 
 // ─── BADGE ───
 const Badge = ({
@@ -696,8 +731,8 @@ const SolutionsSection = () => {
           <FadeIn>
             <Badge>{t.solutions.badge}</Badge>
             <h2 className="text-3xl md:text-4xl font-black uppercase mt-3">
-              <SplitText text={t.solutions.title1 + " "} />
-              <span className="text-gradient"><SplitText text={t.solutions.titleHighlight} delay={0.2} /></span>
+              <GlitchText text={t.solutions.title1 + " "} />
+              <span className="text-gradient"><GlitchText text={t.solutions.titleHighlight} delay={0.2} /></span>
             </h2>
           </FadeIn>
         </div>
@@ -876,8 +911,8 @@ const SkillsSection = ({
           <FadeIn>
             <Badge>{t.skills.badge}</Badge>
             <h2 className="text-3xl md:text-5xl font-black uppercase mt-4 mb-3">
-              <SplitText text={t.skills.title1 + " "} />
-              <span className="text-gradient"><SplitText text={t.skills.titleHighlight} delay={0.2} /></span>
+              <GlitchText text={t.skills.title1 + " "} />
+              <span className="text-gradient"><GlitchText text={t.skills.titleHighlight} delay={0.2} /></span>
             </h2>
             <p className="text-txt-muted text-xs md:text-sm leading-relaxed max-w-xl mx-auto">
               {t.skills.desc}
@@ -972,8 +1007,8 @@ const ServicesSection = () => {
           <FadeIn>
             <Badge>{t.services.badge}</Badge>
             <h2 className="text-3xl md:text-5xl font-black uppercase mt-4 mb-3">
-              <SplitText text={t.services.title1 + " "} />
-              <span className="text-gradient"><SplitText text={t.services.titleHighlight} delay={0.2} /></span>
+              <GlitchText text={t.services.title1 + " "} />
+              <span className="text-gradient"><GlitchText text={t.services.titleHighlight} delay={0.2} /></span>
             </h2>
             <p className="text-txt-muted text-xs md:text-sm max-w-xl mx-auto">{t.services.desc}</p>
           </FadeIn>
@@ -1599,8 +1634,8 @@ const ProjectsSection = ({
         >
           <Badge>{t.projects.badge}</Badge>
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black uppercase mt-2">
-            {t.projects.title1}{" "}
-            <span className="text-gradient">{t.projects.titleHighlight}</span>
+            <GlitchText text={t.projects.title1 + " "} />
+            <span className="text-gradient"><GlitchText text={t.projects.titleHighlight} delay={0.2} /></span>
           </h2>
         </motion.div>
 
@@ -1973,8 +2008,8 @@ const FooterSection = () => {
           <FadeIn>
             <Badge>{t.contact.badge}</Badge>
             <h2 className="text-3xl md:text-5xl font-black uppercase mt-3">
-              {t.contact.title1}{" "}
-              <span className="text-gradient">{t.contact.titleHighlight}</span>
+              <GlitchText text={t.contact.title1 + " "} />
+              <span className="text-gradient"><GlitchText text={t.contact.titleHighlight} delay={0.2} /></span>
             </h2>
             <p className="text-txt-muted text-xs md:text-sm mt-3 max-w-lg mx-auto">{t.contact.desc}</p>
           </FadeIn>
@@ -2089,17 +2124,27 @@ export default function PortfolioPage() {
             <BackgroundGrid />
             <BackgroundBeams />
             <Navbar />
-            <HeroSection />
-            <SolutionsSection />
-            <SkillsSection
-              selectedTech={selectedTech}
-              onSelectTech={(tech) => setSelectedTech((curr) => (curr === tech ? null : tech))}
-            />
-            <ServicesSection />
-            <ProjectsSection
-              selectedTech={selectedTech}
-              onClearSelection={() => setSelectedTech(null)}
-            />
+            <StackingSection>
+              <HeroSection />
+            </StackingSection>
+            <StackingSection>
+              <SolutionsSection />
+            </StackingSection>
+            <StackingSection>
+              <SkillsSection
+                selectedTech={selectedTech}
+                onSelectTech={(tech) => setSelectedTech((curr) => (curr === tech ? null : tech))}
+              />
+            </StackingSection>
+            <StackingSection>
+              <ServicesSection />
+            </StackingSection>
+            <StackingSection>
+              <ProjectsSection
+                selectedTech={selectedTech}
+                onClearSelection={() => setSelectedTech(null)}
+              />
+            </StackingSection>
             <FooterSection />
           </main>
         </>
