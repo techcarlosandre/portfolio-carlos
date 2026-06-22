@@ -118,7 +118,7 @@ export const FloatingChatWidget: React.FC<FloatingChatWidgetProps> = ({ t, lang,
   ];
 
   return (
-    <div className="fixed bottom-6 right-6 z-[9990] flex flex-col items-end">
+    <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-[9990] flex flex-col items-end max-w-[calc(100vw-32px)]">
       {/* Mini Chat Window */}
       <AnimatePresence>
         {isOpen && (
@@ -127,7 +127,7 @@ export const FloatingChatWidget: React.FC<FloatingChatWidgetProps> = ({ t, lang,
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.85, y: 30 }}
             transition={{ type: "spring", stiffness: 260, damping: 22 }}
-            className="w-[310px] h-[460px] bg-[#0c0c0d]/90 backdrop-blur-xl border border-zinc-800 rounded-3xl overflow-hidden shadow-2xl flex flex-col justify-between mb-4 relative"
+            className="w-[calc(100vw-32px)] sm:w-[310px] h-[calc(100vh-120px)] sm:h-[460px] max-h-[500px] bg-[#0c0c0d]/90 backdrop-blur-xl border border-zinc-800 rounded-3xl overflow-hidden shadow-2xl flex flex-col justify-between mb-4 relative"
           >
             {/* Header */}
             <div className="bg-zinc-950/60 px-4 py-3 border-b border-zinc-800/80 flex justify-between items-center">
