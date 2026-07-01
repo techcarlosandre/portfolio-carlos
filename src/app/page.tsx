@@ -722,6 +722,15 @@ const Navbar = () => {
 // ─── HERO SECTION (Módulo 1) ───
 const HeroSection = () => {
   const { t } = useApp();
+  const [isMobile, setIsMobile] = useState<boolean>(true);
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   return (
     <section id="home" className="min-h-[92vh] flex flex-col justify-center items-center px-4 relative overflow-hidden">
@@ -751,9 +760,11 @@ const HeroSection = () => {
 
         <FadeIn delay={0.25}>
           <h1 className="text-4xl sm:text-6xl md:text-[76px] font-black uppercase leading-[0.95] tracking-tighter mt-6 mb-3">
-            <SplitText text={t.hero.title1} />
+            {isMobile ? t.hero.title1 : <SplitText text={t.hero.title1} />}
             <br />
-            <span className="text-gradient"><SplitText text={t.hero.title2} delay={0.25} /></span>
+            <span className="text-gradient">
+              {isMobile ? t.hero.title2 : <SplitText text={t.hero.title2} delay={0.25} />}
+            </span>
           </h1>
         </FadeIn>
 
