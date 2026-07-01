@@ -77,6 +77,7 @@ export const translations = {
       languages: [
         { name: 'Português', level: 'Nativo', flag: '🇧🇷', pct: 100 },
         { name: 'Inglês', level: 'Técnico (Kultivi)', flag: '🇺🇸', pct: 45 },
+        { name: 'Espanhol', level: 'Básico', flag: '🇪🇸', pct: 25 },
       ],
     },
     certs: {
@@ -94,7 +95,7 @@ export const translations = {
         { title: 'JavaScript Algorithms and Data Structures', platform: 'freeCodeCamp', date: '2026', status: 'completed', category: 'freeCodeCamp' },
         { title: 'Scientific Computing with Python', platform: 'freeCodeCamp', date: '2026', status: 'completed', category: 'freeCodeCamp' },
         { title: 'GitHub Foundations Learning Path', platform: 'Microsoft Learn', date: '2026', status: 'completed', category: 'GitHub' },
-        { title: 'Introduction to Cybersecurity', platform: 'Cisco Networking Academy', date: '2026', status: 'inprogress', category: 'Cisco' },
+        { title: 'Introduction to Cybersecurity', platform: 'Cisco Networking Academy', date: '2026', status: 'completed', category: 'Cisco' },
         { title: "Introduction to GitHub's Products", platform: 'Microsoft Learn', date: '01/07/2026', status: 'completed', category: 'GitHub' },
         { title: 'Introduction to GitHub', platform: 'Microsoft Learn', date: '01/07/2026', status: 'completed', category: 'GitHub' },
         { title: 'Introduction to Git', platform: 'Microsoft Learn', date: '01/07/2026', status: 'completed', category: 'GitHub' },
@@ -482,6 +483,7 @@ export const translations = {
       languages: [
         { name: 'Portuguese', level: 'Native', flag: '🇧🇷', pct: 100 },
         { name: 'English', level: 'Technical (Kultivi)', flag: '🇺🇸', pct: 45 },
+        { name: 'Spanish', level: 'Basic', flag: '🇪🇸', pct: 25 },
       ],
     },
     certs: {
@@ -499,7 +501,7 @@ export const translations = {
         { title: 'JavaScript Algorithms and Data Structures', platform: 'freeCodeCamp', date: '2026', status: 'completed', category: 'freeCodeCamp' },
         { title: 'Scientific Computing with Python', platform: 'freeCodeCamp', date: '2026', status: 'completed', category: 'freeCodeCamp' },
         { title: 'GitHub Foundations Learning Path', platform: 'Microsoft Learn', date: '2026', status: 'completed', category: 'GitHub' },
-        { title: 'Introduction to Cybersecurity', platform: 'Cisco Networking Academy', date: '2026', status: 'inprogress', category: 'Cisco' },
+        { title: 'Introduction to Cybersecurity', platform: 'Cisco Networking Academy', date: '2026', status: 'completed', category: 'Cisco' },
         { title: "Introduction to GitHub's Products", platform: 'Microsoft Learn', date: '01/07/2026', status: 'completed', category: 'GitHub' },
         { title: 'Introduction to GitHub', platform: 'Microsoft Learn', date: '01/07/2026', status: 'completed', category: 'GitHub' },
         { title: 'Introduction to Git', platform: 'Microsoft Learn', date: '01/07/2026', status: 'completed', category: 'GitHub' },
