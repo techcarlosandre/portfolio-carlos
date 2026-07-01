@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 
 interface CardTilt3DProps {
@@ -11,6 +11,17 @@ interface CardTilt3DProps {
 export const CardTilt3D: React.FC<CardTilt3DProps> = ({ children, className = "" }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [hovering, setHovering] = useState(false);
+  const [isMobile, setIsMobile] = useState<boolean>(true);
+
+  // Check mobile on mount
+  useEffect(() => {
+    const checkMobile = () => {
+      const hasTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+      const isSmall = window.innerWidth < 768;
+      setIsMobile(hasTouch || isSmall);
+    };
+    checkMobile();
+  }, []);
 
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -23,7 +34,7 @@ export const CardTilt3D: React.FC<CardTilt3DProps> = ({ children, className = ""
   const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], [-10, 10]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!ref.current) return;
+    if (isMobile || !ref.current) return;
     const rect = ref.current.getBoundingClientRect();
     const width = rect.width;
     const height = rect.height;
@@ -36,14 +47,25 @@ export const CardTilt3D: React.FC<CardTilt3DProps> = ({ children, className = ""
   };
 
   const handleMouseEnter = () => {
+    if (isMobile) return;
     setHovering(true);
   };
 
   const handleMouseLeave = () => {
+    if (isMobile) return;
     setHovering(false);
     x.set(0);
     y.set(0);
   };
+
+  // Render a simple flat container on mobile to prevent GPU strain
+  if (isMobile) {
+    return (
+      <div className={`relative w-full h-full ${className}`}>
+        {children}
+      </div>
+    );
+  }
 
   return (
     <div

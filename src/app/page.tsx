@@ -355,18 +355,30 @@ const FadeIn = ({
   delay?: number;
   direction?: "up" | "down" | "left" | "right";
 }) => {
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   const dirs = {
-    up: { y: 40, x: 0 },
-    down: { y: -40, x: 0 },
-    left: { x: 40, y: 0 },
-    right: { x: -40, y: 0 },
+    up: { y: isMobile ? 0 : 40, x: 0 },
+    down: { y: isMobile ? 0 : -40, x: 0 },
+    left: { x: isMobile ? 0 : 40, y: 0 },
+    right: { x: isMobile ? 0 : -40, y: 0 },
   };
+
   return (
     <motion.div
-      initial={{ opacity: 0, ...dirs[direction], filter: "blur(8px)" }}
-      whileInView={{ opacity: 1, x: 0, y: 0, filter: "blur(0px)" }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.7, delay, ease: [0.16, 1, 0.3, 1] }}
+      initial={{ opacity: 0, ...dirs[direction], filter: isMobile ? "none" : "blur(8px)" }}
+      whileInView={{ opacity: 1, x: 0, y: 0, filter: isMobile ? "none" : "blur(0px)" }}
+      viewport={{ once: true, margin: isMobile ? "-20px" : "-60px" }}
+      transition={{ duration: isMobile ? 0.35 : 0.7, delay: isMobile ? 0 : delay, ease: "easeOut" }}
     >
       {children}
     </motion.div>
@@ -384,6 +396,17 @@ const StackingSection = ({
   id?: string;
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState<boolean>(true);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end start"],
@@ -396,7 +419,7 @@ const StackingSection = ({
     <div ref={containerRef} className="relative w-full">
       <motion.div
         id={id}
-        style={{ scale, opacity }}
+        style={isMobile ? {} : { scale, opacity }}
         className={`w-full ${className}`}
       >
         {children}
@@ -1842,6 +1865,27 @@ const ProjectsSection = ({
   const isReady = phase === "ready";
   const staggerDelay = phase === "revealing" ? 0.15 : 0;
 
+  // Add mobile detection to disable heavy assets/animations
+  const [isMobileDevice, setIsMobileDevice] = useState<boolean>(true);
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobileDevice(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  // Placeholder images/icons for projects on mobile to save bandwidth
+  const getProjectIcon = (title: string) => {
+    const lower = title.toLowerCase();
+    if (lower.includes("sushi")) return "🍣";
+    if (lower.includes("gym") || lower.includes("fit")) return "💪";
+    if (lower.includes("horizonte")) return "📊";
+    if (lower.includes("barber")) return "💈";
+    return "🏥";
+  };
+
   return (
     <section
       ref={sectionRef}
@@ -1899,7 +1943,7 @@ const ProjectsSection = ({
         {/* Top Center Title */}
         <motion.div
           className="text-center flex flex-col items-center w-full max-w-xl mx-auto mb-12 lg:mb-16"
-          initial={{ opacity: 0, y: 30 }}
+          initial={isMobileDevice ? { opacity: 0 } : { opacity: 0, y: 30 }}
           animate={showContent ? { opacity: 1, y: 0 } : {}}
           transition={{
             type: "spring",
@@ -1921,7 +1965,7 @@ const ProjectsSection = ({
             {/* Left Side: Device Mockup */}
             <motion.div
               className="lg:col-span-6 flex flex-col justify-center items-center relative"
-              initial={{ opacity: 0, x: -60, scale: 0.92 }}
+              initial={isMobileDevice ? { opacity: 0 } : { opacity: 0, x: -60, scale: 0.92 }}
               animate={showContent ? { opacity: 1, x: 0, scale: 1 } : {}}
               transition={{
                 type: "spring",
@@ -1930,30 +1974,34 @@ const ProjectsSection = ({
                 delay: staggerDelay * 1,
               }}
             >
-              {/* Ambient backlights */}
-              <motion.div
-                className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-red-600/15 blur-[120px] pointer-events-none"
-                animate={
-                  showContent
-                    ? { scale: [0.8, 1.1, 1], opacity: [0, 0.8, 0.6] }
-                    : {}
-                }
-                transition={{ duration: 3, delay: staggerDelay * 2 }}
-              />
-              <motion.div
-                className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-rose-500/12 blur-[100px] pointer-events-none"
-                animate={
-                  showContent
-                    ? { scale: [0.8, 1.2, 1], opacity: [0, 0.6, 0.4] }
-                    : {}
-                }
-                transition={{ duration: 3.5, delay: staggerDelay * 3 }}
-              />
+              {/* Ambient backlights - Disable on mobile to prevent GPU overload */}
+              {!isMobileDevice && (
+                <>
+                  <motion.div
+                    className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-red-600/15 blur-[120px] pointer-events-none"
+                    animate={
+                      showContent
+                        ? { scale: [0.8, 1.1, 1], opacity: [0, 0.8, 0.6] }
+                        : {}
+                    }
+                    transition={{ duration: 3, delay: staggerDelay * 2 }}
+                  />
+                  <motion.div
+                    className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-rose-500/12 blur-[100px] pointer-events-none"
+                    animate={
+                      showContent
+                        ? { scale: [0.8, 1.2, 1], opacity: [0, 0.6, 0.4] }
+                        : {}
+                    }
+                    transition={{ duration: 3.5, delay: staggerDelay * 3 }}
+                  />
+                </>
+              )}
 
               {/* Mockup Toggle Buttons */}
               <motion.div
                 className="w-full max-w-[550px] flex justify-center mb-4"
-                initial={{ opacity: 0, y: -20 }}
+                initial={isMobileDevice ? { opacity: 0 } : { opacity: 0, y: -20 }}
                 animate={showContent ? { opacity: 1, y: 0 } : {}}
                 transition={{
                   type: "spring",
@@ -1992,10 +2040,10 @@ const ProjectsSection = ({
               <AnimatePresence mode="wait">
                 <motion.div
                   key={mockupType + "_" + currentIndex}
-                  initial={{ opacity: 0, scale: 0.92, rotateY: 15, z: -100 }}
+                  initial={isMobileDevice ? { opacity: 0 } : { opacity: 0, scale: 0.92, rotateY: 15, z: -100 }}
                   animate={{ opacity: 1, scale: 1, rotateY: 0, z: 0 }}
-                  exit={{ opacity: 0, scale: 0.92, rotateY: -15, z: -100 }}
-                  transition={{ type: "spring", stiffness: 300, damping: 24 }}
+                  exit={isMobileDevice ? { opacity: 0 } : { opacity: 0, scale: 0.92, rotateY: -15, z: -100 }}
+                  transition={isMobileDevice ? { duration: 0.25 } : { type: "spring", stiffness: 300, damping: 24 }}
                   className="w-full max-w-[550px] flex flex-col justify-center"
                   style={{ perspective: 1200 }}
                 >
@@ -2010,7 +2058,7 @@ const ProjectsSection = ({
                             className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                             unoptimized
                           />
-                        ) : activeMedia.video ? (
+                        ) : (activeMedia.video && !isMobileDevice) ? (
                           <video
                             autoPlay
                             muted
@@ -2022,13 +2070,11 @@ const ProjectsSection = ({
                             <source src={activeMedia.video} type="video/mp4" />
                           </video>
                         ) : (
-                          <div className="flex flex-col items-center gap-2">
-                            <Zap
-                              size={32}
-                              className="text-primary animate-pulse"
-                            />
-                            <span className="text-[11px] font-black text-txt-muted uppercase tracking-widest">
-                              {t.projects.comingSoon}
+                          <div className="flex flex-col items-center gap-3 w-full h-full bg-gradient-to-br from-[#0c0c0c] to-[#1a0505] p-6 justify-center">
+                            <span className="text-4xl md:text-5xl animate-bounce">{getProjectIcon(p.title)}</span>
+                            <span className="text-[12px] font-black text-white uppercase tracking-wider text-center">{p.title}</span>
+                            <span className="text-[9px] text-primary font-bold uppercase tracking-widest bg-primary/10 border border-primary/20 px-2 py-0.5 rounded-full">
+                              {p.area}
                             </span>
                           </div>
                         )}
@@ -2050,7 +2096,7 @@ const ProjectsSection = ({
                             className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                             unoptimized
                           />
-                        ) : activeMedia.video ? (
+                        ) : (activeMedia.video && !isMobileDevice) ? (
                           <video
                             autoPlay
                             muted
@@ -2062,13 +2108,11 @@ const ProjectsSection = ({
                             <source src={activeMedia.video} type="video/mp4" />
                           </video>
                         ) : (
-                          <div className="flex flex-col items-center gap-2">
-                            <Zap
-                              size={26}
-                              className="text-primary animate-pulse"
-                            />
-                            <span className="text-[9px] font-black text-txt-muted uppercase tracking-widest">
-                              {t.projects.comingSoon}
+                          <div className="flex flex-col items-center gap-3 w-full h-full bg-gradient-to-br from-[#0c0c0c] to-[#1a0505] p-6 justify-center text-center">
+                            <span className="text-3xl animate-bounce">{getProjectIcon(p.title)}</span>
+                            <span className="text-[10px] font-black text-white uppercase tracking-wider">{p.title}</span>
+                            <span className="text-[8px] text-primary font-bold uppercase tracking-widest bg-primary/10 border border-primary/20 px-2 py-0.5 rounded-full">
+                              {p.area}
                             </span>
                           </div>
                         )}
