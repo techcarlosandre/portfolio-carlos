@@ -540,10 +540,12 @@ const Navbar = () => {
   }, []);
 
   const links = [
+    { name: t.nav.aboutMe, href: "#sobre-mim" },
     { name: t.nav.solutions, href: "#solucoes" },
     { name: t.nav.skills, href: "#skills" },
     { name: t.nav.services, href: "#servicos" },
     { name: t.nav.projects, href: "#projetos" },
+    { name: t.nav.certs, href: "#certificados" },
     { name: t.nav.contact, href: "#contato" },
   ];
 
@@ -721,7 +723,167 @@ const HeroSection = () => {
   );
 };
 
-// ─── SOLUTIONS SECTION ───
+// ─── ABOUT ME SECTION ───
+const AboutMeSection = () => {
+  const { t } = useApp();
+  const am = t.aboutMe;
+
+  const CATEGORY_COLORS: Record<string, { bg: string; text: string; border: string }> = {
+    'Copilot': { bg: 'bg-purple-500/10', text: 'text-purple-400', border: 'border-purple-500/20' },
+    'GitHub': { bg: 'bg-zinc-500/10', text: 'text-zinc-300', border: 'border-zinc-500/20' },
+    'Azure': { bg: 'bg-blue-500/10', text: 'text-blue-400', border: 'border-blue-500/20' },
+    'freeCodeCamp': { bg: 'bg-green-500/10', text: 'text-green-400', border: 'border-green-500/20' },
+    'Cisco': { bg: 'bg-teal-500/10', text: 'text-teal-400', border: 'border-teal-500/20' },
+  };
+  void CATEGORY_COLORS;
+
+  return (
+    <section id="sobre-mim" className="py-24 px-4 bg-bg/20 border-t border-border/40">
+      <div className="container mx-auto max-w-5xl">
+        {/* Header */}
+        <div className="text-center mb-16">
+          <FadeIn>
+            <Badge>{am.badge}</Badge>
+            <h2 className="text-3xl md:text-5xl font-black uppercase mt-4 mb-3">
+              <GlitchText text={am.title1 + " "} />
+              <span className="text-gradient"><GlitchText text={am.titleHighlight} delay={0.2} /></span>
+            </h2>
+          </FadeIn>
+        </div>
+
+        <div className="grid lg:grid-cols-2 gap-10 items-start">
+          {/* Left: Bio + Stats + Areas */}
+          <FadeIn direction="left">
+            <div className="space-y-6">
+              {/* Avatar + Bio Card */}
+              <SpotlightCard className="border border-zinc-800 bg-zinc-950/60 p-6 rounded-2xl backdrop-blur-xl">
+                <div className="flex items-start gap-5 mb-5">
+                  <div className="relative w-16 h-16 shrink-0">
+                    <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-primary via-accent to-primary/50 blur-md opacity-50" />
+                    <div className="absolute inset-0.5 rounded-full overflow-hidden border-2 border-primary/30">
+                      <Image src="/momo.webp" alt="Carlos André" fill className="object-cover object-top" unoptimized />
+                    </div>
+                  </div>
+                  <div>
+                    <h3 className="text-base font-black uppercase tracking-tight">Carlos André</h3>
+                    <p className="text-[10px] font-bold text-primary uppercase tracking-widest mt-0.5">Full-Stack Developer</p>
+                    <div className="flex items-center gap-1.5 mt-2">
+                      <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                      <span className="text-[9px] font-bold text-green-400 uppercase tracking-widest">Disponível para projetos</span>
+                    </div>
+                  </div>
+                </div>
+                <p className="text-txt-muted text-xs leading-relaxed">{am.bio}</p>
+              </SpotlightCard>
+
+              {/* Stats */}
+              <div className="grid grid-cols-3 gap-3">
+                {am.stats.map((s, i) => (
+                  <motion.div
+                    key={i}
+                    className="border border-zinc-800 bg-zinc-950/60 backdrop-blur-xl rounded-xl p-4 text-center hover:border-primary/40 transition-colors"
+                    whileHover={{ y: -4, scale: 1.03 }}
+                    transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+                  >
+                    <div className="text-2xl font-black text-primary">{s.value}</div>
+                    <div className="text-[8px] font-black uppercase tracking-widest text-txt-muted mt-1">{s.label}</div>
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* Areas */}
+              <SpotlightCard className="border border-zinc-800 bg-zinc-950/60 p-5 rounded-2xl backdrop-blur-xl">
+                <p className="text-[9px] font-black uppercase tracking-widest text-txt-muted mb-3">{am.areasTitle}</p>
+                <div className="flex flex-wrap gap-2">
+                  {am.areas.map((area, i) => (
+                    <span key={i} className="text-[9px] font-bold px-2.5 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary uppercase tracking-wider">
+                      {area}
+                    </span>
+                  ))}
+                </div>
+              </SpotlightCard>
+            </div>
+          </FadeIn>
+
+          {/* Right: Education + Languages */}
+          <FadeIn direction="right" delay={0.1}>
+            <div className="space-y-5">
+              {/* Education */}
+              <div>
+                <p className="text-[9px] font-black uppercase tracking-widest text-txt-muted mb-3 flex items-center gap-2">
+                  <span className="w-4 h-px bg-primary" />{am.educationTitle}
+                </p>
+                <div className="space-y-3">
+                  {am.education.map((edu, i) => (
+                    <CardTilt3D key={i}>
+                      <SpotlightCard className="border border-zinc-800 bg-zinc-950/60 p-5 rounded-2xl backdrop-blur-xl hover:border-primary/30 transition-all relative overflow-hidden">
+                        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2 mb-1">
+                              <span className="text-lg">{edu.icon}</span>
+                              <div>
+                                <p className="text-xs font-black leading-tight">{edu.degree}</p>
+                                <p className="text-[10px] text-primary font-bold mt-0.5">{edu.institution}</p>
+                              </div>
+                            </div>
+                            <p className="text-[9px] text-txt-muted mt-2 pl-7">{edu.detail}</p>
+                          </div>
+                          <span className={`shrink-0 text-[8px] font-black px-2.5 py-1 rounded-full uppercase tracking-widest ${
+                            edu.status === 'Em Andamento' || edu.status === 'In Progress'
+                              ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
+                              : 'bg-green-500/10 text-green-400 border border-green-500/20'
+                          }`}>{edu.status}</span>
+                        </div>
+                        <div className="flex items-center gap-2 mt-3 pt-3 border-t border-border/50">
+                          <span className="text-[8px] font-black uppercase tracking-widest text-txt-muted">{edu.period}</span>
+                        </div>
+                      </SpotlightCard>
+                    </CardTilt3D>
+                  ))}
+                </div>
+              </div>
+
+              {/* Languages */}
+              <SpotlightCard className="border border-zinc-800 bg-zinc-950/60 p-5 rounded-2xl backdrop-blur-xl">
+                <p className="text-[9px] font-black uppercase tracking-widest text-txt-muted mb-4 flex items-center gap-2">
+                  <span className="w-4 h-px bg-primary" />{am.languagesTitle}
+                </p>
+                <div className="space-y-4">
+                  {am.languages.map((lang, i) => (
+                    <div key={i}>
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center gap-2">
+                          <span className="text-base">{lang.flag}</span>
+                          <div>
+                            <p className="text-xs font-black">{lang.name}</p>
+                            <p className="text-[9px] text-txt-muted">{lang.level}</p>
+                          </div>
+                        </div>
+                        <span className="text-[9px] font-black text-primary">{lang.pct}%</span>
+                      </div>
+                      <div className="w-full h-1.5 bg-surface rounded-full overflow-hidden">
+                        <motion.div
+                          className="h-full bg-gradient-to-r from-primary to-accent rounded-full"
+                          initial={{ width: 0 }}
+                          whileInView={{ width: `${lang.pct}%` }}
+                          viewport={{ once: true }}
+                          transition={{ duration: 1.2, delay: i * 0.2, ease: [0.16, 1, 0.3, 1] }}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </SpotlightCard>
+            </div>
+          </FadeIn>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+
 const SolutionsSection = () => {
   const { t } = useApp();
   return (
@@ -2004,6 +2166,140 @@ const ProjectsSection = ({
 
 
 
+// ─── CERTIFICATES SECTION ───
+const CertificatesSection = () => {
+  const { t } = useApp();
+  const c = t.certs;
+  const [activeFilter, setActiveFilter] = useState<string>('all');
+
+  const CATEGORY_CONFIG: Record<string, { color: string; bg: string; border: string; icon: string }> = {
+    'Copilot':      { color: 'text-purple-400',  bg: 'bg-purple-500/10',    border: 'border-purple-500/25',  icon: '🤖' },
+    'GitHub':       { color: 'text-zinc-300',    bg: 'bg-zinc-500/10',      border: 'border-zinc-500/25',    icon: '🐙' },
+    'Azure':        { color: 'text-blue-400',    bg: 'bg-blue-500/10',      border: 'border-blue-500/25',    icon: '☁️' },
+    'freeCodeCamp': { color: 'text-green-400',   bg: 'bg-green-500/10',     border: 'border-green-500/25',   icon: '🔥' },
+    'Cisco':        { color: 'text-teal-400',    bg: 'bg-teal-500/10',      border: 'border-teal-500/25',    icon: '🛡️' },
+  };
+
+  const PLATFORM_COLOR: Record<string, string> = {
+    'Microsoft Learn': 'text-blue-400',
+    'freeCodeCamp': 'text-green-400',
+    'Cisco Networking Academy': 'text-teal-400',
+  };
+
+  const allCategories = ['all', ...Array.from(new Set(c.items.map((i) => i.category)))];
+  const filtered = activeFilter === 'all' ? c.items : c.items.filter((i) => i.category === activeFilter);
+
+  return (
+    <section id="certificados" className="py-24 px-4 bg-bg/30 border-t border-border/60">
+      <div className="container mx-auto max-w-5xl">
+        {/* Header */}
+        <div className="text-center mb-12">
+          <FadeIn>
+            <Badge>{c.badge}</Badge>
+            <h2 className="text-3xl md:text-5xl font-black uppercase mt-4 mb-3">
+              <GlitchText text={c.title1 + " "} />
+              <span className="text-gradient"><GlitchText text={c.titleHighlight} delay={0.2} /></span>
+            </h2>
+            <p className="text-txt-muted text-xs md:text-sm max-w-xl mx-auto">{c.desc}</p>
+          </FadeIn>
+        </div>
+
+        {/* Stats + Filters */}
+        <FadeIn delay={0.1}>
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8">
+            <div className="flex items-center gap-2">
+              <span className="text-3xl font-black text-primary">{c.items.length}</span>
+              <span className="text-xs font-bold text-txt-muted uppercase tracking-widest">{c.total}</span>
+            </div>
+            <div className="flex flex-wrap gap-2 justify-center">
+              {allCategories.map((cat) => {
+                const conf = cat !== 'all' ? CATEGORY_CONFIG[cat] : null;
+                const isActive = activeFilter === cat;
+                return (
+                  <button
+                    key={cat}
+                    onClick={() => setActiveFilter(cat)}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest border transition-all duration-200 cursor-pointer ${
+                      isActive
+                        ? 'bg-primary text-white border-primary shadow-[0_0_12px_rgba(128,0,0,0.3)]'
+                        : `border-zinc-800 bg-zinc-950/40 text-txt-muted hover:border-primary/40 hover:text-txt`
+                    }`}
+                  >
+                    {conf && <span>{conf.icon}</span>}
+                    {cat === 'all' ? c.filterAll : cat}
+                    <span className={`ml-1 px-1.5 py-0.5 rounded-full text-[8px] ${
+                      isActive ? 'bg-white/20' : 'bg-surface'
+                    }`}>
+                      {cat === 'all' ? c.items.length : c.items.filter(i => i.category === cat).length}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </FadeIn>
+
+        {/* Cards Grid */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeFilter}
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -16 }}
+            transition={{ duration: 0.3 }}
+            className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3"
+          >
+            {filtered.map((item, idx) => {
+              const conf = CATEGORY_CONFIG[item.category] ?? CATEGORY_CONFIG['GitHub'];
+              const platColor = PLATFORM_COLOR[item.platform] ?? 'text-txt-muted';
+              const isInProgress = item.status === 'inprogress';
+              return (
+                <motion.div
+                  key={item.title + idx}
+                  initial={{ opacity: 0, scale: 0.94, y: 20 }}
+                  whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-30px' }}
+                  transition={{ duration: 0.4, delay: (idx % 6) * 0.06 }}
+                  whileHover={{ y: -4, scale: 1.02 }}
+                >
+                  <SpotlightCard className="h-full flex flex-col border border-zinc-800 bg-zinc-950/60 p-4 rounded-2xl backdrop-blur-xl hover:border-primary/30 transition-all relative overflow-hidden cursor-pointer">
+                    <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+
+                    {/* Top row: category badge + status */}
+                    <div className="flex items-center justify-between mb-3">
+                      <span className={`text-[8px] font-black px-2 py-0.5 rounded-full uppercase tracking-widest border ${conf.bg} ${conf.color} ${conf.border} flex items-center gap-1`}>
+                        <span>{conf.icon}</span> {item.category}
+                      </span>
+                      <span className={`text-[8px] font-black px-2 py-0.5 rounded-full uppercase tracking-widest border flex items-center gap-1 ${
+                        isInProgress
+                          ? 'bg-amber-500/10 text-amber-400 border-amber-500/20'
+                          : 'bg-green-500/10 text-green-400 border-green-500/20'
+                      }`}>
+                        <span className={`w-1.5 h-1.5 rounded-full ${isInProgress ? 'bg-amber-400 animate-pulse' : 'bg-green-400'}`} />
+                        {isInProgress ? c.statusInProgress : c.statusCompleted}
+                      </span>
+                    </div>
+
+                    {/* Title */}
+                    <p className="text-xs font-black leading-tight flex-1 mb-3">{item.title}</p>
+
+                    {/* Footer: platform + date */}
+                    <div className="pt-3 border-t border-border/40 flex items-center justify-between">
+                      <span className={`text-[8px] font-bold ${platColor} uppercase tracking-wider`}>{item.platform}</span>
+                      <span className="text-[8px] text-txt-muted font-bold">{item.date}</span>
+                    </div>
+                  </SpotlightCard>
+                </motion.div>
+              );
+            })}
+          </motion.div>
+        </AnimatePresence>
+      </div>
+    </section>
+  );
+};
+
+
 // ─── FOOTER / CONTACT SECTION ───
 const FooterSection = () => {
   const { t } = useApp();
@@ -2134,6 +2430,9 @@ export default function PortfolioPage() {
               <HeroSection />
             </StackingSection>
             <StackingSection>
+              <AboutMeSection />
+            </StackingSection>
+            <StackingSection>
               <SolutionsSection />
             </StackingSection>
             <StackingSection>
@@ -2150,6 +2449,9 @@ export default function PortfolioPage() {
                 selectedTech={selectedTech}
                 onClearSelection={() => setSelectedTech(null)}
               />
+            </StackingSection>
+            <StackingSection>
+              <CertificatesSection />
             </StackingSection>
             <FooterSection />
           </main>
