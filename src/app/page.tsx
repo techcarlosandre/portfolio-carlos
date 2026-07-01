@@ -429,6 +429,65 @@ const StackingSection = ({
 };
 
 
+// ─── LAZY SECTION WRAPPER ───
+const LazySection = ({
+  children,
+  className = "",
+  estimatedHeight = 500,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  estimatedHeight?: number;
+}) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    // Load immediately on desktop, lazy load on mobile device
+    const isMobileDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0 || window.innerWidth < 768;
+    if (!isMobileDevice) {
+      setIsVisible(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      {
+        rootMargin: "450px 0px 450px 0px", // trigger 450px before entering viewport
+        threshold: 0.01,
+      }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={ref}
+      className={className}
+      style={{
+        minHeight: isVisible ? "auto" : `${estimatedHeight}px`,
+      }}
+    >
+      {isVisible ? children : (
+        <div className="w-full flex items-center justify-center bg-zinc-950/10" style={{ height: `${estimatedHeight}px` }}>
+          <div className="w-6 h-6 border-2 border-primary/20 border-t-primary rounded-full animate-spin" />
+        </div>
+      )}
+    </div>
+  );
+};
+
+
 // ─── BADGE ───
 const Badge = ({
   children,
@@ -2628,27 +2687,37 @@ export default function PortfolioPage() {
             <StackingSection>
               <AboutMeSection />
             </StackingSection>
-            <StackingSection>
-              <SolutionsSection />
-            </StackingSection>
-            <StackingSection>
-              <SkillsSection
-                selectedTech={selectedTech}
-                onSelectTech={(tech) => setSelectedTech((curr) => (curr === tech ? null : tech))}
-              />
-            </StackingSection>
-            <StackingSection>
-              <ServicesSection />
-            </StackingSection>
-            <StackingSection>
-              <ProjectsSection
-                selectedTech={selectedTech}
-                onClearSelection={() => setSelectedTech(null)}
-              />
-            </StackingSection>
-            <StackingSection>
-              <CertificatesSection />
-            </StackingSection>
+            <LazySection estimatedHeight={600}>
+              <StackingSection>
+                <SolutionsSection />
+              </StackingSection>
+            </LazySection>
+            <LazySection estimatedHeight={500}>
+              <StackingSection>
+                <SkillsSection
+                  selectedTech={selectedTech}
+                  onSelectTech={(tech) => setSelectedTech((curr) => (curr === tech ? null : tech))}
+                />
+              </StackingSection>
+            </LazySection>
+            <LazySection estimatedHeight={600}>
+              <StackingSection>
+                <ServicesSection />
+              </StackingSection>
+            </LazySection>
+            <LazySection estimatedHeight={700}>
+              <StackingSection>
+                <ProjectsSection
+                  selectedTech={selectedTech}
+                  onClearSelection={() => setSelectedTech(null)}
+                />
+              </StackingSection>
+            </LazySection>
+            <LazySection estimatedHeight={600}>
+              <StackingSection>
+                <CertificatesSection />
+              </StackingSection>
+            </LazySection>
             <FooterSection />
           </main>
         </>
