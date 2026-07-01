@@ -176,12 +176,13 @@ export const translations = {
       badge: 'Soluções Tech',
       title1: 'Soluções',
       titleHighlight: 'Tecnológicas',
-      desc: 'Para projetos que envolvem desenvolvimento de software, automação ou soluções tecnológicas, atuo em parceria com uma desenvolvedora e assistente especializada, permitindo oferecer soluções completas para empresas e profissionais.',
+      desc: 'Para projetos que envolvem desenvolvimento de software, atuo em parceria com uma Assistente Virtual especialista em processos e negócios. Isso nos permite ir além do código, oferecendo uma solução de ponta a ponta estruturada para o seu negócio.',
+      partnerTitle: 'Parceria de Operações & Processos',
       partner: {
         name: 'Yasmin Kengen',
-        role: 'Assistente Virtual & Parcerias Tech',
+        role: 'Gestão & Operações Administrativas',
         photo: '/momo.webp',
-        desc: 'Projetos tecnológicos são desenvolvidos em parceria, garantindo soluções completas conforme a necessidade de cada cliente.',
+        desc: 'Enquanto o Carlos foca no desenvolvimento do código e arquitetura, eu estruturo os processos, finanças, fluxos de atendimento e rotinas para que o sistema se integre perfeitamente com a operação real da sua empresa.',
         tags: ['Financeiro', 'Administrativo', 'Atendimento', 'Assistência Executiva', 'Automação de Processos']
       },
       items: [
@@ -630,12 +631,13 @@ export const translations = {
       badge: 'Tech Solutions',
       title1: 'Technological',
       titleHighlight: 'Solutions',
-      desc: 'For projects involving software development, automation, or tech solutions, I operate in partnership with a specialized virtual assistant and developer, delivering full end-to-end solutions for companies and individuals.',
+      desc: 'For software development projects, I operate in partnership with a Virtual Assistant specialized in processes and business management. This allows us to go beyond code, delivering a structured end-to-end operational solution for your business.',
+      partnerTitle: 'Operations & Process Partnership',
       partner: {
         name: 'Yasmin Kengen',
-        role: 'Virtual Assistant & Tech Partnerships',
+        role: 'Management & Administrative Operations',
         photo: '/momo.webp',
-        desc: 'Tech projects are developed in partnership, ensuring end-to-end solutions tailored to each client\'s business needs.',
+        desc: 'While Carlos focuses on code architecture and development, I structure the processes, finance, client support workflows, and routines to seamlessly integrate the system into the real operations of your company.',
         tags: ['Financial', 'Administrative', 'Customer Support', 'Executive Assistance', 'Process Automation']
       },
       items: [

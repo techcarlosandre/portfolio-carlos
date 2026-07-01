@@ -172,8 +172,20 @@ const CustomCursor = () => {
   const innerRef = useRef<HTMLDivElement>(null);
   const pos = useRef({ x: 0, y: 0 });
   const outer = useRef({ x: 0, y: 0 });
+  const [isMobile, setIsMobile] = useState<boolean>(true);
 
   useEffect(() => {
+    const checkMobile = () => {
+      const hasTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+      const isSmall = window.innerWidth < 768;
+      setIsMobile(hasTouch || isSmall);
+    };
+    checkMobile();
+  }, []);
+
+  useEffect(() => {
+    if (isMobile) return;
+
     const onMove = (e: MouseEvent) => {
       pos.current = { x: e.clientX, y: e.clientY };
       if (innerRef.current) {
@@ -208,7 +220,9 @@ const CustomCursor = () => {
       window.removeEventListener("mousemove", onMove);
       window.removeEventListener("mouseover", onHover);
     };
-  }, []);
+  }, [isMobile]);
+
+  if (isMobile) return null;
 
   return (
     <>
@@ -945,8 +959,18 @@ const SolutionsSection = () => {
           ))}
         </div>
 
+        {/* Visual Divider & Partner Heading */}
+        <FadeIn delay={0.3}>
+          <div className="flex flex-col items-center gap-4 my-14">
+            <div className="w-full h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+            <span className="text-[9px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full bg-zinc-950/80 border border-zinc-800 text-primary-light shadow-[0_0_10px_rgba(200,30,30,0.05)]">
+              {sol.partnerTitle}
+            </span>
+          </div>
+        </FadeIn>
+
         {/* Horizontal Partnership Card (Yasmin's Profile) */}
-        <FadeIn delay={0.4}>
+        <FadeIn delay={0.45}>
           <SpotlightCard className="border border-zinc-800 bg-gradient-to-r from-zinc-950/70 via-zinc-950/60 to-zinc-950/70 p-6 rounded-2xl backdrop-blur-xl relative overflow-hidden">
             {/* Ambient glow */}
             <div className="absolute top-0 right-0 w-48 h-48 bg-primary/8 blur-[50px] pointer-events-none" />
@@ -1019,7 +1043,9 @@ const NeuralCanvas = () => {
       radius: number;
     }> = [];
 
-    const particleCount = 45;
+    // Optimize settings for mobile devices
+    const isMobileDevice = window.innerWidth < 768;
+    const particleCount = isMobileDevice ? 15 : 45;
     const connectionDistance = 110;
     const mouse = { x: -1000, y: -1000, active: false };
 
@@ -1027,8 +1053,8 @@ const NeuralCanvas = () => {
       particles.push({
         x: Math.random() * width,
         y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.45,
-        vy: (Math.random() - 0.5) * 0.45,
+        vx: (Math.random() - 0.5) * (isMobileDevice ? 0.3 : 0.45),
+        vy: (Math.random() - 0.5) * (isMobileDevice ? 0.3 : 0.45),
         radius: Math.random() * 1.5 + 1,
       });
     }
@@ -1040,6 +1066,7 @@ const NeuralCanvas = () => {
     };
 
     const handleMouseMove = (e: MouseEvent) => {
+      if (isMobileDevice) return; // Disable mouse interactions on mobile
       const rect = canvas.getBoundingClientRect();
       mouse.x = e.clientX - rect.left;
       mouse.y = e.clientY - rect.top;
@@ -1054,14 +1081,14 @@ const NeuralCanvas = () => {
 
     window.addEventListener("resize", handleResize);
     const parent = canvas.parentElement;
-    if (parent) {
+    if (parent && !isMobileDevice) {
       parent.addEventListener("mousemove", handleMouseMove);
       parent.addEventListener("mouseleave", handleMouseLeave);
     }
 
     const animate = () => {
       ctx.clearRect(0, 0, width, height);
-      ctx.fillStyle = "rgba(128, 0, 0, 0.25)";
+      ctx.fillStyle = "rgba(128, 0, 0, 0.20)";
       ctx.strokeStyle = "rgba(128, 0, 0, 0.08)";
 
       // Draw particles
@@ -1078,34 +1105,36 @@ const NeuralCanvas = () => {
         ctx.fill();
       });
 
-      // Draw connections
-      for (let i = 0; i < particles.length; i++) {
-        const p1 = particles[i];
-        for (let j = i + 1; j < particles.length; j++) {
-          const p2 = particles[j];
-          const dist = Math.hypot(p1.x - p2.x, p1.y - p2.y);
-          if (dist < connectionDistance) {
-            const alpha = (1 - dist / connectionDistance) * 0.15;
-            ctx.strokeStyle = `rgba(128, 0, 0, ${alpha})`;
-            ctx.lineWidth = 0.8;
-            ctx.beginPath();
-            ctx.moveTo(p1.x, p1.y);
-            ctx.lineTo(p2.x, p2.y);
-            ctx.stroke();
+      // Draw connections - Skip this expensive calculation entirely on mobile
+      if (!isMobileDevice) {
+        for (let i = 0; i < particles.length; i++) {
+          const p1 = particles[i];
+          for (let j = i + 1; j < particles.length; j++) {
+            const p2 = particles[j];
+            const dist = Math.hypot(p1.x - p2.x, p1.y - p2.y);
+            if (dist < connectionDistance) {
+              const alpha = (1 - dist / connectionDistance) * 0.15;
+              ctx.strokeStyle = `rgba(128, 0, 0, ${alpha})`;
+              ctx.lineWidth = 0.8;
+              ctx.beginPath();
+              ctx.moveTo(p1.x, p1.y);
+              ctx.lineTo(p2.x, p2.y);
+              ctx.stroke();
+            }
           }
-        }
 
-        // Connect to mouse
-        if (mouse.active) {
-          const distToMouse = Math.hypot(p1.x - mouse.x, p1.y - mouse.y);
-          if (distToMouse < connectionDistance * 1.5) {
-            const alpha = (1 - distToMouse / (connectionDistance * 1.5)) * 0.35;
-            ctx.strokeStyle = `rgba(128, 0, 0, ${alpha})`;
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.moveTo(p1.x, p1.y);
-            ctx.lineTo(mouse.x, mouse.y);
-            ctx.stroke();
+          // Connect to mouse
+          if (mouse.active) {
+            const distToMouse = Math.hypot(p1.x - mouse.x, p1.y - mouse.y);
+            if (distToMouse < connectionDistance * 1.5) {
+              const alpha = (1 - distToMouse / (connectionDistance * 1.5)) * 0.35;
+              ctx.strokeStyle = `rgba(128, 0, 0, ${alpha})`;
+              ctx.lineWidth = 1;
+              ctx.beginPath();
+              ctx.moveTo(p1.x, p1.y);
+              ctx.lineTo(mouse.x, mouse.y);
+              ctx.stroke();
+            }
           }
         }
       }
