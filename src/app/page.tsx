@@ -2258,6 +2258,7 @@ const CertificatesSection = () => {
     'Azure':        { color: 'text-blue-400',    bg: 'bg-blue-500/10',      border: 'border-blue-500/25',    icon: '☁️' },
     'freeCodeCamp': { color: 'text-green-400',   bg: 'bg-green-500/10',     border: 'border-green-500/25',   icon: '🔥' },
     'Cisco':        { color: 'text-teal-400',    bg: 'bg-teal-500/10',      border: 'border-teal-500/25',    icon: '🛡️' },
+    'DevOps':       { color: 'text-rose-400',    bg: 'bg-rose-500/10',      border: 'border-rose-500/25',    icon: '🚀' },
   };
 
   const PLATFORM_COLOR: Record<string, string> = {
@@ -2340,7 +2341,8 @@ const CertificatesSection = () => {
             {visibleItems.map((item, idx) => {
               const conf = CATEGORY_CONFIG[item.category] ?? CATEGORY_CONFIG['GitHub'];
               const platColor = PLATFORM_COLOR[item.platform] ?? 'text-txt-muted';
-              const isInProgress = item.status === 'inprogress';
+              const isInProgress = String(item.status) === 'inprogress';
+              const isFeatured = 'featured' in item && !!item.featured;
               return (
                 <motion.div
                   key={item.title + idx}
@@ -2350,11 +2352,21 @@ const CertificatesSection = () => {
                   transition={{ duration: 0.4, delay: (idx % 6) * 0.06 }}
                   whileHover={{ y: -4, scale: 1.02 }}
                 >
-                  <SpotlightCard className="h-full flex flex-col border border-zinc-800 bg-zinc-950/60 p-4 rounded-2xl backdrop-blur-xl hover:border-primary/30 transition-all relative overflow-hidden cursor-pointer">
+                  <SpotlightCard className={`h-full flex flex-col border p-4 rounded-2xl backdrop-blur-xl transition-all relative overflow-hidden cursor-pointer ${
+                    isFeatured 
+                      ? 'border-amber-500/50 bg-gradient-to-b from-amber-950/20 via-zinc-950/60 to-zinc-950/60 shadow-[0_0_15px_rgba(245,158,11,0.1)]' 
+                      : 'border-zinc-800 bg-zinc-950/60 hover:border-primary/30'
+                  }`}>
+                    {/* Top highlights indicator */}
+                    {isFeatured && (
+                      <div className="absolute top-0 right-0 bg-amber-500 text-black text-[7px] font-black uppercase tracking-widest px-2.5 py-0.5 rounded-bl-lg flex items-center gap-1">
+                        <span>★</span> DESTAQUE
+                      </div>
+                    )}
                     <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
 
                     {/* Top row: category badge + status */}
-                    <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center justify-between mb-3 pr-12">
                       <span className={`text-[8px] font-black px-2 py-0.5 rounded-full uppercase tracking-widest border ${conf.bg} ${conf.color} ${conf.border} flex items-center gap-1`}>
                         <span>{conf.icon}</span> {item.category}
                       </span>
@@ -2369,7 +2381,7 @@ const CertificatesSection = () => {
                     </div>
 
                     {/* Title */}
-                    <p className="text-xs font-black leading-tight flex-1 mb-3">{item.title}</p>
+                    <p className={`text-xs font-black leading-tight flex-1 mb-3 ${isFeatured ? 'text-amber-200/90' : ''}`}>{item.title}</p>
 
                     {/* Footer: platform + date */}
                     <div className="pt-3 border-t border-border/40 flex items-center justify-between">
