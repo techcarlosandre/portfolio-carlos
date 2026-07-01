@@ -13,14 +13,19 @@ interface Beam {
 
 export const BackgroundBeams: React.FC = () => {
   const [beams, setBeams] = useState<Beam[]>([]);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
 
   useEffect(() => {
+    const isMobileDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0 || window.innerWidth < 768;
+    setIsMobile(isMobileDevice);
+
     // Generate random glowing vertical data beams across the layout
-    const initialBeams = Array.from({ length: 6 }, (_, i) => ({
+    const count = isMobileDevice ? 2 : 6;
+    const initialBeams = Array.from({ length: count }, (_, i) => ({
       id: i,
       left: `${10 + Math.random() * 80}%`, // Random positions across width
       delay: Math.random() * 10,
-      duration: 7 + Math.random() * 10,
+      duration: isMobileDevice ? (10 + Math.random() * 10) : (7 + Math.random() * 10),
       size: 1 + Math.random() * 1.5,
     }));
     setBeams(initialBeams);
@@ -35,7 +40,7 @@ export const BackgroundBeams: React.FC = () => {
           style={{
             left: beam.left,
             width: `${beam.size}px`,
-            boxShadow: "0 0 12px 1px rgba(224, 48, 48, 0.2)",
+            boxShadow: isMobile ? "none" : "0 0 12px 1px rgba(224, 48, 48, 0.2)",
           }}
           initial={{ y: "-100%" }}
           animate={{ y: "110vh" }}

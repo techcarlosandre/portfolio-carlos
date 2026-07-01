@@ -2058,23 +2058,27 @@ const ProjectsSection = ({
                             className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                             unoptimized
                           />
-                        ) : (activeMedia.video && !isMobileDevice) ? (
+                        ) : activeMedia.video ? (
                           <video
                             autoPlay
                             muted
                             loop
                             playsInline
+                            preload="metadata"
                             className="w-full h-full object-cover"
+                            key={`desktop-video-${currentIndex}`}
                           >
                             <source src={activeMedia.video.replace(".mp4", ".webm")} type="video/webm" />
                             <source src={activeMedia.video} type="video/mp4" />
                           </video>
                         ) : (
-                          <div className="flex flex-col items-center gap-3 w-full h-full bg-gradient-to-br from-[#0c0c0c] to-[#1a0505] p-6 justify-center">
-                            <span className="text-4xl md:text-5xl animate-bounce">{getProjectIcon(p.title)}</span>
-                            <span className="text-[12px] font-black text-white uppercase tracking-wider text-center">{p.title}</span>
-                            <span className="text-[9px] text-primary font-bold uppercase tracking-widest bg-primary/10 border border-primary/20 px-2 py-0.5 rounded-full">
-                              {p.area}
+                          <div className="flex flex-col items-center gap-2">
+                            <Zap
+                              size={32}
+                              className="text-primary animate-pulse"
+                            />
+                            <span className="text-[11px] font-black text-txt-muted uppercase tracking-widest">
+                              {t.projects.comingSoon}
                             </span>
                           </div>
                         )}
@@ -2096,23 +2100,27 @@ const ProjectsSection = ({
                             className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                             unoptimized
                           />
-                        ) : (activeMedia.video && !isMobileDevice) ? (
+                        ) : activeMedia.video ? (
                           <video
                             autoPlay
                             muted
                             loop
                             playsInline
+                            preload="metadata"
                             className="w-full h-full object-cover"
+                            key={`mobile-video-${currentIndex}`}
                           >
                             <source src={activeMedia.video.replace(".mp4", ".webm")} type="video/webm" />
                             <source src={activeMedia.video} type="video/mp4" />
                           </video>
                         ) : (
-                          <div className="flex flex-col items-center gap-3 w-full h-full bg-gradient-to-br from-[#0c0c0c] to-[#1a0505] p-6 justify-center text-center">
-                            <span className="text-3xl animate-bounce">{getProjectIcon(p.title)}</span>
-                            <span className="text-[10px] font-black text-white uppercase tracking-wider">{p.title}</span>
-                            <span className="text-[8px] text-primary font-bold uppercase tracking-widest bg-primary/10 border border-primary/20 px-2 py-0.5 rounded-full">
-                              {p.area}
+                          <div className="flex flex-col items-center gap-2">
+                            <Zap
+                              size={26}
+                              className="text-primary animate-pulse"
+                            />
+                            <span className="text-[9px] font-black text-txt-muted uppercase tracking-widest">
+                              {t.projects.comingSoon}
                             </span>
                           </div>
                         )}

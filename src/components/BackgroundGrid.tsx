@@ -8,6 +8,10 @@ export const BackgroundGrid: React.FC = () => {
   const [opacity, setOpacity] = useState(0);
 
   useEffect(() => {
+    // Only register mouse events for spotlight, bypassing touch listeners to eliminate scroll lag on mobile/iOS
+    const isMobileDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    if (isMobileDevice) return;
+
     const container = containerRef.current;
     const spotlight = spotlightRef.current;
     if (!container || !spotlight) return;
@@ -25,42 +29,16 @@ export const BackgroundGrid: React.FC = () => {
       handleMove(e.clientX, e.clientY);
     };
 
-    const onTouchMove = (e: TouchEvent) => {
-      if (e.touches.length > 0) {
-        setOpacity(1);
-        handleMove(e.touches[0].clientX, e.touches[0].clientY);
-      }
-    };
-
-    const onTouchStart = (e: TouchEvent) => {
-      if (e.touches.length > 0) {
-        setOpacity(1);
-        handleMove(e.touches[0].clientX, e.touches[0].clientY);
-      }
-    };
-
     const onMouseLeave = () => {
-      setOpacity(0);
-    };
-
-    const onTouchEnd = () => {
       setOpacity(0);
     };
 
     window.addEventListener("mousemove", onMouseMove);
     window.addEventListener("mouseleave", onMouseLeave);
-    window.addEventListener("touchmove", onTouchMove, { passive: true });
-    window.addEventListener("touchstart", onTouchStart, { passive: true });
-    window.addEventListener("touchend", onTouchEnd);
-    window.addEventListener("touchcancel", onTouchEnd);
 
     return () => {
       window.removeEventListener("mousemove", onMouseMove);
       window.removeEventListener("mouseleave", onMouseLeave);
-      window.removeEventListener("touchmove", onTouchMove);
-      window.removeEventListener("touchstart", onTouchStart);
-      window.removeEventListener("touchend", onTouchEnd);
-      window.removeEventListener("touchcancel", onTouchEnd);
     };
   }, []);
 
