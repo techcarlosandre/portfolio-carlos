@@ -4,7 +4,7 @@ export const translations = {
       about: 'Início',
       aboutMe: 'Sobre Mim',
       projects: 'Projetos',
-      solutions: 'Soluções',
+      solutions: 'Soluções Tech',
       ai: 'IA & Automações',
       apps: 'Aplicativos',
       skills: 'Tecnologias',
@@ -88,6 +88,8 @@ export const translations = {
       total: 'certificados',
       statusCompleted: 'Concluído',
       statusInProgress: 'Cursando',
+      btnShowMore: 'Ver mais certificados',
+      btnShowLess: 'Mostrar menos',
       items: [
         { title: 'JavaScript Algorithms and Data Structures', platform: 'freeCodeCamp', date: '2026', status: 'completed', category: 'freeCodeCamp' },
         { title: 'Scientific Computing with Python', platform: 'freeCodeCamp', date: '2026', status: 'completed', category: 'freeCodeCamp' },
@@ -122,24 +124,37 @@ export const translations = {
       ],
     },
     solutions: {
-      badge: 'O que eu faço',
-      title1: 'Problemas que eu',
-      titleHighlight: 'Resolvo',
+      badge: 'Soluções Tech',
+      title1: 'Soluções',
+      titleHighlight: 'Tecnológicas',
+      desc: 'Para projetos que envolvem desenvolvimento de software, automação ou soluções tecnológicas, atuo em parceria com uma desenvolvedora e assistente especializada, permitindo oferecer soluções completas para empresas e profissionais.',
+      partner: {
+        name: 'Yasmin Kengen',
+        role: 'Assistente Virtual & Parcerias Tech',
+        photo: '/momo.webp',
+        desc: 'Projetos tecnológicos são desenvolvidos em parceria, garantindo soluções completas conforme a necessidade de cada cliente.',
+        tags: ['Financeiro', 'Administrativo', 'Atendimento', 'Assistência Executiva', 'Automação de Processos']
+      },
       items: [
         {
-          title: 'Sites & Sistemas Completos',
-          desc: 'Criação do zero de sistemas para gerenciar sua empresa, lojas online, painéis administrativos e muito mais — bonitos, rápidos e fáceis de usar.',
-          icon: 'server'
+          title: 'Desenvolvimento de Sistemas',
+          icon: 'server',
+          bullets: ['Sistemas personalizados', 'Plataformas Web', 'Aplicativos Android e iOS', 'Sistemas Financeiros', 'Sistemas de Gestão', 'Soluções SaaS']
         },
         {
-          title: 'Integrações & Conexões',
-          desc: 'Conecto diferentes ferramentas para que seus sistemas "conversem" entre si — automatizando tarefas, evitando retrabalho e poupando tempo do time.',
-          icon: 'code'
+          title: 'Dashboards e BI',
+          icon: 'code',
+          bullets: ['Dashboards analíticos', 'Relatórios gerenciais', 'Indicadores em tempo real', 'Landing Pages', 'Portfólios profissionais']
         },
         {
-          title: 'Robôs & Automações Inteligentes',
-          desc: 'Crio robôs que respondem clientes, enviam mensagens, organizam dados e executam tarefas repetitivas — para você focar no que realmente importa.',
-          icon: 'zap'
+          title: 'Integrações',
+          icon: 'zap',
+          bullets: ['APIs', 'Integração entre sistemas', 'Login seguro', 'Serviços em nuvem', 'Notificações automáticas']
+        },
+        {
+          title: 'Automações',
+          icon: 'cpu',
+          bullets: ['Automação de processos', 'IA Generativa', 'Chatbots', 'Relatórios automáticos', 'Integração com WhatsApp', 'Otimização operacional']
         }
       ]
     },
@@ -394,7 +409,7 @@ export const translations = {
       about: 'Home',
       aboutMe: 'About Me',
       projects: 'Projects',
-      solutions: 'Solutions',
+      solutions: 'Tech Solutions',
       ai: 'AI & Automations',
       apps: 'Apps',
       skills: 'Technologies',
@@ -478,6 +493,8 @@ export const translations = {
       total: 'certificates',
       statusCompleted: 'Completed',
       statusInProgress: 'In Progress',
+      btnShowMore: 'Show more certificates',
+      btnShowLess: 'Show less',
       items: [
         { title: 'JavaScript Algorithms and Data Structures', platform: 'freeCodeCamp', date: '2026', status: 'completed', category: 'freeCodeCamp' },
         { title: 'Scientific Computing with Python', platform: 'freeCodeCamp', date: '2026', status: 'completed', category: 'freeCodeCamp' },
@@ -512,24 +529,37 @@ export const translations = {
       ],
     },
     solutions: {
-      badge: 'What I Do',
-      title1: 'Problems I',
-      titleHighlight: 'Solve',
+      badge: 'Tech Solutions',
+      title1: 'Technological',
+      titleHighlight: 'Solutions',
+      desc: 'For projects involving software development, automation, or tech solutions, I operate in partnership with a specialized virtual assistant and developer, delivering full end-to-end solutions for companies and individuals.',
+      partner: {
+        name: 'Yasmin Kengen',
+        role: 'Virtual Assistant & Tech Partnerships',
+        photo: '/momo.webp',
+        desc: 'Tech projects are developed in partnership, ensuring end-to-end solutions tailored to each client\'s business needs.',
+        tags: ['Financial', 'Administrative', 'Customer Support', 'Executive Assistance', 'Process Automation']
+      },
       items: [
         {
-          title: 'Websites & Full Systems',
-          desc: 'I build everything from scratch — management systems, online stores, dashboards, and much more. Beautiful, fast, and easy to use.',
-          icon: 'server'
+          title: 'Systems Development',
+          icon: 'server',
+          bullets: ['Custom Systems', 'Web Platforms', 'Android & iOS Apps', 'Financial Systems', 'Management Systems', 'SaaS Solutions']
         },
         {
-          title: 'Integrations & Connections',
-          desc: "I connect your tools so they work together seamlessly — automating tasks, eliminating manual work, and saving your team's time every single day.",
-          icon: 'code'
+          title: 'Dashboards & BI',
+          icon: 'code',
+          bullets: ['Analytical Dashboards', 'Management Reports', 'Real-time Metrics', 'Landing Pages', 'Professional Portfolios']
         },
         {
-          title: 'Smart Bots & Automations',
-          desc: 'I build bots that reply to customers, send messages, organize data, and handle repetitive tasks — so you can focus on what really matters.',
-          icon: 'zap'
+          title: 'Integrations',
+          icon: 'zap',
+          bullets: ['APIs', 'System Integrations', 'Secure Login', 'Cloud Services', 'Automatic Notifications']
+        },
+        {
+          title: 'Automations',
+          icon: 'cpu',
+          bullets: ['Process Automation', 'Generative AI', 'Chatbots', 'Automated Reports', 'WhatsApp Integration', 'Operational Efficiency']
         }
       ]
     },

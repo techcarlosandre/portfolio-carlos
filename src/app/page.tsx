@@ -761,7 +761,7 @@ const AboutMeSection = () => {
                   <div className="relative w-16 h-16 shrink-0">
                     <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-primary via-accent to-primary/50 blur-md opacity-50" />
                     <div className="absolute inset-0.5 rounded-full overflow-hidden border-2 border-primary/30">
-                      <Image src="/momo.webp" alt="Carlos André" fill className="object-cover object-top" unoptimized />
+                      <Image src="/eu.webp" alt="Carlos André" fill className="object-cover object-top" unoptimized />
                     </div>
                   </div>
                   <div>
@@ -886,33 +886,112 @@ const AboutMeSection = () => {
 
 const SolutionsSection = () => {
   const { t } = useApp();
+  const sol = t.solutions;
+  const p = sol.partner;
+
+  // Map category icons to lucide components or placeholders
+  const getIcon = (iconStr: string) => {
+    switch (iconStr) {
+      case 'server': return '💻';
+      case 'code':   return '📊';
+      case 'zap':    return '🔌';
+      case 'cpu':    return '⚡';
+      default:       return '✨';
+    }
+  };
+
   return (
-    <section id="solucoes" className="py-20 bg-bg/40 border-t border-b border-border">
+    <section id="solucoes" className="py-24 bg-bg/40 border-t border-b border-border">
       <div className="container mx-auto px-4 max-w-5xl">
-        <div className="text-center mb-12">
+        {/* Header */}
+        <div className="text-center mb-6">
           <FadeIn>
-            <Badge>{t.solutions.badge}</Badge>
-            <h2 className="text-3xl md:text-4xl font-black uppercase mt-3">
-              <GlitchText text={t.solutions.title1 + " "} />
-              <span className="text-gradient"><GlitchText text={t.solutions.titleHighlight} delay={0.2} /></span>
+            <Badge>{sol.badge}</Badge>
+            <h2 className="text-3xl md:text-5xl font-black uppercase mt-4 mb-3">
+              <GlitchText text={sol.title1 + " "} />
+              <span className="text-gradient"><GlitchText text={sol.titleHighlight} delay={0.2} /></span>
             </h2>
           </FadeIn>
         </div>
-        <div className="grid md:grid-cols-3 gap-4">
-          {t.solutions.items.map((item, idx) => (
-            <FadeIn key={idx} delay={idx * 0.12}>
+
+        {/* Short description */}
+        <FadeIn delay={0.1}>
+          <p className="text-txt-muted text-xs md:text-sm leading-relaxed max-w-2xl mx-auto text-center mb-12">
+            {sol.desc}
+          </p>
+        </FadeIn>
+
+        {/* 4 Cards Grid */}
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
+          {sol.items.map((item, idx) => (
+            <FadeIn key={idx} delay={idx * 0.1}>
               <CardTilt3D className="h-full">
-                <SpotlightCard className="h-full flex flex-col border border-zinc-800 bg-zinc-950/60 p-6 rounded-2xl backdrop-blur-xl hover:border-red-950/60">
-                  <div className="w-10 h-10 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center mb-4">
-                    <Zap size={18} className="text-primary" />
+                <SpotlightCard className="h-full flex flex-col border border-zinc-800 bg-zinc-950/60 p-5 rounded-2xl backdrop-blur-xl hover:border-primary/45 transition-all">
+                  <div className="w-9 h-9 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center mb-4 text-lg">
+                    {getIcon(item.icon)}
                   </div>
-                  <h3 className="text-sm font-black uppercase mb-2">{item.title}</h3>
-                  <p className="text-txt-muted text-xs leading-relaxed">{item.desc}</p>
+                  <h3 className="text-xs font-black uppercase mb-3 text-white tracking-tight">{item.title}</h3>
+                  <ul className="space-y-1.5 flex-1">
+                    {(item.bullets as readonly string[]).map((bullet, bi) => (
+                      <li key={bi} className="text-[10px] text-txt-muted flex items-start gap-1.5 leading-snug">
+                        <span className="text-primary mt-0.5 text-[8px]">•</span>
+                        <span>{bullet}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </SpotlightCard>
               </CardTilt3D>
             </FadeIn>
           ))}
         </div>
+
+        {/* Horizontal Partnership Card (Yasmin's Profile) */}
+        <FadeIn delay={0.4}>
+          <SpotlightCard className="border border-zinc-800 bg-gradient-to-r from-zinc-950/70 via-zinc-950/60 to-zinc-950/70 p-6 rounded-2xl backdrop-blur-xl relative overflow-hidden">
+            {/* Ambient glow */}
+            <div className="absolute top-0 right-0 w-48 h-48 bg-primary/8 blur-[50px] pointer-events-none" />
+            <div className="absolute bottom-0 left-0 w-36 h-36 bg-accent/5 blur-[40px] pointer-events-none" />
+
+            <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
+              {/* Photo */}
+              <div className="relative w-20 h-20 md:w-24 md:h-24 shrink-0 rounded-full overflow-hidden border-2 border-primary/40 shadow-xl shadow-black/40">
+                <Image
+                  src={p.photo}
+                  alt={p.name}
+                  fill
+                  className="object-cover object-top"
+                  unoptimized
+                />
+              </div>
+
+              {/* Text details */}
+              <div className="flex-1 text-center md:text-left space-y-4">
+                <div>
+                  <h3 className="text-lg font-black uppercase tracking-tight text-white">{p.name}</h3>
+                  <p className="text-[10px] font-bold text-primary uppercase tracking-widest mt-0.5">{p.role}</p>
+                </div>
+
+                {/* Tags */}
+                <div className="flex flex-wrap justify-center md:justify-start gap-1.5">
+                  {p.tags.map((tag, idx) => (
+                    <span
+                      key={idx}
+                      className="text-[8px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full bg-surface border border-border text-txt-muted hover:border-primary/30 transition-colors"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="w-full h-px bg-border/60" />
+
+                <p className="text-[11px] md:text-xs text-txt-muted leading-relaxed italic">
+                  "{p.desc}"
+                </p>
+              </div>
+            </div>
+          </SpotlightCard>
+        </FadeIn>
       </div>
     </section>
   );
@@ -2171,6 +2250,7 @@ const CertificatesSection = () => {
   const { t } = useApp();
   const c = t.certs;
   const [activeFilter, setActiveFilter] = useState<string>('all');
+  const [showAll, setShowAll] = useState<boolean>(false);
 
   const CATEGORY_CONFIG: Record<string, { color: string; bg: string; border: string; icon: string }> = {
     'Copilot':      { color: 'text-purple-400',  bg: 'bg-purple-500/10',    border: 'border-purple-500/25',  icon: '🤖' },
@@ -2188,6 +2268,14 @@ const CertificatesSection = () => {
 
   const allCategories = ['all', ...Array.from(new Set(c.items.map((i) => i.category)))];
   const filtered = activeFilter === 'all' ? c.items : c.items.filter((i) => i.category === activeFilter);
+  
+  // Slice list to show maximum 6 items initially (2 rows on desktop)
+  const visibleItems = showAll ? filtered : filtered.slice(0, 6);
+
+  // Reset showAll when changing filter to keep UX intuitive
+  useEffect(() => {
+    setShowAll(false);
+  }, [activeFilter]);
 
   return (
     <section id="certificados" className="py-24 px-4 bg-bg/30 border-t border-border/60">
@@ -2242,14 +2330,14 @@ const CertificatesSection = () => {
         {/* Cards Grid */}
         <AnimatePresence mode="wait">
           <motion.div
-            key={activeFilter}
+            key={activeFilter + "_" + showAll}
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -16 }}
             transition={{ duration: 0.3 }}
             className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3"
           >
-            {filtered.map((item, idx) => {
+            {visibleItems.map((item, idx) => {
               const conf = CATEGORY_CONFIG[item.category] ?? CATEGORY_CONFIG['GitHub'];
               const platColor = PLATFORM_COLOR[item.platform] ?? 'text-txt-muted';
               const isInProgress = item.status === 'inprogress';
@@ -2294,6 +2382,21 @@ const CertificatesSection = () => {
             })}
           </motion.div>
         </AnimatePresence>
+
+        {/* Show More Button */}
+        {filtered.length > 6 && (
+          <FadeIn delay={0.2}>
+            <div className="flex justify-center mt-10">
+              <button
+                onClick={() => setShowAll(!showAll)}
+                className="inline-flex items-center justify-center gap-2 bg-zinc-950 hover:bg-primary border border-zinc-800 hover:border-primary text-white hover:text-white text-[10px] font-black uppercase tracking-wider px-6 py-3.5 rounded-xl transition-all shadow-md duration-300"
+              >
+                <span>{showAll ? c.btnShowLess : c.btnShowMore}</span>
+                <ChevronRight size={12} className={`transition-transform duration-300 ${showAll ? '-rotate-90' : 'rotate-90'}`} />
+              </button>
+            </div>
+          </FadeIn>
+        )}
       </div>
     </section>
   );
