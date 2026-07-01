@@ -176,7 +176,7 @@ export const translations = {
       badge: 'Soluções Tech',
       title1: 'Soluções',
       titleHighlight: 'Tecnológicas',
-      desc: 'Para projetos que envolvem desenvolvimento de software, atuo em parceria com uma Assistente Virtual especialista em processos e negócios. Isso nos permite ir além do código, oferecendo uma solução de ponta a ponta estruturada para o seu negócio.',
+      desc: 'Desenvolvimento de sistemas robustos, painéis de BI e automações inteligentes projetados sob medida para acelerar a operação e otimizar os resultados do seu negócio.',
       partnerTitle: 'Parceria de Operações & Processos',
       partner: {
         name: 'Yasmin Kengen',
@@ -631,7 +631,7 @@ export const translations = {
       badge: 'Tech Solutions',
       title1: 'Technological',
       titleHighlight: 'Solutions',
-      desc: 'For software development projects, I operate in partnership with a Virtual Assistant specialized in processes and business management. This allows us to go beyond code, delivering a structured end-to-end operational solution for your business.',
+      desc: 'Development of robust systems, BI dashboards, and smart automations custom-tailored to accelerate operations and optimize your business results.',
       partnerTitle: 'Operations & Process Partnership',
       partner: {
         name: 'Yasmin Kengen',

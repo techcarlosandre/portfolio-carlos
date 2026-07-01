@@ -131,21 +131,32 @@ const MigrationOverlay = () => {
 const LoadingScreen = ({ onDone }: { onDone: () => void }) => {
   const [text, setText] = useState("");
   const full = "CARLOS.";
+  const [duration, setDuration] = useState(2000);
+
+  useEffect(() => {
+    // Detect mobile to set a longer loading screen (4.5s) so the engine can parse the page in the background
+    const isMobileDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0 || window.innerWidth < 768;
+    setDuration(isMobileDevice ? 4500 : 2000);
+  }, []);
 
   useEffect(() => {
     let i = 0;
+    const intervalTime = Math.floor((duration * 0.3) / full.length); // Dynamic speed based on duration
     const interval = setInterval(() => {
       setText(full.slice(0, i + 1));
       i++;
       if (i >= full.length) clearInterval(interval);
-    }, 90);
+    }, intervalTime);
     return () => clearInterval(interval);
-  }, []);
+  }, [duration]);
 
   useEffect(() => {
-    const timer = setTimeout(onDone, 2000);
+    const timer = setTimeout(onDone, duration);
     return () => clearTimeout(timer);
-  }, [onDone]);
+  }, [onDone, duration]);
+
+  // Animation duration inline style (excluding the last 400ms fade-out buffer)
+  const animSecs = `${(duration - 400) / 1000}s`;
 
   return (
     <motion.div
@@ -159,7 +170,12 @@ const LoadingScreen = ({ onDone }: { onDone: () => void }) => {
         <span>{text.slice(-1)}</span>
       </div>
       <div className="loading-bar-track">
-        <div className="loading-bar-fill" />
+        <div 
+          className="loading-bar-fill" 
+          style={{ 
+            animation: `loading-fill ${animSecs} cubic-bezier(0.4, 0, 0.2, 1) forwards, shimmer-bar 1.5s linear infinite`
+          }} 
+        />
       </div>
       <p className="loading-tagline">Full-Stack Developer</p>
     </motion.div>
