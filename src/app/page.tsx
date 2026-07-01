@@ -659,9 +659,9 @@ const HeroSection = () => {
             <div className="w-full h-px bg-border mb-6" />
             <div className="flex justify-center gap-8 md:gap-16 mb-6">
               {[
-                { val: "1+", label: t.hero.stat1 },
-                { val: "8+", label: t.hero.stat2 },
-                { val: "100%", label: t.hero.stat3 },
+                { val: t.hero.stat1v, label: t.hero.stat1 },
+                { val: t.hero.stat2v, label: t.hero.stat2 },
+                { val: t.hero.stat3v, label: t.hero.stat3 },
               ].map((s, i) => (
                 <div key={i} className="flex flex-col items-center">
                   <span className="text-xl md:text-2xl font-black text-primary">

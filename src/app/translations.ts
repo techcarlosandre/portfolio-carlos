@@ -53,7 +53,7 @@ export const translations = {
         { value: '30+', label: 'Certificados' },
       ],
       areasTitle: 'Áreas de Atuação',
-      areas: ['Desenvolvimento Web', 'Apps Mobile', 'Automações com IA', 'Integrações de Sistemas', 'Backend & APIs'],
+      areas: ['Desenvolvimento Web', 'Desenvolvimento Front-End', 'Apps Mobile', 'Automações com IA', 'Integrações de Sistemas', 'Backend & APIs'],
       educationTitle: 'Formação Acadêmica',
       education: [
         {
@@ -507,7 +507,7 @@ export const translations = {
         { value: '30+', label: 'Certificates' },
       ],
       areasTitle: 'Areas of Expertise',
-      areas: ['Web Development', 'Mobile Apps', 'AI Automations', 'System Integrations', 'Backend & APIs'],
+      areas: ['Web Development', 'Front-End Development', 'Mobile Apps', 'AI Automations', 'System Integrations', 'Backend & APIs'],
       educationTitle: 'Education',
       education: [
         {
