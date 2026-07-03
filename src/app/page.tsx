@@ -32,7 +32,11 @@ import { SplitText } from "../components/SplitText";
 import { ShinyText } from "../components/ShinyText";
 import { CardTilt3D } from "../components/CardTilt3D";
 import { BackgroundBeams } from "../components/BackgroundBeams";
-import { FloatingChatWidget } from "../components/FloatingChatWidget";
+import dynamic from "next/dynamic";
+const FloatingChatWidget = dynamic(
+  () => import("../components/FloatingChatWidget").then((mod) => mod.FloatingChatWidget),
+  { ssr: false }
+);
 import { GlitchText } from "../components/GlitchText";
 
 
@@ -665,8 +669,9 @@ const TechLogoCard = ({
               alt={currentLabel}
               width={32}
               height={32}
-              className="absolute object-contain"
+              decoding="async"
               loading="lazy"
+              className="absolute object-contain"
             />
           )}
         </AnimatePresence>
@@ -1239,7 +1244,10 @@ const NeuralCanvas = () => {
       parent.addEventListener("mouseleave", handleMouseLeave);
     }
 
+    let isIntersecting = false;
+
     const animate = () => {
+      if (!isIntersecting) return;
       ctx.clearRect(0, 0, width, height);
       ctx.fillStyle = "rgba(128, 0, 0, 0.20)";
       ctx.strokeStyle = "rgba(128, 0, 0, 0.08)";
@@ -1295,7 +1303,16 @@ const NeuralCanvas = () => {
       animationFrameId = requestAnimationFrame(animate);
     };
 
-    animate();
+    const observer = new IntersectionObserver(([entry]) => {
+      isIntersecting = entry.isIntersecting;
+      if (isIntersecting) {
+        animate();
+      } else {
+        cancelAnimationFrame(animationFrameId);
+      }
+    }, { threshold: 0.02 });
+
+    observer.observe(canvas);
 
     return () => {
       window.removeEventListener("resize", handleResize);
@@ -1303,6 +1320,7 @@ const NeuralCanvas = () => {
         parent.removeEventListener("mousemove", handleMouseMove);
         parent.removeEventListener("mouseleave", handleMouseLeave);
       }
+      observer.disconnect();
       cancelAnimationFrame(animationFrameId);
     };
   }, []);
