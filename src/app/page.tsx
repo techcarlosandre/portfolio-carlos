@@ -528,7 +528,7 @@ const TECH_ICONS: Record<string, { slug: string; color: string; label: string }>
   "Next.js": { slug: "nextdotjs", color: "#ffffff", label: "Next.js" },
   "Vue.js": { slug: "vuedotjs", color: "#4FC08D", label: "Vue.js" },
   "Node.js": { slug: "nodedotjs", color: "#339933", label: "Node.js" },
-  "AWS": { slug: "amazonwebservices", color: "#FF9900", label: "AWS" },
+  "RabbitMQ": { slug: "rabbitmq", color: "#FF6600", label: "RabbitMQ" },
   "Python": { slug: "python", color: "#3776AB", label: "Python" },
   "Django": { slug: "django", color: "#44B78B", label: "Django" },
   "Axios": { slug: "axios", color: "#5A29E4", label: "Axios" },
@@ -1280,7 +1280,7 @@ const SkillsSection = ({
   const { t } = useApp();
   const [pausedRow, setPausedRow] = useState<Record<number, boolean>>({});
 
-  const row1 = ["JS", "TS", "React", "Next.js", "Vue.js", "Node.js", "AWS"];
+  const row1 = ["JS", "TS", "React", "Next.js", "Vue.js", "Node.js", "RabbitMQ"];
   const row2 = ["Java", "Spring", "GraphQL", "Prisma", "Supabase", "REST API", "Django"];
   const row3 = ["Git", "Docker", "N8N", "Figma", "Grafana", "Chatwoot", "LLMs"];
   const row4 = ["Python", "PostgreSQL", "Tailwind", "Flask", "MCP", "Flutter", "Axios"];
@@ -1894,6 +1894,7 @@ const ProjectsSection = ({
     Chatwoot: ["Chatwoot"],
     MCP: ["MCP"],
     Flutter: ["Flutter"],
+    RabbitMQ: ["RabbitMQ"],
   };
 
   const filtered = selectedTech
