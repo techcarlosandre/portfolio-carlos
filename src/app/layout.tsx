@@ -72,6 +72,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR" className={`${outfit.variable} ${montserrat.variable}`}>
+      <head>
+        <link rel="preconnect" href="https://cdn.simpleicons.org" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://cdn.simpleicons.org" />
+      </head>
       <body className="antialiased overflow-x-hidden">{children}</body>
     </html>
   );
