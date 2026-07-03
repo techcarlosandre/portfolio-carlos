@@ -2743,6 +2743,23 @@ export default function PortfolioPage() {
       window.scrollTo(0, 0);
     } else {
       document.body.style.overflow = "";
+      
+      // Force repaint/recalculation to wake up throttled mobile browser rendering engines
+      const triggerWakeup = () => {
+        window.dispatchEvent(new Event("resize"));
+        window.dispatchEvent(new Event("scroll"));
+      };
+      
+      triggerWakeup();
+      const t1 = setTimeout(triggerWakeup, 50);
+      const t2 = setTimeout(triggerWakeup, 300);
+      const t3 = setTimeout(triggerWakeup, 600); // after fade transition finishes
+      
+      return () => {
+        clearTimeout(t1);
+        clearTimeout(t2);
+        clearTimeout(t3);
+      };
     }
     return () => {
       document.body.style.overflow = "";
