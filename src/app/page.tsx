@@ -2749,32 +2749,19 @@ export default function PortfolioPage() {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
+    
     if (!loaded) {
-      document.body.style.overflow = "hidden";
-      window.scrollTo(0, 0);
-    } else {
-      document.body.style.overflow = "";
-      
-      // Force repaint/recalculation to wake up throttled mobile browser rendering engines
-      const triggerWakeup = () => {
-        window.dispatchEvent(new Event("resize"));
-        window.dispatchEvent(new Event("scroll"));
+      const preventScroll = (e: TouchEvent) => {
+        e.preventDefault();
       };
-      
-      triggerWakeup();
-      const t1 = setTimeout(triggerWakeup, 50);
-      const t2 = setTimeout(triggerWakeup, 300);
-      const t3 = setTimeout(triggerWakeup, 600); // after fade transition finishes
+      // Prevent touch scrolling on mobile while loading
+      window.addEventListener("touchmove", preventScroll, { passive: false });
+      window.scrollTo(0, 0);
       
       return () => {
-        clearTimeout(t1);
-        clearTimeout(t2);
-        clearTimeout(t3);
+        window.removeEventListener("touchmove", preventScroll);
       };
     }
-    return () => {
-      document.body.style.overflow = "";
-    };
   }, [loaded]);
 
   const toggleTheme = () => {
