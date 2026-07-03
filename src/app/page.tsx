@@ -294,11 +294,11 @@ const AnimatedCounter = ({ to, suffix = "" }: { to: number; suffix?: string }) =
 
 // ─── TYPEWRITER TITLE ───
 const TypewriterTitle = ({ words }: { words: readonly string[] }) => {
-  const [index, setIndex] = useState(0);
   const [displayed, setDisplayed] = useState("");
+  const [index, setIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
 
-  // Reset state when words list changes (e.g. language toggle) to prevent lockups
+  // Sync index and text when words prop changes (like translation toggle)
   useEffect(() => {
     setDisplayed("");
     setIsDeleting(false);
@@ -308,20 +308,31 @@ const TypewriterTitle = ({ words }: { words: readonly string[] }) => {
   useEffect(() => {
     const word = words[index];
     if (!word) return;
-    let timeout: ReturnType<typeof setTimeout>;
 
-    if (!isDeleting && displayed.length < word.length) {
-      timeout = setTimeout(() => setDisplayed(word.slice(0, displayed.length + 1)), 75);
-    } else if (!isDeleting && displayed.length === word.length) {
-      timeout = setTimeout(() => setIsDeleting(true), 2200);
-    } else if (isDeleting && displayed.length > 0) {
-      timeout = setTimeout(() => setDisplayed(displayed.slice(0, -1)), 40);
-    } else if (isDeleting && displayed.length === 0) {
-      setIsDeleting(false);
-      setIndex((i) => (i + 1) % words.length);
-    }
+    const delay = isDeleting 
+      ? 40 
+      : displayed === word 
+        ? 2200 
+        : 75;
 
-    return () => clearTimeout(timeout);
+    const timer = setTimeout(() => {
+      if (!isDeleting) {
+        if (displayed !== word) {
+          setDisplayed(word.slice(0, displayed.length + 1));
+        } else {
+          setIsDeleting(true);
+        }
+      } else {
+        if (displayed !== "") {
+          setDisplayed(displayed.slice(0, -1));
+        } else {
+          setIsDeleting(false);
+          setIndex((prev) => (prev + 1) % words.length);
+        }
+      }
+    }, delay);
+
+    return () => clearTimeout(timer);
   }, [displayed, isDeleting, index, words]);
 
   return (
@@ -379,18 +390,28 @@ const FadeIn = ({
   delay?: number;
   direction?: "up" | "down" | "left" | "right";
 }) => {
+  const [isMobile, setIsMobile] = useState<boolean>(true);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
   const dirs = {
-    up: { y: 25, x: 0 },
-    down: { y: -25, x: 0 },
-    left: { x: 25, y: 0 },
-    right: { x: -25, y: 0 },
+    up: { y: isMobile ? 25 : 40, x: 0 },
+    down: { y: isMobile ? -25 : -40, x: 0 },
+    left: { x: isMobile ? 25 : 40, y: 0 },
+    right: { x: isMobile ? -25 : -40, y: 0 },
   };
 
   return (
     <motion.div
-      initial={{ opacity: 0, ...dirs[direction] }}
-      animate={{ opacity: 1, x: 0, y: 0 }}
-      transition={{ duration: 0.5, delay: delay * 0.7, ease: "easeOut" }}
+      initial={{ opacity: 0, ...dirs[direction], filter: isMobile ? "none" : "blur(8px)" }}
+      whileInView={{ opacity: 1, x: 0, y: 0, filter: isMobile ? "none" : "blur(0px)" }}
+      viewport={{ once: true, margin: isMobile ? "-20px" : "-60px" }}
+      transition={{ duration: isMobile ? 0.4 : 0.7, delay: isMobile ? delay * 0.5 : delay, ease: "easeOut" }}
     >
       {children}
     </motion.div>
@@ -1737,14 +1758,6 @@ const ProjectsSection = ({
 
   // Intersection Observer — triggers the intro
   useEffect(() => {
-    // Skip intro entirely on mobile devices to prevent black screen opacity lag
-    const isMobileDevice = window.innerWidth < 768;
-    if (isMobileDevice) {
-      setPhase("ready");
-      setHasPlayedIntro(true);
-      return;
-    }
-
     const section = sectionRef.current;
     if (!section) return;
 
@@ -2761,55 +2774,62 @@ export default function PortfolioPage() {
     <AppContext.Provider value={{ lang, t, theme, toggleTheme, setLang }}>
       {isOldDomain && <MigrationOverlay />}
 
-      <AnimatePresence>
-        {!loaded && <LoadingScreen key="loading" onDone={() => setLoaded(true)} />}
+      <AnimatePresence mode="wait">
+        {!loaded ? (
+          <LoadingScreen key="loading" onDone={() => setLoaded(true)} />
+        ) : (
+          <motion.div
+            key="content"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+          >
+            <CustomCursor />
+            <ScrollProgress />
+            <FloatingChatWidget t={t} lang={lang} theme={theme} />
+            <main className="relative min-h-screen bg-bg text-txt selection:bg-primary selection:text-white overflow-x-clip dot-grid">
+              <div className="grain-overlay" />
+              <BackgroundGrid />
+              <BackgroundBeams />
+              <Navbar />
+              <StackingSection>
+                <HeroSection />
+              </StackingSection>
+              <StackingSection>
+                <AboutMeSection />
+              </StackingSection>
+
+              <LazySection>
+                <StackingSection>
+                  <SkillsSection
+                    selectedTech={selectedTech}
+                    onSelectTech={(tech) => setSelectedTech((curr) => (curr === tech ? null : tech))}
+                  />
+                </StackingSection>
+              </LazySection>
+              <LazySection>
+                <StackingSection>
+                  <ServicesSection />
+                </StackingSection>
+              </LazySection>
+              <LazySection>
+                <StackingSection>
+                  <ProjectsSection
+                    selectedTech={selectedTech}
+                    onClearSelection={() => setSelectedTech(null)}
+                  />
+                </StackingSection>
+              </LazySection>
+              <LazySection>
+                <StackingSection>
+                  <CertificatesSection />
+                </StackingSection>
+              </LazySection>
+              <FooterSection />
+            </main>
+          </motion.div>
+        )}
       </AnimatePresence>
-
-      <div className={!loaded ? "pointer-events-none" : ""}>
-        <CustomCursor />
-        <ScrollProgress />
-        <FloatingChatWidget t={t} lang={lang} theme={theme} />
-        <main className="relative min-h-screen bg-bg text-txt selection:bg-primary selection:text-white overflow-x-clip dot-grid">
-          <div className="grain-overlay" />
-          <BackgroundGrid />
-          <BackgroundBeams />
-          <Navbar />
-          <StackingSection>
-            <HeroSection />
-          </StackingSection>
-          <StackingSection>
-            <AboutMeSection />
-          </StackingSection>
-
-          <LazySection estimatedHeight={500}>
-            <StackingSection>
-              <SkillsSection
-                selectedTech={selectedTech}
-                onSelectTech={(tech) => setSelectedTech((curr) => (curr === tech ? null : tech))}
-              />
-            </StackingSection>
-          </LazySection>
-          <LazySection estimatedHeight={600}>
-            <StackingSection>
-              <ServicesSection />
-            </StackingSection>
-          </LazySection>
-          <LazySection estimatedHeight={700}>
-            <StackingSection>
-              <ProjectsSection
-                selectedTech={selectedTech}
-                onClearSelection={() => setSelectedTech(null)}
-              />
-            </StackingSection>
-          </LazySection>
-          <LazySection estimatedHeight={600}>
-            <StackingSection>
-              <CertificatesSection />
-            </StackingSection>
-          </LazySection>
-          <FooterSection />
-        </main>
-      </div>
     </AppContext.Provider>
   );
 }

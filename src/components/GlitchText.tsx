@@ -9,22 +9,40 @@ interface GlitchTextProps {
 }
 
 export const GlitchText: React.FC<GlitchTextProps> = ({ text, className = "", delay = 0 }) => {
-  const [displayedText, setDisplayedText] = useState<string[]>([]);
+  const [displayedText, setDisplayedText] = useState<string[]>(Array(text.length).fill(""));
+  const [started, setStarted] = useState(false);
+  const ref = useRef<HTMLSpanElement>(null);
   const glitchChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%&*!?<>{}[]~^";
 
   useEffect(() => {
-    // Reset displayed text on mounting or text change (e.g. language toggle)
-    setDisplayedText(Array(text.length).fill(""));
+    const el = ref.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !started) {
+          setStarted(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [started]);
+
+  useEffect(() => {
+    if (!started) return;
 
     const charTimers: ReturnType<typeof setTimeout>[] = [];
     const charIntervals: ReturnType<typeof setInterval>[] = [];
 
     const delayTimeout = setTimeout(() => {
       text.split("").forEach((targetChar, i) => {
-        const charDelay = i * 30; // slightly faster animation
+        const charDelay = i * 35;
         const timer = setTimeout(() => {
           let frame = 0;
-          const totalFrames = 5;
+          const totalFrames = 6;
           const interval = setInterval(() => {
             frame++;
             setDisplayedText((prev) => {
@@ -51,10 +69,10 @@ export const GlitchText: React.FC<GlitchTextProps> = ({ text, className = "", de
       charTimers.forEach(clearTimeout);
       charIntervals.forEach(clearInterval);
     };
-  }, [text, delay]);
+  }, [started, text, delay]);
 
   return (
-    <span className={className}>
+    <span ref={ref} className={className}>
       {displayedText.map((char, i) => (
         <span key={i}>{char || "\u00A0"}</span>
       ))}
