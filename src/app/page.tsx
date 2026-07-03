@@ -1790,6 +1790,13 @@ const ProjectsSection = ({
   const [mockupType, setMockupType] = useState<"desktop" | "mobile">("desktop");
   const sectionRef = useRef<HTMLDivElement>(null);
 
+  // Set mockupType to mobile by default on mobile devices
+  useEffect(() => {
+    if (window.innerWidth < 768) {
+      setMockupType("mobile");
+    }
+  }, []);
+
   // ── 3-Phase State Machine ──
   // "idle" → "intro" → "revealing" → "ready"
   const [phase, setPhase] = useState<"idle" | "intro" | "revealing" | "ready">("idle");
@@ -2192,7 +2199,7 @@ const ProjectsSection = ({
                             className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                             unoptimized
                           />
-                        ) : activeMedia.video ? (
+                        ) : (isReady && activeMedia.video) ? (
                           <video
                             autoPlay
                             muted
@@ -2212,7 +2219,7 @@ const ProjectsSection = ({
                               className="text-primary animate-pulse"
                             />
                             <span className="text-[11px] font-black text-txt-muted uppercase tracking-widest">
-                              {t.projects.comingSoon}
+                              {isReady ? t.projects.comingSoon : "Loading..."}
                             </span>
                           </div>
                         )}
@@ -2234,7 +2241,7 @@ const ProjectsSection = ({
                             className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                             unoptimized
                           />
-                        ) : activeMedia.video ? (
+                        ) : (isReady && activeMedia.video) ? (
                           <video
                             autoPlay
                             muted
@@ -2254,7 +2261,7 @@ const ProjectsSection = ({
                               className="text-primary animate-pulse"
                             />
                             <span className="text-[9px] font-black text-txt-muted uppercase tracking-widest">
-                              {t.projects.comingSoon}
+                              {isReady ? t.projects.comingSoon : "Loading..."}
                             </span>
                           </div>
                         )}
