@@ -2781,57 +2781,55 @@ export default function PortfolioPage() {
     <AppContext.Provider value={{ lang, t, theme, toggleTheme, setLang }}>
       {isOldDomain && <MigrationOverlay />}
 
-      <AnimatePresence mode="wait">
+      <AnimatePresence>
         {!loaded && <LoadingScreen key="loading" onDone={() => setLoaded(true)} />}
       </AnimatePresence>
 
-      {loaded && (
-        <>
-          <CustomCursor />
-          <ScrollProgress />
-          <FloatingChatWidget t={t} lang={lang} theme={theme} />
-          <main className="relative min-h-screen bg-bg text-txt selection:bg-primary selection:text-white overflow-x-clip dot-grid">
-            <div className="grain-overlay" />
-            <BackgroundGrid />
-            <BackgroundBeams />
-            <Navbar />
-            <StackingSection>
-              <HeroSection />
-            </StackingSection>
-            <StackingSection>
-              <AboutMeSection />
-            </StackingSection>
+      <div className={!loaded ? "h-screen overflow-hidden pointer-events-none" : ""}>
+        <CustomCursor />
+        <ScrollProgress />
+        <FloatingChatWidget t={t} lang={lang} theme={theme} />
+        <main className="relative min-h-screen bg-bg text-txt selection:bg-primary selection:text-white overflow-x-clip dot-grid">
+          <div className="grain-overlay" />
+          <BackgroundGrid />
+          <BackgroundBeams />
+          <Navbar />
+          <StackingSection>
+            <HeroSection />
+          </StackingSection>
+          <StackingSection>
+            <AboutMeSection />
+          </StackingSection>
 
-            <LazySection estimatedHeight={500}>
-              <StackingSection>
-                <SkillsSection
-                  selectedTech={selectedTech}
-                  onSelectTech={(tech) => setSelectedTech((curr) => (curr === tech ? null : tech))}
-                />
-              </StackingSection>
-            </LazySection>
-            <LazySection estimatedHeight={600}>
-              <StackingSection>
-                <ServicesSection />
-              </StackingSection>
-            </LazySection>
-            <LazySection estimatedHeight={700}>
-              <StackingSection>
-                <ProjectsSection
-                  selectedTech={selectedTech}
-                  onClearSelection={() => setSelectedTech(null)}
-                />
-              </StackingSection>
-            </LazySection>
-            <LazySection estimatedHeight={600}>
-              <StackingSection>
-                <CertificatesSection />
-              </StackingSection>
-            </LazySection>
-            <FooterSection />
-          </main>
-        </>
-      )}
+          <LazySection estimatedHeight={500}>
+            <StackingSection>
+              <SkillsSection
+                selectedTech={selectedTech}
+                onSelectTech={(tech) => setSelectedTech((curr) => (curr === tech ? null : tech))}
+              />
+            </StackingSection>
+          </LazySection>
+          <LazySection estimatedHeight={600}>
+            <StackingSection>
+              <ServicesSection />
+            </StackingSection>
+          </LazySection>
+          <LazySection estimatedHeight={700}>
+            <StackingSection>
+              <ProjectsSection
+                selectedTech={selectedTech}
+                onClearSelection={() => setSelectedTech(null)}
+              />
+            </StackingSection>
+          </LazySection>
+          <LazySection estimatedHeight={600}>
+            <StackingSection>
+              <CertificatesSection />
+            </StackingSection>
+          </LazySection>
+          <FooterSection />
+        </main>
+      </div>
     </AppContext.Provider>
   );
 }
