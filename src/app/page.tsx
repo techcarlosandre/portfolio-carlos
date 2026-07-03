@@ -553,7 +553,7 @@ const TECH_ICONS: Record<string, { slug: string; color: string; label: string }>
   "Framer Motion": { slug: "framer", color: "#0055FF", label: "Framer Motion" },
   "pgvector": { slug: "postgresql", color: "#336791", label: "pgvector" },
   "Redis": { slug: "redis", color: "#FF3E30", label: "Redis" },
-  "AWS": { slug: "amazonwebservices", color: "#FF9900", label: "AWS" },
+  "AWS": { slug: "amazonaws", color: "#FF9900", label: "AWS" },
 };
 
 const TechLogoCard = ({
