@@ -1737,6 +1737,14 @@ const ProjectsSection = ({
 
   // Intersection Observer — triggers the intro
   useEffect(() => {
+    // Skip intro entirely on mobile devices to prevent black screen opacity lag
+    const isMobileDevice = window.innerWidth < 768;
+    if (isMobileDevice) {
+      setPhase("ready");
+      setHasPlayedIntro(true);
+      return;
+    }
+
     const section = sectionRef.current;
     if (!section) return;
 
