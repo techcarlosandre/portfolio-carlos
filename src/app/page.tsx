@@ -381,15 +381,14 @@ const FadeIn = ({
     return () => window.removeEventListener("resize", check);
   }, []);
 
-  // On mobile: skip blur/translate, use a large positive margin so
-  // whileInView fires well BEFORE the element enters the viewport
+  // On mobile: animate immediately to opacity 1 when mounted
+  // to avoid IntersectionObserver bugs on initial page load
   if (isMobile) {
     return (
       <motion.div
         initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true, margin: "200px 0px 200px 0px" }}
-        transition={{ duration: 0.3, ease: "easeOut" }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.4, delay: delay * 0.5, ease: "easeOut" }}
       >
         {children}
       </motion.div>
