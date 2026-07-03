@@ -528,17 +528,21 @@ const TECH_ICONS: Record<string, { slug: string; color: string; label: string }>
   "Next.js": { slug: "nextdotjs", color: "#ffffff", label: "Next.js" },
   "Vue.js": { slug: "vuedotjs", color: "#4FC08D", label: "Vue.js" },
   "Node.js": { slug: "nodedotjs", color: "#339933", label: "Node.js" },
+  "AWS": { slug: "amazonwebservices", color: "#FF9900", label: "AWS" },
   "Python": { slug: "python", color: "#3776AB", label: "Python" },
+  "Django": { slug: "django", color: "#44B78B", label: "Django" },
+  "Axios": { slug: "axios", color: "#5A29E4", label: "Axios" },
   "Java": { slug: "openjdk", color: "#ED8B00", label: "Java" },
   "Spring": { slug: "spring", color: "#6DB33F", label: "Spring Boot" },
   "GraphQL": { slug: "graphql", color: "#E10098", label: "GraphQL" },
-  "Axios": { slug: "axios", color: "#5A29E4", label: "Axios" },
+  "REST API": { slug: "openapiinitiative", color: "#6BA539", label: "REST API" },
   "Prisma": { slug: "prisma", color: "#ffffff", label: "Prisma" },
   "Supabase": { slug: "supabase", color: "#3ECF8E", label: "Supabase" },
   "PostgreSQL": { slug: "postgresql", color: "#4169E1", label: "PostgreSQL" },
   "Git": { slug: "git", color: "#F05032", label: "Git" },
   "Docker": { slug: "docker", color: "#2496ED", label: "Docker" },
   "N8N": { slug: "n8n", color: "#EA4B71", label: "N8N" },
+  "LLMs": { slug: "openai", color: "#ffffff", label: "LLMs" },
   "Figma": { slug: "figma", color: "#F24E1E", label: "Figma" },
   "Grafana": { slug: "grafana", color: "#F46800", label: "Grafana" },
   "Chatwoot": { slug: "chatwoot", color: "#1F93FF", label: "Chatwoot" },
@@ -653,7 +657,6 @@ const Navbar = () => {
 
   const links = [
     { name: t.nav.aboutMe, href: "#sobre-mim" },
-    { name: t.nav.solutions, href: "#solucoes" },
     { name: t.nav.skills, href: "#skills" },
     { name: t.nav.services, href: "#servicos" },
     { name: t.nav.projects, href: "#projetos" },
@@ -1277,10 +1280,10 @@ const SkillsSection = ({
   const { t } = useApp();
   const [pausedRow, setPausedRow] = useState<Record<number, boolean>>({});
 
-  const row1 = ["JS", "TS", "React", "Next.js", "Vue.js", "Node.js"];
-  const row2 = ["Java", "Spring", "GraphQL", "Axios", "Prisma", "Supabase"];
-  const row3 = ["Git", "Docker", "N8N", "Figma", "Grafana", "Chatwoot"];
-  const row4 = ["Python", "PostgreSQL", "Tailwind", "Flask", "MCP", "Flutter"];
+  const row1 = ["JS", "TS", "React", "Next.js", "Vue.js", "Node.js", "AWS"];
+  const row2 = ["Java", "Spring", "GraphQL", "Prisma", "Supabase", "REST API", "Django"];
+  const row3 = ["Git", "Docker", "N8N", "Figma", "Grafana", "Chatwoot", "LLMs"];
+  const row4 = ["Python", "PostgreSQL", "Tailwind", "Flask", "MCP", "Flutter", "Axios"];
 
   return (
     <section id="skills" className="py-24 px-4 border-t border-border/40 bg-bg/10 relative overflow-hidden">
@@ -2460,13 +2463,9 @@ const CertificatesSection = () => {
           </FadeIn>
         </div>
 
-        {/* Stats + Filters */}
+        {/* Filters */}
         <FadeIn delay={0.1}>
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8">
-            <div className="flex items-center gap-2">
-              <span className="text-3xl font-black text-primary">{c.items.length}</span>
-              <span className="text-xs font-bold text-txt-muted uppercase tracking-widest">{c.total}</span>
-            </div>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
             <div className="flex flex-wrap gap-2 justify-center">
               {allCategories.map((cat) => {
                 const conf = cat !== 'all' ? CATEGORY_CONFIG[cat] : null;
@@ -2524,11 +2523,9 @@ const CertificatesSection = () => {
                       ? 'border-amber-500/50 bg-gradient-to-b from-amber-950/20 via-zinc-950/60 to-zinc-950/60 shadow-[0_0_15px_rgba(245,158,11,0.1)]' 
                       : 'border-zinc-800 bg-zinc-950/60 hover:border-primary/30'
                   }`}>
-                    {/* Top highlights indicator */}
+                    {/* Top highlights indicator — subtle glow only, no label */}
                     {isFeatured && (
-                      <div className="absolute top-0 right-0 bg-amber-500 text-black text-[7px] font-black uppercase tracking-widest px-2.5 py-0.5 rounded-bl-lg flex items-center gap-1">
-                        <span>★</span> DESTAQUE
-                      </div>
+                      <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-amber-400/70 to-transparent" />
                     )}
                     <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
 
@@ -2582,6 +2579,63 @@ const CertificatesSection = () => {
 };
 
 
+// ─── COPY EMAIL BUTTON ───
+const CopyEmailButton = () => {
+  const [copied, setCopied] = useState(false);
+  const email = "techcarlosandre@gmail.com";
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(email);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
+    } catch {
+      // Fallback for browsers that don't support clipboard API
+      const el = document.createElement("textarea");
+      el.value = email;
+      el.style.position = "fixed";
+      el.style.opacity = "0";
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand("copy");
+      document.body.removeChild(el);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
+    }
+  };
+
+  return (
+    <div className="relative">
+      <button
+        onClick={handleCopy}
+        className="contact-link-card group cursor-pointer w-full text-left"
+      >
+        <span className="text-xl">✉️</span>
+        <div>
+          <p className="text-[9px] font-black uppercase tracking-wider text-txt group-hover:text-primary transition-colors">Email</p>
+          <p className="text-[8px] text-txt-muted">techcarlosandre@gmail.com</p>
+        </div>
+      </button>
+      <AnimatePresence>
+        {copied && (
+          <motion.div
+            initial={{ opacity: 0, y: 8, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -8, scale: 0.9 }}
+            transition={{ duration: 0.22, ease: "easeOut" }}
+            className="absolute -top-12 left-1/2 -translate-x-1/2 z-50 whitespace-nowrap"
+          >
+            <div className="flex items-center gap-1.5 bg-green-500 text-white text-[9px] font-black uppercase tracking-wider px-3 py-1.5 rounded-full shadow-lg shadow-green-500/30">
+              <Check size={10} />
+              Email copiado!
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
+
 // ─── FOOTER / CONTACT SECTION ───
 const FooterSection = () => {
   const { t } = useApp();
@@ -2613,16 +2667,7 @@ const FooterSection = () => {
                 <p className="text-[8px] text-txt-muted">(21) 98266-5121</p>
               </div>
             </a>
-            <a
-              href="mailto:techcarlosandre@gmail.com"
-              className="contact-link-card group"
-            >
-              <span className="text-xl">✉️</span>
-              <div>
-                <p className="text-[9px] font-black uppercase tracking-wider text-txt group-hover:text-primary transition-colors">Email</p>
-                <p className="text-[8px] text-txt-muted">techcarlosandre@gmail.com</p>
-              </div>
-            </a>
+            <CopyEmailButton />
             <a
               href="https://github.com/techcarlosandre"
               target="_blank" rel="noopener noreferrer"
@@ -2714,11 +2759,7 @@ export default function PortfolioPage() {
             <StackingSection>
               <AboutMeSection />
             </StackingSection>
-            <LazySection estimatedHeight={600}>
-              <StackingSection>
-                <SolutionsSection />
-              </StackingSection>
-            </LazySection>
+
             <LazySection estimatedHeight={500}>
               <StackingSection>
                 <SkillsSection
