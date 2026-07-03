@@ -550,6 +550,10 @@ const TECH_ICONS: Record<string, { slug: string; color: string; label: string }>
   "Flask": { slug: "flask", color: "#ffffff", label: "Flask" },
   "MCP": { slug: "anthropic", color: "#ffffff", label: "MCP" },
   "Flutter": { slug: "flutter", color: "#02569B", label: "Flutter" },
+  "Framer Motion": { slug: "framer", color: "#0055FF", label: "Framer Motion" },
+  "pgvector": { slug: "postgresql", color: "#336791", label: "pgvector" },
+  "Redis": { slug: "redis", color: "#FF3E30", label: "Redis" },
+  "AWS": { slug: "amazonwebservices", color: "#FF9900", label: "AWS" },
 };
 
 const TechLogoCard = ({
@@ -1280,10 +1284,10 @@ const SkillsSection = ({
   const { t } = useApp();
   const [pausedRow, setPausedRow] = useState<Record<number, boolean>>({});
 
-  const row1 = ["JS", "TS", "React", "Next.js", "Vue.js", "Node.js", "RabbitMQ"];
-  const row2 = ["Java", "Spring", "GraphQL", "Prisma", "Supabase", "REST API", "Django"];
-  const row3 = ["Git", "Docker", "N8N", "Figma", "Grafana", "Chatwoot", "LLMs"];
-  const row4 = ["Python", "PostgreSQL", "Tailwind", "Flask", "MCP", "Flutter", "Axios"];
+  const row1 = ["JS", "TS", "React", "Next.js", "Vue.js", "Node.js", "RabbitMQ", "Framer Motion"];
+  const row2 = ["Java", "Spring", "GraphQL", "Prisma", "Supabase", "REST API", "Django", "pgvector"];
+  const row3 = ["Git", "Docker", "N8N", "Figma", "Grafana", "Chatwoot", "LLMs", "Redis"];
+  const row4 = ["Python", "PostgreSQL", "Tailwind", "Flask", "MCP", "Flutter", "Axios", "AWS"];
 
   return (
     <section id="skills" className="py-24 px-4 border-t border-border/40 bg-bg/10 relative overflow-hidden">
@@ -1895,6 +1899,10 @@ const ProjectsSection = ({
     MCP: ["MCP"],
     Flutter: ["Flutter"],
     RabbitMQ: ["RabbitMQ"],
+    "Framer Motion": ["Framer Motion", "Framer"],
+    pgvector: ["pgvector", "PostgreSQL"],
+    Redis: ["Redis"],
+    AWS: ["AWS", "Amazon Web Services"],
   };
 
   const filtered = selectedTech
