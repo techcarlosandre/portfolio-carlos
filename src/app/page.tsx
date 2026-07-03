@@ -385,10 +385,12 @@ const FadeIn = ({
   children,
   delay = 0,
   direction = "up",
+  triggerOnMount = false,
 }: {
   children: React.ReactNode;
   delay?: number;
   direction?: "up" | "down" | "left" | "right";
+  triggerOnMount?: boolean;
 }) => {
   const [isMobile, setIsMobile] = useState<boolean>(true);
 
@@ -405,6 +407,19 @@ const FadeIn = ({
     left: { x: isMobile ? 25 : 40, y: 0 },
     right: { x: isMobile ? -25 : -40, y: 0 },
   };
+
+  // If triggerOnMount is enabled, animate directly on mount instead of scroll triggers
+  if (triggerOnMount) {
+    return (
+      <motion.div
+        initial={{ opacity: 0, ...dirs[direction], filter: isMobile ? "none" : "blur(8px)" }}
+        animate={{ opacity: 1, x: 0, y: 0, filter: isMobile ? "none" : "blur(0px)" }}
+        transition={{ duration: isMobile ? 0.4 : 0.7, delay: isMobile ? delay * 0.5 : delay, ease: "easeOut" }}
+      >
+        {children}
+      </motion.div>
+    );
+  }
 
   return (
     <motion.div
@@ -742,7 +757,7 @@ const HeroSection = () => {
       <div className="absolute inset-0 bg-gradient-to-b from-primary/4 via-transparent to-transparent pointer-events-none" />
 
       <div className="w-full px-6 md:px-16 lg:px-24 xl:px-32 flex flex-col items-center relative z-10 text-center">
-        <FadeIn delay={0.05}>
+        <FadeIn delay={0.05} triggerOnMount>
           {/* Avatar with glow ring */}
           <div className="relative w-20 h-20 mb-5 mx-auto">
             <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-primary via-accent to-primary/50 blur-lg opacity-60 animate-pulse" />
@@ -756,13 +771,13 @@ const HeroSection = () => {
           </div>
         </FadeIn>
 
-        <FadeIn delay={0.1}>
+        <FadeIn delay={0.1} triggerOnMount>
           <Badge pulsing>
             <ShinyText text={t.hero.badge} />
           </Badge>
         </FadeIn>
 
-        <FadeIn delay={0.25}>
+        <FadeIn delay={0.25} triggerOnMount>
           <h1 className="text-4xl sm:text-6xl md:text-[76px] font-black uppercase leading-[0.95] tracking-tighter mt-6 mb-3">
             {isMobile ? t.hero.title1 : <SplitText text={t.hero.title1} />}
             <br />
@@ -772,13 +787,13 @@ const HeroSection = () => {
           </h1>
         </FadeIn>
 
-        <FadeIn delay={0.35}>
+        <FadeIn delay={0.35} triggerOnMount>
           <div className="text-txt-muted text-sm md:text-base font-medium mb-8 h-7">
             <TypewriterTitle words={t.hero.typewriter} />
           </div>
         </FadeIn>
 
-        <FadeIn delay={0.45}>
+        <FadeIn delay={0.45} triggerOnMount>
           <SpotlightCard className="w-full max-w-4xl bg-zinc-950/40 backdrop-blur-xl border border-zinc-800 p-6 md:p-10 rounded-3xl shadow-xl">
             <p className="text-txt-muted text-xs md:text-sm leading-relaxed mb-6">
               {t.hero.desc}
