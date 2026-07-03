@@ -433,8 +433,7 @@ const FadeIn = ({
   );
 };
 
-// ─── STACKING SECTION ───
-const StackingSection = ({
+const StackingSectionDesktop = ({
   children,
   className = "",
   id,
@@ -444,17 +443,6 @@ const StackingSection = ({
   id?: string;
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [isMobile, setIsMobile] = useState<boolean>(true);
-
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
-
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end start"],
@@ -467,12 +455,48 @@ const StackingSection = ({
     <div ref={containerRef} className="relative w-full">
       <motion.div
         id={id}
-        style={isMobile ? {} : { scale, opacity }}
+        style={{ scale, opacity }}
         className={`w-full ${className}`}
       >
         {children}
       </motion.div>
     </div>
+  );
+};
+
+// ─── STACKING SECTION ───
+const StackingSection = ({
+  children,
+  className = "",
+  id,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  id?: string;
+}) => {
+  const [isMobile, setIsMobile] = useState<boolean>(true);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  if (isMobile) {
+    return (
+      <div id={id} className={`w-full ${className}`}>
+        {children}
+      </div>
+    );
+  }
+
+  return (
+    <StackingSectionDesktop className={className} id={id}>
+      {children}
+    </StackingSectionDesktop>
   );
 };
 
