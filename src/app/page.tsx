@@ -2769,6 +2769,19 @@ export default function PortfolioPage() {
     }
   }, []);
 
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (!loaded) {
+      document.body.style.overflow = "hidden";
+      window.scrollTo(0, 0);
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [loaded]);
+
   const toggleTheme = () => {
     const next = theme === "dark" ? "light" : "dark";
     setTheme(next);
@@ -2785,7 +2798,7 @@ export default function PortfolioPage() {
         {!loaded && <LoadingScreen key="loading" onDone={() => setLoaded(true)} />}
       </AnimatePresence>
 
-      <div className={!loaded ? "h-screen overflow-hidden pointer-events-none" : ""}>
+      <div className={!loaded ? "pointer-events-none" : ""}>
         <CustomCursor />
         <ScrollProgress />
         <FloatingChatWidget t={t} lang={lang} theme={theme} />
