@@ -298,8 +298,16 @@ const TypewriterTitle = ({ words }: { words: readonly string[] }) => {
   const [displayed, setDisplayed] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
 
+  // Reset state when words list changes (e.g. language toggle) to prevent lockups
+  useEffect(() => {
+    setDisplayed("");
+    setIsDeleting(false);
+    setIndex(0);
+  }, [words]);
+
   useEffect(() => {
     const word = words[index];
+    if (!word) return;
     let timeout: ReturnType<typeof setTimeout>;
 
     if (!isDeleting && displayed.length < word.length) {
@@ -462,56 +470,15 @@ const StackingSection = ({
 const LazySection = ({
   children,
   className = "",
-  estimatedHeight = 500,
 }: {
   children: React.ReactNode;
   className?: string;
   estimatedHeight?: number;
 }) => {
-  const ref = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-
-    // Load immediately on desktop, lazy load on mobile device
-    const isMobileDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0 || window.innerWidth < 768;
-    if (!isMobileDevice) {
-      setIsVisible(true);
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.disconnect();
-        }
-      },
-      {
-        rootMargin: "450px 0px 450px 0px", // trigger 450px before entering viewport
-        threshold: 0.01,
-      }
-    );
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
+  // Render immediately to support seamless background pre-rendering
   return (
-    <div
-      ref={ref}
-      className={className}
-      style={{
-        minHeight: isVisible ? "auto" : `${estimatedHeight}px`,
-      }}
-    >
-      {isVisible ? children : (
-        <div className="w-full flex items-center justify-center bg-zinc-950/10" style={{ height: `${estimatedHeight}px` }}>
-          <div className="w-6 h-6 border-2 border-primary/20 border-t-primary rounded-full animate-spin" />
-        </div>
-      )}
+    <div className={className}>
+      {children}
     </div>
   );
 };
