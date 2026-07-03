@@ -379,43 +379,18 @@ const FadeIn = ({
   delay?: number;
   direction?: "up" | "down" | "left" | "right";
 }) => {
-  // Default true so SSR + first mobile paint never gets opacity:0 stuck
-  const [isMobile, setIsMobile] = useState<boolean>(true);
-
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768);
-    check();
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
-  }, []);
-
-  // On mobile: animate immediately to opacity 1 when mounted
-  // to avoid IntersectionObserver bugs on initial page load
-  if (isMobile) {
-    return (
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.4, delay: delay * 0.5, ease: "easeOut" }}
-      >
-        {children}
-      </motion.div>
-    );
-  }
-
   const dirs = {
-    up: { y: 40, x: 0 },
-    down: { y: -40, x: 0 },
-    left: { x: 40, y: 0 },
-    right: { x: -40, y: 0 },
+    up: { y: 25, x: 0 },
+    down: { y: -25, x: 0 },
+    left: { x: 25, y: 0 },
+    right: { x: -25, y: 0 },
   };
 
   return (
     <motion.div
-      initial={{ opacity: 0, ...dirs[direction], filter: "blur(8px)" }}
-      whileInView={{ opacity: 1, x: 0, y: 0, filter: "blur(0px)" }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.7, delay, ease: "easeOut" }}
+      initial={{ opacity: 0, ...dirs[direction] }}
+      animate={{ opacity: 1, x: 0, y: 0 }}
+      transition={{ duration: 0.5, delay: delay * 0.7, ease: "easeOut" }}
     >
       {children}
     </motion.div>
