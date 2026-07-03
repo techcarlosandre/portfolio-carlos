@@ -293,7 +293,7 @@ const AnimatedCounter = ({ to, suffix = "" }: { to: number; suffix?: string }) =
 };
 
 // ─── TYPEWRITER TITLE ───
-const TypewriterTitle = ({ words }: { words: readonly string[] }) => {
+const TypewriterTitle = ({ words, start = true }: { words: readonly string[]; start?: boolean }) => {
   const [displayed, setDisplayed] = useState("");
   const [index, setIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -306,6 +306,7 @@ const TypewriterTitle = ({ words }: { words: readonly string[] }) => {
   }, [words]);
 
   useEffect(() => {
+    if (!start) return;
     const word = words[index];
     if (!word) return;
 
@@ -333,7 +334,7 @@ const TypewriterTitle = ({ words }: { words: readonly string[] }) => {
     }, delay);
 
     return () => clearTimeout(timer);
-  }, [displayed, isDeleting, index, words]);
+  }, [displayed, isDeleting, index, words, start]);
 
   return (
     <span className="typewriter-text">{displayed}</span>
@@ -763,7 +764,7 @@ const Navbar = () => {
 };
 
 // ─── HERO SECTION (Módulo 1) ───
-const HeroSection = () => {
+const HeroSection = ({ loaded }: { loaded: boolean }) => {
   const { t } = useApp();
   const [isMobile, setIsMobile] = useState<boolean>(true);
   useEffect(() => {
@@ -813,7 +814,7 @@ const HeroSection = () => {
 
         <FadeIn delay={0.35} triggerOnMount>
           <div className="text-txt-muted text-sm md:text-base font-medium mb-8 h-7">
-            <TypewriterTitle words={t.hero.typewriter} />
+            <TypewriterTitle words={t.hero.typewriter} start={loaded} />
           </div>
         </FadeIn>
 
@@ -2807,62 +2808,61 @@ export default function PortfolioPage() {
     <AppContext.Provider value={{ lang, t, theme, toggleTheme, setLang }}>
       {isOldDomain && <MigrationOverlay />}
 
-      <AnimatePresence mode="wait">
-        {!loaded ? (
-          <LoadingScreen key="loading" onDone={() => setLoaded(true)} />
-        ) : (
-          <motion.div
-            key="content"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
-          >
-            <CustomCursor />
-            <ScrollProgress />
-            <FloatingChatWidget t={t} lang={lang} theme={theme} />
-            <main className="relative min-h-screen bg-bg text-txt selection:bg-primary selection:text-white overflow-x-clip dot-grid">
-              <div className="grain-overlay" />
-              <BackgroundGrid />
-              <BackgroundBeams />
-              <Navbar />
-              <StackingSection>
-                <HeroSection />
-              </StackingSection>
-              <StackingSection>
-                <AboutMeSection />
-              </StackingSection>
-
-              <LazySection>
-                <StackingSection>
-                  <SkillsSection
-                    selectedTech={selectedTech}
-                    onSelectTech={(tech) => setSelectedTech((curr) => (curr === tech ? null : tech))}
-                  />
-                </StackingSection>
-              </LazySection>
-              <LazySection>
-                <StackingSection>
-                  <ServicesSection />
-                </StackingSection>
-              </LazySection>
-              <LazySection>
-                <StackingSection>
-                  <ProjectsSection
-                    selectedTech={selectedTech}
-                    onClearSelection={() => setSelectedTech(null)}
-                  />
-                </StackingSection>
-              </LazySection>
-              <LazySection>
-                <StackingSection>
-                  <CertificatesSection />
-                </StackingSection>
-              </LazySection>
-              <FooterSection />
-            </main>
-          </motion.div>
-        )}
+      <AnimatePresence>
+        {!loaded && <LoadingScreen key="loading" onDone={() => setLoaded(true)} />}
       </AnimatePresence>
+
+      <div 
+        className={`w-full min-h-screen transition-opacity duration-700 ease-out ${
+          !loaded 
+            ? "pointer-events-none h-screen overflow-hidden opacity-0" 
+            : "opacity-100"
+        }`}
+      >
+        <CustomCursor />
+        <ScrollProgress />
+        <FloatingChatWidget t={t} lang={lang} theme={theme} />
+        <main className="relative min-h-screen bg-bg text-txt selection:bg-primary selection:text-white overflow-x-clip dot-grid">
+          <div className="grain-overlay" />
+          <BackgroundGrid />
+          <BackgroundBeams />
+          <Navbar />
+          <StackingSection>
+            <HeroSection loaded={loaded} />
+          </StackingSection>
+          <StackingSection>
+            <AboutMeSection />
+          </StackingSection>
+
+          <LazySection>
+            <StackingSection>
+              <SkillsSection
+                selectedTech={selectedTech}
+                onSelectTech={(tech) => setSelectedTech((curr) => (curr === tech ? null : tech))}
+              />
+            </StackingSection>
+          </LazySection>
+          <LazySection>
+            <StackingSection>
+              <ServicesSection />
+            </StackingSection>
+          </LazySection>
+          <LazySection>
+            <StackingSection>
+              <ProjectsSection
+                selectedTech={selectedTech}
+                onClearSelection={() => setSelectedTech(null)}
+              />
+            </StackingSection>
+          </LazySection>
+          <LazySection>
+            <StackingSection>
+              <CertificatesSection />
+            </StackingSection>
+          </LazySection>
+          <FooterSection />
+        </main>
+      </div>
     </AppContext.Provider>
   );
 }
