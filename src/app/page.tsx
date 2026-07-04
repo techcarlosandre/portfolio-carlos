@@ -106,7 +106,7 @@ const MigrationOverlay = () => {
 
   return (
     <div className="fixed inset-0 bg-black z-[10000] flex flex-col items-center justify-center p-6 text-center dot-grid">
-      <div className="max-w-md w-full bg-zinc-950/60 backdrop-blur-xl border border-zinc-800 p-8 rounded-3xl shadow-2xl relative overflow-hidden">
+      <div className="max-w-md w-full bg-surface/60 backdrop-blur-xl border border-border p-8 rounded-3xl shadow-2xl relative overflow-hidden">
         <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-accent to-primary" />
         <div className="w-16 h-16 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center mx-auto mb-6 animate-pulse">
           <AlertTriangle className="text-primary" size={32} />
@@ -863,7 +863,7 @@ const AboutMeSection = () => {
           <FadeIn direction="left">
             <div className="space-y-6">
               {/* Avatar + Bio Card */}
-              <SpotlightCard className="border border-zinc-800 bg-zinc-950/60 p-6 rounded-2xl backdrop-blur-xl">
+              <SpotlightCard className="border border-border bg-surface/60 p-6 rounded-2xl backdrop-blur-xl">
                 <div className="flex items-start gap-5 mb-5">
                   <div className="relative w-16 h-16 shrink-0">
                     <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-primary via-accent to-primary/50 blur-md opacity-50" />
@@ -888,7 +888,7 @@ const AboutMeSection = () => {
                 {am.stats.map((s, i) => (
                   <motion.div
                     key={i}
-                    className="border border-zinc-800 bg-zinc-950/60 backdrop-blur-xl rounded-xl p-4 text-center hover:border-primary/40 transition-colors"
+                    className="border border-border bg-surface/60 backdrop-blur-xl rounded-xl p-4 text-center hover:border-primary/40 transition-colors"
                     whileHover={{ y: -4, scale: 1.03 }}
                     transition={{ type: 'spring', stiffness: 400, damping: 25 }}
                   >
@@ -899,7 +899,7 @@ const AboutMeSection = () => {
               </div>
 
               {/* Areas */}
-              <SpotlightCard className="border border-zinc-800 bg-zinc-950/60 p-5 rounded-2xl backdrop-blur-xl">
+              <SpotlightCard className="border border-border bg-surface/60 p-5 rounded-2xl backdrop-blur-xl">
                 <p className="text-[9px] font-black uppercase tracking-widest text-txt-muted mb-3">{am.areasTitle}</p>
                 <div className="flex flex-wrap gap-2">
                   {am.areas.map((area, i) => (
@@ -923,7 +923,7 @@ const AboutMeSection = () => {
                 <div className="space-y-3">
                   {am.education.map((edu, i) => (
                     <CardTilt3D key={i}>
-                      <SpotlightCard className="border border-zinc-800 bg-zinc-950/60 p-5 rounded-2xl backdrop-blur-xl hover:border-primary/30 transition-all relative overflow-hidden">
+                      <SpotlightCard className="border border-border bg-surface/60 p-5 rounded-2xl backdrop-blur-xl hover:border-primary/30 transition-all relative overflow-hidden">
                         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
                         <div className="flex items-start justify-between gap-3">
                           <div className="flex-1">
@@ -952,7 +952,7 @@ const AboutMeSection = () => {
               </div>
 
               {/* Languages */}
-              <SpotlightCard className="border border-zinc-800 bg-zinc-950/60 p-5 rounded-2xl backdrop-blur-xl">
+              <SpotlightCard className="border border-border bg-surface/60 p-5 rounded-2xl backdrop-blur-xl">
                 <p className="text-[9px] font-black uppercase tracking-widest text-txt-muted mb-4 flex items-center gap-2">
                   <span className="w-4 h-px bg-primary" />{am.languagesTitle}
                 </p>
@@ -1018,7 +1018,7 @@ const ExperienceSection = () => {
           {exp.items.map((item, idx) => (
             <FadeIn key={idx} delay={idx * 0.12}>
               <CardTilt3D className="h-full">
-                <SpotlightCard className="h-full flex flex-col border border-zinc-800 bg-zinc-950/60 p-6 rounded-2xl backdrop-blur-xl hover:border-red-950/60 relative overflow-hidden">
+                <SpotlightCard className="h-full flex flex-col border border-border bg-surface/60 p-6 rounded-2xl backdrop-blur-xl hover:border-red-950/60 relative overflow-hidden">
                   {/* Top accent line */}
                   <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
 
@@ -1126,7 +1126,7 @@ const SolutionsSection = () => {
           {sol.items.map((item, idx) => (
             <FadeIn key={idx} delay={idx * 0.1}>
               <CardTilt3D className="h-full">
-                <SpotlightCard className="h-full flex flex-col border border-zinc-800 bg-zinc-950/60 p-5 rounded-2xl backdrop-blur-xl hover:border-primary/45 transition-all">
+                <SpotlightCard className="h-full flex flex-col border border-border bg-surface/60 p-5 rounded-2xl backdrop-blur-xl hover:border-primary/45 transition-all">
                   <div className="w-9 h-9 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center mb-4 text-lg">
                     {getIcon(item.icon)}
                   </div>
@@ -1149,7 +1149,7 @@ const SolutionsSection = () => {
         <FadeIn delay={0.3}>
           <div className="flex flex-col items-center gap-4 my-14">
             <div className="w-full h-px bg-gradient-to-r from-transparent via-border to-transparent" />
-            <span className="text-[9px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full bg-zinc-950/80 border border-zinc-800 text-primary-light shadow-[0_0_10px_rgba(200,30,30,0.05)]">
+            <span className="text-[9px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full bg-surface/80 border border-border text-primary-light shadow-[0_0_10px_rgba(200,30,30,0.05)]">
               {sol.partnerTitle}
             </span>
           </div>
@@ -1157,7 +1157,7 @@ const SolutionsSection = () => {
 
         {/* Horizontal Partnership Card (Yasmin's Profile) */}
         <FadeIn delay={0.45}>
-          <SpotlightCard className="border border-zinc-800 bg-gradient-to-r from-zinc-950/70 via-zinc-950/60 to-zinc-950/70 p-6 rounded-2xl backdrop-blur-xl relative overflow-hidden">
+          <SpotlightCard className="border border-border bg-gradient-to-r from-surface/70 via-surface/60 to-surface/70 p-6 rounded-2xl backdrop-blur-xl relative overflow-hidden">
             {/* Ambient glow */}
             <div className="absolute top-0 right-0 w-48 h-48 bg-primary/8 blur-[50px] pointer-events-none" />
             <div className="absolute bottom-0 left-0 w-36 h-36 bg-accent/5 blur-[40px] pointer-events-none" />
@@ -1487,7 +1487,7 @@ const ServicesSection = () => {
           {t.services.items.map((item, idx) => (
             <FadeIn key={idx} delay={idx * 0.12}>
               <CardTilt3D className="h-full">
-                <SpotlightCard className="h-full flex flex-col border border-zinc-800 bg-zinc-950/60 p-6 rounded-2xl backdrop-blur-xl hover:border-red-950/60 relative overflow-hidden">
+                <SpotlightCard className="h-full flex flex-col border border-border bg-surface/60 p-6 rounded-2xl backdrop-blur-xl hover:border-red-950/60 relative overflow-hidden">
                   {/* Top accent line */}
                   <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
 
@@ -2391,7 +2391,7 @@ const ProjectsSection = ({
                         className={`flex flex-col items-start gap-1 p-2.5 rounded-xl border text-left shrink-0 transition-all duration-300 w-28 cursor-pointer hover:border-primary/50 ${
                           isActive
                             ? "border-primary bg-primary/10 shadow-[0_0_12px_rgba(128,0,0,0.25)]"
-                            : "border-zinc-800 bg-zinc-950/40"
+                            : "border-border bg-surface/40"
                         }`}
                       >
                         <span className="text-[7px] font-black uppercase text-txt-muted block leading-none">
@@ -2576,7 +2576,7 @@ const CertificatesSection = () => {
                     className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest border transition-all duration-200 cursor-pointer ${
                       isActive
                         ? 'bg-primary text-white border-primary shadow-[0_0_12px_rgba(128,0,0,0.3)]'
-                        : `border-zinc-800 bg-zinc-950/40 text-txt-muted hover:border-primary/40 hover:text-txt`
+                        : `border-border bg-surface/40 text-txt-muted hover:border-primary/40 hover:text-txt`
                     }`}
                   >
                     {conf && <span>{conf.icon}</span>}
@@ -2620,7 +2620,7 @@ const CertificatesSection = () => {
                   <SpotlightCard className={`h-full flex flex-col border p-4 rounded-2xl backdrop-blur-xl transition-all relative overflow-hidden cursor-pointer ${
                     isFeatured 
                       ? 'border-amber-500/50 bg-gradient-to-b from-amber-950/20 via-zinc-950/60 to-zinc-950/60 shadow-[0_0_15px_rgba(245,158,11,0.1)]' 
-                      : 'border-zinc-800 bg-zinc-950/60 hover:border-primary/30'
+                      : 'border-border bg-surface/60 hover:border-primary/30'
                   }`}>
                     {/* Top highlights indicator — subtle glow only, no label */}
                     {isFeatured && (
@@ -2663,7 +2663,7 @@ const CertificatesSection = () => {
             <div className="flex justify-center mt-10">
               <button
                 onClick={() => setShowAll(!showAll)}
-                className="inline-flex items-center justify-center gap-2 bg-zinc-950 hover:bg-primary border border-zinc-800 hover:border-primary text-white hover:text-white text-[10px] font-black uppercase tracking-wider px-6 py-3.5 rounded-xl transition-all shadow-md duration-300"
+                className="inline-flex items-center justify-center gap-2 bg-zinc-950 hover:bg-primary border border-border hover:border-primary text-white hover:text-white text-[10px] font-black uppercase tracking-wider px-6 py-3.5 rounded-xl transition-all shadow-md duration-300"
               >
                 <span>{showAll ? c.btnShowLess : c.btnShowMore}</span>
                 <ChevronRight size={12} className={`transition-transform duration-300 ${showAll ? '-rotate-90' : 'rotate-90'}`} />
