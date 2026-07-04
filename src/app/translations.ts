@@ -377,47 +377,46 @@ export const translations = {
       title1: 'Experiência',
       titleHighlight: 'Profissional',
       subtitle: 'De automações inteligentes ao desenvolvimento full-stack — cada etapa moldou minha forma de criar soluções digitais de impacto.',
-      newChapter: 'E uma nova',
-      newChapterEnd: 'pela frente',
-      rotatingWords: ['etapa', 'jornada', 'experiência'],
       items: [
         {
-          title: 'Desenvolvedor Full-Stack & Freelancer',
-          company: 'Autônomo',
-          type: 'FREELANCER',
-          date: '2026 - Presente',
+          company: 'Espaço Família (Clínica Odontológica)',
+          title: 'Desenvolvedor Full-Stack Freelancer',
+          date: 'Dez/2025 a Jul/2026',
+          stack: ['Python', 'TypeScript', 'PostgreSQL', 'N8N', 'Chatwoot', 'APIs REST', 'LLMs/RAG', 'Grafana'],
           bullets: [
-            'Desenvolvimento de plataformas completas — do design ao lançamento — com Next.js, React e TypeScript.',
-            'Integração de Inteligência Artificial (Google Gemini) para análise de dados e gamificação no Rank&Hub.',
-            'Criação de sistema financeiro completo com controle de metas e gestão familiar no Omni Finanças.',
-            'Manutenção e suporte contínuo de 3+ aplicações em produção.'
+            'Assistente de IA com RAG treinado nas regras da clínica, respondendo pacientes com lógica detalhada via WhatsApp, Instagram e site, centralizado no Chatwoot.',
+            'Integração N8N + Chatwoot + site da clínica, permitindo à equipe responder direto pelo site sem acessar o Chatwoot.',
+            'Agendamento em tempo real integrado ao PostgreSQL, com validação para evitar conflito entre horários marcados por humano e por IA.',
+            'Automatizou o primeiro atendimento ao paciente, que antes era 100% manual, permitindo à equipe focar em casos que exigem atenção humana direta.',
+            'Monitoramento de métricas de conversão de anúncios (pixel) via Grafana, conectado ao banco de dados da aplicação.',
+            'Fluxo completo de cadastro e anamnese via link próprio; testes unitários e QA dedicado ao comportamento da IA.'
           ]
         },
         {
-          title: 'Desenvolvedor Full-Stack — Cliente',
-          company: 'Omni Gestão',
-          type: 'PROJETO',
-          date: '2025 - 2026',
+          company: 'Neo Vertex (Consultoria em Tecnologia)',
+          title: 'Desenvolvedor Front-End & QA Freelancer',
+          date: 'Mar/2026 a Abr/2026',
+          stack: ['Next.js', 'React', 'TypeScript', 'Framer Motion', 'Figma', 'Java', 'Spring Boot'],
           bullets: [
-            'Desenvolvimento do zero de sistema de gestão empresarial para controle de estoque e financeiro.',
-            'Criação de painel executivo com relatórios e indicadores de performance em tempo real.',
-            'Sistema com múltiplas unidades e controle de acesso por nível de usuário.',
-            'Entrega com treinamento, documentação e suporte pós-lançamento.'
+            'Desenvolvimento completo do front-end do site institucional, do zero ao deploy: código em IDE local, versionamento via Git, deploy em VPS (Hostinger) com Coolify para ambiente dinâmico.',
+            'Animações de interface e vídeo com Framer Motion; paleta visual inspirada no tema Dracula (VS Code); prototipação prévia no Figma.',
+            'Atuação como QA em projetos de clientes da empresa (back-end em Java/Spring Boot já desenvolvido pelo time): testes manuais e automatizados de APIs REST, identificação de bugs, pontos de melhoria e documentação de inconsistências.',
+            'Colaboração direta com o fundador da Neo Vertex em automações (N8N) e homologação de aplicações antes da entrega ao cliente final.'
           ]
         },
         {
-          title: 'Especialista em Automação de IA',
-          company: 'Miluli',
-          type: 'EXPERIÊNCIA',
-          date: '2024 - 2026',
+          company: 'Melúlia (Escola de Música & Artes)',
+          title: 'Desenvolvedor Freelancer',
+          date: '2024 a 2025',
+          stack: ['JavaScript', 'HTML', 'CSS', 'ManyChat', 'N8N', 'LLMs'],
           bullets: [
-            'Implantação de robô de atendimento no WhatsApp e Instagram que automatizou 80% das interações com clientes.',
-            'Criação de fluxos de qualificação de leads que reduziram o tempo de resposta em até 90%.',
-            'Automação de agendamentos e triagem de clientes — aumento de 40% nas conversões.',
-            'Integração entre sistemas de mensagens e ferramentas de gestão da empresa.'
+            'Automação de atendimento no WhatsApp com triagem via IA: identificação de novos contatos, verificação se é aluno/responsável, e qualificação de interesse para não-alunos.',
+            'Automação no Instagram com gatilhos por comentário/interação em posts e reels, iniciando conversa automática de boas-vindas, coleta de dados e encaminhamento para o WhatsApp.',
+            'Processo de QA manual dos fluxos de atendimento: testes periódicos das conversas simuladas, revisão de respostas da IA e ajuste de gatilhos para manter qualidade e precisão do atendimento automatizado.',
+            'Desenvolvimento de landing page institucional (JavaScript, HTML, CSS) hospedada na Hostinger.'
           ]
-        },
-      ],
+        }
+      ]
     },
     contact: {
       badge: 'Contato',
@@ -848,47 +847,46 @@ export const translations = {
       title1: 'Professional',
       titleHighlight: 'Experience',
       subtitle: 'From intelligent automations to full-stack development — each step shaped how I build impactful digital solutions.',
-      newChapter: 'And a new',
-      newChapterEnd: 'ahead',
-      rotatingWords: ['step', 'journey', 'experience'],
       items: [
         {
-          title: 'Full-Stack Developer & Freelancer',
-          company: 'Self-Employed',
-          type: 'FREELANCER',
-          date: '2026 - Present',
+          company: 'Espaço Família (Dental Clinic)',
+          title: 'Full-Stack Freelance Developer',
+          date: 'Dec/2025 to Jul/2026',
+          stack: ['Python', 'TypeScript', 'PostgreSQL', 'N8N', 'Chatwoot', 'REST APIs', 'LLMs/RAG', 'Grafana'],
           bullets: [
-            'Building complete platforms — from design to launch — using Next.js, React, and TypeScript.',
-            'Integrated AI (Google Gemini) for data analysis and gamification features in Rank&Hub.',
-            'Built a full financial system with goal tracking and family management in Omni Finanças.',
-            'Ongoing maintenance and support for 3+ live production applications.'
+            'AI Assistant with RAG trained on clinic rules, answering patients with detailed logic via WhatsApp, Instagram, and website, centralized in Chatwoot.',
+            'N8N + Chatwoot + clinic website integration, allowing the team to respond directly through the website without accessing Chatwoot.',
+            'Real-time scheduling integrated with PostgreSQL, with validation to prevent conflicts between human-booked and AI-booked slots.',
+            'Automated the initial patient response, which was previously 100% manual, allowing the team to focus on cases requiring direct human attention.',
+            'Monitored ad conversion metrics (pixel) via Grafana, connected to the application\'s database.',
+            'Complete registration and medical history (anamnesis) flow via a custom link; unit testing and dedicated QA for AI behavior.'
           ]
         },
         {
-          title: 'Full-Stack Developer — Client Project',
-          company: 'Omni Gestão',
-          type: 'PROJECT',
-          date: '2025 - 2026',
+          company: 'Neo Vertex (Tech Consulting)',
+          title: 'Front-End & QA Freelance Developer',
+          date: 'Mar/2026 to Apr/2026',
+          stack: ['Next.js', 'React', 'TypeScript', 'Framer Motion', 'Figma', 'Java', 'Spring Boot'],
           bullets: [
-            'Built a complete business management system for inventory and financial control from scratch.',
-            'Created executive dashboards with real-time performance indicators and reports.',
-            'Multi-unit system with role-based user access and data synchronization.',
-            'Delivered with training, documentation, and post-launch support.'
+            'Complete front-end development of the institutional website, from scratch to deploy: local IDE coding, Git versioning, Hostinger VPS deployment using Coolify for a dynamic environment.',
+            'Interface and video animations with Framer Motion; visual palette inspired by the Dracula VS Code theme; prior prototyping in Figma.',
+            'Acted as QA for client projects (Java/Spring Boot back-end already developed by the team): manual and automated testing of REST APIs, bug identification, areas of improvement, and documentation of inconsistencies.',
+            'Direct collaboration with the founder of Neo Vertex on automations (N8N) and application homologation prior to final client delivery.'
           ]
         },
         {
-          title: 'AI Automation Specialist',
-          company: 'Miluli',
-          type: 'EXPERIENCE',
-          date: '2024 - 2026',
+          company: 'Melúlia (Music & Arts School)',
+          title: 'Freelance Developer',
+          date: '2024 to 2025',
+          stack: ['JavaScript', 'HTML', 'CSS', 'ManyChat', 'N8N', 'LLMs'],
           bullets: [
-            'Deployed a WhatsApp and Instagram service bot that automated 80% of customer interactions.',
-            'Created intelligent lead qualification flows that reduced response time by up to 90%.',
-            'Automated appointment scheduling and customer triage — increasing conversions by 40%.',
-            'Integrated messaging systems with the company\'s management tools.'
+            'Customer service automation on WhatsApp with AI triage: identifying new contacts, verifying if they are a student/guardian, and qualifying interest for non-students.',
+            'Instagram automation with triggers from comments/interaction on posts and reels, starting automatic welcome conversations, data collection, and redirection to WhatsApp.',
+            'Manual QA process of customer service flows: periodic testing of simulated conversations, review of AI responses, and trigger adjustments to maintain service quality and accuracy.',
+            'Institutional landing page development (JavaScript, HTML, CSS) hosted on Hostinger.'
           ]
-        },
-      ],
+        }
+      ]
     },
     contact: {
       badge: 'Contact',
