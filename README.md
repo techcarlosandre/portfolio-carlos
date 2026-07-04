@@ -69,13 +69,6 @@ Sistema integrado de gestão médica e prontuário eletrônico (PEP) focado em u
 *   Desenvolvimento completo de site institucional em Next.js com animações Framer Motion (tema Dracula).
 *   Atuação como QA de APIs REST em back-ends Java / Spring Boot.
 *   Automações de integração contínua de homologação via N8N.
-
-### 🤖 MILULI (Escola de Música & Artes) — Desenvolvedor de IA e Automação Freelancer
-*Abril/2024 – Março/2026*  
-*   Automação de triagem de atendimento com IA no WhatsApp e Instagram.
-*   Fluxos de coleta de dados e qualificação de leads com ManyChat e N8N.
-*   Desenvolvimento da landing page institucional hospedada na Hostinger.
-
 ---
 
 ## 📧 Contato Comercial

@@ -1080,7 +1080,7 @@ const ExperienceSection = () => {
         </div>
 
         {/* Experience Cards Grid */}
-        <div className="grid md:grid-cols-3 gap-5">
+        <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
           {exp.items.map((item, idx) => (
             <FadeIn key={idx} delay={idx * 0.12}>
               <CardTilt3D className="h-full">

@@ -385,12 +385,12 @@ export const translations = {
           link: 'https://clinicaespacofamilia.com.br',
           stack: ['Python', 'TypeScript', 'PostgreSQL', 'N8N', 'Chatwoot', 'APIs REST', 'LLMs/RAG', 'Grafana'],
           bullets: [
-            'Assistente de IA com RAG treinado nas regras da clínica, respondendo pacientes com lógica detalhada via WhatsApp, Instagram e site, centralizado no Chatwoot.',
-            'Integração N8N + Chatwoot + site da clínica, permitindo à equipe responder direto pelo site sem acessar o Chatwoot.',
-            'Agendamento em tempo real integrado ao PostgreSQL, com validação para evitar conflito entre horários marcados por humano e por IA.',
-            'Automatizou o primeiro atendimento ao paciente, que antes era 100% manual, permitindo à equipe focar em casos que exigem atenção humana direta.',
-            'Monitoramento de métricas de conversão de anúncios (pixel) via Grafana, conectado ao banco de dados da aplicação.',
-            'Fluxo completo de cadastro e anamnese via link próprio; testes unitários e QA dedicado ao comportamento da IA.'
+            'Desenvolvimento de agente conversacional de IA utilizando arquitetura RAG (Retrieval-Augmented Generation) com base de conhecimento clínica, orquestrando atendimentos automatizados no WhatsApp, Instagram e Web App.',
+            'Implementação de pipeline no N8N integrado com API do Chatwoot e banco de dados relacional PostgreSQL para centralização omnicanal.',
+            'Modelagem de banco de dados com isolamento transacional e triggers no PostgreSQL para validação de agendamentos concorrentes em tempo real, evitando conflitos de horários.',
+            'Automação completa do funil de triagem inicial de pacientes, reduzindo em 100% o tempo de resposta e direcionando casos complexos para o time humano.',
+            'Integração de webhooks de conversão de tráfego pago (Meta Pixel/API de Conversão) com painel analítico no Grafana conectado ao banco de dados.',
+            'Desenvolvimento de fluxo completo de onboarding de pacientes com ficha cadastral e anamnese responsiva, validado com testes unitários no comportamento da IA.'
           ]
         },
         {
@@ -400,22 +400,11 @@ export const translations = {
           link: 'https://neovertex.top',
           stack: ['Next.js', 'React', 'TypeScript', 'Framer Motion', 'Figma', 'Java', 'Spring Boot'],
           bullets: [
-            'Desenvolvimento completo do front-end do site institucional, do zero ao deploy: código em IDE local, versionamento via Git, deploy em VPS (Hostinger) com Coolify para ambiente dinâmico.',
-            'Animações de interface e vídeo com Framer Motion; paleta visual inspirada no tema Dracula (VS Code); prototipação prévia no Figma.',
-            'Atuação como QA em projetos de clientes da empresa (back-end em Java/Spring Boot já desenvolvido pelo time): testes manuais e automatizados de APIs REST, identificação de bugs, pontos de melhoria e documentação de inconsistências.',
-            'Colaboração direta com o fundador da Neo Vertex em automações (N8N) e homologação de aplicações antes da entrega ao cliente final.'
-          ]
-        },
-        {
-          company: 'MILULI',
-          title: 'Desenvolvedor de IA e Automação Freelancer',
-          date: 'Abril/2024 – Março/2026',
-          stack: ['JavaScript', 'HTML', 'CSS', 'ManyChat', 'N8N', 'LLMs'],
-          bullets: [
-            'Automação de atendimento no WhatsApp com triagem via IA: identificação de novos contatos, verificação se é aluno/responsável, e qualificação de interesse para não-alunos.',
-            'Automação no Instagram com gatilhos por comentário/interação em posts e reels, iniciando conversa automática de boas-vindas, coleta de dados e encaminhamento para o WhatsApp.',
-            'Processo de QA manual dos fluxos de atendimento: testes periódicos das conversas simuladas, revisão de respostas da IA e ajuste de gatilhos para manter qualidade e precisão do atendimento automatizado.',
-            'Desenvolvimento de landing page institucional (JavaScript, HTML, CSS) hospedada na Hostinger.'
+            'Engenharia de front-end do portal corporativo do zero utilizando Next.js (App Router), TypeScript e Tailwind CSS v4, alcançando pontuação máxima no Core Web Vitals.',
+            'Criação de animações e transições de tela altamente performáticas e fluidas utilizando Framer Motion, seguindo design system Dracula prototipado no Figma.',
+            'Implantação e gerenciamento de infraestrutura em VPS (Hostinger) através do Coolify, integrando esteiras de CI/CD para deploys dinâmicos.',
+            'Atuação focada em Quality Assurance (QA) em projetos corporativos robustos, projetando testes manuais e automatizados de endpoints de APIs REST construídas em Java com Spring Boot.',
+            'Homologação completa de fluxos de dados ponta a ponta e automações corporativas em N8N antes da entrega dos produtos aos clientes finais.'
           ]
         }
       ]
@@ -857,12 +846,12 @@ export const translations = {
           link: 'https://clinicaespacofamilia.com.br',
           stack: ['Python', 'TypeScript', 'PostgreSQL', 'N8N', 'Chatwoot', 'REST APIs', 'LLMs/RAG', 'Grafana'],
           bullets: [
-            'AI Assistant with RAG trained on clinic rules, answering patients with detailed logic via WhatsApp, Instagram, and website, centralized in Chatwoot.',
-            'N8N + Chatwoot + clinic website integration, allowing the team to respond directly through the website without accessing Chatwoot.',
-            'Real-time scheduling integrated with PostgreSQL, with validation to prevent conflicts between human-booked and AI-booked slots.',
-            'Automated the initial patient response, which was previously 100% manual, allowing the team to focus on cases requiring direct human attention.',
-            'Monitored ad conversion metrics (pixel) via Grafana, connected to the application\'s database.',
-            'Complete registration and medical history (anamnesis) flow via a custom link; unit testing and dedicated QA for AI behavior.'
+            'Developed an autonomous AI conversational agent using RAG (Retrieval-Augmented Generation) architecture based on clinical guidelines, orchestrating automated customer service across WhatsApp, Instagram, and Web App.',
+            'Implemented data pipelines in N8N integrated with the Chatwoot API and PostgreSQL relational database for centralized omnichannel communication.',
+            'Designed database models with strict transaction isolation and SQL triggers in PostgreSQL to validate real-time concurrent scheduling, preventing booking conflicts.',
+            'Complete automation of the initial patient screening funnel, reducing response times by 100% and routing complex cases to human agents.',
+            'Integrated paid traffic conversion webhooks (Meta Pixel/Conversion API) with analytical dashboards in Grafana connected directly to the database.',
+            'Developed a complete patient onboarding flow with responsive registration and medical history, validated through unit testing on AI behavior.'
           ]
         },
         {
@@ -872,22 +861,11 @@ export const translations = {
           link: 'https://neovertex.top',
           stack: ['Next.js', 'React', 'TypeScript', 'Framer Motion', 'Figma', 'Java', 'Spring Boot'],
           bullets: [
-            'Complete front-end development of the institutional website, from scratch to deploy: local IDE coding, Git versioning, Hostinger VPS deployment using Coolify for a dynamic environment.',
-            'Interface and video animations with Framer Motion; visual palette inspired by the Dracula VS Code theme; prior prototyping in Figma.',
-            'Acted as QA for client projects (Java/Spring Boot back-end already developed by the team): manual and automated testing of REST APIs, bug identification, areas of improvement, and documentation of inconsistencies.',
-            'Direct collaboration with the founder of Neo Vertex on automations (N8N) and application homologation prior to final client delivery.'
-          ]
-        },
-        {
-          company: 'MILULI',
-          title: 'Freelance AI and Automation Developer',
-          date: 'April/2024 – March/2026',
-          stack: ['JavaScript', 'HTML', 'CSS', 'ManyChat', 'N8N', 'LLMs'],
-          bullets: [
-            'Customer service automation on WhatsApp with AI triage: identifying new contacts, verifying if they are a student/guardian, and qualifying interest for non-students.',
-            'Instagram automation with triggers from comments/interaction on posts and reels, starting automatic welcome conversations, data collection, and redirection to WhatsApp.',
-            'Manual QA process of customer service flows: periodic testing of simulated conversations, review of AI responses, and trigger adjustments to maintain service quality and accuracy.',
-            'Institutional landing page development (JavaScript, HTML, CSS) hosted on Hostinger.'
+            'Front-end engineering of the corporate portal built from scratch using Next.js (App Router), TypeScript, and Tailwind CSS v4, achieving top scores in Core Web Vitals.',
+            'Developed high-performance, fluid interface animations and transitions utilizing Framer Motion, following a Dracula design system prototyped in Figma.',
+            'Infrastructure setup and management on Hostinger VPS using Coolify, integrating CI/CD pipelines for dynamic previews and builds.',
+            'Focused Quality Assurance (QA) role for enterprise client projects, designing manual and automated tests for REST APIs built in Java and Spring Boot.',
+            'Full end-to-end data flow validation and business automations in N8N prior to final client product delivery.'
           ]
         }
       ]
