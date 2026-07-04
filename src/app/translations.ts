@@ -382,6 +382,7 @@ export const translations = {
           company: 'Clínica Odontológica Espaço Família',
           title: 'Desenvolvedor Full-Stack Freelancer',
           date: 'Dezembro/2025 – Julho/2026',
+          link: 'https://clinicaespacofamilia.com.br',
           stack: ['Python', 'TypeScript', 'PostgreSQL', 'N8N', 'Chatwoot', 'APIs REST', 'LLMs/RAG', 'Grafana'],
           bullets: [
             'Assistente de IA com RAG treinado nas regras da clínica, respondendo pacientes com lógica detalhada via WhatsApp, Instagram e site, centralizado no Chatwoot.',
@@ -396,6 +397,7 @@ export const translations = {
           company: 'Neo Vertex',
           title: 'Desenvolvedor Front-End & QA Freelancer',
           date: 'Março/2026 – Abril/2026',
+          link: 'https://neovertex.top',
           stack: ['Next.js', 'React', 'TypeScript', 'Framer Motion', 'Figma', 'Java', 'Spring Boot'],
           bullets: [
             'Desenvolvimento completo do front-end do site institucional, do zero ao deploy: código em IDE local, versionamento via Git, deploy em VPS (Hostinger) com Coolify para ambiente dinâmico.',
@@ -852,6 +854,7 @@ export const translations = {
           company: 'Clínica Odontológica Espaço Família',
           title: 'Full-Stack Freelance Developer',
           date: 'December/2025 – July/2026',
+          link: 'https://clinicaespacofamilia.com.br',
           stack: ['Python', 'TypeScript', 'PostgreSQL', 'N8N', 'Chatwoot', 'REST APIs', 'LLMs/RAG', 'Grafana'],
           bullets: [
             'AI Assistant with RAG trained on clinic rules, answering patients with detailed logic via WhatsApp, Instagram, and website, centralized in Chatwoot.',
@@ -866,6 +869,7 @@ export const translations = {
           company: 'Neo Vertex',
           title: 'Front-End & QA Freelance Developer',
           date: 'March/2026 – April/2026',
+          link: 'https://neovertex.top',
           stack: ['Next.js', 'React', 'TypeScript', 'Framer Motion', 'Figma', 'Java', 'Spring Boot'],
           bullets: [
             'Complete front-end development of the institutional website, from scratch to deploy: local IDE coding, Git versioning, Hostinger VPS deployment using Coolify for a dynamic environment.',

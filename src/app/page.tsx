@@ -1059,7 +1059,7 @@ const AboutMeSection = () => {
 
 // ─── EXPERIENCE SECTION ───
 const ExperienceSection = () => {
-  const { t } = useApp();
+  const { t, lang } = useApp();
   const exp = t.experience;
 
   return (
@@ -1090,9 +1090,21 @@ const ExperienceSection = () => {
 
                   {/* Header info */}
                   <div className="mb-4">
-                    <span className="text-[8px] font-black bg-primary/10 text-primary border border-primary/20 px-2.5 py-1 rounded-full uppercase tracking-widest inline-block mb-3">
-                      {item.date}
-                    </span>
+                    <div className="flex justify-between items-start gap-2 mb-3">
+                      <span className="text-[8px] font-black bg-primary/10 text-primary border border-primary/20 px-2.5 py-1 rounded-full uppercase tracking-widest inline-block">
+                        {item.date}
+                      </span>
+                      {'link' in item && item.link && (
+                        <a
+                          href={item.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-1 text-[8px] font-black bg-white/5 hover:bg-primary/20 border border-border hover:border-primary/40 text-txt hover:text-white px-2 py-1 rounded-lg transition-all"
+                        >
+                          {lang === 'pt' ? 'Visitar' : 'Visit'} <ExternalLink size={8} />
+                        </a>
+                      )}
+                    </div>
                     <h3 className="text-sm font-black uppercase tracking-tight text-white mb-1">
                       {item.company}
                     </h3>
