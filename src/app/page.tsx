@@ -824,73 +824,7 @@ const HeroSection = ({ loaded }: { loaded: boolean }) => {
           </div>
         </FadeIn>
 
-        <FadeIn delay={0.45} triggerOnMount>
-          <SpotlightCard className="w-full max-w-4xl bg-zinc-950/40 backdrop-blur-xl border border-zinc-800 p-6 md:p-10 rounded-3xl shadow-xl">
-            <p className="text-txt-muted text-xs md:text-sm leading-relaxed mb-6">
-              {t.hero.desc}
-            </p>
-            <div className="w-full h-px bg-border mb-6" />
-            <div className="flex justify-center gap-8 md:gap-16 mb-6">
-              {[
-                { val: t.hero.stat1v, label: t.hero.stat1 },
-                { val: t.hero.stat2v, label: t.hero.stat2 },
-                { val: t.hero.stat3v, label: t.hero.stat3 },
-              ].map((s, i) => (
-                <div key={i} className="flex flex-col items-center">
-                  <span className="text-xl md:text-2xl font-black text-primary">
-                    {s.val}
-                  </span>
-                  <span className="text-[8px] font-black uppercase tracking-widest text-txt-muted mt-0.5">
-                    {s.label}
-                  </span>
-                </div>
-              ))}
-            </div>
-            <div className="grid grid-cols-2 sm:flex sm:flex-row items-center justify-center gap-3 mt-6 w-full max-w-xl mx-auto">
-              {[
-                {
-                  href: "https://github.com/techcarlosandre",
-                  icon: <GithubIcon size={18} />,
-                  label: "GitHub",
-                },
-                {
-                  href: "https://www.linkedin.com/in/devcarlosandre/",
-                  icon: <LinkedinIcon size={18} />,
-                  label: "LinkedIn",
-                },
-                {
-                  href: "#",
-                  icon: <span className="text-primary text-sm">📍</span>,
-                  label: "Rio de Janeiro, BR",
-                  isLocation: true
-                }
-              ].map((item, i) => {
-                const Tag = item.isLocation ? "div" : "a";
-                const props = item.isLocation ? {} : { href: item.href, target: "_blank", rel: "noreferrer" };
 
-                return (
-                  <motion.div
-                    key={i}
-                    className={item.isLocation ? "col-span-2 sm:col-span-1 w-full sm:w-44" : "col-span-1 w-full sm:w-44"}
-                    whileHover={item.isLocation ? {} : { y: -4, scale: 1.02 }}
-                    transition={{ type: "spring", stiffness: 400, damping: 25 }}
-                  >
-                    <Tag
-                      {...props}
-                      className={`flex items-center justify-center gap-3 w-full h-12 rounded-xl border bg-surface/20 backdrop-blur-md transition-all text-xs font-black uppercase tracking-wider ${item.isLocation
-                          ? "border-border text-txt-muted cursor-default"
-                          : "border-border text-txt-muted hover:text-txt hover:border-primary/50 hover:shadow-[0_0_20px_rgba(128,0,0,0.3)] hover:bg-surface/50"
-                        }`}
-                    >
-                      {item.icon}
-                      <span>{item.label}</span>
-                    </Tag>
-                  </motion.div>
-                );
-              })}
-            </div>
-          </SpotlightCard>
-        </FadeIn>
       </div>
     </section>
   );
