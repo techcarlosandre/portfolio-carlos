@@ -339,35 +339,35 @@ export const translations = {
           title: 'Sushi House Premium',
           category: 'Front-End',
           tag: 'Web · Landing Page Premium & UX/UI',
-          desc: 'Landing Page de altíssimo padrão desenvolvida para o segmento gastronômico premium. Conta com animações de alta performance e fluidas via Framer Motion, filtros dinâmicos de cardápio, galeria de fotos otimizada e um fluxo inteligente de reservas integrado a uma automação no WhatsApp via webhook no N8N. Pensado para encantar o cliente final e otimizar o atendimento interno.',
+          desc: 'Sistema ERP e PDV (Ponto de Venda) completo para restaurantes de culinária japonesa. Possui PDV touchscreen otimizado para alta velocidade de atendimento, módulo de impressão automática de comandas via daemon em Python para a cozinha, geração sob demanda de cupons em PDF e integração com roteamento de pedidos de delivery via webhook no N8N. Utiliza SWR para sincronização de estado com latência abaixo de 100ms e banco PostgreSQL gerenciado com Prisma.',
           techs: ['React', 'Vite', 'Tailwind', 'Framer Motion', 'N8N']
         },
         {
           title: 'FitGym',
           category: 'Mobile',
           tag: 'App · Flutter & Java Spring API',
-          desc: 'Aplicativo mobile nativo multiplataforma (iOS e Android) criado com Flutter, integrado a um back-end robusto em Java com Spring Boot. Oferece controle completo de treinos personalizado, onboarding animado com micro-interações, relatórios de evolução física com gráficos dinâmicos e sincronização de dados offline com banco relacional PostgreSQL.',
+          desc: 'Ecossistema completo de saúde e fitness composto por aplicação Web para administradores, aplicativo Mobile nativo para alunos e API RESTful robusta. Permite acesso a fichas de treinos dinâmicas com cronômetros integrados, controle de matrículas com cobranças recorrentes e dashboard administrativo de evolução física. Arquitetura limpa em Java 17 com Spring Boot (Spring Security + JWT + JPA) e app em Flutter rodando a 60 FPS com cache local SQLite offline.',
           techs: ['Flutter', 'Java', 'Spring Boot', 'PostgreSQL', 'N8N']
         },
         {
           title: 'Horizonte Aprendizado',
           category: 'Sistemas',
           tag: 'Web · Plataforma Educacional & CRM',
-          desc: 'Plataforma Web SaaS completa voltada para a gestão de instituições de ensino. Possui dashboards dedicados para alunos, professores e responsáveis financeiros. Conta com boletim digital em tempo real, controle de mensalidades integrando gateways de pagamento, funil CRM completo de matrículas para captar novos alunos e relatórios analíticos interativos criados com Shadcn/UI e Recharts.',
+          desc: 'Dashboard corporativo inteligente de Business Intelligence (BI) para monitoramento de métricas operacionais e financeiras de alta fidelidade visual. Oferece cruzamento de dados de múltiplos departamentos com latência zero, filtros combinados avançados e gráficos interativos de faturamento e ROI. Interface Next.js 16, React 19 e TailwindCSS v4, com gerenciamento de estado global com Zustand e renderização reativa com Recharts otimizada via memoization.',
           techs: ['Next.js', 'TypeScript', 'Shadcn', 'Recharts', 'N8N']
         },
         {
           title: 'Barber+',
           category: 'Sistemas',
           tag: 'Web · Gestão Comercial & Financeiro',
-          desc: 'Sistema de gestão comercial e operacional interna para barbearias e salões. Centraliza agendamento de atendimentos em tempo real (evitando conflitos de horários), controle de fluxo de caixa diário, cálculo automatizado de comissões de profissionais, controle de estoque integrado e envio automatizado de lembretes via webhook para reduzir ausências de clientes.',
+          desc: 'Plataforma SaaS de alta performance para gestão comercial, agendamento em tempo real e controle de faturamento de barbearias e salões. Centraliza a reserva inteligente de horários com controle estrito de concorrência no banco de dados para evitar conflitos (overbooking), painel de comissões por profissional e dashboard financeiro responsivo. Desenvolvido com Next.js 16 (App Router), React 19, TailwindCSS v4 e PostgreSQL.',
           techs: ['Next.js', 'TypeScript', 'Node.js', 'Express', 'N8N']
         },
         {
           title: 'VitaMed',
           category: 'IA & Automação',
           tag: 'Web · Central de Atendimento & Automação',
-          desc: 'Plataforma centralizada com IA que automatiza toda a jornada do paciente em clínicas médicas. Integra o WhatsApp à API da OpenAI (GPT) e ao Google Calendar via fluxos no N8N. O sistema responde dúvidas frequentes de pacientes, realiza o agendamento direto na agenda médica de forma dinâmica, envia e-mails de confirmação e fornece um dashboard administrativo completo com métricas de agendamento.',
+          desc: 'Sistema integrado de gestão médica, prontuário eletrônico e agendamento de consultas clínicas com foco em alta usabilidade e segurança de dados. Conta com prontuário eletrônico do paciente (PEP) para histórico clínico, receitas e atestados, grade de agendamento dinâmica com status de presença e BI de atendimentos por convênio. Desenvolvido em Next.js 16, React 19 e TailwindCSS v4, utilizando Radix UI para acessibilidade total em conformidade com as diretrizes WCAG.',
           techs: ['Python', 'Flask', 'Next.js', 'OpenAI', 'N8N']
         },
       ],
@@ -379,9 +379,9 @@ export const translations = {
       subtitle: 'De automações inteligentes ao desenvolvimento full-stack — cada etapa moldou minha forma de criar soluções digitais de impacto.',
       items: [
         {
-          company: 'Espaço Família (Clínica Odontológica)',
+          company: 'Clínica Odontológica Espaço Família',
           title: 'Desenvolvedor Full-Stack Freelancer',
-          date: 'Dez/2025 a Jul/2026',
+          date: 'Dezembro/2025 – Julho/2026',
           stack: ['Python', 'TypeScript', 'PostgreSQL', 'N8N', 'Chatwoot', 'APIs REST', 'LLMs/RAG', 'Grafana'],
           bullets: [
             'Assistente de IA com RAG treinado nas regras da clínica, respondendo pacientes com lógica detalhada via WhatsApp, Instagram e site, centralizado no Chatwoot.',
@@ -393,9 +393,9 @@ export const translations = {
           ]
         },
         {
-          company: 'Neo Vertex (Consultoria em Tecnologia)',
+          company: 'Neo Vertex',
           title: 'Desenvolvedor Front-End & QA Freelancer',
-          date: 'Mar/2026 a Abr/2026',
+          date: 'Março/2026 – Abril/2026',
           stack: ['Next.js', 'React', 'TypeScript', 'Framer Motion', 'Figma', 'Java', 'Spring Boot'],
           bullets: [
             'Desenvolvimento completo do front-end do site institucional, do zero ao deploy: código em IDE local, versionamento via Git, deploy em VPS (Hostinger) com Coolify para ambiente dinâmico.',
@@ -405,9 +405,9 @@ export const translations = {
           ]
         },
         {
-          company: 'Melúlia (Escola de Música & Artes)',
-          title: 'Desenvolvedor Freelancer',
-          date: '2024 a 2025',
+          company: 'MILULI',
+          title: 'Desenvolvedor de IA e Automação Freelancer',
+          date: 'Abril/2024 – Março/2026',
           stack: ['JavaScript', 'HTML', 'CSS', 'ManyChat', 'N8N', 'LLMs'],
           bullets: [
             'Automação de atendimento no WhatsApp com triagem via IA: identificação de novos contatos, verificação se é aluno/responsável, e qualificação de interesse para não-alunos.',
@@ -809,35 +809,35 @@ export const translations = {
           title: 'Sushi House Premium',
           category: 'Front-End',
           tag: 'Web · Premium Landing Page & UX/UI',
-          desc: 'High-end landing page developed for the premium culinary sector. Features high-performance fluid animations using Framer Motion, dynamic menu filtering, optimized media galleries, and an intelligent reservation system connected to a WhatsApp automation via N8N webhooks. Built to captivate the end user and streamline operations.',
+          desc: 'Complete ERP and POS (Point of Sale) system for Japanese restaurants. Features a touchscreen POS optimized for high-speed ordering, a Python-based background daemon for automatic kitchen receipt printing, on-demand PDF receipt generation, and delivery order routing via N8N webhooks. Uses SWR for real-time state synchronization under 100ms and a PostgreSQL database managed via Prisma ORM.',
           techs: ['React', 'Vite', 'Tailwind', 'Framer Motion', 'N8N']
         },
         {
           title: 'FitGym',
           category: 'Mobile',
           tag: 'App · Flutter & Java Spring API',
-          desc: 'Native cross-platform mobile application (iOS & Android) built with Flutter and integrated with a robust Java Spring Boot back-end. Provides personalized workout tracking, animated onboarding screens, interactive physical progress charts, and offline data synchronization backed by a relational PostgreSQL database.',
+          desc: 'Complete health and fitness ecosystem featuring an administrative Web app, a native Mobile app for students, and a robust RESTful API. Enables access to dynamic workout sheets with integrated rest timers, enrollment control with recurring billing, and administrative physical progress dashboards. Built on a clean Java 17 / Spring Boot backend (Spring Security + JWT + JPA) and a 60 FPS Flutter app with SQLite local cache for offline usage.',
           techs: ['Flutter', 'Java', 'Spring Boot', 'PostgreSQL', 'N8N']
         },
         {
           title: 'Horizonte Aprendizado',
           category: 'Systems',
           tag: 'Web · Educational Platform & CRM',
-          desc: 'A complete Web SaaS platform designed for educational institution management. Features tailored, secure portals for students, teachers, and parents. Includes real-time digital gradebooks, financial tracking with payment gateway integrations, an admissions CRM pipeline to track new enrollments, and interactive analytics dashboards built with Shadcn/UI and Recharts.',
+          desc: 'Intelligent corporate BI (Business Intelligence) dashboard for operational and financial metric monitoring with high visual fidelity. Provides multi-department data aggregation with zero latency, advanced combined filtering, and interactive billing/ROI charts. Built with Next.js 16, React 19, and Tailwind v4, utilizing Zustand for scalable global state management and Recharts optimized via memoization.',
           techs: ['Next.js', 'TypeScript', 'Shadcn', 'Recharts', 'N8N']
         },
         {
           title: 'Barber+',
           category: 'Systems',
           tag: 'Web · Business Management & Finance',
-          desc: 'An internal business and operational management system for barbershops and salons. Centralizes real-time appointment scheduling to eliminate booking conflicts, daily cash flow tracking, automated calculation of staff commission splits, integrated inventory management, and automated client notifications via webhooks to reduce no-shows.',
+          desc: 'High-performance SaaS platform for business management, real-time booking, and billing control for barbershops. Centralizes smart appointment scheduling with strict database concurrency controls to prevent booking conflicts (overbooking), commission split management, and a responsive financial dashboard. Built with Next.js 16 (App Router), React 19, Tailwind v4, and PostgreSQL.',
           techs: ['Next.js', 'TypeScript', 'Node.js', 'Express', 'N8N']
         },
         {
           title: 'VitaMed',
           category: 'IA & Automation',
           tag: 'Web · Customer Service Hub & Automation',
-          desc: 'An AI-powered patient engagement platform that automates the entire healthcare appointment lifecycle. Integrates WhatsApp with OpenAI\'s GPT API and Google Calendar through advanced N8N workflows. It autonomously handles inquiries, schedules appointments dynamically, sends confirmation emails, and displays key metrics on an administrative analytics dashboard.',
+          desc: 'Integrated medical management system, electronic health records (EHR), and clinic appointment scheduling focused on high usability and data security. Features a central patient record (EHR) for clinical history, prescriptions, and certificates, a dynamic scheduling board with attendance status, and insurance billing BI. Built with Next.js 16, React 19, and Tailwind v4, utilizing Radix UI for full accessibility complying with WCAG guidelines.',
           techs: ['Python', 'Flask', 'Next.js', 'OpenAI', 'N8N']
         },
       ],
@@ -849,9 +849,9 @@ export const translations = {
       subtitle: 'From intelligent automations to full-stack development — each step shaped how I build impactful digital solutions.',
       items: [
         {
-          company: 'Espaço Família (Dental Clinic)',
+          company: 'Clínica Odontológica Espaço Família',
           title: 'Full-Stack Freelance Developer',
-          date: 'Dec/2025 to Jul/2026',
+          date: 'December/2025 – July/2026',
           stack: ['Python', 'TypeScript', 'PostgreSQL', 'N8N', 'Chatwoot', 'REST APIs', 'LLMs/RAG', 'Grafana'],
           bullets: [
             'AI Assistant with RAG trained on clinic rules, answering patients with detailed logic via WhatsApp, Instagram, and website, centralized in Chatwoot.',
@@ -863,9 +863,9 @@ export const translations = {
           ]
         },
         {
-          company: 'Neo Vertex (Tech Consulting)',
+          company: 'Neo Vertex',
           title: 'Front-End & QA Freelance Developer',
-          date: 'Mar/2026 to Apr/2026',
+          date: 'March/2026 – April/2026',
           stack: ['Next.js', 'React', 'TypeScript', 'Framer Motion', 'Figma', 'Java', 'Spring Boot'],
           bullets: [
             'Complete front-end development of the institutional website, from scratch to deploy: local IDE coding, Git versioning, Hostinger VPS deployment using Coolify for a dynamic environment.',
@@ -875,9 +875,9 @@ export const translations = {
           ]
         },
         {
-          company: 'Melúlia (Music & Arts School)',
-          title: 'Freelance Developer',
-          date: '2024 to 2025',
+          company: 'MILULI',
+          title: 'Freelance AI and Automation Developer',
+          date: 'April/2024 – March/2026',
           stack: ['JavaScript', 'HTML', 'CSS', 'ManyChat', 'N8N', 'LLMs'],
           bullets: [
             'Customer service automation on WhatsApp with AI triage: identifying new contacts, verifying if they are a student/guardian, and qualifying interest for non-students.',
