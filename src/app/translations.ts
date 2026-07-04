@@ -347,28 +347,28 @@ export const translations = {
           category: 'Mobile',
           tag: 'App · Flutter & Java Spring API',
           desc: 'Ecossistema completo de saúde e fitness composto por aplicação Web para administradores, aplicativo Mobile nativo para alunos e API RESTful robusta. Permite acesso a fichas de treinos dinâmicas com cronômetros integrados, controle de matrículas com cobranças recorrentes e dashboard administrativo de evolução física. Arquitetura limpa em Java 17 com Spring Boot (Spring Security + JWT + JPA) e app em Flutter rodando a 60 FPS com cache local SQLite offline.',
-          techs: ['Flutter', 'Java', 'Spring Boot', 'PostgreSQL', 'N8N']
+          techs: ['Flutter', 'Java', 'Spring Boot', 'PostgreSQL']
         },
         {
           title: 'Horizonte Aprendizado',
           category: 'Sistemas',
           tag: 'Web · Plataforma Educacional & CRM',
           desc: 'Dashboard corporativo inteligente de Business Intelligence (BI) para monitoramento de métricas operacionais e financeiras de alta fidelidade visual. Oferece cruzamento de dados de múltiplos departamentos com latência zero, filtros combinados avançados e gráficos interativos de faturamento e ROI. Interface Next.js 16, React 19 e TailwindCSS v4, com gerenciamento de estado global com Zustand e renderização reativa com Recharts otimizada via memoization.',
-          techs: ['Next.js', 'TypeScript', 'Shadcn', 'Recharts', 'N8N']
+          techs: ['Next.js', 'TypeScript', 'Shadcn', 'Recharts']
         },
         {
           title: 'Barber+',
           category: 'Sistemas',
           tag: 'Web · Gestão Comercial & Financeiro',
           desc: 'Plataforma SaaS de alta performance para gestão comercial, agendamento em tempo real e controle de faturamento de barbearias e salões. Centraliza a reserva inteligente de horários com controle estrito de concorrência no banco de dados para evitar conflitos (overbooking), painel de comissões por profissional e dashboard financeiro responsivo. Desenvolvido com Next.js 16 (App Router), React 19, TailwindCSS v4 e PostgreSQL.',
-          techs: ['Next.js', 'TypeScript', 'Node.js', 'Express', 'N8N']
+          techs: ['Next.js', 'TypeScript', 'Node.js', 'Express']
         },
         {
           title: 'VitaMed',
           category: 'IA & Automação',
           tag: 'Web · Central de Atendimento & Automação',
           desc: 'Sistema integrado de gestão médica, prontuário eletrônico e agendamento de consultas clínicas com foco em alta usabilidade e segurança de dados. Conta com prontuário eletrônico do paciente (PEP) para histórico clínico, receitas e atestados, grade de agendamento dinâmica com status de presença e BI de atendimentos por convênio. Desenvolvido em Next.js 16, React 19 e TailwindCSS v4, utilizando Radix UI para acessibilidade total em conformidade com as diretrizes WCAG.',
-          techs: ['Python', 'Flask', 'Next.js', 'OpenAI', 'N8N']
+          techs: ['Python', 'Flask', 'Next.js', 'OpenAI']
         },
       ],
     },
@@ -819,28 +819,28 @@ export const translations = {
           category: 'Mobile',
           tag: 'App · Flutter & Java Spring API',
           desc: 'Complete health and fitness ecosystem featuring an administrative Web app, a native Mobile app for students, and a robust RESTful API. Enables access to dynamic workout sheets with integrated rest timers, enrollment control with recurring billing, and administrative physical progress dashboards. Built on a clean Java 17 / Spring Boot backend (Spring Security + JWT + JPA) and a 60 FPS Flutter app with SQLite local cache for offline usage.',
-          techs: ['Flutter', 'Java', 'Spring Boot', 'PostgreSQL', 'N8N']
+          techs: ['Flutter', 'Java', 'Spring Boot', 'PostgreSQL']
         },
         {
           title: 'Horizonte Aprendizado',
           category: 'Systems',
           tag: 'Web · Educational Platform & CRM',
           desc: 'Intelligent corporate BI (Business Intelligence) dashboard for operational and financial metric monitoring with high visual fidelity. Provides multi-department data aggregation with zero latency, advanced combined filtering, and interactive billing/ROI charts. Built with Next.js 16, React 19, and Tailwind v4, utilizing Zustand for scalable global state management and Recharts optimized via memoization.',
-          techs: ['Next.js', 'TypeScript', 'Shadcn', 'Recharts', 'N8N']
+          techs: ['Next.js', 'TypeScript', 'Shadcn', 'Recharts']
         },
         {
           title: 'Barber+',
           category: 'Systems',
           tag: 'Web · Business Management & Finance',
           desc: 'High-performance SaaS platform for business management, real-time booking, and billing control for barbershops. Centralizes smart appointment scheduling with strict database concurrency controls to prevent booking conflicts (overbooking), commission split management, and a responsive financial dashboard. Built with Next.js 16 (App Router), React 19, Tailwind v4, and PostgreSQL.',
-          techs: ['Next.js', 'TypeScript', 'Node.js', 'Express', 'N8N']
+          techs: ['Next.js', 'TypeScript', 'Node.js', 'Express']
         },
         {
           title: 'VitaMed',
           category: 'IA & Automation',
           tag: 'Web · Customer Service Hub & Automation',
           desc: 'Integrated medical management system, electronic health records (EHR), and clinic appointment scheduling focused on high usability and data security. Features a central patient record (EHR) for clinical history, prescriptions, and certificates, a dynamic scheduling board with attendance status, and insurance billing BI. Built with Next.js 16, React 19, and Tailwind v4, utilizing Radix UI for full accessibility complying with WCAG guidelines.',
-          techs: ['Python', 'Flask', 'Next.js', 'OpenAI', 'N8N']
+          techs: ['Python', 'Flask', 'Next.js', 'OpenAI']
         },
       ],
     },
