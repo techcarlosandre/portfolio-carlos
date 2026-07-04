@@ -106,7 +106,7 @@ const MigrationOverlay = () => {
 
   return (
     <div className="fixed inset-0 bg-black z-[10000] flex flex-col items-center justify-center p-6 text-center dot-grid">
-      <div className="max-w-md w-full bg-surface/60 backdrop-blur-xl border border-border p-8 rounded-3xl shadow-2xl relative overflow-hidden">
+      <div className="max-w-md w-full bg-zinc-950/60 backdrop-blur-xl border border-zinc-800 p-8 rounded-3xl shadow-2xl relative overflow-hidden">
         <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-accent to-primary" />
         <div className="w-16 h-16 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center mx-auto mb-6 animate-pulse">
           <AlertTriangle className="text-primary" size={32} />
@@ -114,7 +114,7 @@ const MigrationOverlay = () => {
         <h2 className="text-2xl font-black uppercase tracking-tighter mb-4 text-white">
           {t.migration.title}
         </h2>
-        <p className="text-txt-muted text-xs leading-relaxed mb-6">
+        <p className="text-zinc-300 text-xs leading-relaxed mb-6">
           {t.migration.desc}
         </p>
         <div className="mb-6 text-[10px] font-black uppercase tracking-widest text-primary">
@@ -532,7 +532,7 @@ const Badge = ({
   children: React.ReactNode;
   pulsing?: boolean;
 }) => (
-  <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-surface/40 border border-border text-[10px] font-black uppercase tracking-[0.15em] text-txt-muted">
+  <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-zinc-950/40 border border-zinc-800 text-[10px] font-black uppercase tracking-[0.15em] text-txt-muted">
     {pulsing && (
       <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
     )}
@@ -713,7 +713,7 @@ const Navbar = () => {
 
   return (
     <nav className={`sticky top-0 z-50 transition-transform duration-300 ${hidden ? "-translate-y-full" : "translate-y-0"}`}>
-      <div className={`container mx-auto max-w-6xl transition-all duration-300 ${scrolled ? "bg-bg/90 backdrop-blur-2xl border border-border shadow-2xl rounded-full py-2.5 px-6 mx-4 mt-2" : "py-4 px-4"}`}>
+      <div className={`container mx-auto max-w-6xl transition-all duration-300 ${scrolled ? "bg-bg/90 backdrop-blur-2xl border border-zinc-800 shadow-2xl rounded-full py-2.5 px-6 mx-4 mt-2" : "py-4 px-4"}`}>
         <div className="flex justify-between items-center">
           <a href="#home" className="text-lg font-black tracking-tighter">
             CARLOS<span className="text-primary">.</span>
@@ -733,11 +733,11 @@ const Navbar = () => {
                 localStorage.setItem("carlos_portfolio_lang", newLang);
                 window.location.reload();
               }}
-              className="flex items-center gap-1 px-2.5 py-1 rounded-full border border-border text-[8px] font-bold bg-surface/20 hover:bg-surface/40 transition-colors"
+              className="flex items-center gap-1 px-2.5 py-1 rounded-full border border-zinc-800 text-[8px] font-bold bg-surface/20 hover:bg-zinc-950/40 transition-colors"
             >
               <Globe size={10} className="text-primary" /> {lang === "pt" ? "EN" : "PT"}
             </button>
-            <button onClick={toggleTheme} className="p-1.5 rounded-full border border-border bg-surface/20 hover:bg-surface/40 transition-colors">
+            <button onClick={toggleTheme} className="p-1.5 rounded-full border border-zinc-800 bg-surface/20 hover:bg-zinc-950/40 transition-colors">
               {theme === "dark" ? <Sun size={12} /> : <Moon size={12} />}
             </button>
             <button onClick={() => setMenuOpen(!menuOpen)} className="lg:hidden p-1.5">
@@ -753,7 +753,7 @@ const Navbar = () => {
             initial={{ opacity: 0, y: -10, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -10, scale: 0.98 }}
-            className="absolute top-16 left-4 right-4 bg-bg/95 backdrop-blur-2xl border border-border rounded-2xl p-6 shadow-xl lg:hidden"
+            className="absolute top-16 left-4 right-4 bg-bg/95 backdrop-blur-2xl border border-zinc-800 rounded-2xl p-6 shadow-xl lg:hidden"
           >
             <div className="flex flex-col gap-4 items-center font-black uppercase tracking-widest text-xs">
               {links.map((l) => (
@@ -845,7 +845,7 @@ const AboutMeSection = () => {
   void CATEGORY_COLORS;
 
   return (
-    <section id="sobre-mim" className="py-24 px-4 bg-bg/20 border-t border-border/40">
+    <section id="sobre-mim" className="py-24 px-4 bg-bg/20 border-t border-zinc-800/40">
       <div className="container mx-auto max-w-5xl">
         {/* Header */}
         <div className="text-center mb-16">
@@ -863,7 +863,7 @@ const AboutMeSection = () => {
           <FadeIn direction="left">
             <div className="space-y-6">
               {/* Avatar + Bio Card */}
-              <SpotlightCard className="border border-border bg-surface/60 p-6 rounded-2xl backdrop-blur-xl">
+              <SpotlightCard className="border border-zinc-800 bg-zinc-950/60 p-6 rounded-2xl backdrop-blur-xl">
                 <div className="flex items-start gap-5 mb-5">
                   <div className="relative w-16 h-16 shrink-0">
                     <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-primary via-accent to-primary/50 blur-md opacity-50" />
@@ -880,7 +880,7 @@ const AboutMeSection = () => {
                     </div>
                   </div>
                 </div>
-                <p className="text-txt-muted text-xs leading-relaxed">{am.bio}</p>
+                <p className="text-zinc-300 text-xs leading-relaxed">{am.bio}</p>
               </SpotlightCard>
 
               {/* Stats */}
@@ -888,7 +888,7 @@ const AboutMeSection = () => {
                 {am.stats.map((s, i) => (
                   <motion.div
                     key={i}
-                    className="border border-border bg-surface/60 backdrop-blur-xl rounded-xl p-4 text-center hover:border-primary/40 transition-colors"
+                    className="border border-zinc-800 bg-zinc-950/60 backdrop-blur-xl rounded-xl p-4 text-center hover:border-primary/40 transition-colors"
                     whileHover={{ y: -4, scale: 1.03 }}
                     transition={{ type: 'spring', stiffness: 400, damping: 25 }}
                   >
@@ -899,7 +899,7 @@ const AboutMeSection = () => {
               </div>
 
               {/* Areas */}
-              <SpotlightCard className="border border-border bg-surface/60 p-5 rounded-2xl backdrop-blur-xl">
+              <SpotlightCard className="border border-zinc-800 bg-zinc-950/60 p-5 rounded-2xl backdrop-blur-xl">
                 <p className="text-[9px] font-black uppercase tracking-widest text-txt-muted mb-3">{am.areasTitle}</p>
                 <div className="flex flex-wrap gap-2">
                   {am.areas.map((area, i) => (
@@ -923,7 +923,7 @@ const AboutMeSection = () => {
                 <div className="space-y-3">
                   {am.education.map((edu, i) => (
                     <CardTilt3D key={i}>
-                      <SpotlightCard className="border border-border bg-surface/60 p-5 rounded-2xl backdrop-blur-xl hover:border-primary/30 transition-all relative overflow-hidden">
+                      <SpotlightCard className="border border-zinc-800 bg-zinc-950/60 p-5 rounded-2xl backdrop-blur-xl hover:border-primary/30 transition-all relative overflow-hidden">
                         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
                         <div className="flex items-start justify-between gap-3">
                           <div className="flex-1">
@@ -934,7 +934,7 @@ const AboutMeSection = () => {
                                 <p className="text-[10px] text-primary font-bold mt-0.5">{edu.institution}</p>
                               </div>
                             </div>
-                            <p className="text-[9px] text-txt-muted mt-2 pl-7">{edu.detail}</p>
+                            <p className="text-[9px] text-zinc-400 mt-2 pl-7">{edu.detail}</p>
                           </div>
                           <span className={`shrink-0 text-[8px] font-black px-2.5 py-1 rounded-full uppercase tracking-widest ${
                             edu.status === 'Em Andamento' || edu.status === 'In Progress'
@@ -942,7 +942,7 @@ const AboutMeSection = () => {
                               : 'bg-green-500/10 text-green-400 border border-green-500/20'
                           }`}>{edu.status}</span>
                         </div>
-                        <div className="flex items-center gap-2 mt-3 pt-3 border-t border-border/50">
+                        <div className="flex items-center gap-2 mt-3 pt-3 border-t border-zinc-800/50">
                           <span className="text-[8px] font-black uppercase tracking-widest text-txt-muted">{edu.period}</span>
                         </div>
                       </SpotlightCard>
@@ -952,7 +952,7 @@ const AboutMeSection = () => {
               </div>
 
               {/* Languages */}
-              <SpotlightCard className="border border-border bg-surface/60 p-5 rounded-2xl backdrop-blur-xl">
+              <SpotlightCard className="border border-zinc-800 bg-zinc-950/60 p-5 rounded-2xl backdrop-blur-xl">
                 <p className="text-[9px] font-black uppercase tracking-widest text-txt-muted mb-4 flex items-center gap-2">
                   <span className="w-4 h-px bg-primary" />{am.languagesTitle}
                 </p>
@@ -997,7 +997,7 @@ const ExperienceSection = () => {
   const exp = t.experience;
 
   return (
-    <section id="experiencia" className="py-24 px-4 bg-bg/20 border-t border-border/40">
+    <section id="experiencia" className="py-24 px-4 bg-bg/20 border-t border-zinc-800/40">
       <div className="container mx-auto max-w-5xl">
         {/* Header */}
         <div className="text-center mb-14">
@@ -1018,7 +1018,7 @@ const ExperienceSection = () => {
           {exp.items.map((item, idx) => (
             <FadeIn key={idx} delay={idx * 0.12}>
               <CardTilt3D className="h-full">
-                <SpotlightCard className="h-full flex flex-col border border-border bg-surface/60 p-6 rounded-2xl backdrop-blur-xl hover:border-red-950/60 relative overflow-hidden">
+                <SpotlightCard className="h-full flex flex-col border border-zinc-800 bg-zinc-950/60 p-6 rounded-2xl backdrop-blur-xl hover:border-red-950/60 relative overflow-hidden">
                   {/* Top accent line */}
                   <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
 
@@ -1033,7 +1033,7 @@ const ExperienceSection = () => {
                           href={item.link}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-1 text-[8px] font-black bg-white/5 hover:bg-primary/20 border border-border hover:border-primary/40 text-txt hover:text-white px-2 py-1 rounded-lg transition-all"
+                          className="flex items-center gap-1 text-[8px] font-black bg-white/5 hover:bg-primary/20 border border-zinc-800 hover:border-primary/40 text-txt hover:text-white px-2 py-1 rounded-lg transition-all"
                         >
                           {lang === 'pt' ? 'Visitar' : 'Visit'} <ExternalLink size={8} />
                         </a>
@@ -1052,7 +1052,7 @@ const ExperienceSection = () => {
                   {/* Deliverables / Bullets */}
                   <ul className="space-y-2 flex-1 mb-5">
                     {(item.bullets as readonly string[]).map((bullet, bi) => (
-                      <li key={bi} className="flex items-start gap-2 text-[10px] text-txt-muted leading-relaxed">
+                      <li key={bi} className="flex items-start gap-2 text-[10px] text-zinc-300 leading-relaxed">
                         <Check size={10} className="text-primary shrink-0 mt-0.5" />
                         <span>{bullet}</span>
                       </li>
@@ -1060,13 +1060,13 @@ const ExperienceSection = () => {
                   </ul>
 
                   {/* Stack utilized */}
-                  <div className="pt-3 border-t border-border/40">
+                  <div className="pt-3 border-t border-zinc-800/40">
                     <p className="text-[8px] font-black uppercase tracking-widest text-txt-muted mb-2">Stack</p>
                     <div className="flex flex-wrap gap-1">
                       {(item.stack as readonly string[]).map((tech) => (
                         <span
                           key={tech}
-                          className="px-2 py-0.5 rounded-full border border-border text-[8px] font-bold text-txt-muted bg-surface/30 shadow-sm cursor-default"
+                          className="px-2 py-0.5 rounded-full border border-zinc-800 text-[8px] font-bold text-zinc-300 bg-zinc-900/50 shadow-sm cursor-default"
                         >
                           {tech}
                         </span>
@@ -1101,7 +1101,7 @@ const SolutionsSection = () => {
   };
 
   return (
-    <section id="solucoes" className="py-24 bg-bg/40 border-t border-b border-border">
+    <section id="solucoes" className="py-24 bg-bg/40 border-t border-b border-zinc-800">
       <div className="container mx-auto px-4 max-w-5xl">
         {/* Header */}
         <div className="text-center mb-6">
@@ -1126,14 +1126,14 @@ const SolutionsSection = () => {
           {sol.items.map((item, idx) => (
             <FadeIn key={idx} delay={idx * 0.1}>
               <CardTilt3D className="h-full">
-                <SpotlightCard className="h-full flex flex-col border border-border bg-surface/60 p-5 rounded-2xl backdrop-blur-xl hover:border-primary/45 transition-all">
+                <SpotlightCard className="h-full flex flex-col border border-zinc-800 bg-zinc-950/60 p-5 rounded-2xl backdrop-blur-xl hover:border-primary/45 transition-all">
                   <div className="w-9 h-9 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center mb-4 text-lg">
                     {getIcon(item.icon)}
                   </div>
                   <h3 className="text-xs font-black uppercase mb-3 text-white tracking-tight">{item.title}</h3>
                   <ul className="space-y-1.5 flex-1">
                     {(item.bullets as readonly string[]).map((bullet, bi) => (
-                      <li key={bi} className="text-[10px] text-txt-muted flex items-start gap-1.5 leading-snug">
+                      <li key={bi} className="text-[10px] text-zinc-300 flex items-start gap-1.5 leading-snug">
                         <span className="text-primary mt-0.5 text-[8px]">•</span>
                         <span>{bullet}</span>
                       </li>
@@ -1149,7 +1149,7 @@ const SolutionsSection = () => {
         <FadeIn delay={0.3}>
           <div className="flex flex-col items-center gap-4 my-14">
             <div className="w-full h-px bg-gradient-to-r from-transparent via-border to-transparent" />
-            <span className="text-[9px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full bg-surface/80 border border-border text-primary-light shadow-[0_0_10px_rgba(200,30,30,0.05)]">
+            <span className="text-[9px] font-black uppercase tracking-widest px-3 py-1.5 rounded-full bg-zinc-950/80 border border-zinc-800 text-primary-light shadow-[0_0_10px_rgba(200,30,30,0.05)]">
               {sol.partnerTitle}
             </span>
           </div>
@@ -1157,7 +1157,7 @@ const SolutionsSection = () => {
 
         {/* Horizontal Partnership Card (Yasmin's Profile) */}
         <FadeIn delay={0.45}>
-          <SpotlightCard className="border border-border bg-gradient-to-r from-surface/70 via-surface/60 to-surface/70 p-6 rounded-2xl backdrop-blur-xl relative overflow-hidden">
+          <SpotlightCard className="border border-zinc-800 bg-gradient-to-r from-zinc-950/70 via-zinc-950/60 to-zinc-950/70 p-6 rounded-2xl backdrop-blur-xl relative overflow-hidden">
             {/* Ambient glow */}
             <div className="absolute top-0 right-0 w-48 h-48 bg-primary/8 blur-[50px] pointer-events-none" />
             <div className="absolute bottom-0 left-0 w-36 h-36 bg-accent/5 blur-[40px] pointer-events-none" />
@@ -1186,7 +1186,7 @@ const SolutionsSection = () => {
                   {p.tags.map((tag, idx) => (
                     <span
                       key={idx}
-                      className="text-[8px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full bg-surface border border-border text-txt-muted hover:border-primary/30 transition-colors"
+                      className="text-[8px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full bg-surface border border-zinc-800 text-txt-muted hover:border-primary/30 transition-colors"
                     >
                       {tag}
                     </span>
@@ -1373,7 +1373,7 @@ const SkillsSection = ({
   const row4 = ["Python", "PostgreSQL", "Tailwind", "Flask", "MCP", "Flutter", "Axios", "AWS"];
 
   return (
-    <section id="skills" className="py-24 px-4 border-t border-border/40 bg-bg/10 relative overflow-hidden">
+    <section id="skills" className="py-24 px-4 border-t border-zinc-800/40 bg-bg/10 relative overflow-hidden">
       <NeuralCanvas />
       <div className="container mx-auto max-w-5xl relative z-10">
         <div className="text-center mb-12">
@@ -1470,7 +1470,7 @@ const ServicesSection = () => {
   const { t } = useApp();
 
   return (
-    <section id="servicos" className="py-24 px-4 bg-bg/30 border-t border-border/60">
+    <section id="servicos" className="py-24 px-4 bg-bg/30 border-t border-zinc-800/60">
       <div className="container mx-auto max-w-5xl">
         <div className="text-center mb-14">
           <FadeIn>
@@ -1487,7 +1487,7 @@ const ServicesSection = () => {
           {t.services.items.map((item, idx) => (
             <FadeIn key={idx} delay={idx * 0.12}>
               <CardTilt3D className="h-full">
-                <SpotlightCard className="h-full flex flex-col border border-border bg-surface/60 p-6 rounded-2xl backdrop-blur-xl hover:border-red-950/60 relative overflow-hidden">
+                <SpotlightCard className="h-full flex flex-col border border-zinc-800 bg-zinc-950/60 p-6 rounded-2xl backdrop-blur-xl hover:border-red-950/60 relative overflow-hidden">
                   {/* Top accent line */}
                   <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
 
@@ -1499,11 +1499,11 @@ const ServicesSection = () => {
                   </div>
 
                   <h3 className="text-base font-black uppercase mb-3">{item.title}</h3>
-                  <p className="text-txt-muted text-xs leading-relaxed mb-5 flex-1">{item.desc}</p>
+                  <p className="text-zinc-300 text-xs leading-relaxed mb-5 flex-1">{item.desc}</p>
 
                   <ul className="space-y-2 mb-6">
                     {(item.highlights as readonly string[]).map((h, hi) => (
-                      <li key={hi} className="flex items-center gap-2 text-[10px] text-txt-muted">
+                      <li key={hi} className="flex items-center gap-2 text-[10px] text-zinc-300">
                         <Check size={10} className="text-primary shrink-0" />
                         {h}
                       </li>
@@ -2025,7 +2025,7 @@ const ProjectsSection = ({
     return (
       <section
         id="projetos"
-        className="py-24 px-4 bg-bg/30 border-t border-border/60"
+        className="py-24 px-4 bg-bg/30 border-t border-zinc-800/60"
       >
         <div className="container mx-auto max-w-5xl text-center">
           <Badge>{t.projects.badge}</Badge>
@@ -2033,7 +2033,7 @@ const ProjectsSection = ({
             {t.projects.title1}{" "}
             <span className="text-gradient">{t.projects.titleHighlight}</span>
           </h2>
-          <div className="w-full max-w-md mx-auto rounded-2xl border border-border p-8 text-center glass-card mt-8">
+          <div className="w-full max-w-md mx-auto rounded-2xl border border-zinc-800 p-8 text-center glass-card mt-8">
             <p className="text-txt-muted text-xs">
               {lang === "en"
                 ? "No projects found for the selected technology."
@@ -2078,7 +2078,7 @@ const ProjectsSection = ({
     <section
       ref={sectionRef}
       id="projetos"
-      className="relative min-h-screen bg-bg/20 border-t border-border/60 overflow-hidden"
+      className="relative min-h-screen bg-bg/20 border-t border-zinc-800/60 overflow-hidden"
     >
       {/* ═══ PHASE 1: Full-Screen Intro Overlay ═══ */}
       <AnimatePresence>
@@ -2198,7 +2198,7 @@ const ProjectsSection = ({
                   delay: staggerDelay * 2,
                 }}
               >
-                <div className="flex gap-2 bg-surface/65 border border-border p-1 rounded-xl z-20">
+                <div className="flex gap-2 bg-surface/65 border border-zinc-800 p-1 rounded-xl z-20">
                   <button
                     onClick={() => setMockupType("desktop")}
                     disabled={!isReady}
@@ -2272,7 +2272,7 @@ const ProjectsSection = ({
                         )}
                       </div>
                       {/* Monitor Stand */}
-                      <div className="w-20 h-10 bg-zinc-200 dark:bg-[#161618] mx-auto border-t border-border" />
+                      <div className="w-20 h-10 bg-zinc-200 dark:bg-[#161618] mx-auto border-t border-zinc-800" />
                       <div className="w-36 h-2 bg-zinc-300 dark:bg-[#202022] mx-auto rounded-full shadow-md" />
                     </div>
                   ) : (
@@ -2328,7 +2328,7 @@ const ProjectsSection = ({
                   <button
                     onClick={onClearSelection}
                     disabled={!isReady}
-                    className="text-[10px] bg-bg border border-border rounded-lg px-2 py-1 cursor-pointer hover:bg-primary/10 transition-colors"
+                    className="text-[10px] bg-bg border border-zinc-800 rounded-lg px-2 py-1 cursor-pointer hover:bg-primary/10 transition-colors"
                   >
                     {t.projects.clear}
                   </button>
@@ -2391,7 +2391,7 @@ const ProjectsSection = ({
                         className={`flex flex-col items-start gap-1 p-2.5 rounded-xl border text-left shrink-0 transition-all duration-300 w-28 cursor-pointer hover:border-primary/50 ${
                           isActive
                             ? "border-primary bg-primary/10 shadow-[0_0_12px_rgba(128,0,0,0.25)]"
-                            : "border-border bg-surface/40"
+                            : "border-zinc-800 bg-zinc-950/40"
                         }`}
                       >
                         <span className="text-[7px] font-black uppercase text-txt-muted block leading-none">
@@ -2405,13 +2405,13 @@ const ProjectsSection = ({
                   })}
                 </div>
 
-                <div className="space-y-6 pt-6 border-t border-border">
+                <div className="space-y-6 pt-6 border-t border-zinc-800">
                   {p.techs && (
                     <div className="flex flex-wrap gap-1.5">
                       {p.techs.map((tech, techIdx) => (
                         <motion.span
                           key={tech}
-                          className="px-3 py-1 rounded-full border border-border hover:border-[#ff4d4d]/40 text-[9px] font-bold text-txt-muted hover:text-txt bg-surface/30 hover:bg-[#ff4d4d]/10 transition-all duration-300 shadow-sm cursor-default"
+                          className="px-3 py-1 rounded-full border border-zinc-800 hover:border-[#ff4d4d]/40 text-[9px] font-bold text-txt-muted hover:text-txt bg-surface/30 hover:bg-[#ff4d4d]/10 transition-all duration-300 shadow-sm cursor-default"
                           initial={
                             phase === "revealing"
                               ? { opacity: 0, scale: 0.8, y: 10 }
@@ -2455,7 +2455,7 @@ const ProjectsSection = ({
                     {/* Demo CTA */}
                     <div className="flex-1">
                       {p.wip ? (
-                        <div className="w-full text-center text-[10px] font-black uppercase tracking-widest text-txt-muted bg-surface/40 border border-border py-4 rounded-xl">
+                        <div className="w-full text-center text-[10px] font-black uppercase tracking-widest text-txt-muted bg-zinc-950/40 border border-zinc-800 py-4 rounded-xl">
                           {t.projects.comingSoon}
                         </div>
                       ) : (
@@ -2477,7 +2477,7 @@ const ProjectsSection = ({
 
                     {/* Slider Controls */}
                     <div
-                      className={`flex gap-1 bg-surface/60 border border-border p-1 rounded-xl shrink-0 shadow-lg ${
+                      className={`flex gap-1 bg-zinc-950/60 border border-zinc-800 p-1 rounded-xl shrink-0 shadow-lg ${
                         !isReady ? "opacity-50 pointer-events-none" : ""
                       }`}
                     >
@@ -2489,7 +2489,7 @@ const ProjectsSection = ({
                       >
                         <ChevronRight size={14} className="rotate-180" />
                       </button>
-                      <span className="text-[10px] font-black uppercase tracking-wider px-3.5 py-2 bg-bg border border-border rounded-lg flex items-center justify-center min-w-[42px] text-[#ff4d4d]">
+                      <span className="text-[10px] font-black uppercase tracking-wider px-3.5 py-2 bg-bg border border-zinc-800 rounded-lg flex items-center justify-center min-w-[42px] text-[#ff4d4d]">
                         {currentIndex + 1} / {filtered.length}
                       </span>
                       <button
@@ -2548,7 +2548,7 @@ const CertificatesSection = () => {
   }, [activeFilter]);
 
   return (
-    <section id="certificados" className="py-24 px-4 bg-bg/30 border-t border-border/60">
+    <section id="certificados" className="py-24 px-4 bg-bg/30 border-t border-zinc-800/60">
       <div className="container mx-auto max-w-5xl">
         {/* Header */}
         <div className="text-center mb-12">
@@ -2576,7 +2576,7 @@ const CertificatesSection = () => {
                     className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest border transition-all duration-200 cursor-pointer ${
                       isActive
                         ? 'bg-primary text-white border-primary shadow-[0_0_12px_rgba(128,0,0,0.3)]'
-                        : `border-border bg-surface/40 text-txt-muted hover:border-primary/40 hover:text-txt`
+                        : `border-zinc-800 bg-zinc-950/40 text-txt-muted hover:border-primary/40 hover:text-txt`
                     }`}
                   >
                     {conf && <span>{conf.icon}</span>}
@@ -2620,7 +2620,7 @@ const CertificatesSection = () => {
                   <SpotlightCard className={`h-full flex flex-col border p-4 rounded-2xl backdrop-blur-xl transition-all relative overflow-hidden cursor-pointer ${
                     isFeatured 
                       ? 'border-amber-500/50 bg-gradient-to-b from-amber-950/20 via-zinc-950/60 to-zinc-950/60 shadow-[0_0_15px_rgba(245,158,11,0.1)]' 
-                      : 'border-border bg-surface/60 hover:border-primary/30'
+                      : 'border-zinc-800 bg-zinc-950/60 hover:border-primary/30'
                   }`}>
                     {/* Top highlights indicator — subtle glow only, no label */}
                     {isFeatured && (
@@ -2647,7 +2647,7 @@ const CertificatesSection = () => {
                     <p className={`text-xs font-black leading-tight flex-1 mb-3 ${isFeatured ? 'text-amber-200/90' : ''}`}>{item.title}</p>
 
                     {/* Footer: platform only */}
-                    <div className="pt-3 border-t border-border/40">
+                    <div className="pt-3 border-t border-zinc-800/40">
                       <span className={`text-[8px] font-bold ${platColor} uppercase tracking-wider`}>{item.platform}</span>
                     </div>
                   </SpotlightCard>
@@ -2663,7 +2663,7 @@ const CertificatesSection = () => {
             <div className="flex justify-center mt-10">
               <button
                 onClick={() => setShowAll(!showAll)}
-                className="inline-flex items-center justify-center gap-2 bg-zinc-950 hover:bg-primary border border-border hover:border-primary text-white hover:text-white text-[10px] font-black uppercase tracking-wider px-6 py-3.5 rounded-xl transition-all shadow-md duration-300"
+                className="inline-flex items-center justify-center gap-2 bg-zinc-950 hover:bg-primary border border-zinc-800 hover:border-primary text-white hover:text-white text-[10px] font-black uppercase tracking-wider px-6 py-3.5 rounded-xl transition-all shadow-md duration-300"
               >
                 <span>{showAll ? c.btnShowLess : c.btnShowMore}</span>
                 <ChevronRight size={12} className={`transition-transform duration-300 ${showAll ? '-rotate-90' : 'rotate-90'}`} />
@@ -2738,7 +2738,7 @@ const CopyEmailButton = () => {
 const FooterSection = () => {
   const { t } = useApp();
   return (
-    <footer id="contato" className="pt-20 pb-10 px-4 border-t border-border bg-bg/50">
+    <footer id="contato" className="pt-20 pb-10 px-4 border-t border-zinc-800 bg-bg/50">
       <div className="container mx-auto max-w-4xl">
         <div className="text-center mb-10">
           <FadeIn>
@@ -2792,7 +2792,7 @@ const FooterSection = () => {
         </FadeIn>
 
 
-        <div className="mt-16 pt-6 border-t border-border flex flex-col md:flex-row justify-between items-center gap-3 text-txt-muted text-[9px] font-bold uppercase tracking-widest">
+        <div className="mt-16 pt-6 border-t border-zinc-800 flex flex-col md:flex-row justify-between items-center gap-3 text-txt-muted text-[9px] font-bold uppercase tracking-widest">
           <p>{t.footer.copy}</p>
           <p>{t.footer.made}</p>
         </div>
