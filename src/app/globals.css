@@ -4,6 +4,10 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 5rem;
+}
+
+/* Custom cursor only active inside the portfolio wrapper */
+.portfolio-app-wrapper {
   cursor: none;
 }
 

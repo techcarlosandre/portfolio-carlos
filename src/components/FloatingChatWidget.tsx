@@ -90,15 +90,30 @@ export const FloatingChatWidget: React.FC<FloatingChatWidgetProps> = ({ t, lang,
       const history = messages
         .filter((m) => m.id !== "1")
         .map((m) => ({ sender: m.sender, text: m.text }));
-
+ 
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: text, history }),
       });
+      
+      if (res.status === 429) {
+        const data = await res.json();
+        setMessages((p) => [
+          ...p,
+          { 
+            id: Date.now().toString(), 
+            sender: "bot", 
+            text: data.reply || (lang === "pt" ? "Muitas mensagens enviadas. Por favor, aguarde um instante." : "Too many messages. Please wait a moment.") 
+          },
+        ]);
+        setIsTyping(false);
+        return;
+      }
+
       const data = await res.json();
       const reply = data.reply || t.chat.replyDefault;
-
+ 
       setMessages((p) => [...p, { id: Date.now().toString(), sender: "bot", text: reply }]);
     } catch {
       setMessages((p) => [

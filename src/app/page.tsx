@@ -2819,7 +2819,11 @@ export default function PortfolioPage() {
     // Detect if accessing from old domain (Módulo 0)
     if (typeof window !== "undefined") {
       const hostname = window.location.hostname;
-      if (hostname.includes("github.io") || hostname.includes("techcarlosandre.github.io")) {
+      // Strict check to avoid running on localhost or IP addresses during development
+      if (
+        hostname === "techcarlosandre.github.io" || 
+        (hostname.includes("github.io") && !hostname.includes("localhost") && !hostname.startsWith("192.168.") && !hostname.startsWith("10."))
+      ) {
         setIsOldDomain(true);
       }
     }
@@ -2836,8 +2840,14 @@ export default function PortfolioPage() {
       window.addEventListener("touchmove", preventScroll, { passive: false });
       window.scrollTo(0, 0);
       
+      // Safety timeout: force restore scroll after 6 seconds in case load/hydration hangs
+      const safetyTimeout = setTimeout(() => {
+        window.removeEventListener("touchmove", preventScroll);
+      }, 6000);
+      
       return () => {
         window.removeEventListener("touchmove", preventScroll);
+        clearTimeout(safetyTimeout);
       };
     }
   }, [loaded]);
@@ -2859,7 +2869,7 @@ export default function PortfolioPage() {
       </AnimatePresence>
 
       <div 
-        className={`w-full min-h-screen transition-opacity duration-700 ease-out ${
+        className={`w-full min-h-screen transition-opacity duration-700 ease-out portfolio-app-wrapper ${
           !loaded 
             ? "pointer-events-none h-screen overflow-hidden opacity-0" 
             : "opacity-100"
