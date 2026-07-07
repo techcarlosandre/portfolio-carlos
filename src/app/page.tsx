@@ -47,25 +47,7 @@ interface ProjectMetaItem {
   wip?: boolean;
 }
 
-type TranslationType =
-  | (typeof translations)["pt"]
-  | (typeof translations)["en"];
-
-const AppContext = createContext<{
-  lang: Lang;
-  t: TranslationType;
-  theme: string;
-  toggleTheme: () => void;
-  setLang: (l: Lang) => void;
-}>({
-  lang: "pt",
-  t: translations.pt,
-  theme: "dark",
-  toggleTheme: () => { },
-  setLang: () => { },
-});
-
-const useApp = () => useContext(AppContext);
+import { useApp } from "./providers";
 
 // ─── ICONS ───
 const GithubIcon = ({ size = 20 }: { size?: number }) => (
@@ -2803,14 +2785,7 @@ const FooterSection = () => {
 
 // ─── MAIN PAGE ───
 export default function PortfolioPage() {
-  const [theme, setTheme] = useState("dark");
-  const [lang, setLang] = useState<Lang>(() => {
-    if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("carlos_portfolio_lang");
-      if (saved === "en" || saved === "pt") return saved;
-    }
-    return "pt";
-  });
+  const { lang, t, theme } = useApp();
   const [selectedTech, setSelectedTech] = useState<string | null>(null);
   const [loaded, setLoaded] = useState(false);
   const [isOldDomain, setIsOldDomain] = useState(false);
@@ -2852,16 +2827,8 @@ export default function PortfolioPage() {
     }
   }, [loaded]);
 
-  const toggleTheme = () => {
-    const next = theme === "dark" ? "light" : "dark";
-    setTheme(next);
-    document.documentElement.setAttribute("data-theme", next === "dark" ? "" : "light");
-  };
-
-  const t = translations[lang];
-
   return (
-    <AppContext.Provider value={{ lang, t, theme, toggleTheme, setLang }}>
+    <>
       {isOldDomain && <MigrationOverlay />}
 
       <AnimatePresence>
@@ -2922,6 +2889,6 @@ export default function PortfolioPage() {
           <FooterSection />
         </main>
       </div>
-    </AppContext.Provider>
+    </>
   );
 }

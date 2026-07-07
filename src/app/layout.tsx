@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Outfit, Montserrat } from "next/font/google";
 import "./globals.css";
+import { AppProviders } from "./providers";
 
 const outfit = Outfit({
   subsets: ["latin"],
@@ -76,7 +77,9 @@ export default function RootLayout({
         <link rel="preconnect" href="https://cdn.simpleicons.org" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://cdn.simpleicons.org" />
       </head>
-      <body className="antialiased overflow-x-hidden">{children}</body>
+      <body className="antialiased overflow-x-hidden">
+        <AppProviders>{children}</AppProviders>
+      </body>
     </html>
   );
 }
