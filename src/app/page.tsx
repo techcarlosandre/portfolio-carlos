@@ -382,10 +382,7 @@ const FadeIn = ({
   const [isMobile, setIsMobile] = useState<boolean>(true);
 
   useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768);
-    check();
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
+    setIsMobile(window.innerWidth < 768);
   }, []);
 
   const dirs = {
@@ -464,12 +461,7 @@ const StackingSection = ({
   const [isMobile, setIsMobile] = useState<boolean>(true);
 
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
+    setIsMobile(window.innerWidth < 768);
   }, []);
 
   if (isMobile) {
@@ -756,16 +748,11 @@ const HeroSection = ({ loaded }: { loaded: boolean }) => {
   const { t } = useApp();
   const [isMobile, setIsMobile] = useState<boolean>(true);
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
+    setIsMobile(window.innerWidth < 768);
   }, []);
 
   return (
-    <section id="home" className="min-h-[80vh] md:min-h-[92vh] py-12 md:py-0 flex flex-col justify-center items-center px-4 relative overflow-hidden">
+    <section id="home" className="min-h-[60vh] sm:min-h-[80vh] md:min-h-[92vh] py-10 md:py-0 flex flex-col justify-center items-center px-4 relative overflow-hidden">
       <div className="hero-glow" style={{ top: "10%", left: "50%", transform: "translateX(-50%)" }} />
       <div className="absolute inset-0 bg-gradient-to-b from-primary/4 via-transparent to-transparent pointer-events-none" />
 
@@ -1993,12 +1980,7 @@ const ProjectsSection = ({
   // Add mobile detection to disable heavy assets/animations
   const [isMobileDevice, setIsMobileDevice] = useState<boolean>(true);
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobileDevice(window.innerWidth < 768);
-    };
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
+    setIsMobileDevice(window.innerWidth < 768);
   }, []);
 
   // Placeholder images/icons for projects on mobile to save bandwidth
