@@ -117,13 +117,7 @@ const MigrationOverlay = () => {
 const LoadingScreen = ({ onDone }: { onDone: () => void }) => {
   const [text, setText] = useState("");
   const full = "CARLOS.";
-  const [duration, setDuration] = useState(2000);
-
-  useEffect(() => {
-    // Detect mobile to set a longer loading screen (4.5s) so the engine can parse the page in the background
-    const isMobileDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0 || window.innerWidth < 768;
-    setDuration(isMobileDevice ? 4500 : 2000);
-  }, []);
+  const duration = 1200; // Fast 1.2s loading animation for all devices
 
   useEffect(() => {
     let i = 0;
@@ -2704,28 +2698,7 @@ export default function PortfolioPage() {
     }
   }, []);
 
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    
-    if (!loaded) {
-      const preventScroll = (e: TouchEvent) => {
-        e.preventDefault();
-      };
-      // Prevent touch scrolling on mobile while loading
-      window.addEventListener("touchmove", preventScroll, { passive: false });
-      window.scrollTo(0, 0);
-      
-      // Safety timeout: force restore scroll after 6 seconds in case load/hydration hangs
-      const safetyTimeout = setTimeout(() => {
-        window.removeEventListener("touchmove", preventScroll);
-      }, 6000);
-      
-      return () => {
-        window.removeEventListener("touchmove", preventScroll);
-        clearTimeout(safetyTimeout);
-      };
-    }
-  }, [loaded]);
+
 
   return (
     <>
