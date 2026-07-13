@@ -1826,53 +1826,8 @@ const ProjectsSection = ({
     }
   }, []);
 
-  // ── 3-Phase State Machine ──
-  // "idle" → "intro" → "revealing" → "ready"
-  const [phase, setPhase] = useState<"idle" | "intro" | "revealing" | "ready">("idle");
-  const [hasPlayedIntro, setHasPlayedIntro] = useState(false);
-
-  // Intersection Observer — triggers the intro
-  useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
-
-    let observer: IntersectionObserver;
-    const timer = setTimeout(() => {
-      observer = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting && phase === "idle" && !hasPlayedIntro) {
-            setPhase("intro");
-          }
-          // If already played, just go ready
-          if (entry.isIntersecting && hasPlayedIntro && phase === "idle") {
-            setPhase("ready");
-          }
-        },
-        { threshold: 0.25 }
-      );
-      observer.observe(section);
-    }, 600);
-
-    return () => {
-      clearTimeout(timer);
-      if (observer) observer.disconnect();
-    };
-  }, [phase, hasPlayedIntro]);
-
-  // Phase transitions
-  const handleIntroCanvasComplete = useCallback(() => {
-    // Canvas animation done → start text decode (they overlap slightly)
-  }, []);
-
-  const handleTextDecodeComplete = useCallback(() => {
-    // Text decoding done → transition to revealing phase
-    setPhase("revealing");
-    // After staggered reveal completes, set ready
-    setTimeout(() => {
-      setPhase("ready");
-      setHasPlayedIntro(true);
-    }, 1200);
-  }, []);
+  // ── Projects Intro Sequence (Removed for Performance Optimization) ──
+  const phase = "ready" as "idle" | "intro" | "revealing" | "ready";
 
   // Background giant text
   const bgText = lang === "en" ? "PROJECTS" : "PROJETOS";
@@ -2062,44 +2017,7 @@ const ProjectsSection = ({
       id="projetos"
       className="relative min-h-screen bg-bg/20 border-t border-border/60 overflow-hidden"
     >
-      {/* ═══ PHASE 1: Full-Screen Intro Overlay ═══ */}
-      <AnimatePresence>
-        {isIntroActive && (
-          <motion.div
-            key="intro-overlay"
-            className="absolute inset-0 z-40 flex flex-col items-center justify-center bg-bg/95"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0, scale: 1.05 }}
-            transition={{ duration: 0.6, ease: "easeInOut" }}
-          >
-            {/* Neural Synapse Canvas fills the intro */}
-            <NeuralSynapseIntro
-              active={isIntroActive}
-              onComplete={handleIntroCanvasComplete}
-            />
-
-            {/* Decoding Title centered */}
-            <div className="relative z-50">
-              <DecodingTitle
-                text={bgText}
-                highlightIndex={highlightIndex}
-                active={isIntroActive}
-                onComplete={handleTextDecodeComplete}
-              />
-              {/* Subtle label below */}
-              <motion.p
-                className="text-center text-[10px] font-black uppercase tracking-[0.3em] text-txt-muted/50 mt-4"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.8, duration: 0.5 }}
-              >
-                {t.projects.badge}
-              </motion.p>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* ═══ PHASE 1: Full-Screen Intro Overlay (Removed) ═══ */}
 
       {/* ═══ PHASE 2 & 3: Project Content (staggered reveal → interactive) ═══ */}
       <div
