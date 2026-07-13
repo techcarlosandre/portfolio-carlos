@@ -1799,6 +1799,7 @@ const ProjectsSection = ({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [mockupType, setMockupType] = useState<"desktop" | "mobile">("desktop");
   const sectionRef = useRef<HTMLDivElement>(null);
+  const [fullScreenVideo, setFullScreenVideo] = useState<string | null>(null);
 
   // Set mockupType to mobile by default on mobile devices
   useEffect(() => {
@@ -2153,42 +2154,71 @@ const ProjectsSection = ({
                     </div>
                   ) : (
                     <div className="w-full flex justify-center group">
-                      <div className="relative w-[210px] h-[370px] border-[8px] border-[#1d1d1f] bg-[#0c0c0c] rounded-[2.5rem] overflow-hidden shadow-[0_20px_50px_-10px_rgba(128,0,0,0.35)] flex flex-col items-center justify-center transition-all duration-500 group-hover:shadow-[0_25px_60px_-5px_rgba(179,0,0,0.45)]">
-                        {/* Dynamic Island */}
-                        <div className="absolute top-2 left-1/2 -translate-x-1/2 w-14 h-4 bg-black rounded-full z-20" />
-                        {activeMedia.img ? (
-                          <Image
-                            src={activeMedia.img}
-                            alt={p.title}
-                            fill
-                            className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
-                            unoptimized
-                          />
-                        ) : (isReady && activeMedia.video) ? (
-                          <video
-                            autoPlay
-                            muted
-                            loop
-                            playsInline
-                            preload="metadata"
-                            className="w-full h-full object-cover"
-                            key={`mobile-video-${currentIndex}`}
-                          >
-                            <source src={activeMedia.video.replace(".mp4", ".webm")} type="video/webm" />
-                            <source src={activeMedia.video} type="video/mp4" />
-                          </video>
-                        ) : (
-                          <div className="flex flex-col items-center gap-2">
-                            <Zap
-                              size={26}
-                              className="text-primary animate-pulse"
-                            />
-                            <span className="text-[9px] font-black text-txt-muted uppercase tracking-widest">
-                              {isReady ? t.projects.comingSoon : "Loading..."}
-                            </span>
+                      {isMobileDevice ? (
+                        /* Optimized Mobile Placeholder for Video (No autoplay loop to save CPU & Bandwidth) */
+                        <button
+                          onClick={() => setFullScreenVideo(activeMedia.video || null)}
+                          className="relative w-[210px] h-[370px] border-[8px] border-[#1d1d1f] bg-gradient-to-br from-surface to-bg rounded-[2.5rem] overflow-hidden shadow-[0_20px_50px_-10px_rgba(128,0,0,0.35)] flex flex-col items-center justify-center cursor-pointer transition-all duration-300 hover:border-primary/50 group"
+                        >
+                          <div className="absolute top-2 left-1/2 -translate-x-1/2 w-14 h-4 bg-black rounded-full z-20" />
+                          
+                          <div className="absolute inset-0 bg-primary/5 group-hover:bg-primary/10 transition-colors z-0" />
+                          
+                          <div className="relative z-10 flex flex-col items-center gap-4 text-center p-4">
+                            <span className="text-4xl">{getProjectIcon(p.title)}</span>
+                            <div className="w-12 h-12 rounded-full bg-primary/20 border border-primary/40 flex items-center justify-center text-txt transition-transform duration-300 group-hover:scale-110">
+                              <svg viewBox="0 0 24 24" width={20} height={20} fill="currentColor" className="ml-0.5">
+                                <path d="M8 5v14l11-7z" />
+                              </svg>
+                            </div>
+                            <div className="space-y-1">
+                              <span className="text-[10px] font-black text-txt uppercase tracking-wider block">
+                                {lang === "en" ? "Watch Preview" : "Ver Vídeo"}
+                              </span>
+                              <span className="text-[8px] font-medium text-txt-muted uppercase tracking-widest block">
+                                {lang === "en" ? "Full Screen" : "Tela Cheia"}
+                              </span>
+                            </div>
                           </div>
-                        )}
-                      </div>
+                        </button>
+                      ) : (
+                        <div className="relative w-[210px] h-[370px] border-[8px] border-[#1d1d1f] bg-[#0c0c0c] rounded-[2.5rem] overflow-hidden shadow-[0_20px_50px_-10px_rgba(128,0,0,0.35)] flex flex-col items-center justify-center transition-all duration-500 group-hover:shadow-[0_25px_60px_-5px_rgba(179,0,0,0.45)]">
+                          {/* Dynamic Island */}
+                          <div className="absolute top-2 left-1/2 -translate-x-1/2 w-14 h-4 bg-black rounded-full z-20" />
+                          {activeMedia.img ? (
+                            <Image
+                              src={activeMedia.img}
+                              alt={p.title}
+                              fill
+                              className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                              unoptimized
+                            />
+                          ) : (isReady && activeMedia.video) ? (
+                            <video
+                              autoPlay
+                              muted
+                              loop
+                              playsInline
+                              preload="metadata"
+                              className="w-full h-full object-cover"
+                              key={`mobile-video-${currentIndex}`}
+                            >
+                              <source src={activeMedia.video.replace(".mp4", ".webm")} type="video/webm" />
+                              <source src={activeMedia.video} type="video/mp4" />
+                            </video>
+                          ) : (
+                            <div className="flex flex-col items-center gap-2">
+                              <Zap
+                                size={26}
+                                className="text-primary animate-pulse"
+                              />
+                              <span className="text-[9px] font-black text-txt-muted uppercase tracking-widest">
+                                {isReady ? t.projects.comingSoon : "Loading..."}
+                              </span>
+                            </div>
+                          )}
+                        </div>
+                      )}
                     </div>
                   )}
                 </motion.div>
@@ -2384,6 +2414,37 @@ const ProjectsSection = ({
           </div>
         </div>
       </div>
+
+      {/* ═══ Full-Screen Video Modal Player ═══ */}
+      <AnimatePresence>
+        {fullScreenVideo && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[10000] flex items-center justify-center bg-black/95 p-4"
+          >
+            <button
+              onClick={() => setFullScreenVideo(null)}
+              className="absolute top-6 right-6 p-3 rounded-full bg-surface/80 border border-border text-txt cursor-pointer hover:bg-primary transition-colors z-20"
+            >
+              <X size={20} />
+            </button>
+            <div className="relative w-full max-w-lg aspect-[9/16] max-h-[85vh] rounded-3xl overflow-hidden border border-border bg-black">
+              <video
+                autoPlay
+                controls
+                playsInline
+                className="w-full h-full object-contain"
+                key={fullScreenVideo}
+              >
+                <source src={fullScreenVideo.replace(".mp4", ".webm")} type="video/webm" />
+                <source src={fullScreenVideo} type="video/mp4" />
+              </video>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 };
