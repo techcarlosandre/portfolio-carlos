@@ -765,7 +765,7 @@ const HeroSection = ({ loaded }: { loaded: boolean }) => {
   }, []);
 
   return (
-    <section id="home" className="min-h-[92vh] flex flex-col justify-center items-center px-4 relative overflow-hidden">
+    <section id="home" className="min-h-[80vh] md:min-h-[92vh] py-12 md:py-0 flex flex-col justify-center items-center px-4 relative overflow-hidden">
       <div className="hero-glow" style={{ top: "10%", left: "50%", transform: "translateX(-50%)" }} />
       <div className="absolute inset-0 bg-gradient-to-b from-primary/4 via-transparent to-transparent pointer-events-none" />
 
@@ -827,7 +827,7 @@ const AboutMeSection = () => {
   void CATEGORY_COLORS;
 
   return (
-    <section id="sobre-mim" className="py-24 px-4 bg-bg/20 border-t border-border/40">
+    <section id="sobre-mim" className="py-16 md:py-24 px-4 bg-bg/20 border-t border-border/40">
       <div className="container mx-auto max-w-5xl">
         {/* Header */}
         <div className="text-center mb-16">
@@ -979,7 +979,7 @@ const ExperienceSection = () => {
   const exp = t.experience;
 
   return (
-    <section id="experiencia" className="py-24 px-4 bg-bg/20 border-t border-border/40">
+    <section id="experiencia" className="py-16 md:py-24 px-4 bg-bg/20 border-t border-border/40">
       <div className="container mx-auto max-w-5xl">
         {/* Header */}
         <div className="text-center mb-14">
@@ -1083,7 +1083,7 @@ const SolutionsSection = () => {
   };
 
   return (
-    <section id="solucoes" className="py-24 bg-bg/40 border-t border-b border-border">
+    <section id="solucoes" className="py-16 md:py-24 bg-bg/40 border-t border-b border-border">
       <div className="container mx-auto px-4 max-w-5xl">
         {/* Header */}
         <div className="text-center mb-6">
@@ -1355,7 +1355,7 @@ const SkillsSection = ({
   const row4 = ["Python", "PostgreSQL", "Tailwind", "Flask", "MCP", "Flutter", "Axios", "AWS"];
 
   return (
-    <section id="skills" className="py-24 px-4 border-t border-border/40 bg-bg/10 relative overflow-hidden">
+    <section id="skills" className="py-16 md:py-24 px-4 border-t border-border/40 bg-bg/10 relative overflow-hidden">
       <NeuralCanvas />
       <div className="container mx-auto max-w-5xl relative z-10">
         <div className="text-center mb-12">
@@ -1452,7 +1452,7 @@ const ServicesSection = () => {
   const { t } = useApp();
 
   return (
-    <section id="servicos" className="py-24 px-4 bg-bg/30 border-t border-border/60">
+    <section id="servicos" className="py-16 md:py-24 px-4 bg-bg/30 border-t border-border/60">
       <div className="container mx-auto max-w-5xl">
         <div className="text-center mb-14">
           <FadeIn>
@@ -2448,7 +2448,7 @@ const CertificatesSection = () => {
   }, [activeFilter]);
 
   return (
-    <section id="certificados" className="py-24 px-4 bg-bg/30 border-t border-border/60">
+    <section id="certificados" className="py-16 md:py-24 px-4 bg-bg/30 border-t border-border/60">
       <div className="container mx-auto max-w-5xl">
         {/* Header */}
         <div className="text-center mb-12">
