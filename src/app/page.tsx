@@ -2114,40 +2114,30 @@ const ProjectsSection = ({
                 >
                   {mockupType === "desktop" ? (
                     <div className="w-full group">
-                      <div className="relative w-full aspect-[16/10] border-[10px] border-[#1d1d1f] bg-[#0c0c0c] rounded-t-3xl overflow-hidden shadow-[0_25px_60px_-15px_rgba(128,0,0,0.35)] border-b-0 flex flex-col items-center justify-center transition-all duration-500 group-hover:shadow-[0_30px_70px_-10px_rgba(179,0,0,0.45)]">
-                        {activeMedia.img ? (
-                          <Image
-                            src={activeMedia.img}
-                            alt={p.title}
-                            fill
-                            className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
-                            unoptimized
-                          />
-                        ) : (isReady && activeMedia.video) ? (
-                          <video
-                            autoPlay
-                            muted
-                            loop
-                            playsInline
-                            preload="metadata"
-                            className="w-full h-full object-cover"
-                            key={`desktop-video-${currentIndex}`}
-                          >
-                            <source src={activeMedia.video.replace(".mp4", ".webm")} type="video/webm" />
-                            <source src={activeMedia.video} type="video/mp4" />
-                          </video>
-                        ) : (
-                          <div className="flex flex-col items-center gap-2">
-                            <Zap
-                              size={32}
-                              className="text-primary animate-pulse"
-                            />
-                            <span className="text-[11px] font-black text-txt-muted uppercase tracking-widest">
-                              {isReady ? t.projects.comingSoon : "Loading..."}
+                      <button
+                        onClick={() => setFullScreenVideo(activeMedia.video || null)}
+                        disabled={!isReady}
+                        className="relative w-full aspect-[16/10] border-[10px] border-[#1d1d1f] bg-gradient-to-br from-surface to-bg rounded-t-3xl overflow-hidden shadow-[0_25px_60px_-15px_rgba(128,0,0,0.35)] border-b-0 flex flex-col items-center justify-center transition-all duration-300 hover:border-primary/50 cursor-pointer group"
+                      >
+                        <div className="absolute inset-0 bg-primary/5 group-hover:bg-primary/10 transition-colors z-0" />
+                        
+                        <div className="relative z-10 flex flex-col items-center gap-3 text-center p-4">
+                          <span className="text-4xl">{getProjectIcon(p.title)}</span>
+                          <div className="w-12 h-12 rounded-full bg-primary/20 border border-primary/40 flex items-center justify-center text-txt transition-transform duration-300 group-hover:scale-110">
+                            <svg viewBox="0 0 24 24" width={20} height={20} fill="currentColor" className="ml-0.5">
+                              <path d="M8 5v14l11-7z" />
+                            </svg>
+                          </div>
+                          <div className="space-y-1">
+                            <span className="text-[10px] font-black text-txt uppercase tracking-wider block">
+                              {lang === "en" ? "Watch Desktop Preview" : "Ver Vídeo Desktop"}
+                            </span>
+                            <span className="text-[8px] font-medium text-txt-muted uppercase tracking-widest block">
+                              {lang === "en" ? "Full Screen" : "Tela Cheia"}
                             </span>
                           </div>
-                        )}
-                      </div>
+                        </div>
+                      </button>
                       {/* Monitor Stand */}
                       <div className="w-20 h-10 bg-zinc-200 dark:bg-[#161618] mx-auto border-t border-border" />
                       <div className="w-36 h-2 bg-zinc-300 dark:bg-[#202022] mx-auto rounded-full shadow-md" />
@@ -2158,10 +2148,8 @@ const ProjectsSection = ({
                         /* Optimized Mobile Placeholder for Video (No autoplay loop to save CPU & Bandwidth) */
                         <button
                           onClick={() => setFullScreenVideo(activeMedia.video || null)}
-                          className="relative w-[210px] h-[370px] border-[8px] border-[#1d1d1f] bg-gradient-to-br from-surface to-bg rounded-[2.5rem] overflow-hidden shadow-[0_20px_50px_-10px_rgba(128,0,0,0.35)] flex flex-col items-center justify-center cursor-pointer transition-all duration-300 hover:border-primary/50 group"
+                          className="relative w-full max-w-[280px] aspect-[9/16] bg-gradient-to-br from-surface to-bg rounded-2xl overflow-hidden shadow-[0_20px_50px_-10px_rgba(128,0,0,0.35)] flex flex-col items-center justify-center cursor-pointer transition-all duration-300 hover:border-primary/50 group border border-border"
                         >
-                          <div className="absolute top-2 left-1/2 -translate-x-1/2 w-14 h-4 bg-black rounded-full z-20" />
-                          
                           <div className="absolute inset-0 bg-primary/5 group-hover:bg-primary/10 transition-colors z-0" />
                           
                           <div className="relative z-10 flex flex-col items-center gap-4 text-center p-4">
@@ -2182,42 +2170,29 @@ const ProjectsSection = ({
                           </div>
                         </button>
                       ) : (
-                        <div className="relative w-[210px] h-[370px] border-[8px] border-[#1d1d1f] bg-[#0c0c0c] rounded-[2.5rem] overflow-hidden shadow-[0_20px_50px_-10px_rgba(128,0,0,0.35)] flex flex-col items-center justify-center transition-all duration-500 group-hover:shadow-[0_25px_60px_-5px_rgba(179,0,0,0.45)]">
-                          {/* Dynamic Island */}
-                          <div className="absolute top-2 left-1/2 -translate-x-1/2 w-14 h-4 bg-black rounded-full z-20" />
-                          {activeMedia.img ? (
-                            <Image
-                              src={activeMedia.img}
-                              alt={p.title}
-                              fill
-                              className="object-cover transition-transform duration-700 group-hover:scale-[1.03]"
-                              unoptimized
-                            />
-                          ) : (isReady && activeMedia.video) ? (
-                            <video
-                              autoPlay
-                              muted
-                              loop
-                              playsInline
-                              preload="metadata"
-                              className="w-full h-full object-cover"
-                              key={`mobile-video-${currentIndex}`}
-                            >
-                              <source src={activeMedia.video.replace(".mp4", ".webm")} type="video/webm" />
-                              <source src={activeMedia.video} type="video/mp4" />
-                            </video>
-                          ) : (
-                            <div className="flex flex-col items-center gap-2">
-                              <Zap
-                                size={26}
-                                className="text-primary animate-pulse"
-                              />
-                              <span className="text-[9px] font-black text-txt-muted uppercase tracking-widest">
-                                {isReady ? t.projects.comingSoon : "Loading..."}
+                        <button
+                          onClick={() => setFullScreenVideo(activeMedia.video || null)}
+                          className="relative w-[210px] h-[370px] border-[8px] border-[#1d1d1f] bg-gradient-to-br from-surface to-bg rounded-[2.5rem] overflow-hidden shadow-[0_20px_50px_-10px_rgba(128,0,0,0.35)] flex flex-col items-center justify-center transition-all duration-300 hover:border-primary/50 cursor-pointer group"
+                        >
+                          <div className="absolute inset-0 bg-primary/5 group-hover:bg-primary/10 transition-colors z-0" />
+                          
+                          <div className="relative z-10 flex flex-col items-center gap-4 text-center p-4">
+                            <span className="text-4xl">{getProjectIcon(p.title)}</span>
+                            <div className="w-12 h-12 rounded-full bg-primary/20 border border-primary/40 flex items-center justify-center text-txt transition-transform duration-300 group-hover:scale-110">
+                              <svg viewBox="0 0 24 24" width={20} height={20} fill="currentColor" className="ml-0.5">
+                                <path d="M8 5v14l11-7z" />
+                              </svg>
+                            </div>
+                            <div className="space-y-1">
+                              <span className="text-[10px] font-black text-txt uppercase tracking-wider block">
+                                {lang === "en" ? "Watch Preview" : "Ver Vídeo"}
+                              </span>
+                              <span className="text-[8px] font-medium text-txt-muted uppercase tracking-widest block">
+                                {lang === "en" ? "Full Screen" : "Tela Cheia"}
                               </span>
                             </div>
-                          )}
-                        </div>
+                          </div>
+                        </button>
                       )}
                     </div>
                   )}
@@ -2430,12 +2405,12 @@ const ProjectsSection = ({
             >
               <X size={20} />
             </button>
-            <div className="relative w-full max-w-lg aspect-[9/16] max-h-[85vh] rounded-3xl overflow-hidden border border-border bg-black">
+            <div className={`relative w-full ${mockupType === "desktop" ? "max-w-4xl aspect-[16/10] max-h-[80vh]" : "max-w-[340px] md:max-w-md aspect-[9/16] max-h-[90vh]"} rounded-2xl md:rounded-3xl overflow-hidden border border-border/20 bg-black shadow-2xl`}>
               <video
                 autoPlay
                 controls
                 playsInline
-                className="w-full h-full object-contain"
+                className="w-full h-full object-cover"
                 key={fullScreenVideo}
               >
                 <source src={fullScreenVideo.replace(".mp4", ".webm")} type="video/webm" />
