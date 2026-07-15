@@ -5,11 +5,9 @@ import { AnimatePresence } from "framer-motion";
 import dynamic from "next/dynamic";
 import { useApp } from "./providers";
 
-// Background Grid & Beams
 import { BackgroundGrid } from "../components/BackgroundGrid";
 import { BackgroundBeams } from "../components/BackgroundBeams";
 
-// Modular Clean Components
 import { MigrationOverlay } from "../components/MigrationOverlay";
 import { LoadingScreen } from "../components/LoadingScreen";
 import { CustomCursor } from "../components/CustomCursor";
