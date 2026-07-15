@@ -2,6 +2,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextRequest, NextResponse } from "next/server";
 import { getFAQResponse } from "@/lib/faq";
 import { supabase, isSupabaseConfigured } from "@/lib/supabase";
+import { env } from "@/lib/env";
 
 const SYSTEM_PROMPT = `Você é o assistente de IA do portfólio de Carlos André — um desenvolvedor Full-Stack com mais de 2 anos de experiência.
 
@@ -54,7 +55,7 @@ const SYSTEM_PROMPT = `Você é o assistente de IA do portfólio de Carlos Andr�
 - Mantenha foco no portfólio — não responda perguntas completamente fora do contexto profissional
 - Se perguntarem "quem você é", explique que é a IA do portfólio do Carlos, alimentada pelo Gemini`;
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
+const genAI = new GoogleGenerativeAI(env.GEMINI_API_KEY || "");
 
 // Rate limiting and Cooldown (per IP)
 const requestLog = new Map<string, { count: number; resetAt: number; lastRequestAt: number }>();
@@ -187,7 +188,7 @@ export async function POST(req: NextRequest) {
     }
 
     // ─── CAMADA 3: GEMINI AI ───
-    if (!process.env.GEMINI_API_KEY) {
+    if (!env.GEMINI_API_KEY) {
       return NextResponse.json(
         { reply: "Assistente temporariamente indisponível. Entre em contato direto: techcarlosandre@gmail.com" },
         { status: 200 }

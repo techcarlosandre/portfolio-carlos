@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
+import { useIsMobile } from "../lib/useIsMobile";
 
 const StackingSectionDesktop = ({
   children,
@@ -33,7 +34,6 @@ const StackingSectionDesktop = ({
     </div>
   );
 };
-
 export const StackingSection = ({
   children,
   className = "",
@@ -43,11 +43,7 @@ export const StackingSection = ({
   className?: string;
   id?: string;
 }) => {
-  const [isMobile, setIsMobile] = useState<boolean>(true);
-
-  useEffect(() => {
-    setIsMobile(window.innerWidth < 768);
-  }, []);
+  const isMobile = useIsMobile();
 
   if (isMobile) {
     return (

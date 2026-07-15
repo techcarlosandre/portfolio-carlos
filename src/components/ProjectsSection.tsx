@@ -4,6 +4,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronRight, X, ArrowUpRight } from "lucide-react";
 import { useApp } from "../app/providers";
+import { useIsMobile } from "../lib/useIsMobile";
 import { Badge } from "./Badge";
 import { GlitchText } from "./GlitchText";
 import { SpotlightCard } from "./SpotlightCard";
@@ -376,10 +377,7 @@ export const ProjectsSection = ({
   const activeMedia = mockupType === "desktop" ? p.desktop : p.mobile;
 
   // Add mobile detection to disable heavy assets/animations
-  const [isMobileDevice, setIsMobileDevice] = useState<boolean>(true);
-  useEffect(() => {
-    setIsMobileDevice(window.innerWidth < 768);
-  }, []);
+  const isMobileDevice = useIsMobile();
 
   const getProjectIcon = (title: string) => {
     const lower = title.toLowerCase();

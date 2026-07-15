@@ -1,4 +1,6 @@
-export const en = {
+import { TranslationSchema } from "../translations";
+
+export const en: TranslationSchema = {
   nav: {
     about: 'Home',
     aboutMe: 'About Me',

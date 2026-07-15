@@ -1,11 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { translations, type Lang } from "./translations";
-
-type TranslationType =
-  | (typeof translations)["pt"]
-  | (typeof translations)["en"];
+import { translations, type Lang, type TranslationType } from "./translations";
 
 interface AppContextProps {
   lang: Lang;

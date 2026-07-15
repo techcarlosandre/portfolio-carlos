@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { motion } from "framer-motion";
+import { useIsMobile } from "../lib/useIsMobile";
 
 export const FadeIn = ({
   children,
@@ -14,11 +15,7 @@ export const FadeIn = ({
   direction?: "up" | "down" | "left" | "right";
   triggerOnMount?: boolean;
 }) => {
-  const [isMobile, setIsMobile] = useState<boolean>(true);
-
-  useEffect(() => {
-    setIsMobile(window.innerWidth < 768);
-  }, []);
+  const isMobile = useIsMobile();
 
   const dirs = {
     up: { y: isMobile ? 25 : 40, x: 0 },

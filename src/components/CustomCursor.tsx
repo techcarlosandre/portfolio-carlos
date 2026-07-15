@@ -1,22 +1,14 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
+import { useIsMobile } from "../lib/useIsMobile";
 
 export const CustomCursor = () => {
   const outerRef = useRef<HTMLDivElement>(null);
   const innerRef = useRef<HTMLDivElement>(null);
   const pos = useRef({ x: 0, y: 0 });
   const outer = useRef({ x: 0, y: 0 });
-  const [isMobile, setIsMobile] = useState<boolean>(true);
-
-  useEffect(() => {
-    const checkMobile = () => {
-      const hasTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-      const isSmall = window.innerWidth < 768;
-      setIsMobile(hasTouch || isSmall);
-    };
-    checkMobile();
-  }, []);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     if (isMobile) return;

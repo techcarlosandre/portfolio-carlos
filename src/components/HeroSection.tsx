@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Image from "next/image";
 import { useApp } from "../app/providers";
 import { Badge } from "./Badge";
@@ -8,13 +8,11 @@ import { ShinyText } from "./ShinyText";
 import { SplitText } from "./SplitText";
 import { FadeIn } from "./FadeIn";
 import { TypewriterTitle } from "./TypewriterTitle";
+import { useIsMobile } from "../lib/useIsMobile";
 
 export const HeroSection = ({ loaded }: { loaded: boolean }) => {
   const { t } = useApp();
-  const [isMobile, setIsMobile] = useState<boolean>(true);
-  useEffect(() => {
-    setIsMobile(window.innerWidth < 768);
-  }, []);
+  const isMobile = useIsMobile();
 
   return (
     <section id="home" className="min-h-[60vh] sm:min-h-[80vh] md:min-h-[92vh] py-10 md:py-0 flex flex-col justify-center items-center px-4 relative overflow-hidden">

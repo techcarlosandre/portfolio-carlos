@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { useIsMobile } from "../lib/useIsMobile";
 
 interface CardTilt3DProps {
   children: React.ReactNode;
@@ -11,17 +12,7 @@ interface CardTilt3DProps {
 export const CardTilt3D: React.FC<CardTilt3DProps> = ({ children, className = "" }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [hovering, setHovering] = useState(false);
-  const [isMobile, setIsMobile] = useState<boolean>(true);
-
-  // Check mobile on mount
-  useEffect(() => {
-    const checkMobile = () => {
-      const hasTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-      const isSmall = window.innerWidth < 768;
-      setIsMobile(hasTouch || isSmall);
-    };
-    checkMobile();
-  }, []);
+  const isMobile = useIsMobile();
 
   const x = useMotionValue(0);
   const y = useMotionValue(0);
