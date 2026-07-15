@@ -1,0 +1,167 @@
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+.portfolio-app-wrapper {
+  cursor: none;
+}
+
+@theme {
+  --color-primary: #800000;
+  --color-secondary: #4d0000;
+  --color-accent: #b30000;
+  --color-bg: #080808;
+  --color-surface: #111111;
+  --color-txt: #ffffff;
+  --color-txt-muted: #a1a1aa;
+  --color-border: rgba(255, 255, 255, 0.06);
+  --font-montserrat: "Montserrat", sans-serif;
+  --font-outfit: "Outfit", sans-serif;
+  --animate-shimmer: shimmer 8s infinite linear;
+
+  @keyframes shimmer {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+}
+
+[data-theme="light"] {
+  --color-bg: #faf9f7;
+  --color-surface: #f0efed;
+  --color-txt: #1a1a1a;
+  --color-txt-muted: #71717a;
+  --color-border: rgba(0, 0, 0, 0.08);
+}
+
+:root {
+  --glass-bg: rgba(15, 15, 15, 0.55);
+  --glass-hover: rgba(25, 25, 25, 0.75);
+  --glow: rgba(128, 0, 0, 0.4);
+  --dot-c: rgba(128, 0, 0, 0.1);
+  --stroke-c: rgba(255, 255, 255, 0.08);
+  --nav-bg: rgba(0, 0, 0, 0.85);
+  --grad-from: #ff7070;
+  --grad-via: #e03030;
+  --grad-to: #800000;
+}
+
+[data-theme="light"] {
+  --glass-bg: rgba(255, 255, 255, 0.75);
+  --glass-hover: rgba(255, 255, 255, 0.95);
+  --glow: rgba(128, 0, 0, 0.12);
+  --dot-c: rgba(128, 0, 0, 0.05);
+  --stroke-c: rgba(0, 0, 0, 0.1);
+  --nav-bg: rgba(255, 255, 255, 0.9);
+  --grad-from: #e03030;
+  --grad-via: #cc0000;
+  --grad-to: #800000;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-txt);
+  font-family: var(--font-outfit);
+  margin: 0;
+  overflow-x: clip;
+  transition:
+    background-color 0.5s,
+    color 0.5s;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #800000, #b30000);
+  border-radius: 10px;
+}
+
+.chat-scrollbar::-webkit-scrollbar {
+  width: 3px;
+}
+.chat-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.chat-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(128, 0, 0, 0.3);
+  border-radius: 4px;
+}
+.chat-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(128, 0, 0, 0.6);
+}
+
+.dot-grid {
+  background-image: radial-gradient(var(--dot-c) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--color-border);
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.glass-card:hover {
+  background: var(--glass-hover);
+  border-color: rgba(128, 0, 0, 0.3);
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.2),
+    0 0 40px var(--glow);
+}
+
+.glass-panel {
+  background: rgba(12, 12, 12, 0.45);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+[data-theme="light"] .glass-panel {
+  background: rgba(240, 239, 237, 0.6);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.text-gradient {
+  background: linear-gradient(
+    135deg,
+    var(--grad-from) 0%,
+    var(--grad-via) 50%,
+    var(--grad-to) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient span {
+  background: inherit;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.grain-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9996;
+  opacity: 0.018;
+  background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+  background-repeat: repeat;
+}
