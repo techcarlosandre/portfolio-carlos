@@ -30,6 +30,7 @@ jobs:
           cache: "npm"
 
       - name: Setup Pages
+        id: pages
         uses: actions/configure-pages@v5
 
       - name: Install dependencies
@@ -39,7 +40,10 @@ jobs:
         run: npm run build
         env:
           BUILD_EXPORT: "true"
-          NEXT_PUBLIC_BASE_PATH: "/portfolio-carlos"
+          NEXT_PUBLIC_BASE_PATH: "${{ steps.pages.outputs.base_path || '/portfolio-carlos' }}"
+
+      - name: Ensure .nojekyll exists
+        run: touch ./out/.nojekyll
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
