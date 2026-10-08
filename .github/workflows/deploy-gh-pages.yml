@@ -39,6 +39,7 @@ jobs:
         run: npm run build
         env:
           BUILD_EXPORT: "true"
+          NEXT_PUBLIC_BASE_PATH: "/portfolio-carlos"
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
