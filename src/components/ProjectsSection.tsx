@@ -229,7 +229,7 @@ export const ProjectsSection = ({
     desc: string;
     tag: string;
     techs: readonly string[];
-    link: string;
+
     area: string;
     wip?: boolean;
     desktop: { img?: string; video?: string; placeholder?: boolean };
@@ -240,7 +240,7 @@ export const ProjectsSection = ({
       desc: t.projects.items[0].desc,
       tag: t.projects.items[0].tag,
       techs: t.projects.items[0].techs,
-      link: "https://projetos.techcarlos.com.br/sushi",
+
       area: "Web & UX/UI",
       desktop: { video: "/sushi/sushi_opt.mp4" },
       mobile: { video: "/sushi/sushi-app_opt.mp4" },
@@ -250,7 +250,7 @@ export const ProjectsSection = ({
       desc: t.projects.items[1].desc,
       tag: t.projects.items[1].tag,
       techs: t.projects.items[1].techs,
-      link: "https://projetos.techcarlos.com.br/fitgym",
+
       area: "Mobile & Flutter",
       desktop: { video: "/fitgym/fitgym_opt.mp4" },
       mobile: { video: "/fitgym/fitgym-app_opt.mp4" },
@@ -260,7 +260,7 @@ export const ProjectsSection = ({
       desc: t.projects.items[2].desc,
       tag: t.projects.items[2].tag,
       techs: t.projects.items[2].techs,
-      link: "https://projetos.techcarlos.com.br/horizonte",
+
       area: "Sistemas & Dashboard",
       desktop: { video: "/horizonte/horizonte_opt.mp4" },
       mobile: { video: "/horizonte/horizonte-app_opt.mp4" },
@@ -270,7 +270,7 @@ export const ProjectsSection = ({
       desc: t.projects.items[3].desc,
       tag: t.projects.items[3].tag,
       techs: t.projects.items[3].techs,
-      link: "https://projetos.techcarlos.com.br/barber",
+
       area: "Gestão & CRM",
       desktop: { video: "/barber/barber_opt.mp4" },
       mobile: { video: "/barber/barber-app_opt.mp4" },
@@ -280,7 +280,7 @@ export const ProjectsSection = ({
       desc: t.projects.items[4].desc,
       tag: t.projects.items[4].tag,
       techs: t.projects.items[4].techs,
-      link: "https://projetos.techcarlos.com.br/vitamed",
+
       area: "Integrações & IA",
       desktop: { video: "/vitamed/vitamed_opt.mp4" },
       mobile: { video: "/vitamed/vitamed-app_opt.mp4" },
@@ -717,19 +717,15 @@ export const ProjectsSection = ({
                           {t.projects.comingSoon}
                         </div>
                       ) : (
-                        <a
-                          href={p.link}
-                          target="_blank"
-                          rel="noreferrer"
-                          className={`flex items-center justify-center gap-2 w-full bg-gradient-to-r from-[#a00000] to-[#e03030] hover:from-[#e03030] hover:to-[#a00000] text-txt text-[10px] font-black uppercase tracking-wider py-4 rounded-xl transition-all shadow-[0_4px_20px_rgba(224,48,48,0.25)] hover:shadow-[0_4px_25px_rgba(224,48,48,0.45)] duration-300 ${
+                        <div
+                          className={`flex items-center justify-center gap-2 w-full bg-gradient-to-r from-[#a00000] to-[#e03030] text-txt text-[10px] font-black uppercase tracking-wider py-4 rounded-xl shadow-[0_4px_20px_rgba(224,48,48,0.25)] ${
                             !isReady
-                              ? "pointer-events-none opacity-50"
+                              ? "opacity-50"
                               : ""
                           }`}
-                          tabIndex={isReady ? 0 : -1}
                         >
-                          {t.projects.demo} <ArrowUpRight size={14} />
-                        </a>
+                          {t.projects.demo}
+                        </div>
                       )}
                     </div>
 

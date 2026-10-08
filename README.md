@@ -34,23 +34,23 @@ O design é inspirado no tema **Dracula** com micro-interações fluidas via Fra
 
 ## 📂 Projetos em Destaque no Portfólio
 
-### 🍣 [Sushi House Premium (Sushi PDV)](https://projetos.techcarlos.com.br/sushi)
+### 🍣 Sushi House Premium (Sushi PDV)
 Sistema ERP e PDV (Ponto de Venda) completo para restaurantes de culinária japonesa. Possui PDV touchscreen rápido, módulo de impressão automática de comandas via daemon em Python local para a cozinha e roteamento inteligente de delivery via webhook no N8N.
 *   **Stack:** Next.js 14, React 18, SWR, TailwindCSS, Prisma, Python, N8N, PostgreSQL, Sockets.
 
-### 🏋️ [FitGym](https://projetos.techcarlos.com.br/fitgym)
+### 🏋️ FitGym
 Ecossistema de fitness composto por aplicação Web para administradores, aplicativo Mobile nativo para alunos e API RESTful robusta. Permite acesso a fichas de treinos dinâmicas com cronômetros de descanso integrados, controle financeiro de matrículas e dashboards de evolução.
 *   **Stack:** Java 17, Spring Boot, Spring Security (JWT), Hibernate/JPA, Flutter (Dart), PostgreSQL, SQLite.
 
-### 📊 [Horizonte Aprendizado (Horizon BI)](https://projetos.techcarlos.com.br/horizonte)
+### 📊 Horizonte Aprendizado (Horizon BI)
 Dashboard inteligente de Business Intelligence (BI) para consolidação e monitoramento de métricas operacionais e financeiras corporativas. Conta com cruzamento de dados de múltiplos departamentos com latência zero e gráficos interativos otimizados via Recharts.
 *   **Stack:** Next.js 16, React 19, TailwindCSS v4, Recharts, Radix UI, Zustand, PostgreSQL.
 
-### 💈 [Barber+ (Barber Plus)](https://projetos.techcarlos.com.br/barber)
+### 💈 Barber+ (Barber Plus)
 Plataforma SaaS de alta performance para gestão estratégica e agendamento comercial em tempo real. Centraliza a reserva inteligente de horários com controle estrito de concorrência no banco de dados para evitar overbooking, painel de barbeiros e relatórios financeiros.
 *   **Stack:** Next.js 16, React 19, TailwindCSS v4, Framer Motion, PostgreSQL.
 
-### 🏥 [VitaMed](https://projetos.techcarlos.com.br/vitamed)
+### 🏥 VitaMed
 Sistema integrado de gestão médica e prontuário eletrônico (PEP) focado em usabilidade clínica e segurança. Conta com histórico clínico centralizado, receitas digitais, atestados, grade de agendamento dinâmica e total conformidade de acessibilidade (WCAG).
 *   **Stack:** Next.js 16, React 19, TailwindCSS v4, Radix UI, PostgreSQL.
 
