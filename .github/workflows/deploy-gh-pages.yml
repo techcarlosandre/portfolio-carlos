@@ -38,8 +38,7 @@ jobs:
       - name: Build with Next.js
         run: npm run build
         env:
-          GITHUB_ACTIONS: "true"
-          NEXT_PUBLIC_BASE_PATH: "/portfolio-carlos"
+          BUILD_EXPORT: "true"
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

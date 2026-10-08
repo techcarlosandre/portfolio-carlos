@@ -374,13 +374,15 @@ export const en: TranslationSchema = {
       {
         company: 'YouShop',
         title: 'Full-Stack Intern',
-        date: 'January/2026 – Present',
+        date: 'August/2026 – Present',
         link: 'https://youshop.com.br',
-        stack: ['Vue.js', 'TypeScript', 'Python', 'Django', 'REST APIs', 'Web Platform', 'Mobile App'],
+        stack: ['Vue.js', 'TypeScript', 'Python', 'Django REST Framework', 'Pinia', 'Vue Router', 'Tailwind CSS', 'Docker', 'Git', 'RESTful APIs', 'Web Platform', 'Mobile App'],
         bullets: [
-          'Full-Stack development focusing on front-end using Vue.js and TypeScript, and back-end using Python and Django.',
-          'Frequent contribution to national-scale projects, driving the continuous evolution of both the corporate web platform and mobile app.',
-          'Building reactive components, implementing new features, integrating REST APIs, and optimizing overall application performance.'
+          'Full-Stack development focusing primarily on building reactive interfaces with Vue.js 3, TypeScript, and Tailwind CSS, alongside back-end services in Python with Django REST Framework.',
+          'Continuous engineering on national-scale software projects, contributing to the technical evolution of the web platform and mobile application for high concurrency.',
+          'Architected and implemented global state management using Pinia and dynamic routing via Vue Router, delivering lightning-fast SPA navigation.',
+          'Built, optimized, and integrated structured RESTful APIs, ensuring business logic isolation, data validation, and endpoint security in Django.',
+          'Applied strict modular componentization practices, responsive design system guidelines, functional testing, and workflow automation with Docker and Git.'
         ]
       },
       {

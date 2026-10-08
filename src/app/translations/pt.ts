@@ -372,13 +372,15 @@ export const pt = {
       {
         company: 'YouShop',
         title: 'Estagiário Full-Stack',
-        date: 'Janeiro/2026 – Presente',
+        date: 'Agosto/2026 – Presente',
         link: 'https://youshop.com.br',
-        stack: ['Vue.js', 'TypeScript', 'Python', 'Django', 'APIs REST', 'Plataforma Web', 'App Mobile'],
+        stack: ['Vue.js', 'TypeScript', 'Python', 'Django REST Framework', 'Pinia', 'Vue Router', 'Tailwind CSS', 'Docker', 'Git', 'APIs RESTful', 'Plataforma Web', 'App Mobile'],
         bullets: [
-          'Desenvolvimento Full-Stack atuando com foco no front-end com Vue.js e TypeScript, e no back-end com Python e Django.',
-          'Atuação frequente em projetos de alcance nacional, contribuindo no desenvolvimento e evolução contínua da plataforma web e do aplicativo mobile.',
-          'Criação de componentes reativos, manutenção de funcionalidades, consumo e integração de APIs REST com alta performance.'
+          'Desenvolvimento Full-Stack atuando com foco principal na construção de interfaces reativas em Vue.js 3, TypeScript e Tailwind CSS, e no desenvolvimento de serviços de back-end em Python com Django REST Framework.',
+          'Engenharia contínua em projetos de software de alcance nacional, contribuindo para a evolução técnica da plataforma web e do aplicativo mobile com foco em alta concorrência.',
+          'Arquitetura e implementação de gerenciamento de estado global com Pinia e roteamento dinâmico otimizado via Vue Router, garantindo navegação SPA veloz e fluida.',
+          'Construção, otimização e integração de APIs RESTful estruturadas, garantindo isolamento de regras de negócio, validação de dados e segurança de endpoints.',
+          'Aplicação rigorosa de padrões de componentização modular, design system responsivo, testes funcionais e esteira de desenvolvimento com Docker e Git.'
         ]
       },
       {

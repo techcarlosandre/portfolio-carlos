@@ -10,7 +10,7 @@ const SYSTEM_PROMPT = `Você é o assistente de IA do portfólio de Carlos Andr�
 
 **Perfil:**
 - Desenvolvedor Full-Stack especializado em Next.js, React, TypeScript, Python e Java/Spring Boot
-- Estudante de Sistemas de Informação na Estácio (4º período)
+- Estudante de Sistemas de Informação na Estácio (5º período)
 - Freelancer aberto a projetos e novas oportunidades
 - Especialista em construir plataformas de alta performance com UI premium
 - Localização: Rio de Janeiro, Brasil
