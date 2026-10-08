@@ -32,9 +32,9 @@ const FAQ_DATA_PT: Record<string, string> = {
   linkedin: `Conecte-se com o Carlos no LinkedIn: [linkedin.com/in/devcarlosandre](https://www.linkedin.com/in/devcarlosandre/).`,
   
   experiencia: `A experiência profissional do Carlos inclui:
-- **Freelancer Full-Stack** (2026 - Presente): Criação de plataformas completas e integrações de IA.
-- **Omni Gestão** (2025 - 2026): Desenvolvimento de ERP completo para controle de estoque e fluxo de caixa.
-- **Miluli (Especialista em Automação IA)** (2024 - 2026): Implementação de IA conversacional e automações, reduzindo tempo de atendimento em 80%.`,
+- **Estagiário Full-Stack na YouShop** (2026 - Presente): Atuação em projetos de escala nacional (plataforma web e aplicativo mobile) desenvolvendo front-end com Vue.js e TypeScript, e back-end com Python e Django.
+- **Desenvolvedor Full-Stack Freelancer** (2025 - 2026): Criação de soluções completas, agentes de IA com RAG, N8N e PostgreSQL.
+- **Neo Vertex (Front-End & QA)** (2026): Engenharia de front-end com Next.js/Framer Motion e testes de qualidade de APIs.`,
   
   formacao: `Carlos está cursando **Sistemas de Informação** na Estácio (atualmente no 4º período). Ele também é autodidata em tecnologias modernas como Next.js, IA e integrações de APIs.`,
   
@@ -74,9 +74,9 @@ const FAQ_DATA_EN: Record<string, string> = {
   linkedin: `Connect with Carlos on LinkedIn: [linkedin.com/in/devcarlosandre](https://www.linkedin.com/in/devcarlosandre/).`,
   
   experiencia: `Carlos's professional experience includes:
-- **Full-Stack Freelancer** (2026 - Present): Developing complete platforms and AI integrations.
-- **Omni Gestão** (2025 - 2026): Building an ERP system for inventory and cash flow management.
-- **Miluli (AI Automation Specialist)** (2024 - 2026): Implementing conversational AI and integrations, reducing customer service time by 80%.`,
+- **Full-Stack Intern at YouShop** (2026 - Present): Working on national-scale projects (web platform & mobile app) using Vue.js, TypeScript, Python, and Django.
+- **Full-Stack Freelance Developer** (2025 - 2026): Building complete digital solutions, RAG AI agents, N8N, and PostgreSQL.
+- **Neo Vertex (Front-End & QA)** (2026): Front-end engineering with Next.js/Framer Motion and API quality assurance.`,
   
   formacao: `Carlos is studying **Information Systems** at Estácio (currently in the 4th semester). He is also self-taught in modern technologies like Next.js, AI, and APIs.`,
   

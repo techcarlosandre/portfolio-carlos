@@ -370,6 +370,18 @@ export const pt = {
     subtitle: 'De automações inteligentes ao desenvolvimento full-stack — cada etapa moldou minha forma de criar soluções digitais de impacto.',
     items: [
       {
+        company: 'YouShop',
+        title: 'Estagiário Full-Stack',
+        date: 'Janeiro/2026 – Presente',
+        link: 'https://youshop.com.br',
+        stack: ['Vue.js', 'TypeScript', 'Python', 'Django', 'APIs REST', 'Plataforma Web', 'App Mobile'],
+        bullets: [
+          'Desenvolvimento Full-Stack atuando com foco no front-end com Vue.js e TypeScript, e no back-end com Python e Django.',
+          'Atuação frequente em projetos de alcance nacional, contribuindo no desenvolvimento e evolução contínua da plataforma web e do aplicativo mobile.',
+          'Criação de componentes reativos, manutenção de funcionalidades, consumo e integração de APIs REST com alta performance.'
+        ]
+      },
+      {
         company: 'Clínica Odontológica Espaço Família',
         title: 'Desenvolvedor Full-Stack Freelancer',
         date: 'Dezembro/2025 – Julho/2026',

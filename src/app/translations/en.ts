@@ -372,6 +372,18 @@ export const en: TranslationSchema = {
     subtitle: 'From intelligent automations to full-stack development — each step shaped how I build impactful digital solutions.',
     items: [
       {
+        company: 'YouShop',
+        title: 'Full-Stack Intern',
+        date: 'January/2026 – Present',
+        link: 'https://youshop.com.br',
+        stack: ['Vue.js', 'TypeScript', 'Python', 'Django', 'REST APIs', 'Web Platform', 'Mobile App'],
+        bullets: [
+          'Full-Stack development focusing on front-end using Vue.js and TypeScript, and back-end using Python and Django.',
+          'Frequent contribution to national-scale projects, driving the continuous evolution of both the corporate web platform and mobile app.',
+          'Building reactive components, implementing new features, integrating REST APIs, and optimizing overall application performance.'
+        ]
+      },
+      {
         company: 'Clínica Odontológica Espaço Família',
         title: 'Full-Stack Freelance Developer',
         date: 'December/2025 – July/2026',

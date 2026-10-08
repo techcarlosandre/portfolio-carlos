@@ -1,7 +1,9 @@
 import { MetadataRoute } from "next";
 
+export const dynamic = "force-static";
+
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://portfolio.techcarlos.com.br";
+  const baseUrl = "https://techcarlosandre.github.io/portfolio-carlos";
   
   return [
     {
@@ -12,3 +14,4 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 }
+

@@ -1,7 +1,9 @@
 import { MetadataRoute } from "next";
 
+export const dynamic = "force-static";
+
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = "https://portfolio.techcarlos.com.br";
+  const baseUrl = "https://techcarlosandre.github.io/portfolio-carlos";
   
   return {
     rules: {
@@ -11,3 +13,4 @@ export default function robots(): MetadataRoute.Robots {
     sitemap: `${baseUrl}/sitemap.xml`,
   };
 }
+
