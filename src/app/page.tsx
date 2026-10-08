@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import dynamic from "next/dynamic";
 import { useApp } from "./providers";
@@ -8,7 +8,6 @@ import { useApp } from "./providers";
 import { BackgroundGrid } from "../components/BackgroundGrid";
 import { BackgroundBeams } from "../components/BackgroundBeams";
 
-import { MigrationOverlay } from "../components/MigrationOverlay";
 import { LoadingScreen } from "../components/LoadingScreen";
 import { CustomCursor } from "../components/CustomCursor";
 import { ScrollProgress } from "../components/ScrollProgress";
@@ -34,26 +33,9 @@ export default function PortfolioPage() {
   const { lang, t, theme } = useApp();
   const [selectedTech, setSelectedTech] = useState<string | null>(null);
   const [loaded, setLoaded] = useState(false);
-  const [isOldDomain, setIsOldDomain] = useState(false);
-
-  useEffect(() => {
-    // Detect if accessing from old domain
-    if (typeof window !== "undefined") {
-      const hostname = window.location.hostname;
-      // Strict check to avoid running on localhost or IP addresses during development
-      if (
-        hostname === "techcarlosandre.github.io" || 
-        (hostname.includes("github.io") && !hostname.includes("localhost") && !hostname.startsWith("192.168.") && !hostname.startsWith("10."))
-      ) {
-        setIsOldDomain(true);
-      }
-    }
-  }, []);
 
   return (
     <>
-      {isOldDomain && <MigrationOverlay />}
-
       <AnimatePresence>
         {!loaded && <LoadingScreen key="loading" onDone={() => setLoaded(true)} />}
       </AnimatePresence>

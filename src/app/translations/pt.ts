@@ -455,11 +455,5 @@ export const pt = {
       step4Title: 'CRM / SUPABASE CACHE',
       step4Desc: 'Registro de leads, salvamento em banco e resposta final',
     }
-  },
-  migration: {
-    title: 'Portfólio atualizado',
-    desc: 'Você está acessando uma versão antiga do meu portfólio. A nova versão possui projetos atualizados, melhorias visuais e novas funcionalidades.',
-    redirecting: 'Redirecionando em {seconds} segundos...',
-    cta: 'Visitar Nova Versão',
   }
 };

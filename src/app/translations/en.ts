@@ -457,11 +457,5 @@ export const en: TranslationSchema = {
       step4Title: 'CRM / SUPABASE CACHE',
       step4Desc: 'Lead registration, database saving and final response',
     }
-  },
-  migration: {
-    title: 'Portfolio updated',
-    desc: 'You are accessing an old version of my portfolio. The new version features updated projects, visual improvements, and new features.',
-    redirecting: 'Redirecting in {seconds} seconds...',
-    cta: 'Visit New Version',
   }
 };
