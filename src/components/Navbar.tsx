@@ -50,6 +50,8 @@ export const Navbar = () => {
           </div>
           <div className="flex items-center gap-2">
             <button
+              id="lang-toggle-btn"
+              aria-label="Alternar idioma"
               onClick={() => {
                 const newLang = lang === "pt" ? "en" : "pt";
                 localStorage.setItem("carlos_portfolio_lang", newLang);
@@ -59,7 +61,12 @@ export const Navbar = () => {
             >
               <Globe size={10} className="text-primary" /> {lang === "pt" ? "EN" : "PT"}
             </button>
-            <button onClick={toggleTheme} className="p-1.5 rounded-full border border-border bg-surface hover:bg-surface/80 transition-colors cursor-pointer shadow-xs">
+            <button
+              id="theme-toggle-btn"
+              aria-label="Alternar tema"
+              onClick={toggleTheme}
+              className="p-1.5 rounded-full border border-border bg-surface hover:bg-surface/80 transition-colors cursor-pointer shadow-xs"
+            >
               {theme === "dark" ? <Sun size={12} /> : <Moon size={12} />}
             </button>
             <button onClick={() => setMenuOpen(!menuOpen)} className="lg:hidden p-1.5">

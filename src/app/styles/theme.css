@@ -33,7 +33,10 @@ html {
   }
 }
 
-[data-theme="light"] {
+html[data-theme="light"],
+[data-theme="light"],
+html.light,
+.light {
   --color-bg: #faf9f7;
   --color-surface: #ffffff;
   --color-txt: #18181b;
@@ -53,7 +56,10 @@ html {
   --grad-to: #800000;
 }
 
-[data-theme="light"] {
+html[data-theme="light"],
+[data-theme="light"],
+html.light,
+.light {
   --glass-bg: rgba(255, 255, 255, 0.85);
   --glass-hover: rgba(255, 255, 255, 0.98);
   --glow: rgba(128, 0, 0, 0.12);
