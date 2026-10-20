@@ -50,7 +50,7 @@ export default function PortfolioPage() {
         <CustomCursor />
         <ScrollProgress />
         <FloatingChatWidget t={t} lang={lang} theme={theme} />
-        <main className="relative min-h-screen bg-bg text-txt selection:bg-primary selection:text-txt overflow-x-clip dot-grid">
+        <main className="relative min-h-screen bg-bg text-txt selection:bg-primary selection:text-white overflow-x-clip dot-grid">
           <div className="grain-overlay" />
           <BackgroundGrid />
           <BackgroundBeams />

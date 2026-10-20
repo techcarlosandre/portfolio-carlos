@@ -30,7 +30,7 @@ export const ServicesSection = () => {
           {t.services.items.map((item, idx) => (
             <FadeIn key={idx} delay={idx * 0.12}>
               <CardTilt3D className="h-full">
-                <SpotlightCard className="h-full flex flex-col border border-border bg-surface/60 p-6 rounded-2xl backdrop-blur-xl hover:border-red-950/60 relative overflow-hidden">
+                <SpotlightCard className="h-full flex flex-col border border-border bg-surface p-6 rounded-2xl backdrop-blur-xl hover:border-primary/50 relative overflow-hidden shadow-xs">
                   {/* Top accent line */}
                   <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent" />
 
@@ -57,7 +57,7 @@ export const ServicesSection = () => {
                     href="https://api.whatsapp.com/send/?phone=21982665121&text=Olá+Carlos%2C+vi+seu+portfólio+e+gostaria+de+um+orçamento."
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 bg-primary/10 hover:bg-primary text-primary hover:text-txt border border-primary/30 hover:border-primary text-[10px] font-black uppercase tracking-wider px-4 py-2.5 rounded-xl transition-all"
+                    className="inline-flex items-center justify-center gap-2 bg-primary/10 hover:bg-primary text-primary hover:text-white border border-primary/30 hover:border-primary text-[10px] font-black uppercase tracking-wider px-4 py-2.5 rounded-xl transition-all cursor-pointer shadow-xs"
                   >
                     {t.services.cta} <ChevronRight size={12} />
                   </a>

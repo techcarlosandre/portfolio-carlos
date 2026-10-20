@@ -55,11 +55,11 @@ export const Navbar = () => {
                 localStorage.setItem("carlos_portfolio_lang", newLang);
                 window.location.reload();
               }}
-              className="flex items-center gap-1 px-2.5 py-1 rounded-full border border-border text-[8px] font-bold bg-surface/20 hover:bg-surface/40 transition-colors"
+              className="flex items-center gap-1 px-2.5 py-1 rounded-full border border-border text-[8px] font-bold bg-surface hover:bg-surface/80 transition-colors cursor-pointer shadow-xs"
             >
               <Globe size={10} className="text-primary" /> {lang === "pt" ? "EN" : "PT"}
             </button>
-            <button onClick={toggleTheme} className="p-1.5 rounded-full border border-border bg-surface/20 hover:bg-surface/40 transition-colors">
+            <button onClick={toggleTheme} className="p-1.5 rounded-full border border-border bg-surface hover:bg-surface/80 transition-colors cursor-pointer shadow-xs">
               {theme === "dark" ? <Sun size={12} /> : <Moon size={12} />}
             </button>
             <button onClick={() => setMenuOpen(!menuOpen)} className="lg:hidden p-1.5">

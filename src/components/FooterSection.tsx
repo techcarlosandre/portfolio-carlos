@@ -54,7 +54,7 @@ const CopyEmailButton = () => {
             transition={{ duration: 0.22, ease: "easeOut" }}
             className="absolute -top-12 left-1/2 -translate-x-1/2 z-50 whitespace-nowrap"
           >
-            <div className="flex items-center gap-1.5 bg-green-500 text-txt text-[9px] font-black uppercase tracking-wider px-3 py-1.5 rounded-full shadow-lg shadow-green-500/30">
+            <div className="flex items-center gap-1.5 bg-green-600 dark:bg-green-500 text-white text-[9px] font-black uppercase tracking-wider px-3 py-1.5 rounded-full shadow-lg shadow-green-500/30">
               <Check size={10} />
               Email copiado!
             </div>

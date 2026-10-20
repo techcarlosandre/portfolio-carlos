@@ -472,13 +472,13 @@ export const ProjectsSection = ({
                   delay: staggerDelay * 2,
                 }}
               >
-                <div className="flex gap-2 bg-surface/65 border border-border p-1 rounded-xl z-20">
+                <div className="flex gap-2 bg-surface border border-border p-1 rounded-xl z-20 shadow-xs">
                   <button
                     onClick={() => setMockupType("desktop")}
                     disabled={!isReady}
                     className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-wider transition-all duration-300 cursor-pointer shadow-sm ${
                       mockupType === "desktop"
-                        ? "bg-gradient-to-r from-[#a00000] to-[#e03030] text-txt font-bold"
+                        ? "bg-gradient-to-r from-[#a00000] to-[#e03030] text-white font-bold"
                         : "text-txt-muted hover:text-txt"
                     }`}
                   >
@@ -489,7 +489,7 @@ export const ProjectsSection = ({
                     disabled={!isReady}
                     className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-wider transition-all duration-300 cursor-pointer shadow-sm ${
                       mockupType === "mobile"
-                        ? "bg-gradient-to-r from-[#a00000] to-[#e03030] text-txt font-bold"
+                        ? "bg-gradient-to-r from-[#a00000] to-[#e03030] text-white font-bold"
                         : "text-txt-muted hover:text-txt"
                     }`}
                   >
@@ -664,7 +664,7 @@ export const ProjectsSection = ({
                         className={`flex flex-col items-start gap-1 p-2.5 rounded-xl border text-left shrink-0 transition-all duration-300 w-28 cursor-pointer hover:border-primary/50 ${
                           isActive
                             ? "border-primary bg-primary/10 shadow-[0_0_12px_rgba(128,0,0,0.25)]"
-                            : "border-border bg-surface/40"
+                            : "border-border bg-surface shadow-xs hover:bg-surface/90"
                         }`}
                       >
                         <span className="text-[7px] font-black uppercase text-txt-muted block leading-none">
@@ -748,7 +748,7 @@ export const ProjectsSection = ({
           >
             <button
               onClick={() => setFullScreenVideo(null)}
-              className="absolute top-6 right-6 p-3 rounded-full bg-surface/80 border border-border text-txt cursor-pointer hover:bg-primary transition-colors z-20"
+              className="absolute top-6 right-6 p-3 rounded-full bg-surface border border-border text-txt cursor-pointer hover:bg-primary hover:text-white transition-colors z-20 shadow-lg"
             >
               <X size={20} />
             </button>

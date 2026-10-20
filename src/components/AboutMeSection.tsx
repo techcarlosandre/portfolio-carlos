@@ -70,7 +70,7 @@ export const AboutMeSection = () => {
                     <p className="text-[10px] font-bold text-primary uppercase tracking-widest mt-0.5">Full-Stack Developer</p>
                     <div className="flex items-center gap-1.5 mt-2">
                       <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                      <span className="text-[9px] font-bold text-green-400 uppercase tracking-widest">Disponível para projetos</span>
+                      <span className="text-[9px] font-bold text-green-700 dark:text-green-400 uppercase tracking-widest">Disponível para projetos</span>
                     </div>
                   </div>
                 </div>
@@ -82,7 +82,7 @@ export const AboutMeSection = () => {
                 {am.stats.map((s, i) => (
                   <motion.div
                     key={i}
-                    className="border border-border bg-surface/60 backdrop-blur-xl rounded-xl p-4 text-center hover:border-primary/40 transition-colors"
+                    className="border border-border bg-surface shadow-xs backdrop-blur-xl rounded-xl p-4 text-center hover:border-primary/40 transition-colors"
                     whileHover={{ y: -4, scale: 1.03 }}
                     transition={{ type: 'spring', stiffness: 400, damping: 25 }}
                   >
@@ -93,7 +93,7 @@ export const AboutMeSection = () => {
               </div>
 
               {/* Areas */}
-              <SpotlightCard className="border border-border bg-surface/60 p-5 rounded-2xl backdrop-blur-xl">
+              <SpotlightCard className="border border-border bg-surface shadow-xs p-5 rounded-2xl backdrop-blur-xl">
                 <p className="text-[9px] font-black uppercase tracking-widest text-txt-muted mb-3">{am.areasTitle}</p>
                 <div className="flex flex-wrap gap-2">
                   {am.areas.map((area, i) => (
@@ -117,7 +117,7 @@ export const AboutMeSection = () => {
                 <div className="space-y-3">
                   {am.education.map((edu, i) => (
                     <CardTilt3D key={i}>
-                      <SpotlightCard className="border border-border bg-surface/60 p-5 rounded-2xl backdrop-blur-xl hover:border-primary/30 transition-all relative overflow-hidden">
+                      <SpotlightCard className="border border-border bg-surface shadow-xs p-5 rounded-2xl backdrop-blur-xl hover:border-primary/30 transition-all relative overflow-hidden">
                         <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
                         <div className="flex items-start justify-between gap-3">
                           <div className="flex-1">
@@ -132,8 +132,8 @@ export const AboutMeSection = () => {
                           </div>
                           <span className={`shrink-0 text-[8px] font-black px-2.5 py-1 rounded-full uppercase tracking-widest ${
                             edu.status === 'Em Andamento' || edu.status === 'In Progress'
-                              ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
-                              : 'bg-green-500/10 text-green-400 border border-green-500/20'
+                              ? 'bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/20'
+                              : 'bg-green-500/10 text-green-700 dark:text-green-400 border border-green-500/20'
                           }`}>{edu.status}</span>
                         </div>
                         <div className="flex items-center gap-2 mt-3 pt-3 border-t border-border/50">

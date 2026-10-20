@@ -150,10 +150,10 @@ export const FloatingChatWidget: React.FC<FloatingChatWidgetProps> = ({ t, lang,
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.85, y: 30 }}
             transition={{ type: "spring", stiffness: 260, damping: 22 }}
-            className="w-[calc(100vw-32px)] sm:w-[310px] h-[calc(100vh-120px)] sm:h-[460px] max-h-[500px] bg-[#0c0c0d]/90 backdrop-blur-xl border border-zinc-800 rounded-3xl overflow-hidden shadow-2xl flex flex-col justify-between mb-4 relative"
+            className="w-[calc(100vw-32px)] sm:w-[310px] h-[calc(100vh-120px)] sm:h-[460px] max-h-[500px] bg-surface/95 backdrop-blur-xl border border-border rounded-3xl overflow-hidden shadow-2xl flex flex-col justify-between mb-4 relative"
           >
             {/* Header */}
-            <div className="bg-zinc-950/60 px-4 py-3 border-b border-zinc-800/80 flex justify-between items-center">
+            <div className="bg-surface/80 px-4 py-3 border-b border-border flex justify-between items-center">
               <div className="flex items-center gap-3">
                 <div className="relative w-7 h-7 rounded-full border border-primary/40 overflow-hidden bg-primary/10 flex items-center justify-center">
                   <Image
@@ -173,7 +173,7 @@ export const FloatingChatWidget: React.FC<FloatingChatWidgetProps> = ({ t, lang,
                   />
                 </div>
                 <div>
-                  <h4 className="font-black text-[9px] uppercase tracking-wider text-white">{t.chat.assistantName}</h4>
+                  <h4 className="font-black text-[9px] uppercase tracking-wider text-txt">{t.chat.assistantName}</h4>
                   <div className="flex items-center gap-1 text-[7px] font-bold text-green-500 uppercase tracking-widest">
                     <span className="w-1 h-1 rounded-full bg-green-500 animate-pulse" /> Online · Gemini
                   </div>
@@ -181,7 +181,7 @@ export const FloatingChatWidget: React.FC<FloatingChatWidgetProps> = ({ t, lang,
               </div>
               <button
                 onClick={() => setIsOpen(false)}
-                className="text-zinc-400 hover:text-white transition-colors p-1"
+                className="text-txt-muted hover:text-txt transition-colors p-1 cursor-pointer"
               >
                 <X size={16} />
               </button>
@@ -197,8 +197,8 @@ export const FloatingChatWidget: React.FC<FloatingChatWidgetProps> = ({ t, lang,
                   <div
                     className={`max-w-[85%] rounded-2xl px-3 py-2 text-[10px] leading-relaxed ${
                       m.sender === "user"
-                        ? "bg-primary text-white rounded-tr-none"
-                        : "bg-zinc-900 border border-zinc-800 text-white rounded-tl-none"
+                        ? "bg-primary text-white rounded-tr-none shadow-sm"
+                        : "bg-surface border border-border text-txt rounded-tl-none shadow-xs"
                     }`}
                     style={{ whiteSpace: "pre-line" }}
                   >
@@ -208,7 +208,7 @@ export const FloatingChatWidget: React.FC<FloatingChatWidgetProps> = ({ t, lang,
               ))}
               {isTyping && (
                 <div className="flex justify-start">
-                  <div className="bg-zinc-900 border border-zinc-800 rounded-2xl rounded-tl-none px-3 py-2 flex gap-1 items-center">
+                  <div className="bg-surface border border-border rounded-2xl rounded-tl-none px-3 py-2 flex gap-1 items-center shadow-xs">
                     {[0, 150, 300].map((d) => (
                       <span
                         key={d}
@@ -222,14 +222,14 @@ export const FloatingChatWidget: React.FC<FloatingChatWidgetProps> = ({ t, lang,
             </div>
 
             {/* Quick Actions & Input Form */}
-            <div className="bg-zinc-950/40 border-t border-zinc-800/80">
+            <div className="bg-surface/60 border-t border-border">
               <div className="p-2 flex flex-wrap gap-1 justify-center max-h-[80px] overflow-y-auto chat-scrollbar">
                 {quickBtns.map((btn) => (
                   <button
                     key={btn.label}
                     onClick={() => handleSend(btn.msg)}
                     disabled={isTyping}
-                    className="text-[6.5px] font-bold uppercase tracking-wider bg-zinc-900/60 hover:bg-primary/10 border border-zinc-850 hover:border-primary/30 px-2 py-1.5 rounded-full transition-all text-zinc-450 hover:text-primary cursor-pointer disabled:opacity-50"
+                    className="text-[6.5px] font-bold uppercase tracking-wider bg-surface hover:bg-primary/10 border border-border hover:border-primary/40 px-2 py-1.5 rounded-full transition-all text-txt-muted hover:text-primary cursor-pointer disabled:opacity-50 shadow-xs"
                   >
                     {btn.label}
                   </button>
@@ -241,7 +241,7 @@ export const FloatingChatWidget: React.FC<FloatingChatWidgetProps> = ({ t, lang,
                   e.preventDefault();
                   handleSend(input);
                 }}
-                className="p-2 border-t border-zinc-800/80 flex gap-2"
+                className="p-2 border-t border-border flex gap-2"
               >
                 <input
                   type="text"
@@ -249,12 +249,12 @@ export const FloatingChatWidget: React.FC<FloatingChatWidgetProps> = ({ t, lang,
                   onChange={(e) => setInput(e.target.value)}
                   placeholder={t.chat.placeholder}
                   disabled={isTyping}
-                  className="flex-1 bg-zinc-900/40 border border-zinc-800 rounded-lg px-2.5 py-1.5 text-[9px] focus:outline-none focus:border-primary/40 transition-colors text-white disabled:opacity-60"
+                  className="flex-1 bg-surface border border-border rounded-lg px-2.5 py-1.5 text-[9px] focus:outline-none focus:border-primary/40 transition-colors text-txt placeholder:text-txt-muted disabled:opacity-60"
                 />
                 <button
                   type="submit"
                   disabled={isTyping || !input.trim()}
-                  className="bg-primary hover:bg-accent disabled:opacity-50 text-white px-2.5 rounded-lg flex items-center justify-center transition-all cursor-pointer"
+                  className="bg-primary hover:bg-accent disabled:opacity-50 text-white px-2.5 rounded-lg flex items-center justify-center transition-all cursor-pointer shadow-sm"
                 >
                   <Send size={10} />
                 </button>
@@ -271,9 +271,9 @@ export const FloatingChatWidget: React.FC<FloatingChatWidgetProps> = ({ t, lang,
             initial={{ opacity: 0, scale: 0.9, y: 10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 10 }}
-            className="mb-3 mr-1 bg-zinc-950/90 border border-zinc-800 p-3 rounded-2xl shadow-xl flex items-center gap-3 max-w-[240px]"
+            className="mb-3 mr-1 bg-surface/95 border border-border p-3 rounded-2xl shadow-xl flex items-center gap-3 max-w-[240px]"
           >
-            <div className="flex-1 text-[10px] text-white leading-tight font-medium">
+            <div className="flex-1 text-[10px] text-txt leading-tight font-medium">
               {lang === "pt" ? "Olá! Dúvidas sobre meus projetos? Fale comigo!" : "Hi! Questions about my work? Let's chat!"}
             </div>
             <button
@@ -281,7 +281,7 @@ export const FloatingChatWidget: React.FC<FloatingChatWidgetProps> = ({ t, lang,
                 e.stopPropagation();
                 setShowGreeting(false);
               }}
-              className="text-zinc-500 hover:text-white p-0.5 rounded-full hover:bg-zinc-800 transition-colors cursor-pointer"
+              className="text-txt-muted hover:text-txt p-0.5 rounded-full hover:bg-surface transition-colors cursor-pointer"
             >
               <X size={12} />
             </button>
@@ -303,7 +303,7 @@ export const FloatingChatWidget: React.FC<FloatingChatWidgetProps> = ({ t, lang,
         {isOpen ? <X size={20} /> : <MessageSquare size={20} />}
         {/* Pulsing indicator when closed */}
         {!isOpen && (
-          <span className="absolute top-0 right-0 w-3 h-3 rounded-full bg-green-500 border border-zinc-950">
+          <span className="absolute top-0 right-0 w-3 h-3 rounded-full bg-green-500 border border-bg">
             <span className="w-full h-full rounded-full bg-green-500 animate-ping absolute top-0 left-0" />
           </span>
         )}

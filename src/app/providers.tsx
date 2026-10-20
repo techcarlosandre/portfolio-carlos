@@ -33,9 +33,15 @@ export const AppProviders: React.FC<{ children: React.ReactNode }> = ({ children
       }
       
       const savedTheme = localStorage.getItem("carlos_portfolio_theme");
-      if (savedTheme === "light" || savedTheme === "dark") {
-        setTheme(savedTheme);
-        document.documentElement.setAttribute("data-theme", savedTheme === "dark" ? "" : "light");
+      const active = savedTheme === "light" || savedTheme === "dark" ? savedTheme : "dark";
+      setTheme(active);
+      document.documentElement.setAttribute("data-theme", active);
+      if (active === "dark") {
+        document.documentElement.classList.add("dark");
+        document.documentElement.classList.remove("light");
+      } else {
+        document.documentElement.classList.add("light");
+        document.documentElement.classList.remove("dark");
       }
     }
   }, []);
@@ -44,7 +50,14 @@ export const AppProviders: React.FC<{ children: React.ReactNode }> = ({ children
     const next = theme === "dark" ? "light" : "dark";
     setTheme(next);
     localStorage.setItem("carlos_portfolio_theme", next);
-    document.documentElement.setAttribute("data-theme", next === "dark" ? "" : "light");
+    document.documentElement.setAttribute("data-theme", next);
+    if (next === "dark") {
+      document.documentElement.classList.add("dark");
+      document.documentElement.classList.remove("light");
+    } else {
+      document.documentElement.classList.add("light");
+      document.documentElement.classList.remove("dark");
+    }
   };
 
   const handleSetLang = (newLang: Lang) => {

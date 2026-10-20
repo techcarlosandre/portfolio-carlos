@@ -16,18 +16,18 @@ export const CertificatesSection = () => {
   const [showAll, setShowAll] = useState<boolean>(false);
 
   const CATEGORY_CONFIG: Record<string, { color: string; bg: string; border: string; icon: string }> = {
-    'Copilot':      { color: 'text-purple-400',  bg: 'bg-purple-500/10',    border: 'border-purple-500/25',  icon: '🤖' },
-    'GitHub':       { color: 'text-txt-muted',    bg: 'bg-zinc-500/10',      border: 'border-zinc-500/25',    icon: '🐙' },
-    'Azure':        { color: 'text-blue-400',    bg: 'bg-blue-500/10',      border: 'border-blue-500/25',    icon: '☁️' },
-    'freeCodeCamp': { color: 'text-green-400',   bg: 'bg-green-500/10',     border: 'border-green-500/25',   icon: '🔥' },
-    'Cisco':        { color: 'text-teal-400',    bg: 'bg-teal-500/10',      border: 'border-teal-500/25',    icon: '🛡️' },
-    'DevOps':       { color: 'text-rose-400',    bg: 'bg-rose-500/10',      border: 'border-rose-500/25',    icon: '🚀' },
+    'Copilot':      { color: 'text-purple-600 dark:text-purple-400',  bg: 'bg-purple-500/10',    border: 'border-purple-500/25',  icon: '🤖' },
+    'GitHub':       { color: 'text-txt-muted',                        bg: 'bg-zinc-500/10',      border: 'border-zinc-500/25',    icon: '🐙' },
+    'Azure':        { color: 'text-blue-600 dark:text-blue-400',      bg: 'bg-blue-500/10',      border: 'border-blue-500/25',    icon: '☁️' },
+    'freeCodeCamp': { color: 'text-green-700 dark:text-green-400',   bg: 'bg-green-500/10',     border: 'border-green-500/25',   icon: '🔥' },
+    'Cisco':        { color: 'text-teal-700 dark:text-teal-400',      bg: 'bg-teal-500/10',      border: 'border-teal-500/25',    icon: '🛡️' },
+    'DevOps':       { color: 'text-rose-600 dark:text-rose-400',      bg: 'bg-rose-500/10',      border: 'border-rose-500/25',    icon: '🚀' },
   };
 
   const PLATFORM_COLOR: Record<string, string> = {
-    'Microsoft Learn': 'text-blue-400',
-    'freeCodeCamp': 'text-green-400',
-    'Cisco Networking Academy': 'text-teal-400',
+    'Microsoft Learn': 'text-blue-600 dark:text-blue-400',
+    'freeCodeCamp': 'text-green-700 dark:text-green-400',
+    'Cisco Networking Academy': 'text-teal-700 dark:text-teal-400',
   };
 
   const allCategories = ['all', ...Array.from(new Set(c.items.map((i) => i.category)))];
@@ -69,14 +69,14 @@ export const CertificatesSection = () => {
                     onClick={() => setActiveFilter(cat)}
                     className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest border transition-all duration-200 cursor-pointer ${
                       isActive
-                        ? 'bg-primary text-txt border-primary shadow-[0_0_12px_rgba(128,0,0,0.3)]'
-                        : `border-border bg-surface/40 text-txt-muted hover:border-primary/40 hover:text-txt`
+                        ? 'bg-primary text-white border-primary shadow-[0_0_12px_rgba(128,0,0,0.35)]'
+                        : `border-border bg-surface text-txt-muted hover:border-primary/40 hover:text-txt shadow-xs`
                     }`}
                   >
                     {conf && <span>{conf.icon}</span>}
                     {cat === 'all' ? c.filterAll : cat}
                     <span className={`ml-1 px-1.5 py-0.5 rounded-full text-[8px] ${
-                      isActive ? 'bg-white/20' : 'bg-surface'
+                      isActive ? 'bg-white/20 text-white font-bold' : 'bg-primary/10 text-primary font-bold'
                     }`}>
                       {cat === 'all' ? c.items.length : c.items.filter(i => i.category === cat).length}
                     </span>
@@ -113,8 +113,8 @@ export const CertificatesSection = () => {
                 >
                   <SpotlightCard className={`h-full flex flex-col border p-4 rounded-2xl backdrop-blur-xl transition-all relative overflow-hidden cursor-pointer ${
                     isFeatured 
-                      ? 'border-amber-500/50 bg-gradient-to-b from-amber-950/20 via-zinc-950/60 to-zinc-950/60 shadow-[0_0_15px_rgba(245,158,11,0.1)]' 
-                      : 'border-border bg-surface/60 hover:border-primary/30'
+                      ? 'border-amber-500/50 bg-gradient-to-b from-amber-500/[0.08] via-surface to-surface shadow-[0_0_15px_rgba(245,158,11,0.12)]' 
+                      : 'border-border bg-surface hover:border-primary/30 shadow-xs'
                   }`}>
                     {/* Top highlights indicator — subtle glow only, no label */}
                     {isFeatured && (
@@ -129,16 +129,16 @@ export const CertificatesSection = () => {
                       </span>
                       <span className={`text-[8px] font-black px-2 py-0.5 rounded-full uppercase tracking-widest border flex items-center gap-1 ${
                         isInProgress
-                          ? 'bg-amber-500/10 text-amber-400 border-amber-500/20'
-                          : 'bg-green-500/10 text-green-400 border-green-500/20'
+                          ? 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20'
+                          : 'bg-green-500/10 text-green-700 dark:text-green-400 border-green-500/20'
                       }`}>
-                        <span className={`w-1.5 h-1.5 rounded-full ${isInProgress ? 'bg-amber-400 animate-pulse' : 'bg-green-400'}`} />
+                        <span className={`w-1.5 h-1.5 rounded-full ${isInProgress ? 'bg-amber-500 animate-pulse' : 'bg-green-500'}`} />
                         {isInProgress ? c.statusInProgress : c.statusCompleted}
                       </span>
                     </div>
 
                     {/* Title */}
-                    <p className={`text-xs font-black leading-tight flex-1 mb-3 ${isFeatured ? 'text-amber-200/90' : ''}`}>{item.title}</p>
+                    <p className={`text-xs font-black leading-tight flex-1 mb-3 ${isFeatured ? 'text-amber-700 dark:text-amber-300' : 'text-txt'}`}>{item.title}</p>
 
                     {/* Footer: platform only */}
                     <div className="pt-3 border-t border-border/40">
@@ -157,7 +157,7 @@ export const CertificatesSection = () => {
             <div className="flex justify-center mt-10">
               <button
                 onClick={() => setShowAll(!showAll)}
-                className="inline-flex items-center justify-center gap-2 bg-zinc-950 hover:bg-primary border border-border hover:border-primary text-txt hover:text-txt text-[10px] font-black uppercase tracking-wider px-6 py-3.5 rounded-xl transition-all shadow-md duration-300"
+                className="inline-flex items-center justify-center gap-2 bg-surface hover:bg-primary border border-border hover:border-primary text-txt hover:text-white text-[10px] font-black uppercase tracking-wider px-6 py-3.5 rounded-xl transition-all shadow-xs duration-300 cursor-pointer"
               >
                 <span>{showAll ? c.btnShowLess : c.btnShowMore}</span>
                 <ChevronRight size={12} className={`transition-transform duration-300 ${showAll ? '-rotate-90' : 'rotate-90'}`} />

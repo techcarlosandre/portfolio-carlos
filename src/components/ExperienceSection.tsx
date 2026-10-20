@@ -35,7 +35,7 @@ export const ExperienceSection = () => {
           {exp.items.map((item, idx) => (
             <FadeIn key={idx} delay={idx * 0.12} className="h-full">
               <CardTilt3D className="h-full">
-                <SpotlightCard className="h-full flex flex-col justify-between border border-border bg-surface/60 p-6 rounded-3xl backdrop-blur-xl hover:border-primary/50 relative overflow-hidden transition-all shadow-xl group">
+                <SpotlightCard className="h-full flex flex-col justify-between border border-border bg-surface p-6 rounded-3xl backdrop-blur-xl hover:border-primary/50 relative overflow-hidden transition-all shadow-xs group">
                   {/* Top accent line */}
                   <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-primary/60 to-transparent group-hover:via-primary transition-all duration-500" />
 
@@ -50,7 +50,7 @@ export const ExperienceSection = () => {
                           href={item.link}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-1 text-[9px] font-black bg-surface/80 hover:bg-primary/20 border border-border hover:border-primary/50 text-txt px-2.5 py-1 rounded-lg transition-all"
+                          className="flex items-center gap-1 text-[9px] font-black bg-surface hover:bg-primary/20 border border-border hover:border-primary/50 text-txt px-2.5 py-1 rounded-lg transition-all shadow-xs"
                         >
                           {lang === 'pt' ? 'Visitar' : 'Visit'} <ExternalLink size={10} />
                         </a>
@@ -86,7 +86,7 @@ export const ExperienceSection = () => {
                       {(item.stack as readonly string[]).map((tech) => (
                         <span
                           key={tech}
-                          className="px-2 py-0.5 rounded-full border border-border/60 text-[8px] font-bold text-txt-muted bg-surface/40 hover:border-primary/40 hover:text-txt transition-all cursor-default"
+                          className="px-2 py-0.5 rounded-full border border-border/60 text-[8px] font-bold text-txt-muted bg-surface/80 hover:border-primary/40 hover:text-txt transition-all cursor-default shadow-xs"
                         >
                           {tech}
                         </span>
