@@ -678,48 +678,32 @@ export const ProjectsSection = ({
                   })}
                 </div>
 
-                <div className="space-y-6 pt-6 border-t border-border">
-                  {p.techs && (
-                    <div className="flex flex-wrap gap-1.5">
-                      {p.techs.map((tech, techIdx) => (
-                        <motion.span
-                          key={tech}
-                          className="px-3 py-1 rounded-full border border-border hover:border-[#ff4d4d]/40 text-[9px] font-bold text-txt-muted hover:text-txt bg-surface/30 hover:bg-[#ff4d4d]/10 transition-all duration-300 shadow-sm cursor-default"
-                          initial={{ opacity: 0, scale: 0.8, y: 10 }}
-                          animate={{ opacity: 1, scale: 1, y: 0 }}
-                          whileHover={{ scale: 1.08, y: -2 }}
-                          transition={{
-                            type: "spring",
-                            stiffness: 400,
-                            damping: 15,
-                            delay: techIdx * 0.06,
-                          }}
-                        >
-                          {tech}
-                        </motion.span>
-                      ))}
-                    </div>
-                  )}
+                <div className="pt-6 border-t border-border">
+                  <div className="flex flex-wrap items-center justify-between gap-3">
+                    {/* Tech Stacks */}
+                    {p.techs && (
+                      <div className="flex flex-wrap items-center gap-1.5 flex-1 min-w-[200px]">
+                        {p.techs.map((tech, techIdx) => (
+                          <motion.span
+                            key={tech}
+                            className="px-3 py-1 rounded-full border border-border hover:border-[#ff4d4d]/40 text-[9px] font-bold text-txt-muted hover:text-txt bg-surface/30 hover:bg-[#ff4d4d]/10 transition-all duration-300 shadow-sm cursor-default"
+                            initial={{ opacity: 0, scale: 0.8, y: 10 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            whileHover={{ scale: 1.08, y: -2 }}
+                            transition={{
+                              type: "spring",
+                              stiffness: 400,
+                              damping: 15,
+                              delay: techIdx * 0.06,
+                            }}
+                          >
+                            {tech}
+                          </motion.span>
+                        ))}
+                      </div>
+                    )}
 
-                  <motion.div
-                    className="flex items-center justify-between pt-4 gap-4"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{
-                      type: "spring",
-                      stiffness: 80,
-                      damping: 18,
-                      delay: 0,
-                    }}
-                  >
-                    <div className="flex items-center gap-2 text-txt-muted">
-                      <span className="inline-block w-2 h-2 rounded-full bg-primary animate-pulse" />
-                      <span className="text-[10px] font-bold uppercase tracking-wider">
-                        {lang === "en" ? "Explore all projects" : "Navegue pelos projetos"}
-                      </span>
-                    </div>
-
-                    {/* Slider Controls */}
+                    {/* Slider Controls (Mesma linha das Stacks) */}
                     <div
                       className={`flex gap-1 bg-surface/60 border border-border p-1 rounded-xl shrink-0 shadow-lg ${
                         !isReady ? "opacity-50 pointer-events-none" : ""
@@ -745,7 +729,7 @@ export const ProjectsSection = ({
                         <ChevronRight size={14} />
                       </button>
                     </div>
-                  </motion.div>
+                  </div>
                 </div>
               </div>
             </motion.div>
