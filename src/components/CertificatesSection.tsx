@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronRight } from "lucide-react";
 import { useApp } from "../app/providers";
@@ -36,11 +36,6 @@ export const CertificatesSection = () => {
   // Slice list to show maximum 6 items initially (2 rows on desktop)
   const visibleItems = showAll ? filtered : filtered.slice(0, 6);
 
-  // Reset showAll when changing filter to keep UX intuitive
-  useEffect(() => {
-    setShowAll(false);
-  }, [activeFilter]);
-
   return (
     <section id="certificados" className="py-16 md:py-24 px-4 bg-bg/30 border-t border-border/60">
       <div className="container mx-auto max-w-5xl">
@@ -66,7 +61,10 @@ export const CertificatesSection = () => {
                 return (
                   <button
                     key={cat}
-                    onClick={() => setActiveFilter(cat)}
+                    onClick={() => {
+                      setActiveFilter(cat);
+                      setShowAll(false);
+                    }}
                     className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest border transition-all duration-200 cursor-pointer ${
                       isActive
                         ? 'bg-primary text-white border-primary shadow-[0_0_12px_rgba(128,0,0,0.35)]'

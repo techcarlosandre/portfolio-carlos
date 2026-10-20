@@ -8,7 +8,6 @@ import { useIsMobile } from "../lib/useIsMobile";
 import { getAssetPath } from "../lib/assets";
 import { Badge } from "./Badge";
 import { GlitchText } from "./GlitchText";
-import { SpotlightCard } from "./SpotlightCard";
 
 // ─── NEURAL SYNAPSE INTRO CANVAS ───
 const NeuralSynapseIntro = ({
@@ -212,6 +211,7 @@ export const ProjectsSection = ({
   const [mockupType, setMockupType] = useState<"desktop" | "mobile">("desktop");
   const sectionRef = useRef<HTMLDivElement>(null);
   const [fullScreenVideo, setFullScreenVideo] = useState<string | null>(null);
+  const isMobileDevice = useIsMobile();
 
   // Set mockupType to mobile by default on mobile devices
   useEffect(() => {
@@ -376,9 +376,6 @@ export const ProjectsSection = ({
 
   const p = filtered[currentIndex];
   const activeMedia = mockupType === "desktop" ? p.desktop : p.mobile;
-
-  // Add mobile detection to disable heavy assets/animations
-  const isMobileDevice = useIsMobile();
 
   const getProjectIcon = (title: string) => {
     const lower = title.toLowerCase();

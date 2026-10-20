@@ -6,7 +6,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useApp } from "../app/providers";
 
 export const Navbar = () => {
-  const { t, lang, setLang, theme, toggleTheme } = useApp();
+  const { t, lang, theme, toggleTheme } = useApp();
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);

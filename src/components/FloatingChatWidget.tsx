@@ -6,14 +6,15 @@ import { MessageSquare, X, Send } from "lucide-react";
 import Image from "next/image";
 import { getAssetPath } from "../lib/assets";
 import { getFAQResponse } from "../lib/faq";
+import type { pt } from "../lib/translations";
 
 interface FloatingChatWidgetProps {
-  t: any;
+  t: typeof pt;
   lang: string;
-  theme: string;
+  theme?: string;
 }
 
-export const FloatingChatWidget: React.FC<FloatingChatWidgetProps> = ({ t, lang, theme }) => {
+export const FloatingChatWidget: React.FC<FloatingChatWidgetProps> = ({ t, lang }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [showGreeting, setShowGreeting] = useState(false);
   const [messages, setMessages] = useState<
