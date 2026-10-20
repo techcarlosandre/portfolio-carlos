@@ -4,6 +4,8 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MessageSquare, X, Send } from "lucide-react";
 import Image from "next/image";
+import { getAssetPath } from "../lib/assets";
+import { getFAQResponse } from "../lib/faq";
 
 interface FloatingChatWidgetProps {
   t: any;
@@ -91,7 +93,7 @@ export const FloatingChatWidget: React.FC<FloatingChatWidgetProps> = ({ t, lang,
         .filter((m) => m.id !== "1")
         .map((m) => ({ sender: m.sender, text: m.text }));
  
-      const res = await fetch("/api/chat", {
+      const res = await fetch(getAssetPath("/api/chat"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: text, history }),
@@ -111,14 +113,20 @@ export const FloatingChatWidget: React.FC<FloatingChatWidgetProps> = ({ t, lang,
         return;
       }
 
+      if (!res.ok) {
+        throw new Error(`HTTP error ${res.status}`);
+      }
+
       const data = await res.json();
       const reply = data.reply || t.chat.replyDefault;
  
       setMessages((p) => [...p, { id: Date.now().toString(), sender: "bot", text: reply }]);
     } catch {
+      const faq = getFAQResponse(text, (lang === "en" ? "en" : "pt"));
+      const reply = faq.matched ? faq.reply : t.chat.error;
       setMessages((p) => [
         ...p,
-        { id: Date.now().toString(), sender: "bot", text: t.chat.error },
+        { id: Date.now().toString(), sender: "bot", text: reply },
       ]);
     } finally {
       setIsTyping(false);
@@ -148,7 +156,21 @@ export const FloatingChatWidget: React.FC<FloatingChatWidgetProps> = ({ t, lang,
             <div className="bg-zinc-950/60 px-4 py-3 border-b border-zinc-800/80 flex justify-between items-center">
               <div className="flex items-center gap-3">
                 <div className="relative w-7 h-7 rounded-full border border-primary/40 overflow-hidden bg-primary/10 flex items-center justify-center">
-                  <Image src="/eu.webp" alt="Carlos André" fill className="object-cover object-top" unoptimized />
+                  <Image
+                    src={getAssetPath("/eu.webp")}
+                    alt="Carlos André"
+                    fill
+                    className="object-cover object-top"
+                    unoptimized
+                    onError={(e) => {
+                      const target = e.currentTarget as HTMLImageElement;
+                      if (!target.src.includes("/portfolio-carlos/")) {
+                        target.src = "/portfolio-carlos/eu.webp";
+                      } else {
+                        target.src = "/eu.webp";
+                      }
+                    }}
+                  />
                 </div>
                 <div>
                   <h4 className="font-black text-[9px] uppercase tracking-wider text-white">{t.chat.assistantName}</h4>

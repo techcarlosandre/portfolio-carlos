@@ -9,6 +9,7 @@ import { GlitchText } from "./GlitchText";
 import { SpotlightCard } from "./SpotlightCard";
 import { CardTilt3D } from "./CardTilt3D";
 import { FadeIn } from "./FadeIn";
+import { getAssetPath } from "../lib/assets";
 
 export const AboutMeSection = () => {
   const { t } = useApp();
@@ -47,7 +48,21 @@ export const AboutMeSection = () => {
                   <div className="relative w-16 h-16 shrink-0">
                     <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-primary via-accent to-primary/50 blur-md opacity-50" />
                     <div className="absolute inset-0.5 rounded-full overflow-hidden border-2 border-primary/30">
-                      <Image src="/eu.webp" alt="Carlos André" fill className="object-cover object-top" unoptimized />
+                      <Image
+                        src={getAssetPath("/eu.webp")}
+                        alt="Carlos André"
+                        fill
+                        className="object-cover object-top"
+                        unoptimized
+                        onError={(e) => {
+                          const target = e.currentTarget as HTMLImageElement;
+                          if (!target.src.includes("/portfolio-carlos/")) {
+                            target.src = "/portfolio-carlos/eu.webp";
+                          } else {
+                            target.src = "/eu.webp";
+                          }
+                        }}
+                      />
                     </div>
                   </div>
                   <div>

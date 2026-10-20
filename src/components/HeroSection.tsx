@@ -10,6 +10,8 @@ import { FadeIn } from "./FadeIn";
 import { TypewriterTitle } from "./TypewriterTitle";
 import { useIsMobile } from "../lib/useIsMobile";
 
+import { getAssetPath } from "../lib/assets";
+
 export const HeroSection = ({ loaded }: { loaded: boolean }) => {
   const { t } = useApp();
   const isMobile = useIsMobile();
@@ -25,7 +27,22 @@ export const HeroSection = ({ loaded }: { loaded: boolean }) => {
           <div className="relative w-20 h-20 mb-5 mx-auto">
             <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-primary via-accent to-primary/50 blur-lg opacity-60 animate-pulse" />
             <div className="absolute inset-0.5 rounded-full overflow-hidden border-2 border-primary/40">
-              <Image src="/eu.webp" alt="Carlos André" fill className="object-cover object-top" priority unoptimized />
+              <Image
+                src={getAssetPath("/eu.webp")}
+                alt="Carlos André"
+                fill
+                className="object-cover object-top"
+                priority
+                unoptimized
+                onError={(e) => {
+                  const target = e.currentTarget as HTMLImageElement;
+                  if (!target.src.includes("/portfolio-carlos/")) {
+                    target.src = "/portfolio-carlos/eu.webp";
+                  } else {
+                    target.src = "/eu.webp";
+                  }
+                }}
+              />
             </div>
             <span className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-green-500 border-2 border-bg flex items-center justify-center">
               <span className="w-2 h-2 rounded-full bg-green-400 animate-ping absolute" />

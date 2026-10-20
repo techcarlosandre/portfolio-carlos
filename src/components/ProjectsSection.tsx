@@ -2,9 +2,10 @@
 
 import React, { useEffect, useState, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronRight, X, ArrowUpRight } from "lucide-react";
+import { ChevronRight, X } from "lucide-react";
 import { useApp } from "../app/providers";
 import { useIsMobile } from "../lib/useIsMobile";
+import { getAssetPath } from "../lib/assets";
 import { Badge } from "./Badge";
 import { GlitchText } from "./GlitchText";
 import { SpotlightCard } from "./SpotlightCard";
@@ -711,22 +712,11 @@ export const ProjectsSection = ({
                       delay: 0,
                     }}
                   >
-                    <div className="flex-1">
-                      {p.wip ? (
-                        <div className="w-full text-center text-[10px] font-black uppercase tracking-widest text-txt-muted bg-surface/40 border border-border py-4 rounded-xl">
-                          {t.projects.comingSoon}
-                        </div>
-                      ) : (
-                        <div
-                          className={`flex items-center justify-center gap-2 w-full bg-gradient-to-r from-[#a00000] to-[#e03030] text-txt text-[10px] font-black uppercase tracking-wider py-4 rounded-xl shadow-[0_4px_20px_rgba(224,48,48,0.25)] ${
-                            !isReady
-                              ? "opacity-50"
-                              : ""
-                          }`}
-                        >
-                          {t.projects.demo}
-                        </div>
-                      )}
+                    <div className="flex items-center gap-2 text-txt-muted">
+                      <span className="inline-block w-2 h-2 rounded-full bg-primary animate-pulse" />
+                      <span className="text-[10px] font-bold uppercase tracking-wider">
+                        {lang === "en" ? "Explore all projects" : "Navegue pelos projetos"}
+                      </span>
                     </div>
 
                     {/* Slider Controls */}
@@ -786,8 +776,8 @@ export const ProjectsSection = ({
                 className="w-full h-full object-cover"
                 key={fullScreenVideo}
               >
-                <source src={fullScreenVideo.replace(".mp4", ".webm")} type="video/webm" />
-                <source src={fullScreenVideo} type="video/mp4" />
+                <source src={getAssetPath(fullScreenVideo.replace(".mp4", ".webm"))} type="video/webm" />
+                <source src={getAssetPath(fullScreenVideo)} type="video/mp4" />
               </video>
             </div>
           </motion.div>

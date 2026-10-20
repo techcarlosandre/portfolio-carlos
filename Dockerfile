@@ -14,6 +14,7 @@ WORKDIR /app
 
 COPY --from=deps /app/node_modules ./node_modules
 COPY src ./src
+COPY public ./public
 COPY next.config.ts tsconfig.json package.json package-lock.json eslint.config.mjs postcss.config.mjs ./
 
 # Disable Next.js telemetry during build
