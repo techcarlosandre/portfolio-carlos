@@ -99,7 +99,6 @@ export const CertificatesSection = () => {
               const conf = CATEGORY_CONFIG[item.category] ?? CATEGORY_CONFIG['GitHub'];
               const platColor = PLATFORM_COLOR[item.platform] ?? 'text-txt-muted';
               const isInProgress = String(item.status) === 'inprogress';
-              const isFeatured = 'featured' in item && !!item.featured;
               return (
                 <motion.div
                   key={item.title + idx}
@@ -109,15 +108,7 @@ export const CertificatesSection = () => {
                   transition={{ duration: 0.4, delay: (idx % 6) * 0.06 }}
                   whileHover={{ y: -4, scale: 1.02 }}
                 >
-                  <SpotlightCard className={`h-full flex flex-col border p-4 rounded-2xl backdrop-blur-xl transition-all relative overflow-hidden cursor-pointer ${
-                    isFeatured 
-                      ? 'border-amber-500/50 bg-gradient-to-b from-amber-500/[0.08] via-surface to-surface shadow-[0_0_15px_rgba(245,158,11,0.12)]' 
-                      : 'border-border bg-surface hover:border-primary/30 shadow-xs'
-                  }`}>
-                    {/* Top highlights indicator — subtle glow only, no label */}
-                    {isFeatured && (
-                      <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-amber-400/70 to-transparent" />
-                    )}
+                  <SpotlightCard className="h-full flex flex-col border border-border bg-surface hover:border-primary/40 shadow-xs p-4 rounded-2xl backdrop-blur-xl transition-all relative overflow-hidden cursor-pointer">
                     <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
 
                     {/* Top row: category badge + status */}
@@ -136,7 +127,7 @@ export const CertificatesSection = () => {
                     </div>
 
                     {/* Title */}
-                    <p className={`text-xs font-black leading-tight flex-1 mb-3 ${isFeatured ? 'text-amber-700 dark:text-amber-300' : 'text-txt'}`}>{item.title}</p>
+                    <p className="text-xs font-black leading-tight flex-1 mb-3 text-txt">{item.title}</p>
 
                     {/* Footer: platform only */}
                     <div className="pt-3 border-t border-border/40">
