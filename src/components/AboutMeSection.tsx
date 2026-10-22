@@ -15,17 +15,11 @@ export const AboutMeSection = () => {
   const { t } = useApp();
   const am = t.aboutMe;
 
-  const CATEGORY_COLORS: Record<string, { bg: string; text: string; border: string }> = {
-    'Copilot': { bg: 'bg-purple-500/10', text: 'text-purple-400', border: 'border-purple-500/20' },
-    'GitHub': { bg: 'bg-zinc-500/10', text: 'text-txt-muted', border: 'border-zinc-500/20' },
-    'Azure': { bg: 'bg-blue-500/10', text: 'text-blue-400', border: 'border-blue-500/20' },
-    'freeCodeCamp': { bg: 'bg-green-500/10', text: 'text-green-400', border: 'border-green-500/20' },
-    'Cisco': { bg: 'bg-teal-500/10', text: 'text-teal-400', border: 'border-teal-500/20' },
-  };
-  void CATEGORY_COLORS;
-
   return (
-    <section id="sobre-mim" className="py-16 md:py-24 px-4 bg-bg/20 border-t border-border/40">
+    <section
+      id="sobre-mim"
+      className="py-16 md:py-24 px-4 bg-bg/20 border-t border-border/40"
+    >
       <div className="container mx-auto max-w-5xl">
         {/* Header */}
         <div className="text-center mb-16">
@@ -33,7 +27,9 @@ export const AboutMeSection = () => {
             <Badge>{am.badge}</Badge>
             <h2 className="text-3xl md:text-5xl font-black uppercase mt-4 mb-3">
               <GlitchText text={am.title1 + " "} />
-              <span className="text-gradient"><GlitchText text={am.titleHighlight} delay={0.2} /></span>
+              <span className="text-gradient">
+                <GlitchText text={am.titleHighlight} delay={0.2} />
+              </span>
             </h2>
           </FadeIn>
         </div>
@@ -66,15 +62,32 @@ export const AboutMeSection = () => {
                     </div>
                   </div>
                   <div>
-                    <h3 className="text-base font-black uppercase tracking-tight">Carlos André</h3>
-                    <p className="text-[10px] font-bold text-primary uppercase tracking-widest mt-0.5">Full-Stack Developer</p>
+                    <h3 className="text-base font-black uppercase tracking-tight">
+                      Carlos André
+                    </h3>
+                    <p className="text-[10px] font-bold text-primary uppercase tracking-widest mt-0.5">
+                      Full-Stack Developer
+                    </p>
                     <div className="flex items-center gap-1.5 mt-2">
                       <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                      <span className="text-[9px] font-bold text-green-700 dark:text-green-400 uppercase tracking-widest">Disponível para projetos</span>
+                      <span className="text-[9px] font-bold text-green-700 dark:text-green-400 uppercase tracking-widest">
+                        Disponível para projetos
+                      </span>
                     </div>
                   </div>
                 </div>
-                <p className="text-txt-muted text-xs leading-relaxed">{am.bio}</p>
+                <p className="text-txt-muted text-xs leading-relaxed mb-5">
+                  {am.bio}
+                </p>
+
+                <div className="rounded-2xl border border-primary/20 bg-primary/5 p-4">
+                  <p className="text-[9px] font-black uppercase tracking-[0.2em] text-primary mb-2">
+                    Resumo profissional
+                  </p>
+                  <p className="text-xs leading-relaxed text-txt">
+                    {am.summary}
+                  </p>
+                </div>
               </SpotlightCard>
 
               {/* Stats */}
@@ -84,22 +97,45 @@ export const AboutMeSection = () => {
                     key={i}
                     className="border border-border bg-surface shadow-xs backdrop-blur-xl rounded-xl p-4 text-center hover:border-primary/40 transition-colors"
                     whileHover={{ y: -4, scale: 1.03 }}
-                    transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 25 }}
                   >
-                    <div className="text-2xl font-black text-primary">{s.value}</div>
-                    <div className="text-[8px] font-black uppercase tracking-widest text-txt-muted mt-1">{s.label}</div>
+                    <div className="text-2xl font-black text-primary">
+                      {s.value}
+                    </div>
+                    <div className="text-[8px] font-black uppercase tracking-widest text-txt-muted mt-1">
+                      {s.label}
+                    </div>
                   </motion.div>
                 ))}
               </div>
 
               {/* Areas */}
               <SpotlightCard className="border border-border bg-surface shadow-xs p-5 rounded-2xl backdrop-blur-xl">
-                <p className="text-[9px] font-black uppercase tracking-widest text-txt-muted mb-3">{am.areasTitle}</p>
+                <p className="text-[9px] font-black uppercase tracking-widest text-txt-muted mb-3">
+                  {am.areasTitle}
+                </p>
                 <div className="flex flex-wrap gap-2">
                   {am.areas.map((area, i) => (
-                    <span key={i} className="text-[9px] font-bold px-2.5 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary uppercase tracking-wider">
+                    <span
+                      key={i}
+                      className="text-[9px] font-bold px-2.5 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary uppercase tracking-wider"
+                    >
                       {area}
                     </span>
+                  ))}
+                </div>
+
+                <div className="mt-5 space-y-2.5">
+                  {am.highlights.map((highlight, i) => (
+                    <div
+                      key={i}
+                      className="flex items-start gap-2 text-[10px] text-txt-muted leading-relaxed"
+                    >
+                      <span className="mt-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-primary/10 text-primary border border-primary/20 font-black text-[8px]">
+                        ✓
+                      </span>
+                      <span>{highlight}</span>
+                    </div>
                   ))}
                 </div>
               </SpotlightCard>
@@ -112,7 +148,8 @@ export const AboutMeSection = () => {
               {/* Education */}
               <div>
                 <p className="text-[9px] font-black uppercase tracking-widest text-txt-muted mb-3 flex items-center gap-2">
-                  <span className="w-4 h-px bg-primary" />{am.educationTitle}
+                  <span className="w-4 h-px bg-primary" />
+                  {am.educationTitle}
                 </p>
                 <div className="space-y-3">
                   {am.education.map((edu, i) => (
@@ -124,20 +161,33 @@ export const AboutMeSection = () => {
                             <div className="flex items-center gap-2 mb-1">
                               <span className="text-lg">{edu.icon}</span>
                               <div>
-                                <p className="text-xs font-black leading-tight">{edu.degree}</p>
-                                <p className="text-[10px] text-primary font-bold mt-0.5">{edu.institution}</p>
+                                <p className="text-xs font-black leading-tight">
+                                  {edu.degree}
+                                </p>
+                                <p className="text-[10px] text-primary font-bold mt-0.5">
+                                  {edu.institution}
+                                </p>
                               </div>
                             </div>
-                            <p className="text-[9px] text-txt-muted mt-2 pl-7">{edu.detail}</p>
+                            <p className="text-[9px] text-txt-muted mt-2 pl-7">
+                              {edu.detail}
+                            </p>
                           </div>
-                          <span className={`shrink-0 text-[8px] font-black px-2.5 py-1 rounded-full uppercase tracking-widest ${
-                            edu.status === 'Em Andamento' || edu.status === 'In Progress'
-                              ? 'bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/20'
-                              : 'bg-green-500/10 text-green-700 dark:text-green-400 border border-green-500/20'
-                          }`}>{edu.status}</span>
+                          <span
+                            className={`shrink-0 text-[8px] font-black px-2.5 py-1 rounded-full uppercase tracking-widest ${
+                              edu.status === "Em Andamento" ||
+                              edu.status === "In Progress"
+                                ? "bg-amber-500/10 text-amber-700 dark:text-amber-400 border border-amber-500/20"
+                                : "bg-green-500/10 text-green-700 dark:text-green-400 border border-green-500/20"
+                            }`}
+                          >
+                            {edu.status}
+                          </span>
                         </div>
                         <div className="flex items-center gap-2 mt-3 pt-3 border-t border-border/50">
-                          <span className="text-[8px] font-black uppercase tracking-widest text-txt-muted">{edu.period}</span>
+                          <span className="text-[8px] font-black uppercase tracking-widest text-txt-muted">
+                            {edu.period}
+                          </span>
                         </div>
                       </SpotlightCard>
                     </CardTilt3D>
@@ -148,7 +198,8 @@ export const AboutMeSection = () => {
               {/* Languages */}
               <SpotlightCard className="border border-border bg-surface/60 p-5 rounded-2xl backdrop-blur-xl">
                 <p className="text-[9px] font-black uppercase tracking-widest text-txt-muted mb-4 flex items-center gap-2">
-                  <span className="w-4 h-px bg-primary" />{am.languagesTitle}
+                  <span className="w-4 h-px bg-primary" />
+                  {am.languagesTitle}
                 </p>
                 <div className="space-y-4">
                   {am.languages.map((lang, i) => (
@@ -158,10 +209,14 @@ export const AboutMeSection = () => {
                           <span className="text-base">{lang.flag}</span>
                           <div>
                             <p className="text-xs font-black">{lang.name}</p>
-                            <p className="text-[9px] text-txt-muted">{lang.level}</p>
+                            <p className="text-[9px] text-txt-muted">
+                              {lang.level}
+                            </p>
                           </div>
                         </div>
-                        <span className="text-[9px] font-black text-primary">{lang.pct}%</span>
+                        <span className="text-[9px] font-black text-primary">
+                          {lang.pct}%
+                        </span>
                       </div>
                       <div className="w-full h-1.5 bg-surface rounded-full overflow-hidden">
                         <motion.div
@@ -169,7 +224,11 @@ export const AboutMeSection = () => {
                           initial={{ width: 0 }}
                           whileInView={{ width: `${lang.pct}%` }}
                           viewport={{ once: true }}
-                          transition={{ duration: 1.2, delay: i * 0.2, ease: [0.16, 1, 0.3, 1] }}
+                          transition={{
+                            duration: 1.2,
+                            delay: i * 0.2,
+                            ease: [0.16, 1, 0.3, 1],
+                          }}
                         />
                       </div>
                     </div>

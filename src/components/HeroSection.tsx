@@ -17,8 +17,14 @@ export const HeroSection = ({ loaded }: { loaded: boolean }) => {
   const isMobile = useIsMobile();
 
   return (
-    <section id="home" className="min-h-[60vh] sm:min-h-[80vh] md:min-h-[92vh] py-10 md:py-0 flex flex-col justify-center items-center px-4 relative overflow-hidden">
-      <div className="hero-glow" style={{ top: "10%", left: "50%", transform: "translateX(-50%)" }} />
+    <section
+      id="home"
+      className="min-h-[60vh] sm:min-h-[80vh] md:min-h-[92vh] py-10 md:py-0 flex flex-col justify-center items-center px-4 relative overflow-hidden"
+    >
+      <div
+        className="hero-glow"
+        style={{ top: "10%", left: "50%", transform: "translateX(-50%)" }}
+      />
       <div className="absolute inset-0 bg-gradient-to-b from-primary/4 via-transparent to-transparent pointer-events-none" />
 
       <div className="w-full px-6 md:px-16 lg:px-24 xl:px-32 flex flex-col items-center relative z-10 text-center">
@@ -62,14 +68,57 @@ export const HeroSection = ({ loaded }: { loaded: boolean }) => {
             {isMobile ? t.hero.title1 : <SplitText text={t.hero.title1} />}
             <br />
             <span className="text-gradient">
-              {isMobile ? t.hero.title2 : <SplitText text={t.hero.title2} delay={0.25} />}
+              {isMobile ? (
+                t.hero.title2
+              ) : (
+                <SplitText text={t.hero.title2} delay={0.25} />
+              )}
             </span>
           </h1>
         </FadeIn>
 
         <FadeIn delay={0.35} triggerOnMount>
-          <div className="text-txt-muted text-sm md:text-base font-medium mb-8 h-7">
+          <div className="text-txt-muted text-sm md:text-base font-medium h-7">
             <TypewriterTitle words={t.hero.typewriter} start={loaded} />
+          </div>
+        </FadeIn>
+
+        <FadeIn delay={0.45} triggerOnMount>
+          <p className="max-w-3xl mx-auto mt-8 text-sm md:text-lg text-txt-muted leading-relaxed">
+            {t.hero.desc}
+          </p>
+        </FadeIn>
+
+        <FadeIn delay={0.55} triggerOnMount>
+          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+            <a href="#projetos" className="cta-primary">
+              {t.hero.ctaPrimary}
+            </a>
+            <a
+              href="mailto:techcarlosandre@gmail.com?subject=Proposta%20de%20projeto"
+              className="cta-secondary"
+            >
+              {t.hero.ctaSecondary}
+            </a>
+          </div>
+        </FadeIn>
+
+        <FadeIn delay={0.65} triggerOnMount>
+          <div className="mt-10 grid w-full max-w-3xl grid-cols-1 sm:grid-cols-3 gap-3">
+            {[
+              { value: t.hero.stat1v, label: t.hero.stat1 },
+              { value: t.hero.stat2v, label: t.hero.stat2 },
+              { value: t.hero.stat3v, label: t.hero.stat3 },
+            ].map((stat) => (
+              <div key={stat.label} className="stat-pillar">
+                <div className="text-2xl md:text-3xl font-black text-primary">
+                  {stat.value}
+                </div>
+                <div className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.18em] text-txt-muted">
+                  {stat.label}
+                </div>
+              </div>
+            ))}
           </div>
         </FadeIn>
       </div>
