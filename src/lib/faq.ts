@@ -32,7 +32,7 @@ const FAQ_DATA_PT: Record<string, string> = {
   linkedin: `Conecte-se com o Carlos no LinkedIn: [linkedin.com/in/devcarlosandre](https://www.linkedin.com/in/devcarlosandre/).`,
 
   experiencia: `A experiência profissional do Carlos inclui:
-- **Estagiário Full-Stack na YouShop** (2026 - Presente): Atuação em projetos de escala nacional (plataforma web e aplicativo mobile) construindo interfaces reativas com Vue.js 3, TypeScript, Pinia, Vue Router e Tailwind CSS no front-end, e microsserviços/APIs RESTful em Python com Django REST Framework no back-end, com testes e Docker.
+- **Desenvolvedor Full-Stack na YouShop** (2026 - Presente): Atuação em projetos de escala nacional (plataforma web e aplicativo mobile) construindo interfaces reativas com Vue.js 3, TypeScript, Pinia, Vue Router e Tailwind CSS no front-end, e microsserviços/APIs RESTful em Python com Django REST Framework no back-end, com testes e Docker.
 - **Desenvolvedor Full-Stack Freelancer** (2025 - 2026): Criação de soluções completas, agentes de IA com RAG, N8N e PostgreSQL.
 - **Neo Vertex (Front-End & QA)** (2026): Engenharia de front-end com Next.js/Framer Motion e testes de qualidade de APIs.`,
 
@@ -74,7 +74,7 @@ const FAQ_DATA_EN: Record<string, string> = {
   linkedin: `Connect with Carlos on LinkedIn: [linkedin.com/in/devcarlosandre](https://www.linkedin.com/in/devcarlosandre/).`,
 
   experiencia: `Carlos's professional experience includes:
-- **Full-Stack Intern at YouShop** (2026 - Present): Working on national-scale projects (web platform & mobile app) using Vue.js, TypeScript, Python, and Django.
+- **Full-Stack Developer at YouShop** (2026 - Present): Working on national-scale projects (web platform & mobile app) using Vue.js, TypeScript, Python, and Django.
 - **Full-Stack Freelance Developer** (2025 - 2026): Building complete digital solutions, RAG AI agents, N8N, and PostgreSQL.
 - **Neo Vertex (Front-End & QA)** (2026): Front-end engineering with Next.js/Framer Motion and API quality assurance.`,
 

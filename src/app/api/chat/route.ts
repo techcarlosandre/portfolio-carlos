@@ -22,7 +22,7 @@ const SYSTEM_PROMPT = `Você é o assistente de IA do portfólio de Carlos Andr�
 4. **Automação IA WhatsApp & Instagram** — Integração de IA conversacional para atendimento automatizado, qualificação de leads e agendamento. Stack: Python, N8N, WhatsApp API, Instagram API.
 
 **Experiência Profissional:**
-- **Estagiário Full-Stack na YouShop** (2026 - Presente): Atuação em projetos de alcance nacional (plataforma web e aplicativo mobile), desenvolvendo no front-end com Vue.js e TypeScript, e no back-end com Python e Django.
+- **Desenvolvedor Full-Stack na YouShop** (2026 - Presente): Atuação em projetos de alcance nacional (plataforma web e aplicativo mobile), desenvolvendo no front-end com Vue.js e TypeScript, e no back-end com Python e Django.
 - **Desenvolvedor Full-Stack Freelancer** (2025 - 2026): Desenvolvimento de plataformas completas, agentes de IA com RAG e N8N
 - **Neo Vertex (Front-End & QA)** (2026): Engenharia de front-end com Next.js e testes de qualidade de APIs REST em Java/Spring Boot
 

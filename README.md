@@ -64,7 +64,7 @@ Sistema integrado de gestão médica e prontuário eletrônico (PEP) focado em u
 
 ## 💼 Trajetória & Experiência Profissional
 
-### 🛒 YouShop — Estagiário Full-Stack
+### 🛒 YouShop — Desenvolvedor Full-Stack
 *Agosto/2026 – Presente* · [youshop.com.br](https://youshop.com.br)  
 *   **Stack:** Vue.js 3, TypeScript, Python, Django REST Framework, Pinia, Vue Router, Tailwind CSS, Docker, Git, APIs RESTful, Plataforma Web, App Mobile.
 *   Desenvolvimento Full-Stack atuando com foco principal na construção de interfaces reativas em Vue.js 3, TypeScript e Tailwind CSS, e no desenvolvimento de serviços de back-end em Python com Django REST Framework.

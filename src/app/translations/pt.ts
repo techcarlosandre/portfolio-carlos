@@ -896,7 +896,7 @@ export const pt = {
     items: [
       {
         company: "YouShop",
-        title: "Estagiário Full-Stack",
+        title: "Desenvolvedor Full-Stack",
         date: "Agosto/2026 – Presente",
         link: "https://youshop.com.br",
         stack: [

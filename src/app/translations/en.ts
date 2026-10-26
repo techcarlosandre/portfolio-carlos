@@ -881,7 +881,7 @@ export const en: TranslationSchema = {
     items: [
       {
         company: "YouShop",
-        title: "Full-Stack Intern",
+        title: "Full-Stack Developer",
         date: "August/2026 – Present",
         link: "https://youshop.com.br",
         stack: [
