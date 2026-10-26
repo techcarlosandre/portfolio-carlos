@@ -961,7 +961,7 @@ export const pt = {
         ],
         bullets: [
           "Engenharia de front-end do portal corporativo do zero utilizando Next.js (App Router), TypeScript e Tailwind CSS v4, alcançando pontuação máxima no Core Web Vitals.",
-          "Criação de animações e transições de tela altamente performáticas e fluidas utilizando Framer Motion, seguindo design system Dracula prototipado no Figma.",
+          "Criação de animações e transições de tela altamente performáticas e fluidas utilizando Framer Motion, seguindo design system moderno e performático prototipado no Figma.",
           "Implantação e gerenciamento de infraestrutura em VPS (Hostinger) através do Coolify, integrando esteiras de CI/CD para deploys dinâmicos.",
           "Atuação focada em Quality Assurance (QA) em projetos corporativos robustos, projetando testes manuais e automatizados de endpoints de APIs REST construídas em Java com Spring Boot.",
           "Homologação completa de fluxos de dados ponta a ponta e automações corporativas em N8N antes da entrega dos produtos aos clientes finais.",

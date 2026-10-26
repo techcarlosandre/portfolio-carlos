@@ -946,7 +946,7 @@ export const en: TranslationSchema = {
         ],
         bullets: [
           "Front-end engineering of the corporate portal built from scratch using Next.js (App Router), TypeScript, and Tailwind CSS v4, achieving top scores in Core Web Vitals.",
-          "Developed high-performance, fluid interface animations and transitions utilizing Framer Motion, following a Dracula design system prototyped in Figma.",
+          "Developed high-performance, fluid interface animations and transitions utilizing Framer Motion, following a modern, performant design system prototyped in Figma.",
           "Infrastructure setup and management on Hostinger VPS using Coolify, integrating CI/CD pipelines for dynamic previews and builds.",
           "Focused Quality Assurance (QA) role for enterprise client projects, designing manual and automated tests for REST APIs built in Java and Spring Boot.",
           "Full end-to-end data flow validation and business automations in N8N prior to final client product delivery.",
