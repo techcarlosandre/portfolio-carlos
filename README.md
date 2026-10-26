@@ -1,13 +1,21 @@
 # 🚀 Carlos André - Portfólio & Soluções Digitais Premium
 
 <div align="center">
-  <img src="public/eu.webp" width="120px" style="border-radius: 50%;" alt="Carlos André" />
+  <img src="https://raw.githubusercontent.com/techcarlosandre/portfolio-carlos/main/public/eu.webp" width="120px" style="border-radius: 50%;" alt="Carlos André" />
   <p><h3>Transformando complexidade em simplicidade através de design impecável, automações inteligentes e código de alta performance.</h3></p>
 
-  [![Deploy Ativo](https://img.shields.io/badge/Deploy-Ativo-9a0000?style=for-the-badge&logo=vercel&logoColor=white)](https://portfolio.techcarlos.com.br)
+  [![GitHub Pages](https://img.shields.io/badge/GitHub%20Pages-Ativo-22c55e?style=for-the-badge&logo=githubpages&logoColor=white)](https://techcarlosandre.github.io/portfolio-carlos/)
+  [![Deploy Oficial](https://img.shields.io/badge/Website-portfolio.techcarlos.com.br-9a0000?style=for-the-badge&logo=googlechrome&logoColor=white)](https://portfolio.techcarlos.com.br)
   [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/techcarlosandre)
   [![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/devcarlosandre/)
 </div>
+
+---
+
+## 🌐 Acesso Online
+
+* 🔗 **GitHub Pages:** [https://techcarlosandre.github.io/portfolio-carlos/](https://techcarlosandre.github.io/portfolio-carlos/)
+* 🌐 **Domínio Principal:** [https://portfolio.techcarlos.com.br](https://portfolio.techcarlos.com.br)
 
 ---
 
@@ -28,7 +36,7 @@ O design é inspirado no tema **Dracula** com micro-interações fluidas via Fra
 | **Estilização** | Tailwind CSS v4 / Vanilla CSS |
 | **Animações & Efeitos** | Framer Motion / Canvas de Redes Neurais nativo |
 | **Assistente Virtual** | Google Gemini (Gemini 3.5 Flash) via API Gateway Serverless |
-| **Hospedagem & Deploy** | VPS (Hostinger) com Coolify |
+| **Hospedagem & Deploy** | GitHub Pages (CI/CD Automático via GitHub Actions) & VPS com Coolify |
 
 ---
 
@@ -58,6 +66,13 @@ Sistema integrado de gestão médica e prontuário eletrônico (PEP) focado em u
 
 ## 💼 Trajetória & Experiência Profissional
 
+### 🛒 YouShop — Estagiário Full-Stack
+*Agosto/2026 – Presente*
+*   Desenvolvimento Full-Stack atuando na construção de interfaces reativas em Vue.js 3, TypeScript e Tailwind CSS, e no desenvolvimento de microsserviços e APIs em Python com Django REST Framework.
+*   Engenharia contínua em projetos de software de alcance nacional, contribuindo para a evolução técnica da plataforma web e do aplicativo mobile com foco em alta concorrência.
+*   Arquitetura de gerenciamento de estado global com Pinia e roteamento dinâmico otimizado via Vue Router.
+*   Construção, otimização e integração de APIs RESTful estruturadas, com isolamento de regras de negócio e esteira com Docker e Git.
+
 ### 🏥 Clínica Odontológica Espaço Família — Desenvolvedor Full-Stack Freelancer
 *Dezembro/2025 – Julho/2026*  
 *   Assistente de IA com RAG treinado nas regras da clínica centralizado no Chatwoot para WhatsApp/Instagram/Site.
@@ -69,6 +84,7 @@ Sistema integrado de gestão médica e prontuário eletrônico (PEP) focado em u
 *   Desenvolvimento completo de site institucional em Next.js com animações Framer Motion (tema Dracula).
 *   Atuação como QA de APIs REST em back-ends Java / Spring Boot.
 *   Automações de integração contínua de homologação via N8N.
+
 ---
 
 ## 📧 Contato Comercial
