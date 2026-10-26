@@ -21,7 +21,7 @@
 
 Este portfólio é um ecossistema interativo de **alta fidelidade visual, performance e usabilidade**, desenvolvido com tecnologias modernas para atuar como vitrine de engenharia de software, soluções completas e automações. 
 
-O projeto conta com um design moderno e autoral com suporte nativo a temas Dark e Light, micro-interações fluidas via Framer Motion, canvas interativo com visualização de redes neurais, suporte a múltiplos idiomas (PT/EN) e um assistente conversacional integrado para dúvidas e contato rápido.
+O projeto conta com um design moderno e autoral com suporte nativo a temas Dark e Light, micro-interações fluidas via Framer Motion, canvas interativo com visualização de redes neurais e suporte a múltiplos idiomas (PT/EN).
 
 ---
 
@@ -33,7 +33,6 @@ O projeto conta com um design moderno e autoral com suporte nativo a temas Dark 
 | **Linguagem** | TypeScript 5 |
 | **Estilização** | Tailwind CSS v4 / Vanilla CSS |
 | **Animações & Efeitos** | Framer Motion / Canvas de Redes Neurais nativo |
-| **Assistente Virtual** | Widget interativo com FAQ contextual e suporte inteligente |
 | **Hospedagem & Deploy** | GitHub Pages (CI/CD Automático via GitHub Actions com Next Static Export) |
 
 ---

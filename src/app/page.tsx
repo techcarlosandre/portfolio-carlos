@@ -2,8 +2,6 @@
 
 import React, { useState } from "react";
 import { AnimatePresence } from "framer-motion";
-import dynamic from "next/dynamic";
-import { useApp } from "./providers";
 
 import { BackgroundGrid } from "../components/BackgroundGrid";
 import { BackgroundBeams } from "../components/BackgroundBeams";
@@ -24,13 +22,7 @@ import { FooterSection } from "../components/FooterSection";
 import { StackingSection } from "../components/StackingSection";
 import { LazySection } from "../components/LazySection";
 
-const FloatingChatWidget = dynamic(
-  () => import("../components/FloatingChatWidget").then((mod) => mod.FloatingChatWidget),
-  { ssr: false }
-);
-
 export default function PortfolioPage() {
-  const { lang, t, theme } = useApp();
   const [selectedTech, setSelectedTech] = useState<string | null>(null);
   const [loaded, setLoaded] = useState(false);
 
@@ -49,7 +41,6 @@ export default function PortfolioPage() {
       >
         <CustomCursor />
         <ScrollProgress />
-        <FloatingChatWidget t={t} lang={lang} theme={theme} />
         <main className="relative min-h-screen bg-bg text-txt selection:bg-primary selection:text-white overflow-x-clip dot-grid">
           <div className="grain-overlay" />
           <BackgroundGrid />
